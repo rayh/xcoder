@@ -2,7 +2,6 @@ require 'find'
 require 'fileutils'
 require "xcode/version"
 require "xcode/project"
-require "xcode/build"
 require "xcode/info_plist"
 
 module Xcode

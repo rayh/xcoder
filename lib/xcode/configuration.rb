@@ -26,7 +26,7 @@ module Xcode
       cmd = []
       cmd << "-target #{@target.name}"
       cmd << "-configuration #{name}"
-      @project.execute_xcodebuild(cmd.join(' '))
+      @target.project.execute_xcodebuild(cmd.join(' '))
     end
     
     def app_path
@@ -50,7 +50,7 @@ module Xcode
         cmd << "--embed #{options[:profile]}"
       end
       
-      @project.execute_package_application(cmd.join(' '))
+      @target.project.execute_package_application(cmd.join(' '))
     end
   end
 end
