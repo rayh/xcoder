@@ -2,27 +2,32 @@ require 'find'
 require 'fileutils'
 require "xcode/version"
 require "xcode/project"
+require "xcode/build"
 
 module Xcode
   @@projects = nil
   @@sdks = nil
   
-  def self.project(name)
-    parse_projects if @@projects.nil?
-    @@projects.each do |p|
-      return p if p.name == name
-    end
-    raise "Unable to find project named #{name}"
-  end
+  # def self.project(name)
+  #   parse_projects if @@projects.nil?
+  #   @@projects.each do |p|
+  #     return p if p.name == name
+  #   end
+  #   raise "Unable to find project named #{name}"
+  # end
   
-  def self.projects
-    parse_projects if @@projects.nil?
-    @@projects
+  def self.find_projects(dir='.')
+    parse_projects(dir)
   end
 
   def self.is_sdk_available?(sdk)
     parse_sdks if @@sdks.nil?
     @@sdks.values.include? sdk
+  end
+  
+  def self.available_sdks
+    parse_sdks if @@sdks.nil?
+    @@sdks
   end
  
   private
@@ -42,12 +47,13 @@ module Xcode
     end
   end
 
-  def self.parse_projects
-    @@projects = []
-    Find.find('.') do |path|
-      if path=~/(.*)\.scaffold$/
-        @@projects << LocalScaffold.new(path)
+  def self.parse_projects(dir='.')
+    projects = []
+    Find.find(dir) do |path|
+      if path=~/(.*)\.xcodeproj$/
+        projects << Xcode::Project.new(path)
       end
     end
+    projects
   end
 end

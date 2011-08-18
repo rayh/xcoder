@@ -1,33 +1,66 @@
 module Xcode
   class Project 
-    attr_reader :targets, :name, :dir, :configurations
-    def initialize(dir, project_name)
-      @dir = dir
-      @name = project_name
+    attr_reader :targets, :configurations, :sdk, :path
+    def initialize(path, sdk=nil)
+      @sdk = sdk || "iphoneos"  # FIXME: should support OSX/simulator too
+      @path = File.expand_path path
+      puts @path
       @targets = []
       @configurations = []
 
       parse_targets
       parse_configurations
     end
-
-    def build(target, config, sdk=nil)
-      raise "Target #{target} is not valid, should be one of #{@targets}" unless @targets.include? target
-      raise "Configuration #{config} is not valid, should be one of #{@configurations}" unless @configurations.include? config
-      cmd = xcode_cmd("-target #{target} -configuration #{config}")
-      cmd = "#{cmd} -sdk #{sdk}" unless sdk.nil?
-      `#{cmd}`
+    
+    def build(target, config) # :yield: object representing the build
+      build = Xcode::Build.new(self, target, config)
+      if block_given?
+        yield build
+      else
+        build.build
+      end
+      build
     end
   
-    def package(filename)
-#      "xcrun -sdk iphoneos PackageApplication -v "$APP_FILENAME" -o "$BUILD_DIRECTORY/$IPA_FILENAME" --sign "$DISTRIBUTION_CERTIFICATE" --embed "$PROVISIONING_PROFILE_PATH""
+    def execute_package_application(options=nil)
+      cmd = []
+      cmd << "xcrun"
+      cmd << "-sdk #{@sdk.nil? ? "iphoneos" : @sdk}"
+      cmd << "PackageApplication"
+      cmd << options unless options.nil?
+  
+      execute(cmd.join(' '), true)
     end
   
+    def execute_xcodebuild(cmd_line=nil, show_output=true)
+      cmd = []
+      cmd << "xcodebuild"
+      cmd << "-sdk #{@sdk}" unless @sdk.nil?
+      cmd << "-project #{@path}"
+      cmd << cmd_line unless cmd_line.nil?
+      yield cmd if block_given?
+      
+      execute(cmd.join(' '), show_output)
+    end
+    
     private
+    
+    def execute(cmd, show_output=false)
+      out = []
+      puts "EXECUTE: #{cmd}"
+      IO.popen (cmd) do |f| 
+        f.each do |line|
+          puts line if show_output
+          out << line
+        end 
+      end
+      #puts "RETURN: #{out.inspect}"
+      out
+    end
 
     def parse_targets
       parsing = false
-      `#{xcode_cmd} -list`.split("\n").each do |l|
+      execute_xcodebuild("-list", false).each do |l|
         l.strip!
         if l=~/Targets/
   	      parsing = true
@@ -42,7 +75,7 @@ module Xcode
 
     def parse_configurations
       parsing = false
-      `#{xcode_cmd} -list`.split("\n").each do |l|
+      execute_xcodebuild("-list", false).each do |l|
         l.strip!
         if l=~/Build\ Configurations/
   	      parsing = true
@@ -53,13 +86,6 @@ module Xcode
           @configurations << $1
         end
       end
-    end
-
-    def xcode_cmd(options=nil)
-      cmd = "xcodebuild"
-      cmd = "#{cmd} -project #{dir}/#{@name}.xcodeproj" unless @name.nil?
-      cmd = "#{cmd} #{options}" unless options.nil?
-      cmd
     end
 
   end
