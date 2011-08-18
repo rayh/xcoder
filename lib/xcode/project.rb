@@ -1,25 +1,17 @@
+require 'json'
+require 'xcode/target'
+require 'xcode/configuration'
+
 module Xcode
   class Project 
-    attr_reader :targets, :configurations, :sdk, :path
+    attr_reader :targets, :sdk, :path
     def initialize(path, sdk=nil)
       @sdk = sdk || "iphoneos"  # FIXME: should support OSX/simulator too
       @path = File.expand_path path
-      puts @path
-      @targets = []
-      @configurations = []
+      @targets = {}
 
-      parse_targets
-      parse_configurations
-    end
-    
-    def build(target, config) # :yield: object representing the build
-      build = Xcode::Build.new(self, target, config)
-      if block_given?
-        yield build
-      else
-        build.build
-      end
-      build
+      parse_pbxproj
+#      parse_configurations
     end
   
     def execute_package_application(options=nil)
@@ -43,7 +35,33 @@ module Xcode
       execute(cmd.join(' '), show_output)
     end
     
+    def target(name)
+      target = @targets[name.to_s.to_sym]
+      raise "No such target #{name}, available targets are #{@targets.keys}" if target.nil?
+      yield target if block_given?
+      target
+    end
+    
     private
+  
+    def parse_pbxproj
+      json = JSON.parse(`plutil -convert json -o - "#{@path}/project.pbxproj"`)
+      
+      root = json['objects'][json['rootObject']]
+      root['targets'].each do |target_id|
+        target = Xcode::Target.new(self, json['objects'][target_id])
+        
+        buildConfigurationList = json['objects'][target_id]['buildConfigurationList']
+        buildConfigurations = json['objects'][buildConfigurationList]['buildConfigurations']
+        
+        buildConfigurations.each do |buildConfiguration|
+          config = Xcode::Configuration.new(target, json['objects'][buildConfiguration])
+          target.configs[config.name.to_sym] = config
+        end
+                
+        @targets[target.name.to_sym] = target
+      end
+    end
     
     def execute(cmd, show_output=false)
       out = []
@@ -56,36 +74,6 @@ module Xcode
       end
       #puts "RETURN: #{out.inspect}"
       out
-    end
-
-    def parse_targets
-      parsing = false
-      execute_xcodebuild("-list", false).each do |l|
-        l.strip!
-        if l=~/Targets/
-  	      parsing = true
-        elsif l=~/^\s*$/
-          parsing = false
-        elsif parsing
-  	      l=~/([^\s]+)(\s\(.*\))?/
-          @targets << $1
-        end
-      end
-    end
-
-    def parse_configurations
-      parsing = false
-      execute_xcodebuild("-list", false).each do |l|
-        l.strip!
-        if l=~/Build\ Configurations/
-  	      parsing = true
-        elsif l=~/^\s*$/
-          parsing = false
-        elsif parsing
-  	      l=~/([^\s]+)(\s\(.*\))?/
-          @configurations << $1
-        end
-      end
     end
 
   end
