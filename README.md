@@ -6,12 +6,12 @@ A ruby wrapper around various xcode tools and the project.pbxproj
 
 You will need to install the gem:
 
-`gem install xcoder`
+	gem install xcoder
 
 and then require the gem in your project/rakefile/etc
 
-`require 'xcoder'`
-
+	require 'xcoder'
+	
 ### Finding all projects from the current directory down
 
 	Xcode.find_projects.each {|p| puts p.name }
@@ -24,15 +24,15 @@ and then require the gem in your project/rakefile/etc
 
 ### Building a configuration
 
-`config.build`
-
+	config.build
+	
 ### Packaging a built .app
 
-`config.package :sign => 'Developer Identity Name', :profile => 'Profile.mobileprovision'`
-
+	config.package :sign => 'Developer Identity Name', :profile => 'Profile.mobileprovision'
+	
 ### Incrementing the build number
 
-config.info_plist do |info|
-  info.version = info.version.to_i + 1
-  info.save
-end
+	config.info_plist do |info|
+	  info.version = info.version.to_i + 1
+	  info.save
+	end
