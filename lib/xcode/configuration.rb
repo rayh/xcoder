@@ -42,8 +42,8 @@ module Xcode
       cmd << "-v #{app_path}"
       cmd << "-o #{ipa_path}"
       
-      if options.has_key? :certificate
-        cmd << "--sign #{options[:certificate]}"
+      if options.has_key? :sign
+        cmd << "--sign #{options[:sign]}"
       end
       
       if options.has_key? :profile
