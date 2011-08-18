@@ -28,7 +28,7 @@ module Xcode
       cmd = []
       cmd << "xcodebuild"
       cmd << "-sdk #{@sdk}" unless @sdk.nil?
-      cmd << "-project #{@path}"
+      cmd << "-project \"#{@path}\""
       cmd << cmd_line unless cmd_line.nil?
       yield cmd if block_given?
       

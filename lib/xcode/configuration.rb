@@ -24,8 +24,8 @@ module Xcode
     
     def build
       cmd = []
-      cmd << "-target #{@target.name}"
-      cmd << "-configuration #{name}"
+      cmd << "-target \"#{@target.name}\""
+      cmd << "-configuration \"#{name}\""
       @target.project.execute_xcodebuild(cmd.join(' '))
     end
     
@@ -39,15 +39,15 @@ module Xcode
 
     def package(options={})
       cmd = []
-      cmd << "-v #{app_path}"
-      cmd << "-o #{ipa_path}"
+      cmd << "-v \"#{app_path}\""
+      cmd << "-o \"#{ipa_path}\""
       
       if options.has_key? :sign
-        cmd << "--sign #{options[:sign]}"
+        cmd << "--sign \"#{options[:sign]}\""
       end
       
       if options.has_key? :profile
-        cmd << "--embed #{options[:profile]}"
+        cmd << "--embed \"#{options[:profile]}\""
       end
       
       @target.project.execute_package_application(cmd.join(' '))
