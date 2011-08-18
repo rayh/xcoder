@@ -14,14 +14,13 @@ and then require the gem in your project/rakefile/etc
 
 ### Finding all projects from the current directory down
 
-`Xcode.find_projects.each {|p| puts p.name }`
-
+	Xcode.find_projects.each {|p| puts p.name }
+	
 ### Find a configuration for a target on a project
 
-`
-project = Xcode.find_projects.first
-config = project.target(:Target).config(:Debug)
-`
+	project = Xcode.find_projects.first
+	config = project.target(:Target).config(:Debug)
+
 
 ### Building a configuration
 
