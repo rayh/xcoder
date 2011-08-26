@@ -7,10 +7,29 @@ module Xcode
       @json = json
     end
     
+    def substitute(value)
+      if value=~/\$\(.*\)/
+        value.gsub(/\$\((.*)\)/) do |match|
+          case match
+            when "$(TARGET_NAME)"
+              @target.name 
+            else
+              raise "Unknown substitution variable #{match}"
+          end
+        end
+      else
+        value
+      end
+    end
+    
     def info_plist_location
       @json['buildSettings']['INFOPLIST_FILE']
     end
     
+    def product_name
+      substitute(@json['buildSettings']['PRODUCT_NAME'])
+    end
+        
     def name
       @json['name']
     end
@@ -45,15 +64,15 @@ module Xcode
     end
     
     def entitlements_path
-      "#{File.dirname(@target.project.path)}/build/#{@target.productName}.build/#{name}-#{@target.project.sdk}/#{@target.productName}.build/#{@target.productName}.xcent"
+      "#{File.dirname(@target.project.path)}/build/#{@target.name}.build/#{name}-#{@target.project.sdk}/#{@target.name}.build/#{product_name}.xcent"
     end
     
     def app_path
-      "#{File.dirname(@target.project.path)}/build/#{name}-#{@target.project.sdk}/#{@target.productName}.app"
+      "#{File.dirname(@target.project.path)}/build/#{name}-#{@target.project.sdk}/#{product_name}.app"
     end
 
     def ipa_path
-      "#{File.dirname(@target.project.path)}/build/#{name}-#{@target.project.sdk}/#{@target.productName}.ipa"
+      "#{File.dirname(@target.project.path)}/build/#{name}-#{@target.project.sdk}/#{product_name}.ipa"
     end
 
     def package(options={})
