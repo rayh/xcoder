@@ -72,7 +72,7 @@ module Xcode
     end
 
     def ipa_path
-      "#{File.dirname(@target.project.path)}/build/#{name}-#{@target.project.sdk}/#{product_name}.ipa"
+      "#{File.dirname(@target.project.path)}/build/#{name}-#{@target.project.sdk}/#{product_name}-#{name}-#{info_plist.version}.ipa"
     end
 
     def package(options={})
