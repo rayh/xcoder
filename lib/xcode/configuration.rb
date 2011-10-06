@@ -116,8 +116,8 @@ module Xcode
           out << line
         end 
       end
-      Process.wait
-      raise "Error executing '#{cmd}', exit #{$?.exitstatus}: #{out}" if $?.exitstatus>0
+      #Process.wait
+      raise "Error (#{$?.exitstatus}) executing '#{cmd}'\n\n  #{out.join("  ")}" if $?.exitstatus>0
       #puts "RETURN: #{out.inspect}"
       out
     end
