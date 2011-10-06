@@ -51,6 +51,16 @@ module Xcode
       execute(cmd)
     end
     
+    def clean
+      cmd = []
+      cmd << "xcodebuild"
+#      cmd << "-sdk #{@target.project.sdk}" unless @target.project.sdk.nil?
+      cmd << "-project \"#{@target.project.path}\""
+      cmd << "-target \"#{@target.name}\""
+      cmd << "-configuration \"#{name}\""
+      cmd << "clean"
+      execute(cmd)
+    end    
     
     def sign(identity)
       cmd = []
@@ -106,6 +116,8 @@ module Xcode
           out << line
         end 
       end
+      Process.wait
+      raise "Error executing '#{cmd}', exit #{$?.exitstatus}: #{out}" if $?.exitstatus>0
       #puts "RETURN: #{out.inspect}"
       out
     end
