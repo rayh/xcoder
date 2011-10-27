@@ -1,3 +1,5 @@
+require 'xcode/shell'
+
 module Xcode
   class Configuration
     attr_reader :target
@@ -48,7 +50,7 @@ module Xcode
       cmd << "-project \"#{@target.project.path}\""
       cmd << "-target \"#{@target.name}\""
       cmd << "-configuration \"#{name}\""
-      execute(cmd)
+      Xcode::Shell.execute(cmd)
     end
     
     def clean
@@ -59,7 +61,7 @@ module Xcode
       cmd << "-target \"#{@target.name}\""
       cmd << "-configuration \"#{name}\""
       cmd << "clean"
-      execute(cmd)
+      Xcode::Shell.execute(cmd)
     end    
     
     def sign(identity)
@@ -70,7 +72,7 @@ module Xcode
       cmd << "--resource-rules=\"#{app_path}/ResourceRules.plist\""
       cmd << "--entitlements \"#{entitlements_path}\""
       cmd << "\"#{ipa_path}\""
-      execute(cmd)
+      Xcode::Shell.execute(cmd)
     end
     
     def entitlements_path
@@ -101,7 +103,7 @@ module Xcode
         cmd << "--embed \"#{options[:profile]}\""
       end
       
-      execute(cmd)
+      Xcode::Shell.execute(cmd)
     end
     
     private 

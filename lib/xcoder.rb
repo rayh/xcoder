@@ -3,6 +3,8 @@ require 'fileutils'
 require "xcode/version"
 require "xcode/project"
 require "xcode/info_plist"
+require "xcode/shell"
+require 'plist'
 
 module Xcode
   @@projects = nil
@@ -15,6 +17,29 @@ module Xcode
   #   end
   #   raise "Unable to find project named #{name}"
   # end
+  
+  def self.import_certificate(cert, password, keychain="~/Library/Keychains/login.keychain")
+    cmd = []
+    cmd << "security"
+    cmd << "import '#{cert}'"
+    cmd << "-k #{keychain}"
+    cmd << "-P #{password}"
+    cmd << "-T /usr/bin/codesign"
+    Xcode::Shell.execute(cmd)
+  end
+  
+  def self.import_provisioning_profile(profile)
+    uuid = nil
+    File.open(profile, "rb") do |f|
+      input = f.read
+      input=~/<key>UUID<\/key>.*<string>(.*)<\/string>/im
+      uuid = $1.strip
+    end
+    
+    puts "Importing profile #{profile} with UUID #{uuid}"
+    
+    Xcode::Shell.execute("cp #{profile} ~/Library/MobileDevice/Provisioning\\ Profiles/#{uuid}.mobileprovision")   
+  end
   
   def self.find_projects(dir='.')
     parse_projects(dir)
