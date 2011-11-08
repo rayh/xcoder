@@ -1,4 +1,4 @@
-require 'xcode/shell'
+require 'xcode/builder'
 
 module Xcode
   class Configuration

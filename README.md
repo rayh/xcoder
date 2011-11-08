@@ -18,18 +18,21 @@ and then require the gem in your project/rakefile/etc
 	
 ### Find a configuration for a target on a project
 
-	project = Xcode.find_projects.first
-	config = project.target(:Target).config(:Debug)
-
+	project = Xcode.project(:MyProject).target(:Target).config(:Debug)
 
 ### Building a configuration
 
-	config.build
+	builder = config.builder
+	builder.profile = 'Profiles/MyAdHoc.mobileprovision'	# This will remove old profiles and install the profile
+	builder.identity = 'iPhone Developer: Ray Hilton'		# The name of the identity to use to sign the IPA (optional)
+	builder.build
 	
 ### Packaging a built .app
 
-	config.package :sign => 'Developer Identity Name', :profile => 'Profile.mobileprovision'
+	builder.package
 	
+This will produce a .ipa and a .dSYM.zip
+
 ### Incrementing the build number
 
 	config.info_plist do |info|

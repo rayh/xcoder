@@ -1,3 +1,6 @@
+require 'xcode/shell'
+require 'xcode/provisioning_profile'
+
 module Xcode
   class Builder
     attr_accessor :profile, :identity
@@ -8,8 +11,17 @@ module Xcode
     end
     
     def install_profile
+      return if @profile.nil?
       # TODO: remove other profiles for the same app?
-      Xcode.import_provisioning_profile  @profile unless @profile.nil?
+      p = ProvisioningProfile.new(@profile)
+      
+      ProvisioningProfile.installed_profiles.each do |installed|
+        if installed.identifiers==p.identifiers and installed.uuid==p.uuid
+          installed.uninstall
+        end
+      end
+      
+      p.install
     end
     
     def build
@@ -32,9 +44,11 @@ module Xcode
       cmd << "-configuration \"#{@config.name}\""
       cmd << "clean"
       Xcode::Shell.execute(cmd)
-      
-      cmd = []
-      cmd << "rm -Rf #{build_path}"
+
+      # FIXME: Totally not safe
+      # cmd = []
+      # cmd << "rm -Rf #{build_path}"
+      # Xcode::Shell.execute(cmd)
     end    
     
     def sign
@@ -86,15 +100,21 @@ module Xcode
     end
     
     def entitlements_path
-      "#{build_path}/#{@target.name}.build/#{name}-#{@target.project.sdk}/#{@target.name}.build/#{product_name}.xcent"
+      "#{build_path}/#{@target.name}.build/#{name}-#{@target.project.sdk}/#{@target.name}.build/#{@config.product_name}.xcent"
     end
     
     def app_path
-      "#{configuration_build_path}/#{product_name}.app"
+      "#{configuration_build_path}/#{@config.product_name}.app"
+    end
+    
+    def product_version_basename
+      version = @config.info_plist.version
+      version = "SNAPSHOT" if version.nil? or version==""
+      "#{configuration_build_path}/#{@config.product_name}-#{@config.name}-#{version}"
     end
 
     def ipa_path
-      "#{configuration_build_path}/#{product_name}-#{name}-#{info_plist.version}.ipa"
+      "#{product_version_basename}.ipa"
     end
     
     def dsym_path
@@ -102,7 +122,7 @@ module Xcode
     end
     
     def dsym_zip_path
-      "#{configuration_build_path}/#{product_name}-#{name}-#{info_plist.version}.dSYM.zip"
+      "#{product_version_basename}.dSYM.zip"
     end
     
   end

@@ -4,11 +4,12 @@ require 'xcode/configuration'
 
 module Xcode
   class Project 
-    attr_reader :targets, :sdk, :path
+    attr_reader :name, :targets, :sdk, :path
     def initialize(path, sdk=nil)
       @sdk = sdk || "iphoneos"  # FIXME: should support OSX/simulator too
       @path = File.expand_path path
       @targets = {}
+      @name = File.basename(@path).gsub(/\.xcodeproj/,'')
 
       parse_pbxproj
 #      parse_configurations
@@ -27,6 +28,7 @@ module Xcode
       json = JSON.parse(`plutil -convert json -o - "#{@path}/project.pbxproj"`)
       
       root = json['objects'][json['rootObject']]
+
       root['targets'].each do |target_id|
         target = Xcode::Target.new(self, json['objects'][target_id])
         

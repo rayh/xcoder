@@ -10,13 +10,16 @@ module Xcode
   @@projects = nil
   @@sdks = nil
   
-  # def self.project(name)
-  #   parse_projects if @@projects.nil?
-  #   @@projects.each do |p|
-  #     return p if p.name == name
-  #   end
-  #   raise "Unable to find project named #{name}"
-  # end
+  def self.project(name)
+    name = name.to_s
+    if @@projects.nil?
+      @@projects = parse_projects
+    end
+    @@projects.each do |p|
+      return p if p.name == name
+    end
+    raise "Unable to find project named #{name}.  However, I did find these projects: #{@@projects.map {|p| p.name}.join(', ') }"
+  end
   
   def self.import_certificate(cert, password, keychain="~/Library/Keychains/login.keychain")
     cmd = []
@@ -26,19 +29,6 @@ module Xcode
     cmd << "-P #{password}"
     cmd << "-T /usr/bin/codesign"
     Xcode::Shell.execute(cmd)
-  end
-  
-  def self.import_provisioning_profile(profile)
-    uuid = nil
-    File.open(profile, "rb") do |f|
-      input = f.read
-      input=~/<key>UUID<\/key>.*<string>(.*)<\/string>/im
-      uuid = $1.strip
-    end
-    
-    puts "Importing profile #{profile} with UUID #{uuid}"
-    
-    Xcode::Shell.execute("cp #{profile} ~/Library/MobileDevice/Provisioning\\ Profiles/#{uuid}.mobileprovision")   
   end
   
   def self.find_projects(dir='.')
