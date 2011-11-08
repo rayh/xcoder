@@ -86,8 +86,8 @@ module Xcode
       cmd << "zip"
       cmd << "-r"
       cmd << "-T"
-      cmd << "-y #{dsym_zip_path}"
-      cmd << "#{dsym_path}"
+      cmd << "-y \"#{dsym_zip_path}\""
+      cmd << "\"#{dsym_path}\""
       Xcode::Shell.execute(cmd)
     end
     
