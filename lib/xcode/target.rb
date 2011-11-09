@@ -5,7 +5,7 @@ module Xcode
     def initialize(project, json)
       @project = project
       @json = json
-      @configs = {}
+      @configs = []
     end
     
     def productName
@@ -17,8 +17,8 @@ module Xcode
     end
     
     def config(name)
-      config = @configs[name.to_s.to_sym]
-      raise "No such config #{name}, available configs are #{@configs.keys}" if config.nil?
+      config = @configs.select {|c| c.name == name.to_s}.first
+      raise "No such config #{name}, available configs are #{@configs.map {|c| c.name}.join(', ')}" if config.nil?
       yield config if block_given?
       config
     end

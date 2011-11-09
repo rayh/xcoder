@@ -23,7 +23,7 @@ module Xcode
         value
       end
     end
-    
+        
     def info_plist_location
       @json['buildSettings']['INFOPLIST_FILE']
     end

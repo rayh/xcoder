@@ -5,30 +5,44 @@ require "xcode/project"
 require "xcode/info_plist"
 require "xcode/shell"
 require 'plist'
+require 'xcode/keychain'
+require 'xcode/workspace'
 
 module Xcode
   @@projects = nil
+  @@workspaces = nil
   @@sdks = nil
+  
+  def self.projects
+    @@projects = parse_projects if @@projects.nil?
+    @@projects  
+  end
+  
+  def self.workspaces
+    @@workspaces = parse_workspaces if @@workspaces.nil?
+    @@workspaces
+  end
   
   def self.project(name)
     name = name.to_s
-    if @@projects.nil?
-      @@projects = parse_projects
-    end
-    @@projects.each do |p|
+    
+    return Xcode::Project.new(name) if name=~/\.xcodeproj/
+    
+    self.projects.each do |p|
       return p if p.name == name
     end
-    raise "Unable to find project named #{name}.  However, I did find these projects: #{@@projects.map {|p| p.name}.join(', ') }"
+    raise "Unable to find a project named #{name}.  However, I did find these projects: #{self.projects.map {|p| p.name}.join(', ') }"
   end
   
-  def self.import_certificate(cert, password, keychain="~/Library/Keychains/login.keychain")
-    cmd = []
-    cmd << "security"
-    cmd << "import '#{cert}'"
-    cmd << "-k #{keychain}"
-    cmd << "-P #{password}"
-    cmd << "-T /usr/bin/codesign"
-    Xcode::Shell.execute(cmd)
+  def self.workspace(name)
+    name = name.to_s
+    
+    return Xcode::Workspace.new(name) if name=~/\.xcworkspace/
+    
+    self.workspaces.each do |p|
+      return p if p.name == name
+    end
+    raise "Unable to find a workspace named #{name}.  However, I did find these workspaces: #{self.workspaces.map {|p| p.name}.join(', ') }"
   end
   
   def self.find_projects(dir='.')
@@ -60,6 +74,16 @@ module Xcode
         @@sdks[$1.strip] = $2.strip unless $1.nil? and $2.nil?
       end
     end
+  end
+  
+  def self.parse_workspaces(dir='.')
+    projects = []
+    Find.find(dir) do |path|
+      if path=~/\.xcworkspace$/ and !(path=~/\.xcodeproj\//)
+        projects << Xcode::Workspace.new(path)
+      end
+    end
+    projects
   end
 
   def self.parse_projects(dir='.')

@@ -33,6 +33,7 @@ module Xcode
       cmd << "-project \"#{@target.project.path}\""
       cmd << "-target \"#{@target.name}\""
       cmd << "-configuration \"#{@config.name}\""
+      cmd << "CODE_SIGN_IDENTITY=\"#{@identity}\""
       Xcode::Shell.execute(cmd)
     end
     
