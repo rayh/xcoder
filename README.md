@@ -33,9 +33,11 @@ and then require the gem in your project/rakefile/etc
 	
 ### Packaging a built .app
 
+After performing the above build, you can create a versioned, well named .ipa and .dSYM.zip
+
 	builder.package
 	
-This will produce a .ipa and a .dSYM.zip
+This will produce something like: MyProject-Debug-1.0.ipa and MyProject-Debug-1.0.dSYM.zip
 
 ### Incrementing the build number
 
@@ -63,12 +65,43 @@ Or, if you know the name:
 There is basic support for schemes, you can enumerate them from a project like so:
 
 	project.schemes.each do |s|
-	  s.launch.builder.build
+	  s.builder.build
 	end
 	
 Or, access them by name:
 
-	config = project.scheme('MyScheme').launch   # Gets the Launch action for specified scheme.  
-												 # Can also specify 'test' to get the test action
+	builder = project.scheme('MyScheme').builder
+	
+Note: The builder behaves the same as the builder for the target/config approach and will force xcodebuild to use the local build/ directory (as per xcode3) rather than a generated temporary directory in DerivedData.  This may or may not be a good thing.
 
-The 'launch' and 'test' methods access the different actions within the scheme, and they map to a Xcode::Configuration object (i.e., the schemes map to a target and configuration in a traditional XCode3 project style). 
+### Provisioning profiles
+
+The library provides a mechanism to install/uninstall a provisioning profile.  This normally happens as part of a build (if a profile is provided to the builder, see above), but you can do this manually:
+
+	Xcode::ProvisioningProfile.new("Myprofile.mobileprovision").install	# installs profile into ~/Library
+	
+Or enumerate installed profiles:
+   
+	Xcode::ProvisioningProfile.installed_profiles.each do |p|
+		p.uninstall		# Removes the profile from ~/Library/
+	end
+
+### Security / Keychain
+
+The missing component here is to be able to manipulate keychains.  This is quite possible through the command line 'security' tool, but will probably only be necessary once per project, and so I have no plans to support this.  If you can think of a use-case, please raise and issue for it!
+
+### Testflight
+
+The common output of this build/package process is to upload to testflight.  This may become integrated if there is demand, but you can do something like this (this is calling curl from ruby):
+
+	`curl -X POST http://testflightapp.com/api/builds.json -F file=@"#{builder.ipa_path}" -F dsym=@"#{builder.dsym_zip_path}" -F api_token='#{TESTFLIGHT_API_TOKEN}' -F team_token='#{TESTFLIGHT_TEAM_TOKEN}' -F notify=True -F notes=\"#{CHANGELOG}\" -F distribution_lists='All'`
+
+## Tests
+
+There are some basic RSpec tests in the project which I suspect /wont/ work on machines without my identity installed.  
+
+Currently these tests only assert the basic project file parsing and build code and do not perform file modification tests (e.g. for info plists) or provisioning profile/keychain importing
+	
+## Feedback
+
+Please raise issues if you find defects or have a feature request.  
