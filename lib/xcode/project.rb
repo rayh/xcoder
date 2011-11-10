@@ -17,6 +17,13 @@ module Xcode
       parse_schemes
 #      parse_configurations
     end
+    
+    def scheme(name)
+      scheme = @schemes.select {|t| t.name == name.to_s}.first
+      raise "No such scheme #{name}, available schemes are #{@schemes.map {|t| t.name}.join(', ')}" if scheme.nil?
+      yield scheme if block_given?
+      scheme
+    end
         
     def target(name)
       target = @targets.select {|t| t.name == name.to_s}.first
