@@ -50,8 +50,8 @@ module Xcode
     private
   
     def parse_schemes
-      # schemes are in project/xcshareddata/xcschemes/*.xcscheme
-      Dir["#{@path}/xcshareddata/xcschemes/*.xcscheme"].each do |scheme|
+      # schemes are in project/**/xcschemes/*.xcscheme
+      Dir["#{@path}/**/xcschemes/*.xcscheme"].each do |scheme|
         @schemes << Xcode::Scheme.new(self, scheme)
       end
     end

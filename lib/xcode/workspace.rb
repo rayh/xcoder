@@ -19,6 +19,13 @@ module Xcode
       end
     end    
     
+    def project(name)
+      project = @projects.select {|c| c.name == name.to_s}.first
+      raise "No such project #{name}, available projects are #{@projects.map {|c| c.name}.join(', ')}" if project.nil?
+      yield project if block_given?
+      project
+    end
+    
     def describe
       puts "Workspace #{name} contains:"
       projects.each do |p|

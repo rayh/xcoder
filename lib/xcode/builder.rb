@@ -3,11 +3,15 @@ require 'xcode/provisioning_profile'
 
 module Xcode
   class Builder
-    attr_accessor :profile, :identity
-    
+    attr_accessor :profile, :identity, :build_path
     def initialize(config)
+      if config.is_a? Xcode::Scheme
+        @scheme = config
+        config = config.launch
+      end
       @target = config.target
       @config = config
+      @build_path = "#{File.dirname(@target.project.path)}/build/"
     end
     
     def install_profile
@@ -31,9 +35,14 @@ module Xcode
       cmd << "xcodebuild"
       cmd << "-sdk #{@target.project.sdk}" unless @target.project.sdk.nil?
       cmd << "-project \"#{@target.project.path}\""
-      cmd << "-target \"#{@target.name}\""
-      cmd << "-configuration \"#{@config.name}\""
-      cmd << "CODE_SIGN_IDENTITY=\"#{@identity}\""
+      
+      cmd << "-scheme #{@scheme.name}" unless @scheme.nil?
+      cmd << "-target \"#{@target.name}\"" if @scheme.nil?
+      cmd << "-configuration \"#{@config.name}\"" if @scheme.nil?
+      
+      cmd << "CODE_SIGN_IDENTITY=\"#{@identity}\"" unless @identity.nil?
+      cmd << "OBJROOT=\"#{@build_path}\""
+      cmd << "SYMROOT=\"#{@build_path}\""
       Xcode::Shell.execute(cmd)
     end
     
@@ -41,8 +50,13 @@ module Xcode
       cmd = []
       cmd << "xcodebuild"
       cmd << "-project \"#{@target.project.path}\""
-      cmd << "-target \"#{@target.name}\""
-      cmd << "-configuration \"#{@config.name}\""
+      
+      cmd << "-scheme #{@scheme.name}" unless @scheme.nil?
+      cmd << "-target \"#{@target.name}\"" if @scheme.nil?
+      cmd << "-configuration \"#{@config.name}\"" if @scheme.nil?
+      
+      cmd << "OBJROOT=\"#{@build_path}\""
+      cmd << "SYMROOT=\"#{@build_path}\""
       cmd << "clean"
       Xcode::Shell.execute(cmd)
 
@@ -90,10 +104,6 @@ module Xcode
       cmd << "-y \"#{dsym_zip_path}\""
       cmd << "\"#{dsym_path}\""
       Xcode::Shell.execute(cmd)
-    end
-    
-    def build_path
-      "#{File.dirname(@target.project.path)}/build/"
     end
     
     def configuration_build_path

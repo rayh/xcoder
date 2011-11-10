@@ -3,10 +3,10 @@ require 'pp'
 
 module Xcode
   class InfoPlist
-    def initialize(project, plist_location)
-      @project = project
+    def initialize(config, plist_location)
+      @config = config
       
-      @plist_location = File.expand_path(plist_location)
+      @plist_location = File.expand_path("#{File.dirname(@config.target.project.path)}/#{plist_location}")
       unless File.exists?(@plist_location)
         puts 'Plist not found ' + @plist_location
         exit 1

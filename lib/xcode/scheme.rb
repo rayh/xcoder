@@ -17,6 +17,9 @@ module Xcode
       @test = parse_action(doc, 'test')
     end
     
+    def builder
+      Xcode::Builder.new(self)
+    end
     
     private 
     

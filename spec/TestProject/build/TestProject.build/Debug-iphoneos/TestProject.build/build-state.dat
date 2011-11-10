@@ -1,0 +1,254 @@
+TTestProject
+v4
+r1
+cCheck dependencies
+cCpResource /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/ResourceRules.plist build/Debug-iphoneos/TestProject.app/ResourceRules.plist
+cProcessInfoPlistFile "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/Info.plist" TestProject/TestProject-Info.plist
+cProcessPCH /var/folders/33/25zr4vf11qq20jjh3qw95gsh0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/TestProject-Prefix-cwjntadhncrbubgjqchboqholgnq/TestProject-Prefix.pch.pth TestProject/TestProject-Prefix.pch normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/TestProject.build/Debug-iphoneos/TestProject.build/Objects-normal/armv7/AppDelegate.o "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/TestProject/AppDelegate.m" normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/TestProject.build/Debug-iphoneos/TestProject.build/Objects-normal/armv7/main.o "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/TestProject/main.m" normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+cLd "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/TestProject" normal armv7
+cGenerateDSYMFile "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app.dSYM" "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/TestProject"
+cCopyStringsFile "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/en.lproj/InfoPlist.strings" TestProject/en.lproj/InfoPlist.strings
+cProcessProductPackaging "/Users/ray/Library/MobileDevice/Provisioning Profiles/023D3266-7376-4DD9-B33C-F7880BA290CE.mobileprovision" "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/embedded.mobileprovision"
+cProcessProductPackaging "/Users/ray/Library/MobileDevice/Provisioning Profiles/023D3266-7376-4DD9-B33C-F7880BA290CE.mobileprovision" "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/embedded.mobileprovision"
+cTouch "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app"
+cProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/Entitlements.plist "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject.xcent"
+cCodeSign "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app"
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk
+c000000004E7840290000000000000110
+t1316503593
+s272
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/Entitlements.plist
+c000000004E5C595800000000000001A7
+t1314675032
+s423
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/ResourceRules.plist
+c000000004E5C595800000000000001E5
+t1314675032
+s485
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics
+c000000004E72F28700000000003AB0A0
+t1316156039
+s3846304
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/System/Library/Frameworks/Foundation.framework/Foundation
+c000000004E72F3440000000000529540
+t1316156228
+s5412160
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/System/Library/Frameworks/UIKit.framework/UIKit
+c000000004E7808C7000000000078BE50
+t1316489415
+s7913040
+
+N/Users/ray/Library/MobileDevice/Provisioning Profiles/023D3266-7376-4DD9-B33C-F7880BA290CE.mobileprovision
+c000000004EA8CD060000000000001FA6
+t1319685382
+s8102
+
+N/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/TestProject/AppDelegate.m
+c000000004EBB1721000000000000093F
+t1320884001
+s2367
+
+N/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/TestProject/TestProject-Prefix.pch
+c000000004EBB17210000000000000145
+t1320884001
+s325
+
+N/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/TestProject/en.lproj/InfoPlist.strings
+c000000004EBB1721000000000000002D
+t1320884001
+s45
+
+N/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/TestProject/main.m
+c000000004EBB1721000000000000015A
+t1320884001
+s346
+
+N/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app
+t2
+s0
+
+N/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app.dSYM
+t2
+s0
+
+N/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/Info.plist
+t2
+s0
+
+N/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/PkgInfo
+t2
+s0
+
+N/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/ResourceRules.plist
+t2
+s0
+
+N/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/TestProject
+t2
+s0
+
+N/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/embedded.mobileprovision
+t2
+s0
+
+N/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/en.lproj/InfoPlist.strings
+t2
+s0
+
+N/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/Objects-normal/armv7/AppDelegate.o
+t2
+s0
+
+N/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/Objects-normal/armv7/TestProject.LinkFileList
+c000000004EBB25840000000000000125
+t1320887684
+s293
+
+N/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/Objects-normal/armv7/main.o
+t2
+s0
+
+N/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject.xcent
+t2
+s0
+
+N/var/folders/33/25zr4vf11qq20jjh3qw95gsh0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/TestProject-Prefix-cwjntadhncrbubgjqchboqholgnq/TestProject-Prefix.pch.pth
+t2
+s0
+
+NTestProject/TestProject-Info.plist
+c000000004EBB172100000000000005E1
+t1320884001
+s1505
+
+CCheck dependencies
+r0
+lSLF04#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection18"Check dependenciesa7cda0045d6bb441^6a4bed045d6bb441^-247"[BWARN]Code Sign warning: code-signing identity 'iPhone Developer' matches multiple identities : 'iPhone Developer: Ray Hilton (F93L985ZD8)', 'iPhone Developer: Ray Hilton (4B2862EFWX)' -- 'iPhone Developer: Ray Hilton (F93L985ZD8)' will be used.1(21%IDEActivityLogMessage2@239"Code Sign warning: code-signing identity 'iPhone Developer' matches multiple identities : 'iPhone Developer: Ray Hilton (F93L985ZD8)', 'iPhone Developer: Ray Hilton (4B2862EFWX)' -- 'iPhone Developer: Ray Hilton (F93L985ZD8)' will be used.-342580484#18446744073709551615#0#-1#-----0#1#0#--18"Check dependencies36"55A07B62-4584-4061-A1D9-2014E869EEBA-
+
+CCodeSign "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app"
+s342580485.370794
+e342580485.546996
+r1
+xCodeSign
+x/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app
+lSLF04#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection45"CodeSign build/Debug-iphoneos/TestProject.appc4065f055d6bb441^ff078c055d6bb441^---0#0#0#-19%DVTDocumentLocation2@113"file://localhost/Users/ray/Projects/iOS%20Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/0000000000000000^1009"CodeSign build/Debug-iphoneos/TestProject.app    cd "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject"    setenv CODESIGN_ALLOCATE /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@xcoder/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@global/bin:/Users/ray/.rvm/rubies/ruby-1.9.2-p290/bin:/Users/ray/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/git/bin"    /usr/bin/codesign --force --sign "iPhone Developer: Ray Hilton (F93L985ZD8)" "--resource-rules=/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/ResourceRules.plist" --entitlements "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject.xcent" "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app"36"A8C8F4C0-E095-47A6-ADE9-6A1C9A3C42C2-
+
+CCompileC build/TestProject.build/Debug-iphoneos/TestProject.build/Objects-normal/armv7/AppDelegate.o "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/TestProject/AppDelegate.m" normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+s342580485.180600
+e342580485.245723
+r1
+xCompileC
+xbuild/TestProject.build/Debug-iphoneos/TestProject.build/Objects-normal/armv7/AppDelegate.o
+x/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/TestProject/AppDelegate.m
+xnormal
+xarmv7
+xobjective-c
+xcom.apple.compilers.llvm.clang.1_0.compiler
+lSLF04#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection91"Compile /Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/TestProject/AppDelegate.meb722e055d6bb441^71e73e055d6bb441^---0#0#0#-19%DVTDocumentLocation2@101"file://localhost/Users/ray/Projects/iOS%20Libraries/xcoder/spec/TestProject/TestProject/AppDelegate.m0000000000000000^3008"CompileC build/TestProject.build/Debug-iphoneos/TestProject.build/Objects-normal/armv7/AppDelegate.o TestProject/AppDelegate.m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject"    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@xcoder/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@global/bin:/Users/ray/.rvm/rubies/ruby-1.9.2-p290/bin:/Users/ray/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/clang -x objective-c -arch armv7 -fmessage-length=0 -fdiagnostics-print-source-range-info -fdiagnostics-show-category=id -fdiagnostics-parseable-fixits -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wmissing-prototypes -Wreturn-type -Wparentheses -Wswitch -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-shorten-64-to-32 -DDEBUG=1 -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk -gdwarf-2 -Wno-sign-conversion -mthumb "-DIBOutlet=__attribute__((iboutlet))" "-DIBOutletCollection(ClassName)=__attribute__((iboutletcollection(ClassName)))" "-DIBAction=void)__attribute__((ibaction)" -miphoneos-version-min=5.0 -iquote "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject-generated-files.hmap" "-I/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject-own-target-headers.hmap" "-I/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject-all-target-headers.hmap" -iquote "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject-project-headers.hmap" "-I/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/include" "-I/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/DerivedSources/armv7" "-I/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/DerivedSources" "-F/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos" -include /var/folders/33/25zr4vf11qq20jjh3qw95gsh0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/TestProject-Prefix-cwjntadhncrbubgjqchboqholgnq/TestProject-Prefix.pch -MMD -MT dependencies -MF "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/Objects-normal/armv7/AppDelegate.d" -c "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/TestProject/AppDelegate.m" -o "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/Objects-normal/armv7/AppDelegate.o"36"ADB8C1D5-CC0E-4C36-B423-6CCFB3472535-
+
+CCompileC build/TestProject.build/Debug-iphoneos/TestProject.build/Objects-normal/armv7/main.o "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/TestProject/main.m" normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+s342580485.180671
+e342580485.209618
+r1
+xCompileC
+xbuild/TestProject.build/Debug-iphoneos/TestProject.build/Objects-normal/armv7/main.o
+x/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/TestProject/main.m
+xnormal
+xarmv7
+xobjective-c
+xcom.apple.compilers.llvm.clang.1_0.compiler
+lSLF04#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection84"Compile /Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/TestProject/main.mf86f2e055d6bb441^efa835055d6bb441^---0#0#0#-19%DVTDocumentLocation2@94"file://localhost/Users/ray/Projects/iOS%20Libraries/xcoder/spec/TestProject/TestProject/main.m0000000000000000^2973"CompileC build/TestProject.build/Debug-iphoneos/TestProject.build/Objects-normal/armv7/main.o TestProject/main.m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject"    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@xcoder/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@global/bin:/Users/ray/.rvm/rubies/ruby-1.9.2-p290/bin:/Users/ray/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/clang -x objective-c -arch armv7 -fmessage-length=0 -fdiagnostics-print-source-range-info -fdiagnostics-show-category=id -fdiagnostics-parseable-fixits -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wmissing-prototypes -Wreturn-type -Wparentheses -Wswitch -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-shorten-64-to-32 -DDEBUG=1 -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk -gdwarf-2 -Wno-sign-conversion -mthumb "-DIBOutlet=__attribute__((iboutlet))" "-DIBOutletCollection(ClassName)=__attribute__((iboutletcollection(ClassName)))" "-DIBAction=void)__attribute__((ibaction)" -miphoneos-version-min=5.0 -iquote "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject-generated-files.hmap" "-I/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject-own-target-headers.hmap" "-I/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject-all-target-headers.hmap" -iquote "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject-project-headers.hmap" "-I/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/include" "-I/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/DerivedSources/armv7" "-I/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/DerivedSources" "-F/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos" -include /var/folders/33/25zr4vf11qq20jjh3qw95gsh0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/TestProject-Prefix-cwjntadhncrbubgjqchboqholgnq/TestProject-Prefix.pch -MMD -MT dependencies -MF "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/Objects-normal/armv7/main.d" -c "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/TestProject/main.m" -o "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/Objects-normal/armv7/main.o"36"4053186E-FB38-4CE5-B21A-C5E2502333A2-
+
+CCopyStringsFile "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/en.lproj/InfoPlist.strings" TestProject/en.lproj/InfoPlist.strings
+s342580485.311524
+e342580485.314496
+r1
+xCopyStringsFile
+x/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/en.lproj/InfoPlist.strings
+xTestProject/en.lproj/InfoPlist.strings
+lSLF04#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection43"Copy TestProject/en.lproj/InfoPlist.stringsf9da4f055d6bb441^348350055d6bb441^---0#0#0#-19%DVTDocumentLocation2@114"file://localhost/Users/ray/Projects/iOS%20Libraries/xcoder/spec/TestProject/TestProject/en.lproj/InfoPlist.strings0000000000000000^754"CopyStringsFile build/Debug-iphoneos/TestProject.app/en.lproj/InfoPlist.strings TestProject/en.lproj/InfoPlist.strings    cd "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject"    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@xcoder/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@global/bin:/Users/ray/.rvm/rubies/ruby-1.9.2-p290/bin:/Users/ray/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/git/bin"    builtin-copyStrings --validate --inputencoding utf-8 --outputencoding binary --outdir "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/en.lproj" -- TestProject/en.lproj/InfoPlist.strings36"B4E08FD6-807E-4F69-A6AB-EC3E9F9A295D-
+
+CCpResource /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/ResourceRules.plist build/Debug-iphoneos/TestProject.app/ResourceRules.plist
+s342580484.934666
+e342580484.939300
+r1
+xCpResource
+x/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/ResourceRules.plist
+xbuild/Debug-iphoneos/TestProject.app/ResourceRules.plist
+lSLF04#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection61"Copy build/Debug-iphoneos/TestProject.app/ResourceRules.plist0d72ef045d6bb441^6075f0045d6bb441^---0#0#0#-19%DVTDocumentLocation2@132"file://localhost/Users/ray/Projects/iOS%20Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/ResourceRules.plist00f4d40addffdf42^854"CpResource /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/ResourceRules.plist build/Debug-iphoneos/TestProject.app/ResourceRules.plist    cd "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject"    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@xcoder/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@global/bin:/Users/ray/.rvm/rubies/ruby-1.9.2-p290/bin:/Users/ray/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/git/bin"    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/ResourceRules.plist "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app"36"0CDC51A1-64FE-482F-B154-D296A16FBD20-
+
+CGenerateDSYMFile "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app.dSYM" "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/TestProject"
+s342580485.285968
+e342580485.302622
+r1
+xGenerateDSYMFile
+x/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app.dSYM
+x/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/TestProject
+lSLF04#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection110"Generating /Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app.dSYM7b4f49055d6bb441^0c784d055d6bb441^---0#0#0#-19%DVTDocumentLocation2@117"file://localhost/Users/ray/Projects/iOS%20Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app.dSYM00f4d40addffdf42^751"GenerateDSYMFile build/Debug-iphoneos/TestProject.app.dSYM build/Debug-iphoneos/TestProject.app/TestProject    cd "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject"    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@xcoder/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@global/bin:/Users/ray/.rvm/rubies/ruby-1.9.2-p290/bin:/Users/ray/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/git/bin"    /Developer/usr/bin/dsymutil "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/TestProject" -o "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app.dSYM"36"902BEA2B-29F4-4EC2-B6C2-3EB38056B205-
+
+CLd "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/TestProject" normal armv7
+s342580485.252025
+e342580485.278549
+r1
+xLd
+x/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/TestProject
+xnormal
+xarmv7
+lSLF04#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection111"Link /Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/TestProject4eb340055d6bb441^265147055d6bb441^---0#0#0#--1216"Ld build/Debug-iphoneos/TestProject.app/TestProject normal armv7    cd "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject"    setenv IPHONEOS_DEPLOYMENT_TARGET 5.0    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@xcoder/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@global/bin:/Users/ray/.rvm/rubies/ruby-1.9.2-p290/bin:/Users/ray/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/clang -arch armv7 -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk "-L/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos" "-F/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos" -filelist "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/Objects-normal/armv7/TestProject.LinkFileList" -dead_strip -miphoneos-version-min=5.0 -framework UIKit -framework Foundation -framework CoreGraphics -o "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/TestProject"36"7A9C0144-2273-4DD9-947F-A7B9400A3462-
+
+CProcessInfoPlistFile "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/Info.plist" TestProject/TestProject-Info.plist
+s342580484.934671
+e342580484.938897
+r1
+xProcessInfoPlistFile
+x/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/Info.plist
+xTestProject/TestProject-Info.plist
+lSLF04#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection42"Process TestProject/TestProject-Info.plisteb71ef045d6bb441^e25bf0045d6bb441^---0#0#0#-19%DVTDocumentLocation2@110"file://localhost/Users/ray/Projects/iOS%20Libraries/xcoder/spec/TestProject/TestProject/TestProject-Info.plist0000000000000000^984"ProcessInfoPlistFile build/Debug-iphoneos/TestProject.app/Info.plist TestProject/TestProject-Info.plist    cd "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject"    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@xcoder/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@global/bin:/Users/ray/.rvm/rubies/ruby-1.9.2-p290/bin:/Users/ray/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/git/bin"    builtin-infoPlistUtility TestProject/TestProject-Info.plist -genpkginfo "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/PkgInfo" -expandbuildsettings -format binary -platform iphoneos -resourcerulesfile "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/ResourceRules.plist" -o "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/Info.plist"36"A035B283-79C9-403A-A83B-902B0DE225C9-
+
+CProcessPCH /var/folders/33/25zr4vf11qq20jjh3qw95gsh0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/TestProject-Prefix-cwjntadhncrbubgjqchboqholgnq/TestProject-Prefix.pch.pth TestProject/TestProject-Prefix.pch normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+s342580484.947195
+e342580485.163899
+r1
+xProcessPCH
+x/var/folders/33/25zr4vf11qq20jjh3qw95gsh0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/TestProject-Prefix-cwjntadhncrbubgjqchboqholgnq/TestProject-Prefix.pch.pth
+xTestProject/TestProject-Prefix.pch
+xnormal
+xarmv7
+xobjective-c
+xcom.apple.compilers.llvm.clang.1_0.compiler
+lSLF04#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection45"Precompile TestProject/TestProject-Prefix.pchc2a2f2045d6bb441^66112a055d6bb441^---0#0#0#-19%DVTDocumentLocation2@110"file://localhost/Users/ray/Projects/iOS%20Libraries/xcoder/spec/TestProject/TestProject/TestProject-Prefix.pch0000000000000000^2970"ProcessPCH /var/folders/33/25zr4vf11qq20jjh3qw95gsh0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/TestProject-Prefix-cwjntadhncrbubgjqchboqholgnq/TestProject-Prefix.pch.pth TestProject/TestProject-Prefix.pch normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject"    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@xcoder/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@global/bin:/Users/ray/.rvm/rubies/ruby-1.9.2-p290/bin:/Users/ray/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/clang -x objective-c-header -arch armv7 -fmessage-length=0 -fdiagnostics-print-source-range-info -fdiagnostics-show-category=id -fdiagnostics-parseable-fixits -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wmissing-prototypes -Wreturn-type -Wparentheses -Wswitch -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-shorten-64-to-32 -DDEBUG=1 -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk -gdwarf-2 -Wno-sign-conversion -mthumb "-DIBOutlet=__attribute__((iboutlet))" "-DIBOutletCollection(ClassName)=__attribute__((iboutletcollection(ClassName)))" "-DIBAction=void)__attribute__((ibaction)" -miphoneos-version-min=5.0 -iquote "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject-generated-files.hmap" "-I/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject-own-target-headers.hmap" "-I/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject-all-target-headers.hmap" -iquote "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject-project-headers.hmap" "-I/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/include" "-I/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/DerivedSources/armv7" "-I/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/DerivedSources" "-F/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos" -c "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/TestProject/TestProject-Prefix.pch" -o /var/folders/33/25zr4vf11qq20jjh3qw95gsh0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/TestProject-Prefix-cwjntadhncrbubgjqchboqholgnq/TestProject-Prefix.pch.pth -MMD -MT dependencies -MF /var/folders/33/25zr4vf11qq20jjh3qw95gsh0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/TestProject-Prefix-cwjntadhncrbubgjqchboqholgnq/TestProject-Prefix.pch.d36"F7DAFE5E-CD30-4C4A-BFFA-FB0D2A6724D2-
+
+CProcessProductPackaging "/Users/ray/Library/MobileDevice/Provisioning Profiles/023D3266-7376-4DD9-B33C-F7880BA290CE.mobileprovision" "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/embedded.mobileprovision"
+s342580485.333829
+e342580485.337663
+r1
+xProcessProductPackaging
+x/Users/ray/Library/MobileDevice/Provisioning Profiles/023D3266-7376-4DD9-B33C-F7880BA290CE.mobileprovision
+x/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/embedded.mobileprovision
+lSLF04#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection194"ProcessProductPackaging "/Users/ray/Library/MobileDevice/Provisioning Profiles/023D3266-7376-4DD9-B33C-F7880BA290CE.mobileprovision" build/Debug-iphoneos/TestProject.app/embedded.mobileprovisionb48f55055d6bb441^157156055d6bb441^---0#0#0#-19%DVTDocumentLocation2@137"file://localhost/Users/ray/Projects/iOS%20Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/embedded.mobileprovision0000000000000000^862"ProcessProductPackaging "/Users/ray/Library/MobileDevice/Provisioning Profiles/023D3266-7376-4DD9-B33C-F7880BA290CE.mobileprovision" build/Debug-iphoneos/TestProject.app/embedded.mobileprovision    cd "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject"    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@xcoder/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@global/bin:/Users/ray/.rvm/rubies/ruby-1.9.2-p290/bin:/Users/ray/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/git/bin"    builtin-productPackagingUtility "/Users/ray/Library/MobileDevice/Provisioning Profiles/023D3266-7376-4DD9-B33C-F7880BA290CE.mobileprovision" -o "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app/embedded.mobileprovision"36"46315C42-003F-46F5-885C-38C941AC715E-
+
+CProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/Entitlements.plist "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject.xcent"
+s342580485.358287
+e342580485.362072
+r1
+xProcessProductPackaging
+x/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/Entitlements.plist
+x/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject.xcent
+lSLF04#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection187"ProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/Entitlements.plist build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject.xcent89d15b055d6bb441^5bb05c055d6bb441^---0#0#0#-19%DVTDocumentLocation2@150"file://localhost/Users/ray/Projects/iOS%20Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject.xcent00f4d40addffdf42^874"ProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/Entitlements.plist build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject.xcent    cd "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject"    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@xcoder/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@global/bin:/Users/ray/.rvm/rubies/ruby-1.9.2-p290/bin:/Users/ray/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/git/bin"    builtin-productPackagingUtility /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/Entitlements.plist -entitlements -format xml -o "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/TestProject.build/Debug-iphoneos/TestProject.build/TestProject.xcent"36"9607E3D2-3BD8-4F7E-88A3-0FF6D96DE994-
+
+CTouch "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app"
+s342580485.345657
+e342580485.350645
+r1
+xTouch
+x/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app
+lSLF04#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection100"Touch /Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app969758055d6bb441^0dc559055d6bb441^---0#0#0#--559"Touch build/Debug-iphoneos/TestProject.app    cd "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject"    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@xcoder/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@global/bin:/Users/ray/.rvm/rubies/ruby-1.9.2-p290/bin:/Users/ray/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/git/bin"    /usr/bin/touch -c "/Users/ray/Projects/iOS Libraries/xcoder/spec/TestProject/build/Debug-iphoneos/TestProject.app"36"3E22CC7B-A736-4F5A-B48B-4D3935A6AE04-
+
