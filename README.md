@@ -49,7 +49,8 @@ This will produce a .ipa and a .dSYM.zip
 Loading workspaces can be done in a similar way to projects:
 
 	Xcode.workspaces.each do |w|
-	  w.describe								# prints a recursive description of the structure of the workspace and its projects
+	  w.describe								# prints a recursive description of the 
+												# structure of the workspace and its projects
 	end
 	
 Or, if you know the name:
@@ -61,6 +62,6 @@ Or, if you know the name:
 
 There is basic support for schemes, you can access them from a project like so:
 
-   config = project.scheme('MyScheme').launch   # Gets the Launch action for specified scheme.  Can also specify 'test' to get the test action
+	config = project.scheme('MyScheme').launch   # Gets the Launch action for specified scheme.  Can also specify 'test' to get the test action
 
 The 'launch' and 'test' methods access the different actions within the scheme, and they map to a Xcode::Configuration object (i.e., the schemes map to a target and configuration in a traditional XCode3 project style). 
