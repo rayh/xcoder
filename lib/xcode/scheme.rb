@@ -26,7 +26,6 @@ module Xcode
       return nil if buildableReference.nil?
       
       target_name = buildableReference['BlueprintName']
-      puts "build: #{target_name}, #{action['buildConfiguration']}"
       @project.target(target_name).config(action['buildConfiguration'])
     end
 
