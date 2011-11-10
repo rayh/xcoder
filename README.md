@@ -60,7 +60,13 @@ Or, if you know the name:
 	
 ### Schemes
 
-There is basic support for schemes, you can access them from a project like so:
+There is basic support for schemes, you can enumerate them from a project like so:
+
+	project.schemes.each do |s|
+	  s.launch.builder.build
+	end
+	
+Or, access them by name:
 
 	config = project.scheme('MyScheme').launch   # Gets the Launch action for specified scheme.  
 												 # Can also specify 'test' to get the test action
