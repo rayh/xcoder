@@ -24,9 +24,15 @@
     [super tearDown];
 }
 
-- (void)testExample
+- (void)testNilShouldAlwaysBeNil
 {
-    STFail(@"Unit tests are not implemented yet in TestProjectTests");
+    STAssertNil(nil, @"This should definitely be nil");
 }
+
+- (void)testShouldFail
+{
+    STAssertEquals(1+1, 3, @"Something is broken");
+}
+
 
 @end

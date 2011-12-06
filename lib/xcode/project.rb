@@ -5,17 +5,26 @@ require 'xcode/scheme'
 
 module Xcode
   class Project 
-    attr_reader :name, :targets, :sdk, :path, :schemes
+    attr_reader :name, :targets, :sdk, :path, :schemes, :groups
     def initialize(path, sdk=nil)
       @sdk = sdk || "iphoneos"  # FIXME: should support OSX/simulator too
       @path = File.expand_path path
       @targets = []
       @schemes = []
+      @groups = []
       @name = File.basename(@path).gsub(/\.xcodeproj/,'')
 
       parse_pbxproj
       parse_schemes
 #      parse_configurations
+    end
+    
+    def group(name)
+      
+    end
+    
+    def save
+      # Save modified groups/f
     end
     
     def scheme(name)

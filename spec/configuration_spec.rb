@@ -26,4 +26,10 @@ describe Xcode::Configuration do
     File.exists?(builder.dsym_zip_path).should==true
     File.exists?(builder.ipa_path).should==true
   end
+  
+  # it "should run tests and fail" do
+  #   builder = Xcode.project('TestProject').target('TestProjectTests').config('Debug').builder
+  #   builder.clean
+  #   builder.test
+  # end
 end

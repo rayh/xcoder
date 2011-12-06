@@ -15,7 +15,7 @@ module Xcode
     end
     
     def install_profile
-      return if @profile.nil?
+      return nil if @profile.nil?
       # TODO: remove other profiles for the same app?
       p = ProvisioningProfile.new(@profile)
       
@@ -26,10 +26,11 @@ module Xcode
       end
       
       p.install
+      p
     end
     
     def build
-      install_profile
+      profile = install_profile
       
       cmd = []
       cmd << "xcodebuild"
@@ -43,6 +44,23 @@ module Xcode
       cmd << "CODE_SIGN_IDENTITY=\"#{@identity}\"" unless @identity.nil?
       cmd << "OBJROOT=\"#{@build_path}\""
       cmd << "SYMROOT=\"#{@build_path}\""
+      cmd << "PROVISIONING_PROFILE=#{profile.uuid}" unless profile.nil?
+      yield(cmd) if block_given?
+      
+      Xcode::Shell.execute(cmd)
+    end
+    
+    def test
+      build do |cmd|
+        cmd.select! do |line|
+          !line=~/\^-sdk/
+        end
+        
+        cmd << "TEST_AFTER_BUILD=YES"
+        cmd << "TEST_HOST=''"
+        cmd << "-sdk iphonesimulator5.0"
+      end
+      
       Xcode::Shell.execute(cmd)
     end
     
