@@ -84,7 +84,7 @@ module Xcode
       
      if @values.has_key? :testflight_api_token and @values.has_key? :testflight_team_token
        puts "[#{label}] Uploading to testflight"
-       `curl -X POST http://testflightapp.com/api/builds.json -F file=@"#{builder.ipa_path}" -F dsym=@"#{builder.dsym_zip_path}" -F api_token='#{@values[:testflight_api_token]}' -F team_token='#{@values[:testflight_team_token]}' -F notify=True -F notes=\"#{@values[:testflight_notes]}\" -F distribution_lists='#{@values[:testflight_list]}'`
+       `curl -X POST http://testflightapp.com/api/builds.json -F file=@"#{builder.ipa_path}" -F dsym=@"#{builder.dsym_zip_path}" -F api_token='#{@values[:testflight_api_token]}' -F team_token='#{@values[:testflight_team_token]}' -F notify=True -F notes=\"#{@values[:testflight_notes]}\" -F distribution_lists='#{@values[:testflight_lists].join(',')}'`
      end
      
      builder
