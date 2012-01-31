@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require 'xcoder'
+
+dir = ARGV[0]||'.'
+
+bc = Xcode::BuilderConfig.load("#{dir}/Buildfile")
+bc.build

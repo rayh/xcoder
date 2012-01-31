@@ -1,10 +1,10 @@
 module Xcode
-  class BuilderConfig
+  class Buildfile
    
    def initialize
      @values = {}
-     @before = {}
-     @after = {}
+     @before = {:clean => [], :build => [], :package => []}
+     @after = {:clean => [], :build => [], :package => []}
    end
    
    def method_missing(method, *args)
@@ -12,22 +12,25 @@ module Xcode
    end
    
    def before(event, &block)
-     @before[event]=[] if @before[event].nil?
      @before[event]<< block
    end
    
    def after(event, &block)
-     @after[event]=[] if @after[event].nil?
      @after[event]<< block
    end
    
-   def self.load(file)
-     bc = Xcode::BuilderConfig.new
-     eval(File.read(file), bc, file)
-     bc
+   def getBinding
+     binding()
    end
-    
+   
+   def self.load(file)
+     file = File.expand_path file
+     bc = Xcode::BuilderConfig.new
+     eval(File.read(file), bc.getBinding, file)
+   end
+   
    def build
+     puts "Going to build project using the following setting:\n#{@values.inspect}"
      config = Xcode.project(@values[:project]).target(@values[:target]).config(@values[:config])
      config.info_plist do |info|
        info.version = @values[:version]
