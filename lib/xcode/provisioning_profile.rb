@@ -2,6 +2,9 @@ module Xcode
   class ProvisioningProfile
     attr_reader :path, :name, :uuid, :identifiers
     def initialize(path)
+      
+      raise "Provisioning profile '#{path}' does not exist" unless File.exists? path
+      
       @path = path
       @identifiers = []
       

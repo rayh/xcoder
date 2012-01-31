@@ -1,0 +1,20 @@
+project :TestProject 
+target 	:TestProject
+config 	:Release
+version "#{ENV['BUILD_NUMBER']}"
+#profile ''
+#identity ''
+
+#testflight_api_token ''
+#testflight_team_token ''
+#testflight_notes `git log -n 1`
+#testflight_list 'Internal'
+
+before :clean do |builder|
+  `rm -Rf Local.vendorbackup*`
+end
+
+before :build do |builder| 
+  #`vendor install`
+  `rm -Rf Local.vendorbackup*`
+end

@@ -7,16 +7,12 @@ require "xcode/shell"
 require 'plist'
 require 'xcode/keychain'
 require 'xcode/workspace'
-require 'xcode/builder_config'
+require 'xcode/buildfile'
 
 module Xcode
   @@projects = nil
   @@workspaces = nil
   @@sdks = nil
-  
-  def self.build(&block)
-    Xcode::BuilderConfig.new.instance_eval(&block)
-  end
   
   def self.projects
     @@projects = parse_projects if @@projects.nil?

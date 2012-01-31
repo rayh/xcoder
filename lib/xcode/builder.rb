@@ -58,7 +58,7 @@ module Xcode
         
         cmd << "TEST_AFTER_BUILD=YES"
         cmd << "TEST_HOST=''"
-        cmd << "-sdk iphonesimulator5.0"
+        cmd << "-sdk iphonesimulator5.0"  # FIXME: hardcoded version, should be smarter
       end
       
       Xcode::Shell.execute(cmd)
