@@ -1,5 +1,6 @@
 module Xcode
   class BuildCommand
+    include Enumerable
     
     def initialize
       @commands = {}
@@ -18,7 +19,14 @@ module Xcode
       @commands.map {|cmd_value| cmd_value.join(" ").strip }
     end
     
-    def <=> (value)
+    
+    # Enumerable Adherence
+    
+    def each
+      to_a.each {|command| yield command }
+    end
+    
+    def <=>(value)
       to_a <=> value
     end
     
