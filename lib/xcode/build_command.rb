@@ -8,7 +8,7 @@ module Xcode
     
     def << (value)
       key, value = value.split(' ')
-      @commands[key] = Array(value).join(' ')
+      @commands[key] = Array(value).join(' ',2)
     end
     
     def to_s
