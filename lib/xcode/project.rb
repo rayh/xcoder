@@ -3,10 +3,12 @@ require 'xcode/resource'
 require 'xcode/target'
 require 'xcode/configuration'
 require 'xcode/scheme'
+require 'xcode/group'
+require 'xcode/file'
 
 module Xcode
   class Project 
-    attr_reader :name, :sdk, :path, :schemes, :groups
+    attr_reader :name, :sdk, :path, :schemes
     def initialize(path, sdk=nil)
       @sdk = sdk || "iphoneos"  # FIXME: should support OSX/simulator too
       @path = File.expand_path path
@@ -16,6 +18,10 @@ module Xcode
 
       @project = parse_pbxproj
       parse_schemes
+    end
+    
+    def groups
+      @project.mainGroup
     end
     
     def scheme(name)
