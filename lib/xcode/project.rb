@@ -6,16 +6,15 @@ require 'xcode/scheme'
 
 module Xcode
   class Project 
-    attr_reader :name, :targets, :sdk, :path, :schemes, :groups
+    attr_reader :name, :sdk, :path, :schemes, :groups
     def initialize(path, sdk=nil)
       @sdk = sdk || "iphoneos"  # FIXME: should support OSX/simulator too
       @path = File.expand_path path
-      @targets = []
       @schemes = []
       @groups = []
       @name = File.basename(@path).gsub(/\.xcodeproj/,'')
 
-      parse_pbxproj
+      @project = parse_pbxproj
       parse_schemes
     end
     
@@ -25,10 +24,17 @@ module Xcode
       yield scheme if block_given?
       scheme
     end
-        
+    
+    def targets
+      @project.targets.map do |target|
+        target.project = self
+        target
+      end
+    end
+    
     def target(name)
-      target = @targets.select {|t| t.name == name.to_s}.first
-      raise "No such target #{name}, available targets are #{@targets.map {|t| t.name}.join(', ')}" if target.nil?
+      target = targets.select {|t| t.name == name.to_s}.first
+      raise "No such target #{name}, available targets are #{targets.map {|t| t.name}.join(', ')}" if target.nil?
       yield target if block_given?
       target
     end
@@ -59,14 +65,7 @@ module Xcode
   
     def parse_pbxproj
       json = JSON.parse(`plutil -convert json -o - "#{@path}/project.pbxproj"`)
-      
-      project = Xcode::Resource.new json['rootObject'], json
-      
-      project.targets.each do |target|
-        target.project = self
-        @targets << target
-        
-      end
+      Xcode::Resource.new json['rootObject'], json
     end
 
   end
