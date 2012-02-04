@@ -1,4 +1,5 @@
 require 'json'
+require 'xcode/resource'
 require 'xcode/target'
 require 'xcode/configuration'
 require 'xcode/scheme'
@@ -68,19 +69,17 @@ module Xcode
     def parse_pbxproj
       json = JSON.parse(`plutil -convert json -o - "#{@path}/project.pbxproj"`)
       
-      root = json['objects'][json['rootObject']]
-
-      root['targets'].each do |target_id|
-        target = Xcode::Target.new(self, json['objects'][target_id])
+      project = Xcode::Resource.new json['rootObject'], json
+      
+      project.targets.each do |project_target|
+        target = Xcode::Target.new self, project_target.properties
         
-        buildConfigurationList = json['objects'][target_id]['buildConfigurationList']
-        buildConfigurations = json['objects'][buildConfigurationList]['buildConfigurations']
-        
-        buildConfigurations.each do |buildConfiguration|
-          target.configs << Xcode::Configuration.new(target, json['objects'][buildConfiguration])
+        project_target.buildConfigurationList.buildConfigurations.each do |buildConfiguration|
+          target.configs << Xcode::Configuration.new(target, buildConfiguration.properties)
         end
-                
+        
         @targets << target
+        
       end
     end
 
