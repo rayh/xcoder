@@ -1,12 +1,16 @@
 require 'xcode/builder'
 
 module Xcode
-  class Configuration
-    attr_reader :target
+  module Configuration
     
-    def initialize(target, json)
-      @target = target
-      @json = json
+    attr_accessor :target
+    
+    def info_plist_location
+      buildSettings['INFOPLIST_FILE']
+    end
+    
+    def product_name
+      substitute(buildSettings['PRODUCT_NAME'])
     end
     
     def substitute(value)
@@ -23,29 +27,19 @@ module Xcode
         value
       end
     end
-        
-    def info_plist_location
-      @json['buildSettings']['INFOPLIST_FILE']
-    end
-    
-    def product_name
-      substitute(@json['buildSettings']['PRODUCT_NAME'])
-    end
-        
-    def name
-      @json['name']
-    end
     
     def info_plist
-      puts @json.inspect
-      info = Xcode::InfoPlist.new(self, info_plist_location)  
+      puts properties
+      info = Xcode::InfoPlist.new(self, info_plist_location)
       yield info if block_given?
       info.save
       info
     end
     
     def builder
+      puts "Making a Builder with #{self} #{self.methods}"
       Xcode::Builder.new(self)
     end
+    
   end
 end

@@ -17,15 +17,6 @@ module Xcode
 
       parse_pbxproj
       parse_schemes
-#      parse_configurations
-    end
-    
-    def group(name)
-      
-    end
-    
-    def save
-      # Save modified groups/f
     end
     
     def scheme(name)
@@ -71,13 +62,13 @@ module Xcode
       
       project = Xcode::Resource.new json['rootObject'], json
       
-      project.targets.each do |project_target|
-        target = Xcode::Target.new self, project_target.properties
+      project.targets.each do |target|
         
-        project_target.buildConfigurationList.buildConfigurations.each do |buildConfiguration|
-          target.configs << Xcode::Configuration.new(target, buildConfiguration.properties)
+        class << target
+          include Target
         end
         
+        target.project = self
         @targets << target
         
       end

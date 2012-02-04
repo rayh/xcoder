@@ -9,6 +9,8 @@ module Xcode
         @scheme = config
         config = config.launch
       end
+      
+      puts "CONFIG: #{config}"
       @target = config.target
       @config = config
       @build_path = "#{File.dirname(@target.project.path)}/build/"
