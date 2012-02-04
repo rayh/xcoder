@@ -1,15 +1,10 @@
 module Xcode
-  module Target
+  module PBXNativeTarget
     
     attr_accessor :project
     
     def configs
       buildConfigurationList.buildConfigurations.map do |config|
-        
-        class << config
-          include Configuration
-        end
-        
         config.target = self
         config
       end
@@ -23,4 +18,5 @@ module Xcode
     end
     
   end
+  
 end

@@ -63,11 +63,6 @@ module Xcode
       project = Xcode::Resource.new json['rootObject'], json
       
       project.targets.each do |target|
-        
-        class << target
-          include Target
-        end
-        
         target.project = self
         @targets << target
         

@@ -1,7 +1,7 @@
 require 'rspec'
 require 'xcoder'
 
-describe Xcode::Configuration do 
+describe Xcode::XCBuildConfiguration do 
   before do
     @config = Xcode.project('TestProject').target('TestProject').config('Debug')
   end

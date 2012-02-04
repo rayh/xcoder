@@ -37,10 +37,7 @@ module Xcode
         if raw_value.is_a?(Array)
           Array(raw_value).map do |sub_value|
             if is_identifier? sub_value 
-              
               Resource.new sub_value, @registry
-              
-              #@registry['objects'][sub_value]
             else
               sub_value
             end
@@ -49,7 +46,6 @@ module Xcode
         else 
           if is_identifier? raw_value
             Resource.new raw_value, @registry
-            #@registry['objects'][raw_value]
           else 
             raw_value
           end
@@ -63,8 +59,24 @@ module Xcode
       @registry = details
       @properties = {}
       @identifier = identifier
+      
       details['objects'][@identifier].each do |key,value| 
         send :define_property, key, value
+      end
+      
+      #  
+      # Based on the `isa` property find if there is a constant within
+      # the Xcode module that matches and if it does, then we want to 
+      # automatically include module into the Resource object.
+      # 
+      begin
+        constant = Xcode.const_get(isa)
+        self.class.class_eval do
+          include constant
+        end
+        
+      rescue => exception
+        # puts "#{exception}"
       end
       
     end

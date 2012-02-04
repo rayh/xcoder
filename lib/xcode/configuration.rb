@@ -1,7 +1,7 @@
 require 'xcode/builder'
 
 module Xcode
-  module Configuration
+  module XCBuildConfiguration
     
     attr_accessor :target
     
