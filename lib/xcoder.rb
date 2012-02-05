@@ -124,7 +124,7 @@ end
 
 class String
   def to_xcplist
-    "\"#{to_s}\""
+    "\"#{to_s.gsub(/[^\\]"/,'\"')}\""
   end
 end
 

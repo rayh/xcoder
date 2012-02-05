@@ -2,6 +2,19 @@ module Xcode
   
   module PBXGroup
     
+    attr_accessor :supergroup
+    
+    def groups
+      children.map do |group|
+        group.supergroup = self
+        group
+      end
+    end
+    
+    def group(name)
+      groups.find_all {|group| group.name == name }
+    end
+    
     def add_group(name)
       
       # if this group represents a real path then use 'path'
@@ -14,8 +27,14 @@ module Xcode
         
       @properties['children'] << new_identifier
       
-      children.find {|child| child.identifier == new_identifier }
+      groups.find {|group| group.identifier == new_identifier }
       
+    end
+    
+    def remove!
+      @registry.remove_object identifier
+      # TODO If this is the main group then we likely don't want to remove it
+      # TODO We likely want to remove any references held by other objects
     end
     
     def add_file(path)
@@ -31,7 +50,7 @@ module Xcode
         
       @properties['children'] << new_identifier
       
-      children.find {|child| child.identifier == new_identifier }
+      children.find {|file| file.identifier == new_identifier }
       
     end
     

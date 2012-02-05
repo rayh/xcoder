@@ -13,7 +13,7 @@ module Xcode
       objects[identifier]
     end
     
-    def add_object object_properties
+    def add_object(object_properties)
       # define a new group within the object list
       # add it as a child
       
@@ -26,6 +26,10 @@ module Xcode
       objects[new_identifier] = object_properties
       
       new_identifier
+    end
+    
+    def remove_object(identifier)
+      objects.delete identifier
     end
     
   end
