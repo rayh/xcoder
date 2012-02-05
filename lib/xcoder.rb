@@ -99,10 +99,10 @@ module Xcode
 end
 
 class Hash
-  def to_plist
+  def to_xcplist
     plist_of_items = map do |k,v| 
       suffix = ";" unless v.is_a?(Hash) or v.is_a?(Array)
-      "\"#{k}\" = #{v.to_plist}#{suffix}"
+      "\"#{k}\" = #{v.to_xcplist}#{suffix}"
     end.join("\n")
     
     %{{
@@ -113,8 +113,8 @@ end
 
 
 class Array
-  def to_plist
-    plist_of_items = map {|item| item.to_plist }.join(",\n")
+  def to_xcplist
+    plist_of_items = map {|item| item.to_xcplist }.join(",\n")
     
     %{(
       #{plist_of_items}
@@ -123,7 +123,19 @@ class Array
 end
 
 class String
-  def to_plist
+  def to_xcplist
     "\"#{to_s}\""
+  end
+end
+
+class TrueClass
+  def to_xcplist
+    "YES"
+  end
+end
+
+class FalseClass
+  def to_xcplist
+    "NO"
   end
 end

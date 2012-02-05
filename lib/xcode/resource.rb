@@ -60,7 +60,7 @@ module Xcode
       @properties = {}
       @identifier = identifier
       
-      details['objects'][@identifier].each do |key,value| 
+      Array(details.object(@identifier)).each do |key,value| 
         send :define_property, key, value
       end
       
@@ -85,7 +85,7 @@ module Xcode
       "#{isa} #{@identifier} #{@properties}"
     end
     
-    def to_plist
+    def to_xcplist
       %{
         #{@identifier} = { #{ @properties.map {|k,v| "#{k} = \"#{v}\"" }.join("; ") } }
         

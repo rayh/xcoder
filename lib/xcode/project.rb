@@ -5,6 +5,7 @@ require 'xcode/configuration'
 require 'xcode/scheme'
 require 'xcode/group'
 require 'xcode/file'
+require 'xcode/registry'
 
 module Xcode
   class Project 
@@ -38,28 +39,13 @@ module Xcode
       
       File.open(project_filepath,'w') do |file|
         
-        # The Hash#to_plist saves a semi-colon at the end which needs to be removed
+        # The Hash#to_xcplist saves a semi-colon at the end which needs to be removed
         # to ensure the project file can be opened.
         
-        file.puts %{// !$*UTF8*$!"\n#{@registry.to_plist.gsub(/\};\s*\z/,'}')}}
+        file.puts %{// !$*UTF8*$!"\n#{@registry.to_xcplist.gsub(/\};\s*\z/,'}')}}
         
       end
     end
-    
-    #
-    
-    def create_group
-      
-    end
-    
-    def add_file
-      
-    end
-    
-    
-    
-    
-    #
     
     def scheme(name)
       scheme = @schemes.select {|t| t.name == name.to_s}.first
@@ -107,9 +93,14 @@ module Xcode
     end
   
     def parse_pbxproj
-      json = JSON.parse(`plutil -convert json -o - "#{@path}/project.pbxproj"`)
-      @registry = json
-      Xcode::Resource.new json['rootObject'], json
+      registry = JSON.parse(`plutil -convert json -o - "#{@path}/project.pbxproj"`)
+      
+      class << registry
+        include Xcode::Registry
+      end
+      
+      @registry = registry
+      Xcode::Resource.new registry.root, registry
     end
 
   end
