@@ -7,14 +7,16 @@ describe Xcode::PBXGroup do
   
   it "should add a group without error" do
     
-    p subject.groups.children.last
+    group = subject.groups.add_group 'Frank'
+    #puts group.identifier
     
-    g = subject.groups.add_group 'Frank'
-    puts g.identifier
+    # p subject.registry.object group.identifier
     
-    puts subject.targets.first.registry['objects'][g.identifier]
-
-    p subject.registry['objects'][g.identifier]
+    file = subject.groups.add_file 'frank.txt'
+    file2 = subject.groups.add_file 'frank-webber.txt'
+    # p subject.registry.object file.identifier
+    
+    p subject.groups.children
     
     subject.save!
     

@@ -4,20 +4,13 @@ module Xcode
     
     def add_group(name)
       
-      # define a new group within the object list
-      # add it as a child
-      
-      require 'digest/md5'
-      
-      new_identifier = Digest::MD5.hexdigest(Time.now.to_s).upcase[0..23]
-      
       # if this group represents a real path then use 'path'
       # otherwise use 'name'
       
-      @registry['objects'][new_identifier] = { 'isa' => 'PBXGroup', 
+      new_identifier = @registry.add_object 'isa' => 'PBXGroup', 
         'name' => name,
         'sourceTree' => '<group>',
-        'children' => [] }
+        'children' => []
         
       @properties['children'] << new_identifier
       
@@ -25,6 +18,22 @@ module Xcode
       
     end
     
+    def add_file(path)
+      
+      # {isa = PBXFileReference; 
+      # lastKnownFileType = sourcecode.c.h; 
+      # path = IOSAppDelegate.h; 
+      # sourceTree = "<group>"; };
+
+      new_identifier = @registry.add_object 'isa' => 'PBXFileReference', 
+        'path' => path,
+        'sourceTree' => '<group>'
+        
+      @properties['children'] << new_identifier
+      
+      children.find {|child| child.identifier == new_identifier }
+      
+    end
     
   end
   
