@@ -24,6 +24,28 @@ module Xcode
       @project.mainGroup
     end
     
+    def save!
+      save @path
+    end
+    
+    def save(path)
+      Dir.mkdir(path) unless File.exists?(path)
+      
+      project_filepath = "#{path}/project.pbxproj"
+      
+      # TODO: Save the workspace when the project is saved
+      # FileUtils.cp_r "#{path}/project.xcworkspace", "#{path}/project.xcworkspace"
+      
+      File.open(project_filepath,'w') do |file|
+        
+        # The Hash#to_plist saves a semi-colon at the end which needs to be removed
+        # to ensure the project file can be opened.
+        
+        file.puts %{// !$*UTF8*$!"\n#{@all_data.to_plist.gsub(/\};\s*\z/,'}')}}
+        
+      end
+    end
+    
     def scheme(name)
       scheme = @schemes.select {|t| t.name == name.to_s}.first
       raise "No such scheme #{name}, available schemes are #{@schemes.map {|t| t.name}.join(', ')}" if scheme.nil?
@@ -71,6 +93,7 @@ module Xcode
   
     def parse_pbxproj
       json = JSON.parse(`plutil -convert json -o - "#{@path}/project.pbxproj"`)
+      @all_data = json
       Xcode::Resource.new json['rootObject'], json
     end
 

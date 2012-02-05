@@ -97,3 +97,33 @@ module Xcode
     projects
   end
 end
+
+class Hash
+  def to_plist
+    plist_of_items = map do |k,v| 
+      suffix = ";" unless v.is_a?(Hash) or v.is_a?(Array)
+      "\"#{k}\" = #{v.to_plist}#{suffix}"
+    end.join("\n")
+    
+    %{{
+      #{plist_of_items}
+    };}
+  end
+end
+
+
+class Array
+  def to_plist
+    plist_of_items = map {|item| item.to_plist }.join(",\n")
+    
+    %{(
+      #{plist_of_items}
+    );}
+  end
+end
+
+class String
+  def to_plist
+    "\"#{to_s}\""
+  end
+end

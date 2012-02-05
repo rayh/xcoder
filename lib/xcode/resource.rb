@@ -85,6 +85,13 @@ module Xcode
       "#{isa} #{@identifier} #{@properties}"
     end
     
+    def to_plist
+      %{
+        #{@identifier} = { #{ @properties.map {|k,v| "#{k} = \"#{v}\"" }.join("; ") } }
+        
+      }
+    end
+    
   end
   
 end
