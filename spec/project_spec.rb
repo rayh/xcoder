@@ -40,4 +40,17 @@ describe Xcode::Project do
     p = Xcode.project "TestProject"
     p.scheme('TestProject').should_not be_nil
   end
+  
+  describe "#save!" do
+
+    let(:subject) { Xcode.project('/Volumes/Glacier/git/ios/ios.xcodeproj') }
+    
+    it "should save correctly" do
+      subject.save!
+    end
+
+    
+
+  end
+  
 end

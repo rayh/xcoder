@@ -8,7 +8,7 @@ require 'xcode/file'
 
 module Xcode
   class Project 
-    attr_reader :name, :sdk, :path, :schemes
+    attr_reader :name, :sdk, :path, :schemes, :registry
     def initialize(path, sdk=nil)
       @sdk = sdk || "iphoneos"  # FIXME: should support OSX/simulator too
       @path = File.expand_path path
@@ -41,10 +41,25 @@ module Xcode
         # The Hash#to_plist saves a semi-colon at the end which needs to be removed
         # to ensure the project file can be opened.
         
-        file.puts %{// !$*UTF8*$!"\n#{@all_data.to_plist.gsub(/\};\s*\z/,'}')}}
+        file.puts %{// !$*UTF8*$!"\n#{@registry.to_plist.gsub(/\};\s*\z/,'}')}}
         
       end
     end
+    
+    #
+    
+    def create_group
+      
+    end
+    
+    def add_file
+      
+    end
+    
+    
+    
+    
+    #
     
     def scheme(name)
       scheme = @schemes.select {|t| t.name == name.to_s}.first
@@ -93,7 +108,7 @@ module Xcode
   
     def parse_pbxproj
       json = JSON.parse(`plutil -convert json -o - "#{@path}/project.pbxproj"`)
-      @all_data = json
+      @registry = json
       Xcode::Resource.new json['rootObject'], json
     end
 
