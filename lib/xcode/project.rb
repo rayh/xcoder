@@ -1,4 +1,4 @@
-require 'json'
+require 'xcode/parsers/plutil_project_parser'
 require 'xcode/resource'
 require 'xcode/target'
 require 'xcode/configuration'
@@ -18,8 +18,12 @@ module Xcode
       @schemes = []
       @groups = []
       @name = File.basename(@path).gsub(/\.xcodeproj/,'')
-
-      @project = parse_pbxproj
+      
+      # Parse the Xcode project file and create the registry
+      
+      @registry = parse_pbxproj
+      @project = Xcode::Resource.new registry.root, @registry
+      
       parse_schemes
     end
     
@@ -127,18 +131,14 @@ module Xcode
     # @see Registry
     # 
     def parse_pbxproj
-      registry = JSON.parse(`plutil -convert json -o - "#{@path}/project.pbxproj"`)
+      
+      registry = Xcode::PLUTILProjectParser.parse "#{@path}/project.pbxproj"
       
       class << registry
         include Xcode::Registry
       end
       
-      # @toodo this does not entirely make sense to set the instance variable 
-      #   of the registry here and then return the root project. It should likely
-      #   just return the registry.
-      
-      @registry = registry
-      Xcode::Resource.new registry.root, registry
+      registry
     end
 
   end
