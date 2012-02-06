@@ -4,3 +4,4 @@ Gemfile.lock
 pkg/*
 spec/TestProject/TestProject.xcodeproj/xcuserdata
 spec/TestProject/TestProject.xcodeproj/project.xcworkspace/
+spec/TestProject/build

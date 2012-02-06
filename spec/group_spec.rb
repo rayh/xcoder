@@ -70,9 +70,9 @@ describe Xcode::PBXGroup do
     context "when saving to file" do
 
       it "should save the group to the file" do
-                # 
+                
                 # group = subject.groups.add_group 'TestGroup'
-                # #subject.save!
+                # subject.save!
                 # 
                 # # TODO: load the ios project again and see the group in the root
                 # 
@@ -81,7 +81,7 @@ describe Xcode::PBXGroup do
                 # # p subject.registry.object file.identifier
                 # 
                 # p subject.groups.children
-                # 
+                
       end
 
 
