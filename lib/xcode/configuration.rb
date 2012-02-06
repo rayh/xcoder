@@ -1,18 +1,84 @@
 require 'xcode/builder'
 
 module Xcode
+  
+  #
+  # Projects have a number of build configurations. These configurations are 
+  # usually the default 'Debug' and 'Release'. However, custom ones can be 
+  # defined.
+  # 
+  # @see https://developer.apple.com/library/ios/#documentation/ToolsLanguages/Conceptual/Xcode4UserGuide/Building/Building.html
+  # 
   module XCBuildConfiguration
     
+    #
+    # The configuration is defined within a target.
+    # @see PBXNativeTarget
+    # 
     attr_accessor :target
     
+    #
+    # @return the location for the InfoPlist file for the configuration.
+    # @see InfoPlist
+    # 
     def info_plist_location
       buildSettings['INFOPLIST_FILE']
     end
     
+    #
+    # Opens the info plist associated with the configuration and allows you to 
+    # edit the configuration.
+    # 
+    # @example Editing the configuration
+    # 
+    #     config = Xcode.project('MyProject.xcodeproj').target('Application').config('Debug')
+    #     config.info_plist do |plist|
+    #       puts plist.version  # => 1.0
+    #       plist.version = 1.1
+    #       marketing_version = 12.1
+    #     end
+    # 
+    # @see InfoPlist
+    # 
+    def info_plist
+      info = Xcode::InfoPlist.new(self, info_plist_location)
+      yield info if block_given?
+      info.save
+      info
+    end
+
+    
+    #
+    # @return the name of the product that this configuration will generate.
+    # 
     def product_name
       substitute(buildSettings['PRODUCT_NAME'])
     end
     
+    #
+    # Create a builder for this given project->target->configuration.
+    # 
+    # @return [Builder] this is a builder for the configuration.
+    # @see Builder
+    # 
+    def builder
+      puts "Making a Builder with #{self} #{self.methods}"
+      Xcode::Builder.new(self)
+    end
+    
+    
+    private
+    
+    #
+    # Within the configuration properties variables reference the target,
+    # i.e."$(TARGET_NAME)". This method will find and replace the target
+    # constant with the appropriate value.
+    # 
+    # @param [String] value is a property of the configuration that may contain
+    #   the target variable to replace.
+    # 
+    # @return [String] a string without the variable reference.
+    #
     def substitute(value)
       if value=~/\$\(.*\)/
         value.gsub(/\$\((.*)\)/) do |match|
@@ -26,19 +92,6 @@ module Xcode
       else
         value
       end
-    end
-    
-    def info_plist
-      puts properties
-      info = Xcode::InfoPlist.new(self, info_plist_location)
-      yield info if block_given?
-      info.save
-      info
-    end
-    
-    def builder
-      puts "Making a Builder with #{self} #{self.methods}"
-      Xcode::Builder.new(self)
     end
     
   end

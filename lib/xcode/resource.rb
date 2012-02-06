@@ -1,38 +1,120 @@
 
 module Xcode
   
+  #
+  # Resources are not represented as a true entity within an Xcode project.
+  # When traversing through groups, targets, configurations, etc. you will find
+  # yourself interacting with these objects. As they represent a class that
+  # acts as a shim around the hash data is parsed from the project.
+  # 
+  # A resource do some things that should be explained:
+  # 
+  # When a resource is created it requires an identifier and an instance of
+  # of the Registry. It finds the properties hash of that given identifier 
+  # within the registry and creates a bunch of read-only methods that allow for 
+  # easy access to those elements. This is not unlike an OpenStruct.
+  # 
+  # @example of accessing the contents of a file reference
+  # 
+  #     file_resource.properties # => 
+  # 
+  #     { 'isa' => 'PBXFileReference',
+  #       'lastKnownFileType' => 'sourcecode.c.h',
+  #       'path' => IOSAppDelegate.h', 
+  #       'sourceTree' => "<group>" }
+  # 
+  #     file_resource.isa # => 'PBXFileReference'
+  #     file_resource.sourceTree # => "<group>"
+  #
+  # 
+  # To provide additional convenience when traversing through the
+  # various objects, the read-only method will check to see if the value
+  # being returned matches that of a unique identifier. If it does, instead of
+  # providing that identifier as a result and then having additional code to
+  # perform the look up, it does it automatically.
+  # 
+  # @example of how this would have to been done without this indirection
+  # 
+  #     projet = Xcode.project('MyProject.xcodeproj')
+  #     group = group.project
+  #     child_identifier = group.children.first
+  #     subgroup = Xcode.project('MyProject.xcodeproj').registry['objects'][child_identifier]
+  #     
+  # @example of hot this works currently because of this indirection
+  # 
+  #     group = Xcode.project('MyProject.xcodeproj').groups
+  #     subgroup = group.children.first
+  # 
+  # 
+  # Next, as most every one of these objects is a Hash that contain the properties
+  # instead of objects it would likely be better to encapsulate these resources
+  # within specific classes that provide additional functionality. So that when 
+  # a group resource or a file resource is returned you can perform unique 
+  # functionality with it automatically.
+  # 
+  # This is done by using the 'isa' property field which contains the type of
+  # content object. Instead of creating an object and encapsulating if a module
+  # that matches the name of the 'isa', that module of functionality is 
+  # automatically mixed-in to provide that functionality.
+  # 
   class Resource
     
-    attr_accessor :identifier, :properties, :registry
+    # The unique identifier for this resource
+    attr_accessor :identifier
     
+    # The properties hash that is known about the resource
+    attr_accessor :properties
+    
+    # The registry of all objects within the project file which all resources
+    # have a reference to so that they can retrieve any items they may own that
+    # are simply referenced by identifiers.
+    attr_accessor :registry
+    
+    #
+    # This method is used internally to determine if the value that is being 
+    # retrieved is an identifier.
+    # 
+    # @todo this should likely be moved to the Regsitry which knows much more
+    #   about identifiers and what makes them valid.
+    # @param [String] value is the specified value in the form of an identifier
+    #
     def is_identifier? value
       value =~ /^[0-9A-F]{24}$/
     end
     
     #
-    # Define Property allows the creation of an alias to the actual value 
-    # contained by defining our own custom getter for any defined value. This is
-    # useful for objects which are represented as project object identifiers 
-    # which will instead return the referenced objects and not simply their 
-    # identifier.
+    # Definiing a property allows the creation of an alias to the actual value.
+    # This level of indirection allows for the replacement of values which are
+    # identifiers with a resource representation of it.
+    # 
+    # @note This is used internally by the resource when it is created.
+    # 
+    # @param [String] name of the property
+    # @param [String] value of the property
     # 
     def define_property name, value
       
-      # define a property but we need to immediately replace any references
-      # or we need to define a filter
-      
+      # Save the properties within the resource within a custom hash. This 
+      # provides access to them without the indirection that we are about to
+      # set up.
       
       @properties[name] = value
-      # set an instance variable to hold the value
-      #instance_variable_set "@#{name}", value
       
-      # then we want to define a method for retrieving the value that will do some replacement
+      # Generate a getter method for this property based on the given name.
+      
       self.class.send :define_method, name do
+        
+        # Retrieve the value that is current stored for this name.
         
         raw_value = @properties[name]
         
-        # does the raw value contain any keys, then we need to convert them to full items
-        # E2F11AAF14DC9209004101FD
+        # If the value is an array then we want to examine each element within
+        # the array to see if any of them are identifiers that we should replace
+        # finally returning all of the items as their resource representations
+        # or as their raw values.
+        # 
+        # If the value is not an array then we want to examine that item and
+        # return the resource representation or the raw value.
         
         if raw_value.is_a?(Array)
           Array(raw_value).map do |sub_value|
@@ -55,10 +137,21 @@ module Xcode
       
     end
 
+    #
+    # Within the code, a single resource is created and that is with the root
+    # projet object. All other resources are created through the indirecation of
+    # the above property methods.
+    # 
+    # @param [String] identifier the unique identifier for this resource.
+    # @param [Types] details Description
+    #
     def initialize identifier, details
       @registry = details
       @properties = {}
       @identifier = identifier
+      
+      # Create property methods for all of the key-value pairs found in the
+      # registry for specified identifier.
       
       Array(details.object(@identifier)).each do |key,value| 
         send :define_property, key, value
@@ -81,10 +174,21 @@ module Xcode
       
     end
     
+    #
+    # @return [String] a representation with the identifier and the properties 
+    #   for this resource.
+    # 
     def to_s
       "#{isa} #{@identifier} #{@properties}"
     end
     
+    #
+    # This will generate the resource in the format that is supported by the
+    # Xcode project file. Which requires each key value pair to be represented.
+    # 
+    # @return [String] a string representation of the object so that it can
+    #   be persisted to an Xcode project file.
+    # 
     def to_xcplist
       %{
         #{@identifier} = { #{ @properties.map {|k,v| "#{k} = \"#{v}\"" }.join("; ") } }
