@@ -59,14 +59,17 @@ describe Xcode::Project do
       
       let(:subject) { project.schemes }
       
-      it "should give the correct number of schemes" do
-        subject.size.should == 1
+      let(:shared_scheme_count) { Dir["spec/TestProject/TestProject.xcodeproj/xcshareddata/xcschemes/*.xcscheme"].count }
+      let(:user_scheme_count) { Dir["spec/TestProject/TestProject.xcodeproj/xcuserdata/#{ENV['USER']}.xcuserdatad/xcschemes/*.xcscheme"].count }
+      
+      it "should find all global schemes and schemes unique to the user" do
+        subject.size.should == shared_scheme_count + user_scheme_count
       end
       
       it "should return the correct schemes" do
         subject.first.name.should == expected_scheme
       end
-
+     
     end
     
     describe "#scheme" do
@@ -101,8 +104,6 @@ describe Xcode::Project do
     it "should save correctly" do
       subject.save!
     end
-
-    
 
   end
   

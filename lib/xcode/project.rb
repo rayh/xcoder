@@ -105,8 +105,10 @@ module Xcode
     private
   
     def parse_schemes
-      # schemes are in project/**/xcschemes/*.xcscheme
-      Dir["#{@path}/**/xcschemes/*.xcscheme"].each do |scheme|
+      shared_schemes = Dir["#{@path}/xcshareddata/xcschemes/*.xcscheme"]
+      user_specific_schemes = Dir["#{@path}/xcuserdata/#{ENV['USER']}.xcuserdatad/xcschemes/*.xcscheme"]
+      
+      (shared_schemes + user_specific_schemes).each do |scheme|
         @schemes << Xcode::Scheme.new(self, scheme)
       end
     end
