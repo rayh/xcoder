@@ -106,11 +106,11 @@ module Xcode
       cmd << "-v \"#{app_path}\""
       cmd << "-o \"#{ipa_path}\""
       
-      cmd << "OTHER_CODE_SIGN_FLAGS=\"--keychain #{@keychain.path}\"" unless @keychain.nil?
-      
-      unless @identity.nil?
-        cmd << "--sign \"#{@identity}\""
-      end
+      # cmd << "OTHER_CODE_SIGN_FLAGS=\"--keychain #{@keychain.path}\"" unless @keychain.nil?
+      # 
+      # unless @identity.nil?
+      #   cmd << "--sign \"#{@identity}\""
+      # end
       
       unless @profile.nil?
         cmd << "--embed \"#{@profile}\""
