@@ -1,5 +1,6 @@
 require 'xcode/shell'
 require 'xcode/provisioning_profile'
+require 'xcode/build_command'
 
 module Xcode
   class Builder
@@ -33,7 +34,7 @@ module Xcode
     def build
       profile = install_profile
       
-      cmd = []
+      cmd = BuildCommand.new
       cmd << "xcodebuild"
       cmd << "-sdk #{@target.project.sdk}" unless @target.project.sdk.nil?
       cmd << "-project \"#{@target.project.path}\""
@@ -47,9 +48,10 @@ module Xcode
       cmd << "OBJROOT=\"#{@build_path}\""
       cmd << "SYMROOT=\"#{@build_path}\""
       cmd << "PROVISIONING_PROFILE=#{profile.uuid}" unless profile.nil?
+      
       yield(cmd) if block_given?
       
-      Xcode::Shell.execute(cmd)
+      Xcode::Shell.execute(cmd.to_a)
     end
     
     def test
