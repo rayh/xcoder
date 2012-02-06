@@ -124,7 +124,7 @@ end
 
 class String
   def to_xcplist
-    "\"#{to_s.gsub(/[^\\]"/,'\"')}\""
+    to_json
   end
 end
 
