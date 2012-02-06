@@ -38,7 +38,8 @@ module Xcode
       { 'XCBuildConfiguration' => Configuration,
         'PBXFileReference' => FileReference,
         'PBXGroup' => Group,
-        'PBXNativeTarget' => Target }[isa]
+        'PBXNativeTarget' => Target,
+        'PBXFrameworksBuildPhase' => BuildPhase }[isa]
       
     end
     

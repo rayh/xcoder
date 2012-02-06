@@ -122,6 +122,32 @@ module Xcode
       
     end
     
+    
+    def add_framework framework_name
+      
+      # Add the framework to the object library
+      
+      # {isa = PBXFileReference; 
+      # lastKnownFileType = wrapper.framework;
+      # name = QuartzCore.framework; 
+      # path = System/Library/Frameworks/QuartzCore.framework; 
+      # sourceTree = SDKROOT; };
+      
+      new_identifier = @registry.add_object 'isa' => "PBXFileReference",
+        'lastKnownFileType' => "wrapper.framework",
+        'name' => "#{framework_name}.framework",
+        'path' => "System/Library/Frameworks/#{framework_name}.framework",
+        'sourceTree' => "SDKROOT"
+      
+      # Add the framework to the group
+      
+      @properties['children'] << new_identifier
+      
+      children.find {|file| file.identifier == new_identifier }
+      
+    end
+    
+    
   end
   
 end

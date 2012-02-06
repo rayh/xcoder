@@ -6,6 +6,7 @@ require 'xcode/scheme'
 require 'xcode/group'
 require 'xcode/file_reference'
 require 'xcode/registry'
+require 'xcode/build_phase'
 
 module Xcode
   class Project 

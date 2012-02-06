@@ -37,6 +37,15 @@ module Xcode
       config
     end
     
+    
+    def build_phases
+      buildPhases
+    end
+    
+    def framework_build_phase
+      build_phases.find {|phase| phase.isa == 'PBXFrameworksBuildPhase' }
+    end
+    
   end
   
 end
