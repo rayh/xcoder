@@ -12,6 +12,18 @@ module Xcode
     
     attr_reader :name, :sdk, :path, :schemes, :registry
     
+    #
+    # Initialized with a specific path and sdk.
+    # 
+    # This initialization is not often used. Instead projects are generated
+    # through the Xcode#project method.
+    # 
+    # @see Xcode
+    #
+    # @param [String] path of the project to open.
+    # @param [String] sdk the sdk value of the project. This will default to 
+    #   `iphoneos`.
+    # 
     def initialize(path, sdk=nil)
       @sdk = sdk || "iphoneos"  # FIXME: should support OSX/simulator too
       @path = File.expand_path path
@@ -24,7 +36,7 @@ module Xcode
       @registry = parse_pbxproj
       @project = Xcode::Resource.new registry.root, @registry
       
-      parse_schemes
+      @schemes = parse_schemes
     end
     
     #
@@ -70,6 +82,16 @@ module Xcode
       end
     end
     
+    
+    #
+    # Return the scheme with the specified name. Raises an error if no schemes 
+    # match the specified name.
+    # 
+    # @note if two schemes match names, the first matching scheme is return.
+    # 
+    # @param [String] name of the specific scheme
+    # @return [Scheme] the specific scheme that matches the name specified
+    #
     def scheme(name)
       scheme = @schemes.select {|t| t.name == name.to_s}.first
       raise "No such scheme #{name}, available schemes are #{@schemes.map {|t| t.name}.join(', ')}" if scheme.nil?
@@ -77,6 +99,12 @@ module Xcode
       scheme
     end
     
+    #
+    # All the targets specified within the project.
+    # 
+    # @return [Array<PBXNativeTarget>] an array of all the available targets for
+    #   the specific project.
+    # 
     def targets
       @project.targets.map do |target|
         target.project = self
@@ -84,6 +112,15 @@ module Xcode
       end
     end
     
+    #
+    # Return the target with the specified name. Raises an error if no targets
+    # match the specified name.
+    # 
+    # @note if two targets match names, the first matching target is returned.
+    # 
+    # @param [String] name of the specific target
+    # @return [PBXNativeTarget] the specific target that matches the name specified
+    #
     def target(name)
       target = targets.select {|t| t.name == name.to_s}.first
       raise "No such target #{name}, available targets are #{targets.map {|t| t.name}.join(', ')}" if target.nil?
@@ -108,12 +145,18 @@ module Xcode
     
     private
   
+    #
+    # Parse all the scheme files that can be found within the project. Schemes
+    # can be defined as `shared` schemes and then `user` specific schemes. Parsing
+    # the schemes will load the shared ones and then the current acting user's
+    # schemes.
+    # 
     def parse_schemes
       shared_schemes = Dir["#{@path}/xcshareddata/xcschemes/*.xcscheme"]
       user_specific_schemes = Dir["#{@path}/xcuserdata/#{ENV['USER']}.xcuserdatad/xcschemes/*.xcscheme"]
       
-      (shared_schemes + user_specific_schemes).each do |scheme|
-        @schemes << Xcode::Scheme.new(self, scheme)
+      (shared_schemes + user_specific_schemes).map do |scheme|
+        Xcode::Scheme.new(self, scheme)
       end
     end
   
