@@ -16,6 +16,18 @@ module Xcode
   module Registry
     
     #
+    # This method is used internally to determine if the value that is being 
+    # retrieved is an identifier.
+    # 
+    # @todo this should likely be moved to the Regsitry which knows much more
+    #   about identifiers and what makes them valid.
+    # @param [String] value is the specified value in the form of an identifier
+    #
+    def self.is_identifier? value
+      value =~ /^[0-9A-F]{24}$/
+    end
+    
+    #
     # This is the root object of the project. This is generally an identifier
     # pointing to a project.
     # 

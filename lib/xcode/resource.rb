@@ -71,18 +71,6 @@ module Xcode
     attr_accessor :registry
     
     #
-    # This method is used internally to determine if the value that is being 
-    # retrieved is an identifier.
-    # 
-    # @todo this should likely be moved to the Regsitry which knows much more
-    #   about identifiers and what makes them valid.
-    # @param [String] value is the specified value in the form of an identifier
-    #
-    def is_identifier? value
-      value =~ /^[0-9A-F]{24}$/
-    end
-    
-    #
     # Definiing a property allows the creation of an alias to the actual value.
     # This level of indirection allows for the replacement of values which are
     # identifiers with a resource representation of it.
@@ -117,8 +105,10 @@ module Xcode
         # return the resource representation or the raw value.
         
         if raw_value.is_a?(Array)
+          
           Array(raw_value).map do |sub_value|
-            if is_identifier? sub_value 
+            
+            if Registry.is_identifier? sub_value 
               Resource.new sub_value, @registry
             else
               sub_value
@@ -126,11 +116,13 @@ module Xcode
           end
           
         else 
-          if is_identifier? raw_value
+          
+          if Registry.is_identifier? raw_value
             Resource.new raw_value, @registry
           else 
             raw_value
           end
+          
         end
 
       end
