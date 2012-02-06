@@ -5,7 +5,7 @@ module Xcode
   # be to generate the application, generate a universal framework, or execute
   # tests.
   # 
-  module PBXNativeTarget
+  module Target
     
     # A reference to the project for which these targets reside.
     attr_accessor :project

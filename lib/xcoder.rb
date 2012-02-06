@@ -98,6 +98,7 @@ module Xcode
   end
 end
 
+<<<<<<< HEAD
 class Hash
   def to_xcplist
     plist_of_items = map do |k,v| 
@@ -139,3 +140,8 @@ class FalseClass
     "NO"
   end
 end
+
+require 'xcode/core_ext/hash'
+require 'xcode/core_ext/array'
+require 'xcode/core_ext/string'
+require 'xcode/core_ext/boolean'

@@ -35,15 +35,15 @@ module Xcode
   # 
   # @example of how this would have to been done without this indirection
   # 
-  #     projet = Xcode.project('MyProject.xcodeproj')
-  #     group = group.project
+  #     project = Xcode.project('MyProject.xcodeproj')
+  #     group = project.mainGroup
   #     child_identifier = group.children.first
-  #     subgroup = Xcode.project('MyProject.xcodeproj').registry['objects'][child_identifier]
+  #     subgroup = project.registry['objects'][child_identifier]
   #     
   # @example of hot this works currently because of this indirection
   # 
-  #     group = Xcode.project('MyProject.xcodeproj').groups
-  #     subgroup = group.children.first
+  #     group = Xcode.project('MyProject.xcodeproj').mainGroup
+  #     subgroup = group.group 'Models'
   # 
   # 
   # Next, as most every one of these objects is a Hash that contain the properties
@@ -154,14 +154,14 @@ module Xcode
       # the Xcode module that matches and if it does, then we want to 
       # automatically include module into the Resource object.
       # 
-      begin
-        constant = Xcode.const_get(isa)
+      constant = Registry.isa_to_module(isa)
+        
+      if constant
+      
         self.class.class_eval do
           include constant
         end
         
-      rescue => exception
-        # puts "#{exception}"
       end
       
     end

@@ -1,7 +1,7 @@
 require 'rspec'
 require 'xcoder'
 
-describe Xcode::PBXGroup do 
+describe Xcode::Group do 
 
   let(:subject) { Xcode.project('TestProject') }
   
@@ -71,16 +71,16 @@ describe Xcode::PBXGroup do
 
       it "should save the group to the file" do
                 
-                # group = subject.groups.add_group 'TestGroup'
-                # subject.save!
-                # 
-                # # TODO: load the ios project again and see the group in the root
-                # 
-                # file = subject.groups.add_file 'frank.txt'
-                # file2 = subject.groups.add_file 'frank-webber.txt'
-                # # p subject.registry.object file.identifier
-                # 
-                # p subject.groups.children
+                group = subject.groups.add_group 'TestGroup'
+                subject.save!
+                
+                # TODO: load the ios project again and see the group in the root
+                
+                file = subject.groups.add_file 'frank.txt'
+                file2 = subject.groups.add_file 'frank-webber.txt'
+                # p subject.registry.object file.identifier
+                
+                p subject.groups.children
                 
       end
 

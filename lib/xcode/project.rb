@@ -4,7 +4,7 @@ require 'xcode/target'
 require 'xcode/configuration'
 require 'xcode/scheme'
 require 'xcode/group'
-require 'xcode/file'
+require 'xcode/file_reference'
 require 'xcode/registry'
 
 module Xcode

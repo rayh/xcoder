@@ -26,6 +26,21 @@ module Xcode
     def self.is_identifier? value
       value =~ /^[0-9A-F]{24}$/
     end
+
+    #
+    # Objects within the registry contain an `isa` property, which translates
+    # to modules which can be mixed in to provide additional functionality.
+    # 
+    # @param [String] isa the type of the object.
+    #
+    def self.isa_to_module isa
+      
+      { 'XCBuildConfiguration' => Configuration,
+        'PBXFileReference' => FileReference,
+        'PBXGroup' => Group,
+        'PBXNativeTarget' => Target }[isa]
+      
+    end
     
     #
     # This is the root object of the project. This is generally an identifier

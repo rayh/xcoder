@@ -9,7 +9,7 @@ module Xcode
   # children resources as well as provide the ability to generate child
   # resources.
   # 
-  module PBXGroup
+  module Group
     
     # This is the group for which this file is contained within.
     attr_accessor :supergroup

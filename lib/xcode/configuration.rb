@@ -9,7 +9,7 @@ module Xcode
   # 
   # @see https://developer.apple.com/library/ios/#documentation/ToolsLanguages/Conceptual/Xcode4UserGuide/Building/Building.html
   # 
-  module XCBuildConfiguration
+  module Configuration
     
     #
     # The configuration is defined within a target.

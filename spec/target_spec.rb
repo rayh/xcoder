@@ -1,7 +1,7 @@
 require 'rspec'
 require 'xcoder'
 
-describe Xcode::PBXNativeTarget do 
+describe Xcode::Target do 
   before do
     @target = Xcode.project('TestProject').target('TestProject')
   end
