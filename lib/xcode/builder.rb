@@ -3,7 +3,8 @@ require 'xcode/provisioning_profile'
 
 module Xcode
   class Builder
-    attr_accessor :profile, :identity, :build_path
+    attr_accessor :profile, :identity, :build_path, :keychain
+    
     def initialize(config)
       if config.is_a? Xcode::Scheme
         @scheme = config
@@ -41,6 +42,7 @@ module Xcode
       cmd << "-target \"#{@target.name}\"" if @scheme.nil?
       cmd << "-configuration \"#{@config.name}\"" if @scheme.nil?
       
+      cmd << "OTHER_CODE_SIGN_FLAGS=\"--keychain #{@keychain.path}\"" unless @keychain.nil?
       cmd << "CODE_SIGN_IDENTITY=\"#{@identity}\"" unless @identity.nil?
       cmd << "OBJROOT=\"#{@build_path}\""
       cmd << "SYMROOT=\"#{@build_path}\""
@@ -103,6 +105,8 @@ module Xcode
       cmd << "PackageApplication"
       cmd << "-v \"#{app_path}\""
       cmd << "-o \"#{ipa_path}\""
+      
+      cmd << "OTHER_CODE_SIGN_FLAGS=\"--keychain #{@keychain.path}\"" unless @keychain.nil?
       
       unless @identity.nil?
         cmd << "--sign \"#{@identity}\""

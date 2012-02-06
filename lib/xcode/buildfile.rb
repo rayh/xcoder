@@ -44,41 +44,48 @@ module Xcode
      end
      builder = config.builder
      
-     unless @values[:identity].nil?
-       builder.identity = @values[:identity] 
-       puts "[#{label}] Set build identity to #{@values[:identity]}"
-     end
+     # unless @values[:identity].nil?
+     #   builder.identity = @values[:identity] 
+     #   puts "[#{label}] Set build identity to #{@values[:identity]}"
+     # end
      
      unless @values[:profile].nil?
        builder.profile = @values[:profile]
        puts "[#{label}] Set build profile to #{@values[:profile]}"
      end
      
-     puts "[#{label}] CLEAN"
-     @before[:clean].each do |b|
-       b.call(builder)
-     end
-     builder.clean
-     @after[:clean].each do |b|
-       b.call(builder)
-     end
+     Keychain.temp_keychain(@values[:project]) do |kc|
+       kc.import @values[:certificate], @values[:password]
+       
+       builder.identity = @values[:identity] || kc.certificates.first
+       builder.keychain = kc
+       
+       puts "[#{label}] CLEAN"
+       @before[:clean].each do |b|
+         b.call(builder)
+       end
+       builder.clean
+       @after[:clean].each do |b|
+         b.call(builder)
+       end
      
-     puts "[#{label}] BUILD"
-     @before[:build].each do |b|
-       b.call(builder)
-     end
-     builder.build
-     @after[:build].each do |b|
-       b.call(builder)
-     end
+       puts "[#{label}] BUILD"
+       @before[:build].each do |b|
+         b.call(builder)
+       end
+       builder.build
+       @after[:build].each do |b|
+         b.call(builder)
+       end
      
-     puts "[#{label}] PACKAGE"
-     @before[:package].each do |b|
-       b.call(builder)
-     end
-     builder.package
-     @after[:package].each do |b|
-       b.call(builder)
+       puts "[#{label}] PACKAGE"
+       @before[:package].each do |b|
+         b.call(builder)
+       end
+       builder.package
+       @after[:package].each do |b|
+         b.call(builder)
+       end
      end
           
       
