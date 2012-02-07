@@ -7,6 +7,28 @@ module Xcode
   # be to generate the application, generate a universal framework, or execute
   # tests.
   # 
+  # 
+  # @example Target as Hash
+  # 
+  #    E21D8AA914E0F817002E56AA /* newtarget */ = {
+  #        isa = PBXNativeTarget;
+  #        buildConfigurationList = E21D8ABD14E0F817002E56AA /* Build configuration list for PBXNativeTarget "newtarget" */;
+  #        buildPhases = (
+  #          E21D8AA614E0F817002E56AA /* Sources */,
+  #          E21D8AA714E0F817002E56AA /* Frameworks */,
+  #          E21D8AA814E0F817002E56AA /* Resources */,
+  #        );
+  #        buildRules = (
+  #        );
+  #        dependencies = (
+  #        );
+  #        name = newtarget;
+  #        productName = newtarget;
+  #        productReference = E21D8AAA14E0F817002E56AA /* newtarget.app */;
+  #        productType = "com.apple.product-type.application";
+  #      };
+  #   
+  # 
   module Target
     
     # A reference to the project for which these targets reside.

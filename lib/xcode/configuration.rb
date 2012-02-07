@@ -9,8 +9,26 @@ module Xcode
   # 
   # @see https://developer.apple.com/library/ios/#documentation/ToolsLanguages/Conceptual/Xcode4UserGuide/Building/Building.html
   # 
+  # Each configuration is defined and then a reference of that configuration is
+  # maintained in the Target through the XCConfigurationList.
+  # 
+  # @example Xcode configuration
+  #                                                                
+  #     E21D8ABB14E0F817002E56AA /* Debug */ = {                     
+  #       isa = XCBuildConfiguration;                                
+  #       buildSettings = {                                          
+  #         "CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+  #         GCC_PRECOMPILE_PREFIX_HEADER = YES;                      
+  #         GCC_PREFIX_HEADER = "newtarget/newtarget-Prefix.pch";    
+  #         INFOPLIST_FILE = "newtarget/newtarget-Info.plist";       
+  #         PRODUCT_NAME = "$(TARGET_NAME)";                         
+  #         WRAPPER_EXTENSION = app;                                 
+  #       };                                                         
+  #       name = Debug;                                              
+  #     };                                                           
+  # 
   module Configuration
-    
+
     #
     # The configuration is defined within a target.
     # @see PBXNativeTarget
