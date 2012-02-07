@@ -98,49 +98,6 @@ module Xcode
   end
 end
 
-<<<<<<< HEAD
-class Hash
-  def to_xcplist
-    plist_of_items = map do |k,v| 
-      suffix = ";" unless v.is_a?(Hash) or v.is_a?(Array)
-      "\"#{k}\" = #{v.to_xcplist}#{suffix}"
-    end.join("\n")
-    
-    %{{
-      #{plist_of_items}
-    };}
-  end
-end
-
-
-class Array
-  def to_xcplist
-    plist_of_items = map {|item| item.to_xcplist }.join(",\n")
-    
-    %{(
-      #{plist_of_items}
-    );}
-  end
-end
-
-class String
-  def to_xcplist
-    to_json
-  end
-end
-
-class TrueClass
-  def to_xcplist
-    "YES"
-  end
-end
-
-class FalseClass
-  def to_xcplist
-    "NO"
-  end
-end
-
 require 'xcode/core_ext/hash'
 require 'xcode/core_ext/array'
 require 'xcode/core_ext/string'
