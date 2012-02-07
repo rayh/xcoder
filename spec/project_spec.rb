@@ -97,14 +97,4 @@ describe Xcode::Project do
     
   end
   
-  describe "#save!" do
-
-    let(:subject) { Xcode.project('/Volumes/Glacier/git/ios/ios.xcodeproj') }
-    
-    it "should save correctly" do
-      subject.save!
-    end
-
-  end
-  
 end
