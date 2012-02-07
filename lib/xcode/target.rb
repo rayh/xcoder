@@ -31,6 +31,20 @@ module Xcode
   # 
   module Target
     
+    def self.target_for_type(target_type)
+      
+      # ios
+      { 'isa' => 'PBXNativeTarget',
+        'buildConfigurationList' => '',
+        'buildPhases' => [],
+        'buildRules' => [],
+        'dependencies' => [],
+        'name' => '',
+        'productName' => '',
+        'productReference' => '',
+        'productType' => 'com.apple.product-type.application' }
+    end
+    
     # A reference to the project for which these targets reside.
     attr_accessor :project
     

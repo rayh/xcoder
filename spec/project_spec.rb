@@ -48,6 +48,29 @@ describe Xcode::Project do
 
     end
     
+    describe "#create_target" do
+
+      context "when creating an IOS target" do
+
+        it "should create the target" do
+          
+          project.create_target :ios do |target|
+            
+            target.name = 'newtarget'
+            target.productName = 'newtarget'
+            target.properties['name'].should == 'newtarget'
+            
+          end
+          
+          # project.save!
+          
+        end
+
+      end
+
+
+    end
+    
   end
   
   

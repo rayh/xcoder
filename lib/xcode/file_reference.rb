@@ -24,6 +24,24 @@ module Xcode
         'sourceTree' => '<group>' }
     end
     
+    #
+    # @example app product properties
+    # 
+    #     E21D8AAA14E0F817002E56AA /* newtarget.app */ = {
+    #       isa = PBXFileReference; 
+    #       explicitFileType = wrapper.application; 
+    #       includeInIndex = 0; 
+    #       path = newtarget.app; 
+    #       sourceTree = BUILT_PRODUCTS_DIR; };
+    # 
+    def self.app_product(name)
+      { 'isa' => 'PBXFileReference',
+        'explicitFileType' => 'wrapper.application',
+        'includeInIndex' => 0,
+        'path' => "#{name}.app",
+        'sourceTree' => "BUILT_PRODUCTS_DIR" }
+    end
+    
   end
   
 end

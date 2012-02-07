@@ -102,6 +102,10 @@ module Xcode
       new_identifier
     end
 
+    def set_object(resource)
+      objects[resource.identifier] = resource.properties
+    end
+
     #
     # @note removing an item from the regitry does not remove all references
     #   to the item within the project. At this time, this could leave resources

@@ -2,6 +2,52 @@ module Xcode
   
   module BuildPhase
     
+    # 
+    # @return [BuildPhase] the framework specific build phase of the target.
+    # 
+    # @example
+    # 
+    #     7165D44D146B4EA100DE2F0E /* Frameworks */ = {
+    #       isa = PBXFrameworksBuildPhase;                                        
+    #       buildActionMask = 2147483647;                                         
+    #       files = (                                                             
+    #         7165D455146B4EA100DE2F0E /* UIKit.framework in Frameworks */,       
+    #         7165D457146B4EA100DE2F0E /* Foundation.framework in Frameworks */,  
+    #         7165D459146B4EA100DE2F0E /* CoreGraphics.framework in Frameworks */,
+    #       );                                                                    
+    #       runOnlyForDeploymentPostprocessing = 0;                               
+    #     };                                                                      
+    # 
+    def self.framework_build_phase
+      { 'isa' => 'PBXFrameworksBuildPhase',
+        'buildActionMask' => '2147483647',
+        'files' => [],
+        'runOnlyForDeploymentPostprocessing' => '0' }
+    end
+    
+    #
+    # @return [BuildPhase] the sources specific build phase of the target.
+    # 
+    def self.sources_build_phase
+      { 'isa' => 'PBXSourcesBuildPhase',
+        'buildActionMask' => '2147483647',
+        'files' => [],
+        'runOnlyForDeploymentPostprocessing' => '0' }
+    end
+    
+    #
+    # @return [BuildPhase] the resources specific build phase of the target.
+    # 
+    def self.resources_build_phase
+      { 'isa' => 'PBXResourcesBuildPhase',
+        'buildActionMask' => '2147483647',
+        'files' => [],
+        'runOnlyForDeploymentPostprocessing' => '0' }
+    end
+    
+    
+    
+    
     #
     # Return the files that are referenced by the build files. This traverses
     # the level of indirection to make it easier to get to the FileReference.

@@ -28,7 +28,19 @@ module Xcode
   #     };                                                           
   # 
   module Configuration
-
+    
+    def self.default_properties(targetname,name)
+      { 'isa' => 'XCBuildConfiguration',
+        'buildSettings' => {
+          "CODE_SIGN_IDENTITY[sdk=>iphoneos*]" => "iPhone Developer",
+          "GCC_PRECOMPILE_PREFIX_HEADER" => "YES",                      
+          "GCC_PREFIX_HEADER" => "#{targetname}/#{targetname}-Prefix.pch",    
+          "INFOPLIST_FILE" => "#{targetname}/#{targetname}-Info.plist",       
+          "PRODUCT_NAME" => "$(TARGET_NAME)",                         
+          "WRAPPER_EXTENSION" => "app" },
+          "name" => name }
+    end
+    
     #
     # The configuration is defined within a target.
     # @see PBXNativeTarget

@@ -8,6 +8,7 @@ require 'xcode/file_reference'
 require 'xcode/registry'
 require 'xcode/build_phase'
 require 'xcode/variant_group'
+require 'configuration_list'
 
 module Xcode
   class Project 
@@ -128,6 +129,52 @@ module Xcode
       raise "No such target #{name}, available targets are #{targets.map {|t| t.name}.join(', ')}" if target.nil?
       yield target if block_given?
       target
+    end
+    
+    def create_target(target_type)
+      
+      # Create the new target with the specific type
+      
+      target_identifier = @registry.add_object Target.target_for_type(target_type)
+      @project.properties['targets'] << target_identifier
+      
+      new_target = @project.targets.last
+      
+      # Create the build phases for this particular target
+      
+      new_target.buildPhases = [
+        @registry.add_object(BuildPhase.framework_build_phase),
+        @registry.add_object(BuildPhase.sources_build_phase),
+        @registry.add_object(BuildPhase.sources_build_phase)
+      ]
+      
+      
+      
+      yield new_target if block_given?
+      
+      # Add a build configuration list with the build configurations
+      
+      build_config_list = ConfigurationList.configration_list do |list|
+        
+        list['buildConfigurations'] = [
+          @registry.add_object(Configuration.default_properties(new_target.name,"Debug")),
+          @registry.add_object(Configuration.default_properties(new_target.name,"Release"))
+        ]
+        list['defaultConfigurationName'] = 'Release'
+        
+      end
+      
+      new_target.buildConfigurationList = @registry.add_object build_config_list
+      
+      
+      product_file = @registry.add_object FileReference.app_product(new_target.name)
+      
+      @project.mainGroup.group('Products').first.properties['children'] << product_file
+
+      @registry.set_object(new_target)
+      
+      new_target
+      
     end
     
     def describe

@@ -127,6 +127,11 @@ module Xcode
 
       end
       
+      self.class.send :define_method, "#{name}=" do |new_value|
+        @properties[name] = new_value
+      end
+      
+      
     end
 
     #
