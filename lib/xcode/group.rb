@@ -84,21 +84,6 @@ module Xcode
       
     end
     
-    
-    #
-    # Remove the current group.
-    # 
-    # @note this does not remove other resources that are referenced within the
-    #   project but may cause them to be removed by Xcode or no longer be present
-    #   within the IDE as they will no longer have a parent reference.
-    # 
-    def remove!
-      @registry.remove_object identifier
-      # TODO If this is the main group then we likely don't want to remove it
-      # TODO We likely want to remove any references held by other objects
-    end
-    
-    
     #
     # Add a file to the specified group. Currently the file creation requires
     # the path to the physical file.
@@ -107,19 +92,7 @@ module Xcode
     #
     def add_file(path)
       
-      # Example file properties.
-      # 
-      # {isa = PBXFileReference; 
-      # lastKnownFileType = sourcecode.c.h; 
-      # path = IOSAppDelegate.h; 
-      # sourceTree = "<group>"; };
-      
-      # @todo the creation of the file with defaults here feels wrong and 
-      #   should likely be part of the PBXFileReference module.
-
-      new_identifier = @registry.add_object 'isa' => 'PBXFileReference', 
-        'path' => path,
-        'sourceTree' => '<group>'
+      new_identifier = @registry.add_object FileReference.with_properties_for_path(path)
         
       @properties['children'] << new_identifier
       
@@ -129,20 +102,7 @@ module Xcode
     
     
     def add_framework framework_name
-      
-      # Add the framework to the object library
-      
-      # {isa = PBXFileReference; 
-      # lastKnownFileType = wrapper.framework;
-      # name = QuartzCore.framework; 
-      # path = System/Library/Frameworks/QuartzCore.framework; 
-      # sourceTree = SDKROOT; };
-      
-      new_identifier = @registry.add_object 'isa' => "PBXFileReference",
-        'lastKnownFileType' => "wrapper.framework",
-        'name' => "#{framework_name}.framework",
-        'path' => "System/Library/Frameworks/#{framework_name}.framework",
-        'sourceTree' => "SDKROOT"
+      new_identifier = @registry.add_object FileReference.with_properties_for_framework(framework_name)
       
       # Add the framework to the group
       
