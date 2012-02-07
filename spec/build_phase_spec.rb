@@ -2,7 +2,8 @@ require_relative 'spec_helper'
 
 describe Xcode::BuildPhase do
   
-  let(:target) {  Xcode.project('TestProject').target('TestProject') }
+  let(:project) { Xcode.project('TestProject') }
+  let(:target) {  project.target('TestProject') }
   
   describe "PBXSourcesBuildPhase" do
     
@@ -11,7 +12,7 @@ describe Xcode::BuildPhase do
     let(:first_build_file) { "main.m" }
     let(:second_build_file) { "AppDelegate.m" }
     
-    describe "#files" do
+    describe "#build_files" do
       it "should return the correct number of build files" do
         subject.build_files.count.should == 2
       end
@@ -22,12 +23,19 @@ describe Xcode::BuildPhase do
       end
     end
     
-    describe "#file" do
+    describe "#build_file" do
       it "should return the correct file by name" do
         subject.build_file(first_build_file).should_not be_nil
         subject.build_file(first_build_file).path.should == subject.build_files.first.path
       end
-
+    end
+    
+    describe "#add_build_file" do
+      it "should add the specified file to the build phase" do
+        source_file = project.groups.add_file 'NewFile.m'
+        subject.add_build_file source_file
+        subject.build_file('NewFile.m').should_not be_nil
+      end
     end
   end
   
@@ -40,7 +48,7 @@ describe Xcode::BuildPhase do
     let(:second_build_file) { "System/Library/Frameworks/Foundation.framework" }
     let(:third_build_file) { "System/Library/Frameworks/CoreGraphics.framework" }
     
-    describe "#files" do
+    describe "#build_files" do
       it "should return the correct number of build files" do
         subject.build_files.count.should == 3
       end
@@ -62,7 +70,7 @@ describe Xcode::BuildPhase do
     
     let(:first_build_file) { "InfoPlist.strings" }
     
-    describe "#files" do
+    describe "#build_files" do
       it "should return the correct number of build files" do
         subject.build_files.count.should == 1
       end
