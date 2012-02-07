@@ -11,6 +11,19 @@ module Xcode
   # 
   module Group
     
+    #
+    # Return the hash that maps to the properties for a logical group
+    # 
+    # @param [String] name of the logical group
+    # 
+    def self.properties_for_logical_group(name)
+      { 'isa' => 'PBXGroup', 
+        'name' => name,
+        'sourceTree' => '<group>',
+        'children' => [] }
+    end
+    
+    
     # This is the group for which this file is contained within.
     attr_accessor :supergroup
     
@@ -59,15 +72,7 @@ module Xcode
       # Groups that represent a logical group often have the key 'name' with 
       # the value being it's group name.
       
-      
-      # Add a new group to the registry
-      # @todo the creation of the group with defaults here feels wrong and 
-      #   should likely be part of the PBXGroup module.
-      
-      new_identifier = @registry.add_object 'isa' => 'PBXGroup', 
-        'name' => name,
-        'sourceTree' => '<group>',
-        'children' => []
+      new_identifier = @registry.add_object Group.properties_for_logical_group(name)
       
       # Add the group's identifier to the list of children
       
