@@ -16,7 +16,7 @@ module Xcode
     # 
     # @param [String] name of the logical group
     # 
-    def self.properties_for_logical_group(name)
+    def self.with_properties_for_logical_group(name)
       { 'isa' => 'PBXGroup', 
         'name' => name,
         'sourceTree' => '<group>',
@@ -72,7 +72,7 @@ module Xcode
       # Groups that represent a logical group often have the key 'name' with 
       # the value being it's group name.
       
-      new_identifier = @registry.add_object Group.properties_for_logical_group(name)
+      new_identifier = @registry.add_object Group.with_properties_for_logical_group(name)
       
       # Add the group's identifier to the list of children
       

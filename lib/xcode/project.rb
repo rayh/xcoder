@@ -7,6 +7,7 @@ require 'xcode/group'
 require 'xcode/file_reference'
 require 'xcode/registry'
 require 'xcode/build_phase'
+require 'xcode/variant_group'
 
 module Xcode
   class Project 

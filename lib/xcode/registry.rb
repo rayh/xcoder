@@ -39,7 +39,9 @@ module Xcode
         'PBXFileReference' => FileReference,
         'PBXGroup' => Group,
         'PBXNativeTarget' => Target,
-        'PBXFrameworksBuildPhase' => BuildPhase }[isa]
+        'PBXFrameworksBuildPhase' => BuildPhase,
+        'PBXBuildFile' => BuildFile,
+        'PBXVariantGroup' => VariantGroup }[isa]
       
     end
     

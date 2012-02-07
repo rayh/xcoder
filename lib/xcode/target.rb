@@ -1,3 +1,5 @@
+require_relative 'build_file'
+
 module Xcode
   
   #
@@ -37,18 +39,30 @@ module Xcode
       config
     end
     
+    #
+    # A ruby-friendly alias for the property defined at buildPhases.
+    # 
     def build_phases
       buildPhases
     end
     
+    # 
+    # @return [BuildPhase] the framework specific build phase of the target.
+    # 
     def framework_build_phase
       build_phases.find {|phase| phase.isa == 'PBXFrameworksBuildPhase' }
     end
     
+    #
+    # @return [BuildPhase] the sources specific build phase of the target.
+    # 
     def sources_build_phase
       build_phases.find {|phase| phase.isa == 'PBXSourcesBuildPhase' }
     end
     
+    #
+    # @return [BuildPhase] the resources specific build phase of the target.
+    # 
     def resources_build_phase
       build_phases.find {|phase| phase.isa == 'PBXResourcesBuildPhase' }
     end
