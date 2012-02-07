@@ -8,7 +8,7 @@ require 'xcode/file_reference'
 require 'xcode/registry'
 require 'xcode/build_phase'
 require 'xcode/variant_group'
-require 'configuration_list'
+require 'xcode/configuration_list'
 
 module Xcode
   class Project 
