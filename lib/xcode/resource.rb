@@ -35,15 +35,15 @@ module Xcode
   # 
   # @example of how this would have to been done without this indirection
   # 
-  #     project = Xcode.project('MyProject.xcodeproj')
-  #     group = project.mainGroup
+  #     project = Xcode.project('MyProject')
+  #     main_group = project.groups
   #     child_identifier = group.children.first
   #     subgroup = project.registry['objects'][child_identifier]
   #     
   # @example of hot this works currently because of this indirection
   # 
   #     group = Xcode.project('MyProject.xcodeproj').mainGroup
-  #     subgroup = group.group 'Models'
+  #     subgroup = group.group('Models')
   # 
   # 
   # Next, as most every one of these objects is a Hash that contain the properties
