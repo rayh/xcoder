@@ -6,8 +6,21 @@ module Xcode
       files.find {|f| f.identifier == file_identifier }
     end
     
-    def add_file file_identifier
-      @properties['files'] << file_identifier
+    #
+    # Add the specified file to the Build Phase.
+    # 
+    # First a BuildFile entry is created for the file and then the build file
+    # entry is added to the particular build phase. A BuildFile identifier must
+    # exist for each target.
+    # 
+    # @param [FileReference] file the FileReference Resource to add to the build 
+    # phase.
+    #
+    def add_file(file)
+      
+      build_identifier = @registry.add_object 'isa' => "PBXBuildFile", 'fileRef' => file.identifier
+      @properties['files'] << build_identifier 
+      
     end
     
   end

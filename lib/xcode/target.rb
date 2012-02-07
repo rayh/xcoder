@@ -37,13 +37,20 @@ module Xcode
       config
     end
     
-    
     def build_phases
       buildPhases
     end
     
     def framework_build_phase
       build_phases.find {|phase| phase.isa == 'PBXFrameworksBuildPhase' }
+    end
+    
+    def sources_build_phase
+      build_phases.find {|phase| phase.isa == 'PBXSourcesBuildPhase' }
+    end
+    
+    def resources_build_phase
+      build_phases.find {|phase| phase.isa == 'PBXResourcesBuildPhase' }
     end
     
   end

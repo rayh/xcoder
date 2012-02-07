@@ -55,6 +55,15 @@ module Xcode
       substitute(buildSettings['PRODUCT_NAME'])
     end
     
+    def set_other_linker_flags value
+      set 'OTHER_LDFLAGS', value
+    end
+    
+    def set name, value
+      @properties['buildSettings'][name] = value
+    end
+    
+    
     #
     # Create a builder for this given project->target->configuration.
     # 
