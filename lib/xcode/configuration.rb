@@ -29,13 +29,13 @@ module Xcode
   # 
   module Configuration
     
-    def self.default_properties(targetname,name)
+    def self.default_properties(name)
       { 'isa' => 'XCBuildConfiguration',
         'buildSettings' => {
           "CODE_SIGN_IDENTITY[sdk=>iphoneos*]" => "iPhone Developer",
           "GCC_PRECOMPILE_PREFIX_HEADER" => "YES",                      
-          "GCC_PREFIX_HEADER" => "#{targetname}/#{targetname}-Prefix.pch",    
-          "INFOPLIST_FILE" => "#{targetname}/#{targetname}-Info.plist",       
+          "GCC_PREFIX_HEADER" => "#{name}/#{name}-Prefix.pch",    
+          "INFOPLIST_FILE" => "#{name}/#{name}-Info.plist",       
           "PRODUCT_NAME" => "$(TARGET_NAME)",                         
           "WRAPPER_EXTENSION" => "app" },
           "name" => name }

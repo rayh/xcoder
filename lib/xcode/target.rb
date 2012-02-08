@@ -76,7 +76,7 @@ module Xcode
     end
     
     def configuration_list
-
+      
       unless buildConfigurationList
         configuration_list_id = @registry.add_object(ConfigurationList.configration_list)
         @properties['buildConfigurationList'] = configuration_list_id
@@ -90,24 +90,11 @@ module Xcode
       
       # To create a configuration, we need to create or retrieve the configuration list
       
-      # Find or create the configuration list
-      
-      build_config_list = ConfigurationList.configration_list do |list|
-        
-        
-        
-        list.build_configurations
-        
-        list['buildConfigurations'] = [
-          @registry.add_object(Configuration.default_properties(new_target.name,"Debug")),
-          @registry.add_object(Configuration.default_properties(new_target.name,"Release"))
-        ]
-        list['defaultConfigurationName'] = 'Release'
-        
+      created_config = configuration_list.create_config(name) do |config|
+        yield config if block_given?
       end
       
-      new_target.buildConfigurationList = @registry.add_object build_config_list
-      
+      created_config
     end
     
     

@@ -14,14 +14,31 @@ module Xcode
     #       defaultConfigurationName = Release;
     #     };
     def self.configration_list
-      list = { 'isa' => 'XCConfigurationList',
+      { 'isa' => 'XCConfigurationList',
         'buildConfigurations' => [],
         'defaultConfigurationIsVisible' => '0',
         'defaultConfigurationName' => '' }
-        
-      yield list if block_given?
+    end
+    
+    def create_config(name)
       
-      list
+      # translate :debug => 'Debug', :release => 'Release'
+      
+      # @todo a configuration has additional fields that are ususally set with 
+      #   some target information for the title.
+      config_identifier = @registry.add_object(Configuration.default_properties(name))
+      @properties['buildConfigurations'] << config_identifier
+      
+      config = buildConfigurations.find {|config| config.identifier == config_identifier }
+      
+      yield config if block_given?
+      
+      config.save!
+    end
+    
+    def set_default_configuration(name)
+      # @todo ensure that the name specified is one of the available configurations
+      @properties['defaultConfigurationName'] = name
     end
     
   end

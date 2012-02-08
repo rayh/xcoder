@@ -28,15 +28,14 @@ describe Xcode::Target do
   
   describe "#configuration_list" do
 
-    it "should return a build configurations" do
+    it "should return a build configurations list" do
       subject.configuration_list.should_not be_nil
     end
-    
     
     it "should create a configration list if one does not exist" do
       
       test_project = project.create_target do |target|
-        target.name = "CreateBuildPhasesTarget"
+        target.name = "CreateBuildConfigurationTarget"
       end
       
       test_project.buildConfigurationList.should be_nil

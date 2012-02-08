@@ -131,11 +131,12 @@ module Xcode
       target
     end
     
-    def create_target
+    def create_target(name = nil)
       
       target_identifier = @registry.add_object(Target.target_for_type(:ios))
       target = @registry.object target_identifier
       @project.properties['targets'] << target_identifier
+      target.name = name
       
       # @todo a target should likely by default have a build configuration list
       #   so that configurations can be added to it. Also without it the project
@@ -153,8 +154,6 @@ module Xcode
       #   out what are the default configurations?
       
       target.save!
-      
-      target
     end
     
     # def create_target(target_type)

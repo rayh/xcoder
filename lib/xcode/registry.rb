@@ -41,7 +41,8 @@ module Xcode
         'PBXNativeTarget' => Target,
         'PBXFrameworksBuildPhase' => BuildPhase,
         'PBXBuildFile' => BuildFile,
-        'PBXVariantGroup' => VariantGroup }[isa]
+        'PBXVariantGroup' => VariantGroup,
+        'XCConfigurationList' => ConfigurationList }[isa]
       
     end
     
