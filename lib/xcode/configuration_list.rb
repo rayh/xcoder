@@ -36,7 +36,15 @@ module Xcode
       config.save!
     end
     
-    def set_default_configuration(name)
+    def default_config
+      buildConfigurations.find {|config| config.name == defaultConfigurationName }
+    end
+    
+    def default_config_name
+      defaultConfigurationName
+    end
+    
+    def set_default_config(name)
       # @todo ensure that the name specified is one of the available configurations
       @properties['defaultConfigurationName'] = name
     end

@@ -6,7 +6,6 @@ describe Xcode::ConfigurationList do
   let(:subject) { project.create_target('ConfigCreateTarget').configuration_list }
   
   describe "#configs" do
-    
     it "should return all the configurations" do
       subject.buildConfigurations.count.should == 0
     end
@@ -18,10 +17,22 @@ describe Xcode::ConfigurationList do
     end
   end
   
-  describe "#set_default_config" do
-    it "should return the default configuration" do
-      
+  describe "#default_config" do
+    context "when no default configuration has been specified" do
+      it "should return a nil" do
+        subject.default_config.should be_nil
+      end
     end
+    
+    context "when a default configuration has been set" do
+      it "it should return that configuration" do
+        new_config = subject.create_config('Debug2ElectricBoogaloo')
+        subject.set_default_config new_config.name
+        subject.default_config_name.should == new_config.name
+        subject.default_config.identifier.should == new_config.identifier
+      end
+    end
+
   end
   
 end
