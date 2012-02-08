@@ -66,11 +66,27 @@ module Xcode
     end
     
     #
+    # Retrieve a Resource for the given identifier.
     # 
-    # @return [String] the object associated with this identifier; nil if no 
-    #   object matches the identifier.
+    # @param [String] identifier the unique identifier for the resource you are
+    #   attempting to find.
+    # @return [Resource] the Resource object the the data properties that would
+    #   be stored wihin it.
     # 
     def object(identifier)
+      Resource.new identifier, self
+    end
+    
+    #
+    # Retrieve the properties Hash for the given identifer. 
+    #
+    # @param [String] identifier the unique identifier for the resource you
+    #   are attempting to find.
+    # 
+    # @return [Hash] the raw, properties hash for the particular resource; nil 
+    #   if nothing matches the identifier.
+    #
+    def properties(identifier)
       objects[identifier]
     end
     

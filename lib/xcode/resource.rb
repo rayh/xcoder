@@ -150,7 +150,7 @@ module Xcode
       # Create property methods for all of the key-value pairs found in the
       # registry for specified identifier.
       
-      Array(details.object(@identifier)).each do |key,value| 
+      Array(details.properties(@identifier)).each do |key,value| 
         send :define_property, key, value
       end
       
@@ -169,6 +169,16 @@ module Xcode
         
       end
       
+    end
+    
+    
+    #
+    # Saves the current resource back to the registry. This is necessary as
+    # any changes made are not automatically saved back into the registry.
+    # 
+    def save!
+      @registry.set_object(self)
+      self
     end
     
     #
