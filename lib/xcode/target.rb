@@ -75,6 +75,14 @@ module Xcode
       config
     end
     
+    
+    #
+    # Return the configurations for the target. If a configuration list has not
+    # been generated a new one will be created as that is necessary to add a 
+    # configuration to this target.
+    # 
+    # @return [ConfigurationList] the configuration list of this target.
+    # 
     def configuration_list
       
       unless buildConfigurationList
@@ -86,6 +94,18 @@ module Xcode
       
     end
     
+    #
+    # Create a configuration for the target.
+    # 
+    # @example debug configuration
+    # 
+    #   target.create_config 'Debug' do |config|
+    #     # configuration the new debug config.
+    #   end
+    # 
+    # @param [String] name of the configuration to create
+    # @return [BuildConfiguration] that is created
+    #
     def create_config(name)
       
       # To create a configuration, we need to create or retrieve the configuration list
