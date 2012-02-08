@@ -35,7 +35,7 @@ module Xcode
       
       # ios
       { 'isa' => 'PBXNativeTarget',
-        'buildConfigurationList' => '',
+        'buildConfigurationList' => nil,
         'buildPhases' => [],
         'buildRules' => [],
         'dependencies' => [],
@@ -74,6 +74,42 @@ module Xcode
       yield config if block_given?
       config
     end
+    
+    def configuration_list
+
+      unless buildConfigurationList
+        configuration_list_id = @registry.add_object(ConfigurationList.configration_list)
+        @properties['buildConfigurationList'] = configuration_list_id
+      end
+      
+      buildConfigurationList
+      
+    end
+    
+    def create_config(name)
+      
+      # To create a configuration, we need to create or retrieve the configuration list
+      
+      # Find or create the configuration list
+      
+      build_config_list = ConfigurationList.configration_list do |list|
+        
+        
+        
+        list.build_configurations
+        
+        list['buildConfigurations'] = [
+          @registry.add_object(Configuration.default_properties(new_target.name,"Debug")),
+          @registry.add_object(Configuration.default_properties(new_target.name,"Release"))
+        ]
+        list['defaultConfigurationName'] = 'Release'
+        
+      end
+      
+      new_target.buildConfigurationList = @registry.add_object build_config_list
+      
+    end
+    
     
     #
     # A ruby-friendly alias for the property defined at buildPhases.
@@ -131,14 +167,12 @@ module Xcode
       
       build_phase
       
+      build_phase.save!
+      
     end
     
-    #
-    # @example building the three main phases for a target.
     # 
-    #     target.create_build_phases :resources, :sources, :framework do |phase|
-    #       # each phase that is created.
-    #     end
+    # Create multiple build phases at the same time.
     # 
     # @param [Array<String,Symbol>] base_phase_names are the names of the phases
     #   that you want to create for a target.

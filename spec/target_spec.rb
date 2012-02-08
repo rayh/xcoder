@@ -26,6 +26,32 @@ describe Xcode::Target do
     end
   end
   
+  describe "#configuration_list" do
+
+    it "should return a build configurations" do
+      subject.configuration_list.should_not be_nil
+    end
+    
+    
+    it "should create a configration list if one does not exist" do
+      
+      test_project = project.create_target do |target|
+        target.name = "CreateBuildPhasesTarget"
+      end
+      
+      test_project.buildConfigurationList.should be_nil
+      test_project.configuration_list.should_not be_nil
+    end
+    
+    describe "build configurations" do
+      
+      it "should have the correct configs" do
+        subject.configuration_list.buildConfigurations.count.should == 2
+      end
+    end
+    
+  end
+  
   describe "#configs" do
     it "should return the correct number of configurations" do
       subject.configs.length.should == 2

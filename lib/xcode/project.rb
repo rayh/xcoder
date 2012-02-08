@@ -137,6 +137,10 @@ module Xcode
       target = @registry.object target_identifier
       @project.properties['targets'] << target_identifier
       
+      # @todo a target should likely by default have a build configuration list
+      #   so that configurations can be added to it. Also without it the project
+      #   file will not be able to be opened.
+      
       yield target if block_given?
       
       # @todo if build phases have not been specified then assume we want to
