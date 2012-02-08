@@ -103,6 +103,60 @@ module Xcode
       build_phases.find {|phase| phase.isa == 'PBXResourcesBuildPhase' }
     end
     
+    #
+    # @example building the three main phases for a target.
+    # 
+    #     target.create_build_phase :sources
+    # 
+    #     target.create_build_phase :resources do |phase|
+    #       # each phase that is created.
+    #     end
+    # 
+    # @param [String] phase_name the name of the phase to add to the target
+    # @return [BuildPhase] the BuildPhase that is created
+    def create_build_phase(phase_name)
+      
+      # Register a BuildPhase with the default properties specified by the name.
+      phase_identitifer = @registry.add_object(BuildPhase.send("#{phase_name}"))
+      
+      # Add the build phase to the list of build phases for this target.
+      # @todo this is being done commonly in the application in multiple places
+      #   and it bugs me. Perhaps some special module could be mixed into the
+      #   Array of results that are returned.
+      @properties['buildPhases'] << phase_identitifer
+      
+      build_phase = build_phases.find {|phase| phase.identifier == phase_identitifer }
+      
+      yield build_phase if block_given?
+      
+      build_phase
+      
+    end
+    
+    #
+    # @example building the three main phases for a target.
+    # 
+    #     target.create_build_phases :resources, :sources, :framework do |phase|
+    #       # each phase that is created.
+    #     end
+    # 
+    # @param [Array<String,Symbol>] base_phase_names are the names of the phases
+    #   that you want to create for a target.
+    # 
+    # @return [Array] the phases created. 
+    #
+    def create_build_phases *base_phase_names
+      
+      base_phase_names.compact.flatten.map do |phase_name|
+        build_phase = create_build_phase phase_name do |build_phase|
+          yield build_phase if block_given?
+        end
+        
+        build_phase.save!
+      end
+      
+    end
+    
   end
   
 end

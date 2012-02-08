@@ -54,14 +54,35 @@ describe Xcode::Project do
 
         it "should create the target" do
           
-          project.create_target :ios do |target|
-            
-            target.name = 'newtarget'
-            target.productName = 'newtarget'
-            target.properties['name'].should == 'newtarget'
-            
-          end
-          
+          # project.create_target :ios do |target|
+          #   
+          #   target.name = 'newtarget'
+          #   target.productName = 'newProductName'
+          #   
+          #   target.properties['name'].should == 'newtarget'
+          #   target.properties['productName'].should == 'newProductName'
+          #   
+          #   target.create_build_phases :resources, :sources, :frameworks each do |phase|
+          #     # Custom build phase creation (i.e. set files)
+          #   end
+          #   
+          #   # TODO: auto-generates a configuration list or appends to the configuration list
+          #   target.create_build_configurations :debug, :release do |config|
+          #     # Custom configuration settings
+          #   end
+          #   
+          #   target.default_configuration = :release
+          #   
+          #   target.add_product do |product|
+          #     # Custom product settings
+          #     # 
+          #     # Defaults to adding the product to the 'Products' group
+          #     # 
+          #     # product.name
+          #   end
+          #   
+          # end
+          # 
           # project.save!
           
         end

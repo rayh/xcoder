@@ -18,7 +18,7 @@ module Xcode
     #       runOnlyForDeploymentPostprocessing = 0;                               
     #     };                                                                      
     # 
-    def self.framework_build_phase
+    def self.framework
       { 'isa' => 'PBXFrameworksBuildPhase',
         'buildActionMask' => '2147483647',
         'files' => [],
@@ -28,7 +28,7 @@ module Xcode
     #
     # @return [BuildPhase] the sources specific build phase of the target.
     # 
-    def self.sources_build_phase
+    def self.sources
       { 'isa' => 'PBXSourcesBuildPhase',
         'buildActionMask' => '2147483647',
         'files' => [],
@@ -38,7 +38,7 @@ module Xcode
     #
     # @return [BuildPhase] the resources specific build phase of the target.
     # 
-    def self.resources_build_phase
+    def self.resources
       { 'isa' => 'PBXResourcesBuildPhase',
         'buildActionMask' => '2147483647',
         'files' => [],

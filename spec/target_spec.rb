@@ -78,4 +78,62 @@ describe Xcode::Target do
     end
   end
   
+  describe "#create_build_phases" do
+    
+    let(:subject) do
+      
+      project.create_target do |target|
+        target.name = "CreateBuildPhasesTarget"
+      end
+      
+    end
+    
+    context "when one phase is created" do
+      
+      it "should only create the one build phase" do
+        build_phase = subject.create_build_phases :sources
+        build_phase.count.should == 1
+        subject.build_phases.count.should == 1
+      end
+      
+      it "should create the build phase" do
+        build_phase = subject.create_build_phases :sources
+        subject.sources_build_phase.identifier.should == build_phase.first.identifier
+      end
+      
+      it "should allow for the build phase to be customized" do
+        subject.create_build_phases :sources do |phase|
+          # Add files to the build phases
+        end
+      end
+      
+    end
+    
+    it "should create all the phases specified" do
+      build_phases = subject.create_build_phases :resources, :framework, :sources
+      subject.build_phases.count.should == 3
+    end
+    
+    context "when the target is saved and reloaded" do
+
+      let(:subject) do
+        new_target = project.create_target do |target|
+          target.name = "ReloadedBuildPhaseTarget"
+        end
+      end
+
+      it "should save the build phases to the target if the target is saved" do
+
+        subject.create_build_phases :resources, :framework
+        subject.save!
+
+        reloaded_target = project.target('ReloadedBuildPhaseTarget')
+        reloaded_target.build_phases.count.should == 2
+      end      
+
+    end
+
+    
+  end
+  
 end
