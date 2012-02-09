@@ -9,6 +9,17 @@ module Xcode
   # children resources as well as provide the ability to generate child
   # resources.
   # 
+  #     7165D451146B4EA100DE2F0E /* Products */ = {
+  #       isa = PBXGroup;
+  #       children = (
+  #         7165D450146B4EA100DE2F0E /* TestProject.app */,
+  #         7165D46B146B4EA100DE2F0E /* TestProjectTests.octest */,
+  #         E21EB9D614E357CF0058122A /* Specs.app */,
+  #       );
+  #       name = Products;
+  #       sourceTree = "<group>";
+  #     };
+  # 
   module Group
     
     #
@@ -54,6 +65,16 @@ module Xcode
       groups.find_all {|group| group.name == name }
     end
     
+    #
+    # Return a single reference that matches the name specified.
+    # 
+    # @param [String] name of the file that want to return.
+    # @return [Group,FileReference] the object that has the name matching the
+    #   the one specified.
+    # 
+    def file(name)
+      group(name).first
+    end
     
     #
     # Adds a group as a child to current group with the given name. 
@@ -64,7 +85,7 @@ module Xcode
     # @param [String] name of the group that you want to add as a child group of
     #   the specified group.
     #
-    def add_group(name)
+    def create_group(name)
       
       # Groups that represent a physical path often have the key 'path' with
       # the value being it's path name.
@@ -84,15 +105,21 @@ module Xcode
       
     end
     
+    # @todo for right now provide add_group but it should be removed as add_group
+    #   should likely add an existing group or take a group and not create one.
+    alias_method :add_group, :create_group
+    
     #
     # Add a file to the specified group. Currently the file creation requires
     # the path to the physical file.
     # 
-    # @param [String] path to the file that is being added.
+    # @param [String,Hash] path to the file that is being added or a hash that 
+    #   contains the values would be merged with the default values.
     #
-    def add_file(path)
+    def create_file(file_properties)
+      file_properties = { 'path' => file_properties } if file_properties.is_a? String
       
-      new_identifier = @registry.add_object FileReference.with_properties_for_path(path)
+      new_identifier = @registry.add_object FileReference.file(file_properties)
         
       @properties['children'] << new_identifier
       
@@ -100,9 +127,19 @@ module Xcode
       
     end
     
+    # @todo for right now provide add_file but it should be removed as add_file
+    #   should likely add an existing file or take a file and not create one.
+    alias_method :add_file, :create_file
     
-    def add_framework framework_name
-      new_identifier = @registry.add_object FileReference.with_properties_for_framework(framework_name)
+    
+    #
+    # Create a framework within this group.
+    # 
+    # @param [Hash] framework_properties the properties to merge with the default
+    #   properties.
+    #
+    def create_framework(framework_properties)
+      new_identifier = @registry.add_object FileReference.framework(framework_properties)
       
       # Add the framework to the group
       
@@ -112,6 +149,26 @@ module Xcode
       
     end
     
+    # @todo for right now provide add_framework but it should be removed as add_framework
+    #   should likely add an existing file or take a file and not create one.
+    alias_method :add_framework, :create_framework
+    
+    #
+    # Create an infoplist within this group.
+    # 
+    # @param [Hash] infoplist_properties the properties to merge with the default
+    #   properties.
+    # 
+    # @see VariantGroup#info_plist
+    #
+    def create_infoplist(infoplist_properties)
+      plist_identifier = @registry.add_object VariantGroup.info_plist(infoplist_properties)
+      
+      @properties['children'] << plist_identifier
+      
+      children.find {|file| file.identifier == plist_identifier }
+      
+    end
     
   end
   

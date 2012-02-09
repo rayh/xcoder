@@ -10,18 +10,22 @@ module Xcode
     # This is the group for which this file is contained within.
     attr_accessor :supergroup
     
-    def self.with_properties_for_framework(name)
-      { 'isa' => "PBXFileReference",
+    def self.framework(properties)
+      default_properties = { 'isa' => "PBXFileReference",
         'lastKnownFileType' => "wrapper.framework",
-        'name' => "#{name}.framework",
-        'path' => "System/Library/Frameworks/#{name}.framework",
+        'name' => "FRAMEWORK.framework",
+        'path' => "System/Library/Frameworks/FRAMEWORK.framework",
         'sourceTree' => "SDKROOT" }
+        
+      default_properties.merge(properties)
     end
-    
-    def self.with_properties_for_path(path)
-      { 'isa' => 'PBXFileReference', 
-        'path' => path,
+        
+    def self.file(properties)
+      default_properties = { 'isa' => 'PBXFileReference', 
+        'path' => nil,
         'sourceTree' => '<group>' }
+        
+      default_properties.merge(properties)
     end
     
     #
