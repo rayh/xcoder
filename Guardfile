@@ -1,7 +1,8 @@
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
-guard 'rspec', :version => 2, :cli => "--color --format d --fail-fast" do
+guard 'rspec', :version => 2, :cli => "--color --format d --tag ~integration" do
+  
   watch(%r{^spec/.+_spec\.rb$})
   # As the registry and resource file affect most every file, the entire
   # suite should be run when they are changed
