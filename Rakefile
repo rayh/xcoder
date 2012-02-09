@@ -3,7 +3,11 @@ require "bundler/gem_tasks"
 task :default => :specs
 
 task :specs do
-  system "rspec -c spec"
+  system "rspec --color --format d --tag ~integration"
+end
+
+task :integration do
+  system "rspec --color --format d --tag integration"
 end
 
 
