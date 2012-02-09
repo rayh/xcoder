@@ -45,11 +45,44 @@ module Xcode
     #
     # Returns the main group of the project where all the files reside.
     # 
-    # @return [PBXGroup]
-    # @see PBXGroup
+    # @return [Group]
     # 
     def groups
       @project.mainGroup
+    end
+    
+    #
+    # Most Xcode projects have a products group where products are placed. This 
+    # will generate an exception if there is no products group.
+    # 
+    # @return [Group] the 'Products' group of the project.
+    def products_group
+      @project.mainGroup.group('Products').first
+    end
+    
+    #
+    # Most Xcode projects have a Frameworks gorup where all the imported 
+    # frameworks are shown. This will generate an exception if there is no
+    # Frameworks group.
+    # 
+    # @return [Group] the 'Frameworks' group of the projet.
+    def frameworks_group
+      @project.mainGroup.group('Frameworks').first
+    end
+    
+    
+    
+    #
+    # This will convert the current project file into a supported Xcode Plist 
+    # format. This format is not json or a traditional plist so several core
+    # Ruby objects gained the #to_xcplist method to save it properly.
+    # 
+    # Specifically this will add the necessary file header information and the 
+    # surrounding mustache braces around the xcode plist format of the registry.
+    # 
+    # @return [String] Xcode Plist format of the project.
+    def to_xcplist
+      %{// !$*UTF8*$!"\n#{@registry.to_xcplist.gsub(/\};\s*\z/,'}')}}
     end
     
     # 
@@ -80,11 +113,10 @@ module Xcode
         # The Hash#to_xcplist saves a semi-colon at the end which needs to be removed
         # to ensure the project file can be opened.
         
-        file.puts %{// !$*UTF8*$!"\n#{@registry.to_xcplist.gsub(/\};\s*\z/,'}')}}
+        file.puts to_xcplist
         
       end
     end
-    
     
     #
     # Return the scheme with the specified name. Raises an error if no schemes 
@@ -132,11 +164,12 @@ module Xcode
     end
     
     def create_target(name = nil)
-      
       target_identifier = @registry.add_object(Target.target_for_type(:ios))
       target = @registry.object target_identifier
       @project.properties['targets'] << target_identifier
       target.name = name
+      
+      target.project = self
       
       # @todo a target should likely by default have a build configuration list
       #   so that configurations can be added to it. Also without it the project
