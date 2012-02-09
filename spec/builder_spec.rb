@@ -11,21 +11,6 @@ describe Xcode::Builder do
 
     describe "#build" do
       
-      it "should be able to build" do
-        subject.clean
-        subject.build
-        File.exists?(subject.app_path).should==true
-        File.exists?(subject.dsym_path).should==true
-      end
-      
-      it "should be able to package" do
-        subject.clean
-        subject.build
-        subject.package
-        File.exists?(subject.dsym_zip_path).should==true
-        File.exists?(subject.ipa_path).should==true
-      end
-      
       let(:default_build_parameters) do
         [ "xcodebuild", 
           "-sdk #{configuration.target.project.sdk}", 
@@ -73,21 +58,6 @@ describe Xcode::Builder do
 
     describe "#build" do
       
-      it "should be able to build" do
-        subject.clean
-        subject.build
-        File.exists?(subject.app_path).should==true
-        File.exists?(subject.dsym_path).should==true
-      end
-      
-      it "should be able to package" do
-        subject.clean
-        subject.build
-        subject.package
-        File.exists?(subject.dsym_zip_path).should==true
-        File.exists?(subject.ipa_path).should==true
-      end
-
       let(:default_build_parameters) do
         [ "xcodebuild",
           "-sdk iphoneos",
