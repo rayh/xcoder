@@ -86,8 +86,8 @@ module Xcode
     def configuration_list
       
       unless buildConfigurationList
-        configuration_list_id = @registry.add_object(ConfigurationList.configration_list)
-        @properties['buildConfigurationList'] = configuration_list_id
+        new_configuration_list = @registry.add_object(ConfigurationList.configration_list)
+        @properties['buildConfigurationList'] = new_configuration_list.identifier
       end
       
       buildConfigurationList
@@ -159,15 +159,13 @@ module Xcode
     def create_build_phase(phase_name)
       
       # Register a BuildPhase with the default properties specified by the name.
-      phase_identitifer = @registry.add_object(BuildPhase.send("#{phase_name}"))
+      build_phase = @registry.add_object(BuildPhase.send("#{phase_name}"))
       
       # Add the build phase to the list of build phases for this target.
       # @todo this is being done commonly in the application in multiple places
       #   and it bugs me. Perhaps some special module could be mixed into the
       #   Array of results that are returned.
-      @properties['buildPhases'] << phase_identitifer
-      
-      build_phase = build_phases.find {|phase| phase.identifier == phase_identitifer }
+      @properties['buildPhases'] << build_phase.identifier
       
       yield build_phase if block_given?
       
@@ -205,7 +203,7 @@ module Xcode
       
       # Add the file reference
       
-      product_identifier = @registry.add_object FileReference.app_product(name)
+      product = @registry.add_object FileReference.app_product(name)
 
       # Add the file ref to the 'Products' group
       
@@ -213,12 +211,11 @@ module Xcode
       
       project_group = project.products_group
       
-      project_group.properties['children'] << product_identifier
+      project_group.properties['children'] << product.identifier
       project_group.save!
       
       # set the productReference
-      @properties['productReference'] = product_identifier
-      @registry.object(product_identifier)
+      @properties['productReference'] = product.identifier
     end
     
   end

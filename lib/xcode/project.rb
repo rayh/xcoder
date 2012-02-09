@@ -182,9 +182,8 @@ module Xcode
     #
     def create_target(name = nil)
       
-      target_identifier = @registry.add_object(Target.target_for_type(:ios))
-      target = @registry.object target_identifier
-      @project.properties['targets'] << target_identifier
+      target = @registry.add_object(Target.target_for_type(:ios))
+      @project.properties['targets'] << target.identifier
       target.name = name
       
       target.project = self

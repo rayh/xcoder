@@ -93,16 +93,14 @@ module Xcode
       # Groups that represent a logical group often have the key 'name' with 
       # the value being it's group name.
       
-      new_identifier = @registry.add_object Group.with_properties_for_logical_group(name)
+      new_group = @registry.add_object Group.with_properties_for_logical_group(name)
       
+      new_group.supergroup = self
       # Add the group's identifier to the list of children
       
-      @properties['children'] << new_identifier
+      @properties['children'] << new_group.identifier
       
-      # Find the newly added group to return
-      
-      groups.find {|group| group.identifier == new_identifier }
-      
+      new_group
     end
     
     # @todo for right now provide add_group but it should be removed as add_group
@@ -119,12 +117,11 @@ module Xcode
     def create_file(file_properties)
       file_properties = { 'path' => file_properties } if file_properties.is_a? String
       
-      new_identifier = @registry.add_object FileReference.file(file_properties)
+      new_file = @registry.add_object FileReference.file(file_properties)
         
-      @properties['children'] << new_identifier
+      @properties['children'] << new_file.identifier
       
-      children.find {|file| file.identifier == new_identifier }
-      
+      new_file
     end
     
     # @todo for right now provide add_file but it should be removed as add_file
@@ -139,14 +136,11 @@ module Xcode
     #   properties.
     #
     def create_framework(framework_properties)
-      new_identifier = @registry.add_object FileReference.framework(framework_properties)
+      new_framework = @registry.add_object FileReference.framework(framework_properties)
       
-      # Add the framework to the group
+      @properties['children'] << new_framework.identifier
       
-      @properties['children'] << new_identifier
-      
-      children.find {|file| file.identifier == new_identifier }
-      
+      new_framework
     end
     
     # @todo for right now provide add_framework but it should be removed as add_framework
@@ -162,12 +156,11 @@ module Xcode
     # @see VariantGroup#info_plist
     #
     def create_infoplist(infoplist_properties)
-      plist_identifier = @registry.add_object VariantGroup.info_plist(infoplist_properties)
+      new_plist = @registry.add_object VariantGroup.info_plist(infoplist_properties)
       
-      @properties['children'] << plist_identifier
+      @properties['children'] << new_plist.identifier
       
-      children.find {|file| file.identifier == plist_identifier }
-      
+      new_plist
     end
     
   end

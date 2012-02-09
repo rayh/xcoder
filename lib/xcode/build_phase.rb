@@ -83,8 +83,8 @@ module Xcode
     # phase.
     #
     def add_build_file(file)
-      build_identifier = @registry.add_object BuildFile.with_properties(file.identifier)
-      @properties['files'] << build_identifier 
+      new_build_file = @registry.add_object BuildFile.with_properties(file.identifier)
+      @properties['files'] << new_build_file.identifier
     end
     
   end

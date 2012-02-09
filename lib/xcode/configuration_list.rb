@@ -36,14 +36,12 @@ module Xcode
       # @todo a configuration has additional fields that are ususally set with 
       #   some target information for the title.
       
-      config_identifier = @registry.add_object(Configuration.default_properties(name))
-      @properties['buildConfigurations'] << config_identifier
+      new_config = @registry.add_object(Configuration.default_properties(name))
+      @properties['buildConfigurations'] << new_config.identifier
       
-      config = buildConfigurations.find {|config| config.identifier == config_identifier }
+      yield new_config if block_given?
       
-      yield config if block_given?
-      
-      config.save!
+      new_config.save!
     end
     
     #

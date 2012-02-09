@@ -118,7 +118,7 @@ module Xcode
       
       objects[new_identifier] = object_properties
       
-      new_identifier
+      Resource.new new_identifier, self
     end
 
     #
