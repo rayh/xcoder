@@ -51,30 +51,6 @@ describe Xcode::Group do
       end
     end
 
-    context "when saving to file" do
-      it "should save the group to the file" do
-                
-        # subject.groups.add_group 'TestGroup'
-        # framework = subject.groups.add_framework 'QuartzCore'
-        # 
-        # # subject.target('TestProject').framework_build_phase.add_file framework
-        # 
-        # subject.targets.each do |target|
-        #   
-        #   target.framework_build_phase.add_build_file framework
-        #   
-        #   # target.configs.each do |config|
-        #   #   config.set_other_linker_flags '-ObjC'
-        #   # end
-        # end
-        # 
-        # subject.save!
-                
-      end
-
-
-    end
-
   end
 
 end
