@@ -157,8 +157,17 @@ describe Xcode::Target do
       end      
 
     end
-
     
+  end
+  
+  describe "#productReference" do
+    context "when a product reference is present" do
+      it "should return the product reference" do
+        subject.productReference.should_not be_nil
+      end
+      
+    end
+
   end
   
 end
