@@ -45,7 +45,13 @@ module Xcode
     #
     # Returns the main group of the project where all the files reside.
     # 
-    # @return [Group]
+    # @todo this really could use a better name then groups as it is the mainGroup
+    #   but it should likely be something like main_group, root or something
+    #   else that conveys that this is the project root for files, and such.
+    # 
+    # @return [Group] the main group, the heart of the action of the file
+    #   explorer for the Xcode project. From here all other groups and items
+    #   may be found.
     # 
     def groups
       @project.mainGroup
@@ -70,8 +76,6 @@ module Xcode
       @project.mainGroup.group('Frameworks').first
     end
     
-    
-    
     #
     # This will convert the current project file into a supported Xcode Plist 
     # format. This format is not json or a traditional plist so several core
@@ -82,6 +86,11 @@ module Xcode
     # 
     # @return [String] Xcode Plist format of the project.
     def to_xcplist
+      
+      # @note The Hash#to_xcplist, which the Registry will save out as xcode,
+      #   saves a semi-colon at the end which needs to be removed to ensure 
+      #   the project file can be opened.
+      
       %{// !$*UTF8*$!"\n#{@registry.to_xcplist.gsub(/\};\s*\z/,'}')}}
     end
     
@@ -110,9 +119,6 @@ module Xcode
       
       File.open(project_filepath,'w') do |file|
         
-        # The Hash#to_xcplist saves a semi-colon at the end which needs to be removed
-        # to ensure the project file can be opened.
-        
         file.puts to_xcplist
         
       end
@@ -122,7 +128,7 @@ module Xcode
     # Return the scheme with the specified name. Raises an error if no schemes 
     # match the specified name.
     # 
-    # @note if two schemes match names, the first matching scheme is return.
+    # @note if two schemes match names, the first matching scheme is returned.
     # 
     # @param [String] name of the specific scheme
     # @return [Scheme] the specific scheme that matches the name specified
@@ -163,17 +169,25 @@ module Xcode
       target
     end
     
+    #
+    # Creates a new target within the Xcode project. This will by default not
+    # generate all the additional build phases, configurations, and files
+    # that create a project.
+    # 
+    # @todo generate a create target with sensible defaults, similar to how
+    #   it is done through Xcode itself.
+    # 
+    # @param [String] name the name to provide to the target. This will also
+    #   be the value that other defaults will be based on.
+    #
     def create_target(name = nil)
+      
       target_identifier = @registry.add_object(Target.target_for_type(:ios))
       target = @registry.object target_identifier
       @project.properties['targets'] << target_identifier
       target.name = name
       
       target.project = self
-      
-      # @todo a target should likely by default have a build configuration list
-      #   so that configurations can be added to it. Also without it the project
-      #   file will not be able to be opened.
       
       yield target if block_given?
       
@@ -189,52 +203,7 @@ module Xcode
       target.save!
     end
     
-    # def create_target(target_type)
-    #   
-    #   # Create the new target with the specific type
-    #   
-    #   target_identifier = @registry.add_object Target.target_for_type(target_type)
-    #   @project.properties['targets'] << target_identifier
-    #   
-    #   new_target = @project.targets.last
-    #   
-    #   # Create the build phases for this particular target
-    #   
-    #   new_target.buildPhases = [
-    #     @registry.add_object(BuildPhase.framework_build_phase),
-    #     @registry.add_object(BuildPhase.sources_build_phase),
-    #     @registry.add_object(BuildPhase.resources_build_phase)
-    #   ]
-    #   
-    #   
-    #   
-    #   yield new_target if block_given?
-    #   
-    #   # Add a build configuration list with the build configurations
-    #   
-    #   build_config_list = ConfigurationList.configration_list do |list|
-    #     
-    #     list['buildConfigurations'] = [
-    #       @registry.add_object(Configuration.default_properties(new_target.name,"Debug")),
-    #       @registry.add_object(Configuration.default_properties(new_target.name,"Release"))
-    #     ]
-    #     list['defaultConfigurationName'] = 'Release'
-    #     
-    #   end
-    #   
-    #   new_target.buildConfigurationList = @registry.add_object build_config_list
-    #   
-    #   
-    #   product_file = @registry.add_object FileReference.app_product(new_target.name)
-    #   
-    #   @project.mainGroup.group('Products').first.properties['children'] << product_file
-    # 
-    #   @registry.set_object(new_target)
-    #   
-    #   new_target
-    #   
-    # end
-    
+
     def describe
       puts "Project #{name} contains"
       targets.each do |t|
