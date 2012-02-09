@@ -58,7 +58,7 @@ module Xcode
     # Find all the child groups that have a name that matches the specified name.
     # 
     # @param [String] name of the group that you are looking to return.
-    # @return [Array<PBXGroup>] the groups with the same matching name. This
+    # @return [Array<Group>] the groups with the same matching name. This
     #   could be no groups, one group, or multiple groups.
     #
     def group(name)
