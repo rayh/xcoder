@@ -106,8 +106,7 @@ module Xcode
     # @param [String] name of the configuration to create
     # @return [BuildConfiguration] that is created
     #
-    def create_config(name)
-      
+    def create_configuration(name)
       # To create a configuration, we need to create or retrieve the configuration list
       
       created_config = configuration_list.create_config(name) do |config|
@@ -172,10 +171,7 @@ module Xcode
       
       yield build_phase if block_given?
       
-      build_phase
-      
       build_phase.save!
-      
     end
     
     # 
@@ -196,6 +192,33 @@ module Xcode
         build_phase.save!
       end
       
+    end
+
+    
+    #
+    # Create a product reference file and add it to the product. This is by
+    # default added to the 'Products' group.
+    # 
+    # @param [String] name of the product reference to add to the product
+    #
+    def create_product_reference(name)
+      
+      # Add the file reference
+      
+      product_identifier = @registry.add_object FileReference.app_product(name)
+
+      # Add the file ref to the 'Products' group
+      
+      # @todo change the way that files are added to the group
+      
+      project_group = project.products_group
+      
+      project_group.properties['children'] << product_identifier
+      project_group.save!
+      
+      # set the productReference
+      @properties['productReference'] = product_identifier
+      @registry.object(product_identifier)
     end
     
   end
