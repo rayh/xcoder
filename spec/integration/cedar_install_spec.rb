@@ -107,6 +107,10 @@ describe "Cedar", :integration => true do
     
     expect { project.target('Specs').config('Debug').builder.build }.to_not raise_error
     
+    project.remove_target('Specs')
+    
+    project.save!
+    
   end
   
 end
