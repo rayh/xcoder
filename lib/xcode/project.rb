@@ -203,6 +203,24 @@ module Xcode
       target.save!
     end
     
+    #
+    # Remove a target from the Xcode project.
+    # 
+    # @note this will remove the first project that matches the specified name.
+    # 
+    # @note this will remove only the project entry at the moment and not the
+    #   the files that may be associated with the target. All build phases, 
+    #   build files, and configurations will automatically be cleaned up when
+    #   Xcode is opened.
+    # 
+    # @param [String] name the name of the target to remove from the Xcode
+    #   project.
+    #
+    def remove_target(name)
+      # @todo like an error message would be useful and have parity with the
+      #   other commands that throw error messages.
+      @registry.remove_object(target(name).identifier) if target(name)
+    end
 
     def describe
       puts "Project #{name} contains"
