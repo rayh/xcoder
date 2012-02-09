@@ -1,3 +1,5 @@
+require 'xcode/simple_identifier_generator'
+
 module Xcode
   
   #
@@ -107,20 +109,29 @@ module Xcode
     #   that are known for the particular item.
     # 
     def add_object(object_properties)
-      # define a new group within the object list
-      # add it as a child
       
-      range = ('A'..'F').to_a + (0..9).to_a
+      # @todo the Simple Generator does not take into account if an identifier
+      #   generated will collide with an existing identifier within the project
+      #   file.
       
-      new_identifier = 24.times.inject("") {|ident| "#{ident}#{range.sample}" }
-      
-      # TODO ensure identifier does not collide with other identifiers
+      new_identifier = SimpleIdentifierGenerator.generate
       
       objects[new_identifier] = object_properties
       
       new_identifier
     end
 
+    #
+    # Replace an existing object that shares that same identifier. This is how
+    # a Resource is saved back into the registry. So that it will be known to 
+    # all other objects that it has changed.
+    # 
+    # @see Resource#save!
+    # 
+    # @param [Resource] resource the resource that you want to set at the specified
+    #   identifier. If an object exists at that identifier already it will be 
+    #   replaced.
+    #
     def set_object(resource)
       objects[resource.identifier] = resource.properties
     end
