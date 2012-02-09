@@ -198,7 +198,7 @@ module Xcode
     # 
     def to_xcplist
       %{
-        #{@identifier} = { #{ @properties.map {|k,v| "#{k} = \"#{v}\"" }.join("; ") } }
+        #{@identifier} = { #{ @properties.map {|k,v| "#{k} = \"#{v.to_xcplist}\"" }.join("; ") } }
         
       }
     end
