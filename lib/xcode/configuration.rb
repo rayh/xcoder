@@ -32,11 +32,23 @@ module Xcode
     def self.default_properties(name)
       { 'isa' => 'XCBuildConfiguration',
         'buildSettings' => {
+          "SDKROOT" => "iphoneos",
+          "OTHER_CFLAGS" => "-DNS_BLOCK_ASSERTIONS=1",
+          "TARGETED_DEVICE_FAMILY" => "1,2",
+          "GCC_C_LANGUAGE_STANDARD" => "gnu99",
+          "ALWAYS_SEARCH_USER_PATHS" => "NO",
+          "GCC_VERSION" => "com.apple.compilers.llvm.clang.1_0",
+          "ARCHS" => "$(ARCHS_STANDARD_32_BIT)",
+          "GCC_WARN_ABOUT_MISSING_PROTOTYPES" => "YES",
+          "GCC_WARN_ABOUT_RETURN_TYPE" => "YES",
           "CODE_SIGN_IDENTITY[sdk=>iphoneos*]" => "iPhone Developer",
-          "GCC_PRECOMPILE_PREFIX_HEADER" => "YES",                      
-          "GCC_PREFIX_HEADER" => "#{name}/#{name}-Prefix.pch",    
-          "INFOPLIST_FILE" => "#{name}/#{name}-Info.plist",       
-          "PRODUCT_NAME" => "$(TARGET_NAME)",                         
+          "GCC_PRECOMPILE_PREFIX_HEADER" => "YES",
+          "VALIDATE_PRODUCT" => "YES",
+          "IPHONEOS_DEPLOYMENT_TARGET" => "5.0",
+          "COPY_PHASE_STRIP" => "YES",
+          "GCC_PREFIX_HEADER" => "#{name}/#{name}-Prefix.pch",
+          "INFOPLIST_FILE" => "#{name}/#{name}-Info.plist",
+          "PRODUCT_NAME" => "$(TARGET_NAME)",
           "WRAPPER_EXTENSION" => "app" },
           "name" => name }
     end
