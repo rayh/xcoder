@@ -40,6 +40,8 @@ module Xcode
         'PBXGroup' => Group,
         'PBXNativeTarget' => Target,
         'PBXFrameworksBuildPhase' => BuildPhase,
+        'PBXSourcesBuildPhase' => BuildPhase,
+        'PBXResourcesBuildPhase' => BuildPhase,
         'PBXBuildFile' => BuildFile,
         'PBXVariantGroup' => VariantGroup }[isa]
       
