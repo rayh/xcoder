@@ -1,9 +1,10 @@
 require 'xcode/shell'
 require 'xcode/provisioning_profile'
+require 'xcode/test/report_parser.rb'
 
 module Xcode
   class Builder
-    attr_accessor :profile, :identity, :build_path, :keychain
+    attr_accessor :profile, :identity, :build_path, :keychain, :sdk
     
     def initialize(config)
       if config.is_a? Xcode::Scheme
@@ -11,6 +12,7 @@ module Xcode
         config = config.launch
       end
       @target = config.target
+      @sdk = @target.project.sdk
       @config = config
       @build_path = "#{File.dirname(@target.project.path)}/build/"
     end
@@ -30,40 +32,28 @@ module Xcode
       p
     end
     
-    def build
-      profile = install_profile
-      
-      cmd = []
-      cmd << "xcodebuild"
-      cmd << "-sdk #{@target.project.sdk}" unless @target.project.sdk.nil?
-      cmd << "-project \"#{@target.project.path}\""
-      
-      cmd << "-scheme #{@scheme.name}" unless @scheme.nil?
-      cmd << "-target \"#{@target.name}\"" if @scheme.nil?
-      cmd << "-configuration \"#{@config.name}\"" if @scheme.nil?
-      
-      cmd << "OTHER_CODE_SIGN_FLAGS=\"--keychain #{@keychain.path}\"" unless @keychain.nil?
-      cmd << "CODE_SIGN_IDENTITY=\"#{@identity}\"" unless @identity.nil?
-      cmd << "OBJROOT=\"#{@build_path}\""
-      cmd << "SYMROOT=\"#{@build_path}\""
-      cmd << "PROVISIONING_PROFILE=#{profile.uuid}" unless profile.nil?
-      yield(cmd) if block_given?
-      
+    def build(sdk=@sdk)
+      profile = install_profile      
+      cmd = build_command(@sdk)
       Xcode::Shell.execute(cmd)
     end
     
     def test
-      build do |cmd|
-        cmd.select! do |line|
-          !line=~/\^-sdk/
-        end
-        
-        cmd << "TEST_AFTER_BUILD=YES"
-        cmd << "TEST_HOST=''"
-        cmd << "-sdk iphonesimulator5.0"  # FIXME: hardcoded version, should be smarter
+      cmd = build_command('iphonesimulator')
+      cmd << "TEST_AFTER_BUILD=YES"
+      cmd << "TEST_HOST=''"
+      
+      parser = Xcode::Test::ReportParser.new
+      Xcode::Shell.execute(cmd, false) do |line|
+        puts line
+        parser << line
       end
       
-      Xcode::Shell.execute(cmd)
+      yield(parser) if block_given?
+      
+      exit parser.exit_code if parser.exit_code!=0
+      
+      parser
     end
     
     def clean
@@ -156,6 +146,27 @@ module Xcode
     
     def dsym_zip_path
       "#{product_version_basename}.dSYM.zip"
+    end
+    
+    
+    private 
+    
+    def build_command(sdk=@sdk)
+      cmd = []
+      cmd << "xcodebuild"
+      cmd << "-sdk #{sdk}" unless sdk.nil?
+      cmd << "-project \"#{@target.project.path}\""
+      
+      cmd << "-scheme #{@scheme.name}" unless @scheme.nil?
+      cmd << "-target \"#{@target.name}\"" if @scheme.nil?
+      cmd << "-configuration \"#{@config.name}\"" if @scheme.nil?
+      
+      cmd << "OTHER_CODE_SIGN_FLAGS=\"--keychain #{@keychain.path}\"" unless @keychain.nil?
+      cmd << "CODE_SIGN_IDENTITY=\"#{@identity}\"" unless @identity.nil?
+      cmd << "OBJROOT=\"#{@build_path}\""
+      cmd << "SYMROOT=\"#{@build_path}\""
+      cmd << "PROVISIONING_PROFILE=#{profile.uuid}" unless profile.nil?
+      cmd
     end
     
   end
