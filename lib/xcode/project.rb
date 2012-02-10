@@ -54,7 +54,7 @@ module Xcode
     #   may be found.
     # 
     def groups
-      @project.mainGroup
+      @project.main_group
     end
     
     #
@@ -78,7 +78,7 @@ module Xcode
     # 
     def group(name)
       
-      current_group = @project.mainGroup
+      current_group = @project.main_group
       
       # @todo consider this traversing and find/create as a normal procedure when
       #   traversing the project.
@@ -98,7 +98,7 @@ module Xcode
     # 
     # @return [Group] the 'Products' group of the project.
     def products_group
-      @project.mainGroup.group('Products').first
+      groups.group('Products').first
     end
     
     #
@@ -108,7 +108,7 @@ module Xcode
     # 
     # @return [Group] the 'Frameworks' group of the projet.
     def frameworks_group
-      @project.mainGroup.group('Frameworks').first
+      groups.group('Frameworks').first
     end
     
     #

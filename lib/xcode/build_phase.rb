@@ -57,7 +57,7 @@ module Xcode
     # @return [Array<FileReference>] the files referenced by the build files.
     # 
     def build_files
-      files.map {|file| file.fileRef }
+      files.map {|file| file.file_ref }
     end
     
     #

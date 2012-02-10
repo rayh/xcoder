@@ -36,14 +36,14 @@ describe Xcode::Target do
       
       test_project = project.create_target "CreateBuildConfigurationTarget"
       
-      test_project.buildConfigurationList.should be_nil
+      test_project.build_configuration_list.should be_nil
       test_project.configuration_list.should_not be_nil
     end
     
     describe "build configurations" do
       
       it "should have the correct configs" do
-        subject.configuration_list.buildConfigurations.count.should == 2
+        subject.configuration_list.build_configurations.count.should == 2
       end
     end
     
@@ -152,10 +152,10 @@ describe Xcode::Target do
     
   end
   
-  describe "#productReference" do
+  describe "#product_reference" do
     context "when a product reference is present" do
       it "should return the product reference" do
-        subject.productReference.should_not be_nil
+        subject.product_reference.should_not be_nil
       end
     end
   end

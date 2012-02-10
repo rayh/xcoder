@@ -7,7 +7,7 @@ describe Xcode::ConfigurationList do
   
   describe "#configs" do
     it "should return all the configurations" do
-      subject.buildConfigurations.count.should == 0
+      subject.build_configurations.count.should == 0
     end
   end
   

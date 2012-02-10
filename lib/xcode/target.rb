@@ -58,7 +58,7 @@ module Xcode
     #   configurations.
     # 
     def configs
-      buildConfigurationList.buildConfigurations.map do |config|
+      build_configuration_list.build_configurations.map do |config|
         config.target = self
         config
       end
@@ -89,12 +89,12 @@ module Xcode
     # 
     def configuration_list
       
-      unless buildConfigurationList
+      unless build_configuration_list
         new_configuration_list = @registry.add_object(ConfigurationList.configration_list)
         @properties['buildConfigurationList'] = new_configuration_list.identifier
       end
       
-      buildConfigurationList
+      build_configuration_list
       
     end
     
@@ -120,13 +120,6 @@ module Xcode
       created_config
     end
     
-    
-    #
-    # A ruby-friendly alias for the property defined at buildPhases.
-    # 
-    def build_phases
-      buildPhases
-    end
     
     # 
     # @return [BuildPhase] the framework specific build phase of the target.

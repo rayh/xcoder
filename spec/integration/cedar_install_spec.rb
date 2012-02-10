@@ -28,7 +28,6 @@ describe "Cedar", :integration => true do
       # productReference = E21EB9D614E357CF0058122A /* Specs.app */;
     
       application_file = target.create_product_reference 'Specs'
-      # target.properties['productReference'] = application_file.identifier
       
       # Create the Specs group
     
@@ -80,9 +79,9 @@ describe "Cedar", :integration => true do
       
       target.create_build_phase :framework do |frameworks|
         frameworks.add_build_file cedar_framework
-        frameworks.add_build_file target.project.frameworks_group.file('UIKit.framework')
-        frameworks.add_build_file target.project.frameworks_group.file('Foundation.framework')
-        frameworks.add_build_file target.project.frameworks_group.file('CoreGraphics.framework')
+        frameworks.add_build_file target.project.frameworks_group.file('UIKit.framework').first
+        frameworks.add_build_file target.project.frameworks_group.file('Foundation.framework').first
+        frameworks.add_build_file target.project.frameworks_group.file('CoreGraphics.framework').first
       end
       
       target.create_configuration 'Debug' do |config|
@@ -106,8 +105,6 @@ describe "Cedar", :integration => true do
     project.save!
     
     expect { project.target('Specs').config('Debug').builder.build }.to_not raise_error
-    
-    project.remove_target('Specs')
     
     project.save!
     

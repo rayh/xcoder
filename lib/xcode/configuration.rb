@@ -64,7 +64,7 @@ module Xcode
     # @see InfoPlist
     # 
     def info_plist_location
-      buildSettings['INFOPLIST_FILE']
+      build_settings['INFOPLIST_FILE']
     end
     
     #
@@ -94,7 +94,7 @@ module Xcode
     # @return the name of the product that this configuration will generate.
     # 
     def product_name
-      substitute(buildSettings['PRODUCT_NAME'])
+      substitute(build_settings['PRODUCT_NAME'])
     end
     
     #
@@ -104,7 +104,7 @@ module Xcode
     # @return [String,Array,Hash] the value stored for the specified configuration
     #  
     def get(name)
-      buildSettings[name]
+      build_settings[name]
     end
     
     #
@@ -114,7 +114,7 @@ module Xcode
     # @param [String,Array,Hash] value the value to store for the specific setting
     #
     def set(name, value)
-      buildSettings[name] = value
+      build_settings[name] = value
     end
     
     

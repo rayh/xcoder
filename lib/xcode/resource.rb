@@ -1,3 +1,4 @@
+require 'xcode/core_ext/string'
 
 module Xcode
   
@@ -90,7 +91,7 @@ module Xcode
       
       # Generate a getter method for this property based on the given name.
       
-      self.class.send :define_method, name do
+      self.class.send :define_method, name.underscore do
         
         # Retrieve the value that is current stored for this name.
         

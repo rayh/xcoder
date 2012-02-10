@@ -49,7 +49,7 @@ module Xcode
     #   nil if no configuration has been set as default.
     # 
     def default_config
-      buildConfigurations.find {|config| config.name == defaultConfigurationName }
+      build_configurations.find {|config| config.name == default_configuration_name }
     end
     
     #
@@ -57,7 +57,7 @@ module Xcode
     #   configuration has been set as default.
     # 
     def default_config_name
-      defaultConfigurationName
+      default_configuration_name
     end
     
     #

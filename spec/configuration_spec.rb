@@ -40,15 +40,15 @@ describe Xcode::Configuration do
     end
   end
   
-  describe "#buildSettings" do
+  describe "#build_settings" do
     it "should return a hash of build settings" do
-      subject.buildSettings.should_not
+      subject.build_settings.should_not
     end
   end
   
   describe "#set" do
 
-    let(:settings) { subject.buildSettings }
+    let(:settings) { subject.build_settings }
     
     it "should set a value in the build configuration" do
       subject.set 'KEY', 'VALUE'
@@ -65,7 +65,7 @@ describe Xcode::Configuration do
   
   describe "#get" do
 
-    let(:settings) { subject.buildSettings }
+    let(:settings) { subject.build_settings }
     
     it "should return the correct configuration value" do
       subject.get('OTHER_LDFLAGS').should == settings['OTHER_LDFLAGS']
