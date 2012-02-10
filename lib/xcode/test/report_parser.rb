@@ -127,7 +127,7 @@ module Xcode
         dir = File.expand_path(dir)
         FileUtils.mkdir_p(dir)
       
-        formatter = Formatters.const_get("#{format.capitalize}Formatter").new(dir)
+        formatter = Formatters.const_get("#{format.to_s.capitalize}Formatter").new(dir)
         @reports.each do |r|
           formatter.write(r)
         end
