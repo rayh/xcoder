@@ -17,33 +17,31 @@ describe Xcode::Target do
     end
   end
   
-  describe "#productName" do
+  describe "#product_name" do
     
     let(:expected_product_name) { "TestProject" }
     
-    it "should have the correct productName" do
-      subject.name == expected_product_name
+    it "should have the correct product_name" do
+      subject.product_name == expected_product_name
     end
   end
   
-  describe "#configuration_list" do
+  describe "#build_configuration_list" do
 
     it "should return a build configurations list" do
-      subject.configuration_list.should_not be_nil
+      subject.build_configuration_list.should_not be_nil
     end
     
     it "should create a configration list if one does not exist" do
       
       test_project = project.create_target "CreateBuildConfigurationTarget"
-      
-      test_project.build_configuration_list.should be_nil
-      test_project.configuration_list.should_not be_nil
+      test_project.build_configuration_list.should_not be_nil
     end
     
     describe "build configurations" do
       
       it "should have the correct configs" do
-        subject.configuration_list.build_configurations.count.should == 2
+        subject.build_configuration_list.build_configurations.count.should == 2
       end
     end
     

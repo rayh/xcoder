@@ -3,7 +3,7 @@ require_relative 'spec_helper'
 describe Xcode::ConfigurationList do
   
   let(:project) { Xcode.project 'TestProject' }
-  let(:subject) { project.create_target('ConfigCreateTarget').configuration_list }
+  let(:subject) { project.create_target('ConfigCreateTarget').build_configuration_list }
   
   describe "#configs" do
     it "should return all the configurations" do

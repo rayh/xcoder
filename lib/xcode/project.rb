@@ -220,6 +220,9 @@ module Xcode
       
       target.name = name
       
+      build_configuration_list = @registry.add_object(ConfigurationList.configration_list)
+      target.build_configuration_list = build_configuration_list.identifier
+      
       target.project = self
       
       yield target if block_given?

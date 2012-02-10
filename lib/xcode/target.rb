@@ -79,25 +79,6 @@ module Xcode
       config
     end
     
-    
-    #
-    # Return the configurations for the target. If a configuration list has not
-    # been generated a new one will be created as that is necessary to add a 
-    # configuration to this target.
-    # 
-    # @return [ConfigurationList] the configuration list of this target.
-    # 
-    def configuration_list
-      
-      unless build_configuration_list
-        new_configuration_list = @registry.add_object(ConfigurationList.configration_list)
-        @properties['buildConfigurationList'] = new_configuration_list.identifier
-      end
-      
-      build_configuration_list
-      
-    end
-    
     #
     # Create a configuration for the target.
     # 
@@ -113,7 +94,7 @@ module Xcode
     def create_configuration(name)
       # To create a configuration, we need to create or retrieve the configuration list
       
-      created_config = configuration_list.create_config(name) do |config|
+      created_config = build_configuration_list.create_config(name) do |config|
         yield config if block_given?
       end
       
