@@ -21,10 +21,10 @@ describe "EGORefreshTableHeaderView", :integration => true do
                      { 'name' => 'EGORefreshTableHeaderView.h', 'path' => 'Vendor/EGORefreshTableHeaderView/EGORefreshTableHeaderView.h' } ]
     
     source_files.each do |source|
-      ptr_group.create_file(source) unless ptr_group.file(source['name'])
+      ptr_group.create_file(source) if ptr_group.file(source['name']).empty?
     end
     
-    ptr_source = ptr_group.file('EGORefreshTableHeaderView.m')
+    ptr_source = ptr_group.file('EGORefreshTableHeaderView.m').first
     
     # Select the main target of the project and add the source file to the build
     # phase.
