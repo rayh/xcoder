@@ -97,3 +97,9 @@ module Xcode
     projects
   end
 end
+
+require 'xcode/core_ext/hash'
+require 'xcode/core_ext/array'
+require 'xcode/core_ext/string'
+require 'xcode/core_ext/boolean'
+require 'xcode/core_ext/fixnum'

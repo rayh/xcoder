@@ -12,6 +12,8 @@ module Xcode
         @scheme = config
         config = config.launch
       end
+      
+      puts "CONFIG: #{config}"
       @target = config.target
       @sdk = @target.project.sdk
       @config = config

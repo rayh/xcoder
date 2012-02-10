@@ -1,43 +1,132 @@
-require 'json'
+require 'xcode/parsers/plutil_project_parser'
+require 'xcode/resource'
 require 'xcode/target'
 require 'xcode/configuration'
 require 'xcode/scheme'
 require 'plist'
+require 'xcode/group'
+require 'xcode/file_reference'
+require 'xcode/registry'
+require 'xcode/build_phase'
+require 'xcode/variant_group'
 
 module Xcode
   class Project 
-    attr_reader :name, :targets, :sdk, :path, :schemes, :groups
+    
+    attr_reader :name, :sdk, :path, :schemes, :registry
+    
+    #
+    # Initialized with a specific path and sdk.
+    # 
+    # This initialization is not often used. Instead projects are generated
+    # through the Xcode#project method.
+    # 
+    # @see Xcode
+    #
+    # @param [String] path of the project to open.
+    # @param [String] sdk the sdk value of the project. This will default to 
+    #   `iphoneos`.
+    # 
     def initialize(path, sdk=nil)
       @sdk = sdk || "iphoneos"  # FIXME: should support OSX/simulator too
       @path = File.expand_path path
-      @targets = []
       @schemes = []
       @groups = []
       @name = File.basename(@path).gsub(/\.xcodeproj/,'')
-
-      parse_pbxproj
-      parse_schemes
-#      parse_configurations
-    end
-    
-    def group(name)
       
+      # Parse the Xcode project file and create the registry
+      
+      @registry = parse_pbxproj
+      @project = Xcode::Resource.new registry.root, @registry
+      
+      @schemes = parse_schemes
     end
     
-    def save
-      # Save modified groups/f
+    #
+    # Returns the main group of the project where all the files reside.
+    # 
+    # @return [PBXGroup]
+    # @see PBXGroup
+    # 
+    def groups
+      @project.mainGroup
     end
     
+    # 
+    # Save the current project at the current path that it exists.
+    # 
+    def save!
+      save @path
+    end
+    
+    #
+    # Saves the current proeject at the specified path.
+    # 
+    # @note currently this does not support saving the workspaces associated 
+    #   with the project to their new location.
+    # 
+    # @param [String] path the path to save the project
+    #
+    def save(path)
+      Dir.mkdir(path) unless File.exists?(path)
+      
+      project_filepath = "#{path}/project.pbxproj"
+      
+      # @toodo Save the workspace when the project is saved
+      # FileUtils.cp_r "#{path}/project.xcworkspace", "#{path}/project.xcworkspace"
+      
+      File.open(project_filepath,'w') do |file|
+        
+        # The Hash#to_xcplist saves a semi-colon at the end which needs to be removed
+        # to ensure the project file can be opened.
+        
+        file.puts %{// !$*UTF8*$!"\n#{@registry.to_xcplist.gsub(/\};\s*\z/,'}')}}
+        
+      end
+    end
+    
+    
+    #
+    # Return the scheme with the specified name. Raises an error if no schemes 
+    # match the specified name.
+    # 
+    # @note if two schemes match names, the first matching scheme is return.
+    # 
+    # @param [String] name of the specific scheme
+    # @return [Scheme] the specific scheme that matches the name specified
+    #
     def scheme(name)
       scheme = @schemes.select {|t| t.name == name.to_s}.first
       raise "No such scheme #{name}, available schemes are #{@schemes.map {|t| t.name}.join(', ')}" if scheme.nil?
       yield scheme if block_given?
       scheme
     end
-        
+    
+    #
+    # All the targets specified within the project.
+    # 
+    # @return [Array<PBXNativeTarget>] an array of all the available targets for
+    #   the specific project.
+    # 
+    def targets
+      @project.targets.map do |target|
+        target.project = self
+        target
+      end
+    end
+    
+    #
+    # Return the target with the specified name. Raises an error if no targets
+    # match the specified name.
+    # 
+    # @note if two targets match names, the first matching target is returned.
+    # 
+    # @param [String] name of the specific target
+    # @return [PBXNativeTarget] the specific target that matches the name specified
+    #
     def target(name)
-      target = @targets.select {|t| t.name == name.to_s}.first
-      raise "No such target #{name}, available targets are #{@targets.map {|t| t.name}.join(', ')}" if target.nil?
+      target = targets.select {|t| t.name == name.to_s}.first
+      raise "No such target #{name}, available targets are #{targets.map {|t| t.name}.join(', ')}" if target.nil?
       yield target if block_given?
       target
     end
@@ -59,32 +148,42 @@ module Xcode
     
     private
   
+    #
+    # Parse all the scheme files that can be found within the project. Schemes
+    # can be defined as `shared` schemes and then `user` specific schemes. Parsing
+    # the schemes will load the shared ones and then the current acting user's
+    # schemes.
+    # 
     def parse_schemes
-      # schemes are in project/**/xcschemes/*.xcscheme
-      Dir["#{@path}/**/xcschemes/*.xcscheme"].each do |scheme|
-        @schemes << Xcode::Scheme.new(self, scheme)
+      shared_schemes = Dir["#{@path}/xcshareddata/xcschemes/*.xcscheme"]
+      user_specific_schemes = Dir["#{@path}/xcuserdata/#{ENV['USER']}.xcuserdatad/xcschemes/*.xcscheme"]
+      
+      (shared_schemes + user_specific_schemes).map do |scheme|
+        Xcode::Scheme.new(self, scheme)
       end
     end
   
+    #
+    # Using the sytem tool plutil, the specified project file is parsed and 
+    # converted to JSON, which is then converted to a hash object.
+    # 
+    # This content contains all the data within the project file and is used
+    # to create the Registry.
+    # 
+    # @return [Resource] a resource mapped to the root resource within the project
+    #   this is generally the project file which contains details about the main
+    #   group, targets, etc.
+    # 
+    # @see Registry
+    # 
     def parse_pbxproj
-      xml = `plutil -convert xml1 -o - "#{@path}/project.pbxproj"`
-      # json = JSON.parse()
-      json = Plist::parse_xml(xml)
+      registry = Xcode::PLUTILProjectParser.parse "#{@path}/project.pbxproj"
       
-      root = json['objects'][json['rootObject']]
-
-      root['targets'].each do |target_id|
-        target = Xcode::Target.new(self, json['objects'][target_id])
-        
-        buildConfigurationList = json['objects'][target_id]['buildConfigurationList']
-        buildConfigurations = json['objects'][buildConfigurationList]['buildConfigurations']
-        
-        buildConfigurations.each do |buildConfiguration|
-          target.configs << Xcode::Configuration.new(target, json['objects'][buildConfiguration])
-        end
-                
-        @targets << target
+      class << registry
+        include Xcode::Registry
       end
+      
+      registry
     end
 
   end
