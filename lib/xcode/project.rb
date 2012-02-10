@@ -2,6 +2,7 @@ require 'json'
 require 'xcode/target'
 require 'xcode/configuration'
 require 'xcode/scheme'
+require 'plist'
 
 module Xcode
   class Project 
@@ -66,7 +67,9 @@ module Xcode
     end
   
     def parse_pbxproj
-      json = JSON.parse(`plutil -convert json -o - "#{@path}/project.pbxproj"`)
+      xml = `plutil -convert xml1 -o - "#{@path}/project.pbxproj"`
+      # json = JSON.parse()
+      json = Plist::parse_xml(xml)
       
       root = json['objects'][json['rootObject']]
 

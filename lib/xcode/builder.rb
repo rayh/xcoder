@@ -125,7 +125,7 @@ module Xcode
     end
     
     def configuration_build_path
-      "#{build_path}/#{@config.name}-#{@target.project.sdk}"
+      "#{build_path}/#{@config.name}-#{@sdk}"
     end
     
     def entitlements_path
