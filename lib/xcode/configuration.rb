@@ -97,15 +97,23 @@ module Xcode
       substitute(buildSettings['PRODUCT_NAME'])
     end
     
-    def set_other_linker_flags(value)
-      set 'OTHER_LDFLAGS', value
-    end
-    
+    #
+    # Retrieve the configuration value for the given name
+    #
+    # @param [String] name of the configuration settings to return
+    # @return [String,Array,Hash] the value stored for the specified configuration
+    #  
     def get(name)
       buildSettings[name]
     end
     
-    def set name, value
+    #
+    # Set the configuration value for the given name
+    #
+    # @param [String] name of the the configuration setting
+    # @param [String,Array,Hash] value the value to store for the specific setting
+    #
+    def set(name, value)
       buildSettings[name] = value
     end
     
