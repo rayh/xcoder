@@ -161,13 +161,7 @@ module Xcode
       # 
       constant = Registry.isa_to_module(isa)
         
-      if constant
-      
-        self.class.class_eval do
-          include constant
-        end
-        
-      end
+      self.extend(constant) if constant
       
     end
     
