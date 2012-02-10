@@ -1,6 +1,7 @@
 require 'xcode/shell'
 require 'xcode/provisioning_profile'
 require 'xcode/test/report_parser.rb'
+require 'xcode/testflight'
 
 module Xcode
   class Builder
@@ -32,8 +33,7 @@ module Xcode
       p
     end
     
-    def build(sdk=@sdk)
-      profile = install_profile      
+    def build(sdk=@sdk)    
       cmd = build_command(@sdk)
       Xcode::Shell.execute(cmd)
     end
@@ -54,6 +54,12 @@ module Xcode
       exit parser.exit_code if parser.exit_code!=0
       
       parser
+    end
+    
+    def upload(api_token, team_token)
+      testflight = Xcode::Testflight.new(api_token, team_token)
+      yield(testflight) if block_given?
+      testflight.upload(ipa_path, dsym_zip_path)
     end
     
     def clean
@@ -152,6 +158,7 @@ module Xcode
     private 
     
     def build_command(sdk=@sdk)
+      profile = install_profile
       cmd = []
       cmd << "xcodebuild"
       cmd << "-sdk #{sdk}" unless sdk.nil?

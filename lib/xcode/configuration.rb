@@ -37,7 +37,7 @@ module Xcode
     end
     
     def info_plist
-      puts @json.inspect
+      # puts @json.inspect
       info = Xcode::InfoPlist.new(self, info_plist_location)  
       yield info if block_given?
       info.save
