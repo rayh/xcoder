@@ -128,7 +128,7 @@ module Xcode
 
       end
       
-      self.class.send :define_method, "#{name}=" do |new_value|
+      self.class.send :define_method, "#{name.underscore}=" do |new_value|
         @properties[name] = new_value
       end
       
