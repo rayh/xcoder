@@ -66,6 +66,15 @@ module Xcode
     end
     
     #
+    # @param [String] name of the group that you want to find or create.
+    #
+    def find_or_create_group(name)
+      found_group = group(name)
+      found_group = create_group(name) if found_group.empty?
+      Array(found_group).first
+    end
+    
+    #
     # Return a single reference that matches the name specified.
     # 
     # @param [String] name of the file that want to return.

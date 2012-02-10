@@ -58,6 +58,28 @@ module Xcode
     end
     
     #
+    # Returns the group specified. If any part of the group does not exist along
+    # the path the group is created. Also paths can be specified to make the 
+    # traversing of the groups easier.
+    # 
+    # @todo provide additional parameters that define this functionality of creating
+    #   along the way.
+    # 
+    #
+    # @param [String] name the group name to find/create
+    # 
+    def group(name)
+      
+      current_group = @project.mainGroup
+      
+      name.split("/").each do |path_component|
+        current_group = current_group.find_or_create_group(path_component)
+      end
+      
+      current_group
+    end
+    
+    #
     # Most Xcode projects have a products group where products are placed. This 
     # will generate an exception if there is no products group.
     # 
