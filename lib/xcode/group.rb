@@ -5,7 +5,7 @@ module Xcode
   # these groups may contain subgroups, files, or other objects. They have
   # children.
   # 
-  # PBXGroup here provides the methods to traverse the groups to find these 
+  # Group here provides the methods to traverse the groups to find these 
   # children resources as well as provide the ability to generate child
   # resources.
   # 
@@ -27,7 +27,7 @@ module Xcode
     # 
     # @param [String] name of the logical group
     # 
-    def self.with_properties_for_logical_group(name)
+    def self.logical_group(name)
       { 'isa' => 'PBXGroup', 
         'name' => name,
         'sourceTree' => '<group>',
@@ -36,19 +36,20 @@ module Xcode
     
     
     # This is the group for which this file is contained within.
+    # @note this value is only set if the group has been discovered 
+    #   by traversing groups to this group.
     attr_accessor :supergroup
     
     # 
     # @example Return all the sub-groups of the main group
     # 
-    #   main_group = Xcode.project('MyProject.xcodeproj').groups
-    #   main_group.groups
+    #     main_group = Xcode.project('MyProject.xcodeproj').groups
+    #     main_group.groups
     # 
     # @return [Array] the sub-groups contained within this group.
     # 
     def groups
-      children.map do |group|
-        # TODO: this will return all children when it should just return subgroups
+      children.find_all {|child| child.is_a?(Group) }.map do |group|
         group.supergroup = self
         group
       end
@@ -62,7 +63,15 @@ module Xcode
     #   could be no groups, one group, or multiple groups.
     #
     def group(name)
-      groups.find_all {|group| group.name == name }
+      groups.find_all {|group| group.name == name or group.path == name }
+    end
+    
+    #
+    # Find all the non-group objects within the group and return them
+    # @return [Array] the children of the group, excluding the groups
+    # 
+    def files
+      children.reject {|child| child.is_a?(Group) }
     end
     
     #
@@ -95,26 +104,10 @@ module Xcode
     #   the specified group.
     #
     def create_group(name)
-      
-      # Groups that represent a physical path often have the key 'path' with
-      # the value being it's path name.
-      # 
-      # Groups that represent a logical group often have the key 'name' with 
-      # the value being it's group name.
-      
-      new_group = @registry.add_object Group.with_properties_for_logical_group(name)
-      
+      new_group = create_child_object Group.logical_group(name)
       new_group.supergroup = self
-      # Add the group's identifier to the list of children
-      
-      @properties['children'] << new_group.identifier
-      
       new_group
     end
-    
-    # @todo for right now provide add_group but it should be removed as add_group
-    #   should likely add an existing group or take a group and not create one.
-    alias_method :add_group, :create_group
     
     #
     # Add a file to the specified group. Currently the file creation requires
@@ -124,19 +117,10 @@ module Xcode
     #   contains the values would be merged with the default values.
     #
     def create_file(file_properties)
+      # This allows both support for the string value or the hash as the parameter
       file_properties = { 'path' => file_properties } if file_properties.is_a? String
-      
-      new_file = @registry.add_object FileReference.file(file_properties)
-        
-      @properties['children'] << new_file.identifier
-      
-      new_file
+      create_child_object FileReference.file(file_properties)
     end
-    
-    # @todo for right now provide add_file but it should be removed as add_file
-    #   should likely add an existing file or take a file and not create one.
-    alias_method :add_file, :create_file
-    
     
     #
     # Create a framework within this group.
@@ -145,16 +129,8 @@ module Xcode
     #   properties.
     #
     def create_framework(framework_properties)
-      new_framework = @registry.add_object FileReference.framework(framework_properties)
-      
-      @properties['children'] << new_framework.identifier
-      
-      new_framework
+      create_child_object FileReference.framework(framework_properties)
     end
-    
-    # @todo for right now provide add_framework but it should be removed as add_framework
-    #   should likely add an existing file or take a file and not create one.
-    alias_method :add_framework, :create_framework
     
     #
     # Create an infoplist within this group.
@@ -165,11 +141,23 @@ module Xcode
     # @see VariantGroup#info_plist
     #
     def create_infoplist(infoplist_properties)
-      new_plist = @registry.add_object VariantGroup.info_plist(infoplist_properties)
-      
-      @properties['children'] << new_plist.identifier
-      
-      new_plist
+      create_child_object VariantGroup.info_plist(infoplist_properties)
+    end
+    
+    private
+    
+    #
+    # This method is used internally to add objects to the registry and add the
+    # object as a child of this group.
+    # 
+    # @param [Hash] child_as_properties the hash of resource to add as a child
+    #   object of this group.
+    # 
+    # @return [Resource] returns the resource that was added a child
+    def create_child_object(child_properties)
+      child_object = @registry.add_object child_properties
+      @properties['children'] << child_object.identifier
+      child_object
     end
     
   end

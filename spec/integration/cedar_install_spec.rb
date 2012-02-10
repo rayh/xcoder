@@ -76,7 +76,7 @@ describe "Cedar", :integration => true do
       # E21EB9DA14E357CF0058122A /* CoreGraphics.framework in Frameworks */,
     
       # E21EB9EE14E359840058122A /* Cedar-iPhone.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Cedar-iPhone.framework"; path = "Vendor/Frameworks/Cedar-iPhone.framework"; sourceTree = "<group>"; };
-      cedar_framework = target.project.frameworks_group.add_framework 'name' => 'Cedar-iPhone.framework', 'path' => 'Vendor/Frameworks/Cedar-iPhone.framework', 'sourceTree' => '<group>'
+      cedar_framework = target.project.frameworks_group.create_framework 'name' => 'Cedar-iPhone.framework', 'path' => 'Vendor/Frameworks/Cedar-iPhone.framework', 'sourceTree' => '<group>'
       
       target.create_build_phase :framework do |frameworks|
         frameworks.add_build_file cedar_framework

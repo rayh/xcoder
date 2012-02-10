@@ -8,20 +8,20 @@ describe Xcode::Group do
   describe "#groups" do
     context "when a group matches the name specified" do
       it "should return the group" do
-        subject.add_group('TestGroup')
+        subject.create_group('TestGroup')
         subject.group('TestGroup').should_not be_nil
       end
     end
     
     context "when multiple groups match the name specified" do
       it "should return all the matching groups" do
-        subject.add_group('TestGroup')
+        subject.create_group('TestGroup')
         subject.group('TestGroup').length.should == 2
       end
     end
     
     context "when a group does not match the name specified" do
-      it "should return an e" do
+      it "should return an empty array" do
         subject.group('UnknownGroup').should be_empty
       end
     end
@@ -29,19 +29,19 @@ describe Xcode::Group do
   
   describe "#supergroup" do
     it "should return the owning group" do
-      group = subject.add_group('Superman')
+      group = subject.create_group('Superman')
       group.supergroup.identifier.should == subject.identifier
     end
   end
   
   describe "#add_group" do
     it "should return the group" do
-      subject.add_group('TestGroup').should_not be_nil
+      subject.create_group('TestGroup').should_not be_nil
     end
 
     context "when adding a group within a group" do
       it "should successfully create the subgroup" do
-        subgroup = subject.add_group('GroupWithSubGroup').add_group('Group MED')
+        subgroup = subject.create_group('GroupWithSubGroup').create_group('Group MED')
 
         found_subgroup = subject.group('GroupWithSubGroup').first.group('Group MED').first
         subgroup.should_not be_nil
@@ -52,5 +52,12 @@ describe Xcode::Group do
     end
 
   end
+  
+  describe "#files" do
 
+    it "should return the correct number of files within the group" do
+      subject.group('TestProject').first.files.count.should == 2
+    end
+
+  end
 end
