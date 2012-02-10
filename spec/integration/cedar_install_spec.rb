@@ -19,7 +19,7 @@ describe "Cedar", :integration => true do
     project.create_target 'Specs' do |target|
       
       target.name = 'Specs'
-      target.productName = 'Specs'
+      target.product_name = 'Specs'
       
       # @todo create the following files within the project file
     
@@ -77,6 +77,9 @@ describe "Cedar", :integration => true do
       # E21EB9EE14E359840058122A /* Cedar-iPhone.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Cedar-iPhone.framework"; path = "Vendor/Frameworks/Cedar-iPhone.framework"; sourceTree = "<group>"; };
       cedar_framework = target.project.frameworks_group.create_framework 'name' => 'Cedar-iPhone.framework', 'path' => 'Vendor/Frameworks/Cedar-iPhone.framework', 'sourceTree' => '<group>'
       
+      
+      # @todo this is dumb to have the first being called. There must be a more clear way
+      
       target.create_build_phase :framework do |frameworks|
         frameworks.add_build_file cedar_framework
         frameworks.add_build_file target.project.frameworks_group.file('UIKit.framework').first
@@ -84,15 +87,7 @@ describe "Cedar", :integration => true do
         frameworks.add_build_file target.project.frameworks_group.file('CoreGraphics.framework').first
       end
       
-      target.create_configuration 'Debug' do |config|
-        config.set 'GCC_PREFIX_HEADER', 'Specs/Specs-Prefix.pch'
-        config.set 'INFOPLIST_FILE', 'Specs/Specs-Info.plist'
-        config.set 'OTHER_LDFLAGS', '-ObjC -all_load -lstdc++'
-        config.set 'FRAMEWORK_SEARCH_PATHS', [ "$(inherited)", "\"$(SRCROOT)/Vendor/Frameworks\"" ]
-        config.save!
-      end
-      
-      target.create_configuration 'Release' do |config|
+      target.create_configurations 'Debug', 'Release' do |config|
         config.set 'GCC_PREFIX_HEADER', 'Specs/Specs-Prefix.pch'
         config.set 'INFOPLIST_FILE', 'Specs/Specs-Info.plist'
         config.set 'OTHER_LDFLAGS', '-ObjC -all_load -lstdc++'

@@ -100,7 +100,18 @@ module Xcode
       
       created_config
     end
-    
+
+    def create_configurations(*configuration_names)
+      
+      configuration_names.compact.flatten.map do |config_name|
+        created_config = create_configuration config_name do |config|
+          yield config if block_given?
+        end
+        
+        created_config.save!
+      end
+      
+    end
     
     # 
     # @return [BuildPhase] the framework specific build phase of the target.
