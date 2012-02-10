@@ -1,43 +1,100 @@
-require 'rspec'
-require 'xcoder'
+require_relative 'spec_helper'
 
 describe Xcode::Project do 
-  it "should enumerate all projects in current directory" do 
-    projects = Xcode.projects
-    projects.size.should==1
-    projects.first.name.should=="TestProject"
+
+  let(:project) { Xcode.project 'TestProject' }
+
+
+  describe "Targets" do
+    
+    let(:expected_first_target) { "TestProject" }
+    let(:expected_second_target) { "TestProjectTests" }
+    
+    describe "#targets" do
+
+      let(:subject) { project.targets }
+
+      it "should give the correct number of targets" do
+        subject.size.should == 2
+      end
+      
+      it "should return the correct targets" do
+        subject[0].name.should == expected_first_target
+        subject[1].name.should == expected_second_target
+      end
+
+    end
+
+    describe "#target" do
+      context "when the target exists" do
+
+        let(:subject) { project.target expected_first_target }
+
+        it "should return the specified target" do
+          subject.should_not be_nil
+        end
+
+      end
+      
+      context "when the target does not exist" do
+
+        let(:subject) { project.target 'UnknownTarget' }
+        
+        it "should raise an error" do
+          expect { subject }.to raise_error
+        end
+
+      end
+
+    end
+    
   end
   
-  it "should fetch project by name" do 
-    p = Xcode.project 'TestProject'
-    p.should_not be_nil
+  
+  describe "Schemes" do
+    
+    let(:expected_scheme) { "TestProject" }
+    
+    describe "#schemes" do
+      
+      let(:subject) { project.schemes }
+      
+      let(:shared_scheme_count) { Dir["spec/TestProject/TestProject.xcodeproj/xcshareddata/xcschemes/*.xcscheme"].count }
+      let(:user_scheme_count) { Dir["spec/TestProject/TestProject.xcodeproj/xcuserdata/#{ENV['USER']}.xcuserdatad/xcschemes/*.xcscheme"].count }
+      
+      it "should find all global schemes and schemes unique to the user" do
+        subject.size.should == shared_scheme_count + user_scheme_count
+      end
+      
+      it "should return the correct schemes" do
+        subject.first.name.should == expected_scheme
+      end
+     
+    end
+    
+    describe "#scheme" do
+      context "when the scheme exists" do
+
+        let(:subject) { project.scheme expected_scheme }
+
+        it "should return the specified scheme" do
+          subject.should_not be_nil
+        end
+
+      end
+      
+      context "when the scheme does not exist" do
+
+        let(:subject) { project.scheme 'UnknownScheme' }
+
+        it "should raise an error" do
+          expect { subject }.to raise_error
+        end
+
+      end
+
+    end
+    
   end
   
-  it "should fetch project by name with extension and path" do 
-    w = Xcode.project "#{File.dirname(__FILE__)}/TestProject/TestProject.xcodeproj"
-    w.should_not be_nil
-  end
-  
-  it "should have many targets" do 
-    p = Xcode.project "TestProject"
-    p.targets.size.should==2
-    p.targets[0].name.should=="TestProject"
-    p.targets[1].name.should=="TestProjectTests"
-  end
-  
-  it "should get target by name" do 
-    p = Xcode.project "TestProject"
-    p.target('TestProjectTests').should_not be_nil
-  end
-  
-  it "should have many schemes" do 
-    p = Xcode.project "TestProject"
-    p.schemes.size.should==1
-    p.schemes.first.name.should=="TestProject"
-  end
-  
-  it "should get scheme by name" do 
-    p = Xcode.project "TestProject"
-    p.scheme('TestProject').should_not be_nil
-  end
 end

@@ -2,6 +2,10 @@ require 'plist'
 require 'pp'
 
 module Xcode
+  
+  #
+  # @see https://developer.apple.com/library/ios/#documentation/general/Reference/InfoPlistKeyReference/Articles/AboutInformationPropertyListFiles.html
+  # 
   class InfoPlist
     def initialize(config, plist_location)
       @config = config
