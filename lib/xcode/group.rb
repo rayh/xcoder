@@ -75,23 +75,14 @@ module Xcode
     end
     
     #
-    # @param [String] name of the group that you want to find or create.
+    # Find all the files that have have a name that matches the specified name.
     #
-    def find_or_create_group(name)
-      found_group = group(name)
-      found_group = create_group(name) if found_group.empty?
-      Array(found_group).first
-    end
-    
+    # @param [String] name of the file that you are looking to return.
+    # @return [Array<FileReference>] the files with the same mathching
+    #   name. This could be no files, one file, or multiple files.
     #
-    # Return a single reference that matches the name specified.
-    # 
-    # @param [String] name of the file that want to return.
-    # @return [Group,FileReference] the object that has the name matching the
-    #   the one specified.
-    # 
     def file(name)
-      group(name).first
+      files.find_all {|file| file.name == name or file.path == name }
     end
     
     #

@@ -54,10 +54,8 @@ describe Xcode::Group do
   end
   
   describe "#files" do
-
     it "should return the correct number of files within the group" do
       subject.group('TestProject').first.files.count.should == 2
     end
-
   end
 end
