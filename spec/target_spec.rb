@@ -34,9 +34,7 @@ describe Xcode::Target do
     
     it "should create a configration list if one does not exist" do
       
-      test_project = project.create_target do |target|
-        target.name = "CreateBuildConfigurationTarget"
-      end
+      test_project = project.create_target "CreateBuildConfigurationTarget"
       
       test_project.buildConfigurationList.should be_nil
       test_project.configuration_list.should_not be_nil
@@ -106,11 +104,7 @@ describe Xcode::Target do
   describe "#create_build_phases" do
     
     let(:subject) do
-      
-      project.create_target do |target|
-        target.name = "CreateBuildPhasesTarget"
-      end
-      
+      project.create_target "CreateBuildPhasesTarget"
     end
     
     context "when one phase is created" do
@@ -142,9 +136,7 @@ describe Xcode::Target do
     context "when the target is saved and reloaded" do
 
       let(:subject) do
-        new_target = project.create_target do |target|
-          target.name = "ReloadedBuildPhaseTarget"
-        end
+        new_target = project.create_target "ReloadedBuildPhaseTarget"
       end
 
       it "should save the build phases to the target if the target is saved" do
@@ -165,9 +157,7 @@ describe Xcode::Target do
       it "should return the product reference" do
         subject.productReference.should_not be_nil
       end
-      
     end
-
   end
   
 end

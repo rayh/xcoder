@@ -4,7 +4,6 @@ describe Xcode::Project do
 
   let(:project) { Xcode.project 'TestProject' }
 
-
   describe "Targets" do
     
     let(:expected_first_target) { "TestProject" }
@@ -49,53 +48,37 @@ describe Xcode::Project do
       end
 
     end
-    
+  
     describe "#create_target" do
-
-      context "when creating an IOS target" do
-
-        it "should create the target" do
-          
-          # project.create_target :ios do |target|
-          #   
-          #   target.name = 'newtarget'
-          #   target.productName = 'newProductName'
-          #   
-          #   target.properties['name'].should == 'newtarget'
-          #   target.properties['productName'].should == 'newProductName'
-          #   
-          #   target.create_build_phases :resources, :sources, :frameworks each do |phase|
-          #     # Custom build phase creation (i.e. set files)
-          #   end
-          #   
-          #   # TODO: auto-generates a configuration list or appends to the configuration list
-          #   target.create_build_configurations :debug, :release do |config|
-          #     # Custom configuration settings
-          #   end
-          #   
-          #   target.default_configuration = :release
-          #   
-          #   target.add_product do |product|
-          #     # Custom product settings
-          #     # 
-          #     # Defaults to adding the product to the 'Products' group
-          #     # 
-          #     # product.name
-          #   end
-          #   
-          # end
-          # 
-          # project.save!
-          
-        end
-
+      
+      let(:subject) { project.create_target('SuperNewTestTarget') }
+      
+      it "should generate a target with the name specified" do
+        subject.name.should == 'SuperNewTestTarget'
       end
-
+      
+      it "should be available in the list of project targets" do
+        project.target('SuperNewTestTarget').should_not be_nil
+      end
+      
+      it "should generate a target that knows the project" do
+        subject.project.should == project
+      end
+    end
+    
+    describe "#remove_target" do
+      
+      let(:subject) { project.create_target('SoonToBeRetiredTarget') }
+      
+      it "should remove the target created" do
+        project.remove_target(subject.name)
+        project.targets.find {|target| target.name == subject.name }.should be_nil
+        
+      end
 
     end
     
   end
-  
   
   describe "Schemes" do
     
@@ -141,6 +124,32 @@ describe Xcode::Project do
 
     end
     
+  end
+  
+  describe "#group" do
+    it "should find or create the entire path specified" do
+      group = project.group('fe/fi/fo/fum')
+      group.name.should == "fum"
+      group.supergroup.name.should == "fo"
+    end
+  end
+  
+  describe "#products_group" do
+    it "should find the 'Products' group" do
+      project.products_group.should_not be_nil
+    end
+  end
+  
+  describe "#frameworks_group" do
+    it "should find the 'Frameworks' group" do
+      project.products_group.should_not be_nil
+    end
+  end
+  
+  describe "#to_xcplist" do
+    it "should respond to this method" do
+      project.should respond_to :to_xcplist
+    end
   end
   
 end

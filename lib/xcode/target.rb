@@ -28,12 +28,16 @@ module Xcode
   #        productType = "com.apple.product-type.application";
   #      };
   #   
+  # @todo provide more targets, based on the properties hash generated from Xcode
   # 
   module Target
     
-    def self.target_for_type(target_type)
-      
-      # ios
+    #
+    # This is a generic properties hash for an ios target
+    # @todo this target should create by default the sources, frameworks, and 
+    #   resources build phases.
+    # 
+    def self.ios
       { 'isa' => 'PBXNativeTarget',
         'buildConfigurationList' => nil,
         'buildPhases' => [],

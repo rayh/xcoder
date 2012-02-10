@@ -62,9 +62,17 @@ module Xcode
     # the path the group is created. Also paths can be specified to make the 
     # traversing of the groups easier.
     # 
-    # @todo provide additional parameters that define this functionality of creating
-    #   along the way.
+    # @example a group path that contains a traversal to sub-groups
     # 
+    #     project.group('Vendor/MyCode/Support Files')
+    #     # is equivalent to...
+    #     project.group('Vendor').first.group('MyCode').first.group('Supporting Files')
+    # 
+    # @note this path functionality current is only exercised from the project level
+    #   all groups will treat the path division `/` as simply a character.
+    # 
+    # @note this will attempt to find the paths specified, if it fails to find them
+    #   it will create one and then continue traversing.
     #
     # @param [String] name the group name to find/create
     # 
@@ -72,8 +80,13 @@ module Xcode
       
       current_group = @project.mainGroup
       
+      # @todo consider this traversing and find/create as a normal procedure when
+      #   traversing the project.
+      
       name.split("/").each do |path_component|
-        current_group = current_group.find_or_create_group(path_component)
+        found_group = current_group.group(path_component).first
+        found_group = current_group.create_group(path_component) unless found_group
+        current_group = found_group
       end
       
       current_group
@@ -140,9 +153,7 @@ module Xcode
       # FileUtils.cp_r "#{path}/project.xcworkspace", "#{path}/project.xcworkspace"
       
       File.open(project_filepath,'w') do |file|
-        
         file.puts to_xcplist
-        
       end
     end
     
@@ -202,10 +213,11 @@ module Xcode
     # @param [String] name the name to provide to the target. This will also
     #   be the value that other defaults will be based on.
     #
-    def create_target(name = nil)
+    def create_target(name,type=:ios)
       
-      target = @registry.add_object(Target.target_for_type(:ios))
+      target = @registry.add_object Target.send(type)
       @project.properties['targets'] << target.identifier
+      
       target.name = name
       
       target.project = self
@@ -227,7 +239,7 @@ module Xcode
     #
     # Remove a target from the Xcode project.
     # 
-    # @note this will remove the first project that matches the specified name.
+    # @note this will remove the first target that matches the specified name.
     # 
     # @note this will remove only the project entry at the moment and not the
     #   the files that may be associated with the target. All build phases, 
@@ -238,9 +250,11 @@ module Xcode
     #   project.
     #
     def remove_target(name)
-      # @todo like an error message would be useful and have parity with the
-      #   other commands that throw error messages.
-      @registry.remove_object(target(name).identifier) if target(name)
+      found_target = targets.find {|target| target.name == name }
+      if found_target
+        @project.properties['targets'].delete found_target.identifier
+        @registry.remove_object found_target.identifier
+      end
     end
 
     def describe
