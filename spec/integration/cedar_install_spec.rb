@@ -6,14 +6,14 @@ describe "Cedar", :integration => true do
   
   it "should update a project with a working installation of Cedar" do
     
+    # Copy the files necessary for the project to the correct destination
+    
+    FileUtils.cp_r "examples/Cedar/Vendor", "spec/TestProject"
+    FileUtils.cp_r "examples/Cedar/Specs", "spec/TestProject"
+    
     #
     # The following block of code will generate the target with all the neccessary
     # parameters and properties to get a full working 'Cedar' spec to build.
-    # 
-    # There are assumptions here that the files of Cedar have been copied into the
-    # correct locations. To assist with that, those files have already been placed
-    # within the project file. So this is simply using them in their current 
-    # location.
     # 
     
     project.create_target 'Specs' do |target|
