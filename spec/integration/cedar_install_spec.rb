@@ -8,8 +8,8 @@ describe "Cedar", :integration => true do
     
     # Copy the files necessary for the project to the correct destination
     
-    FileUtils.cp_r "examples/Cedar/Vendor", "spec/TestProject"
-    FileUtils.cp_r "examples/Cedar/Specs", "spec/TestProject"
+    # FileUtils.cp_r "examples/Cedar/Vendor", "spec/TestProject"
+    # FileUtils.cp_r "examples/Cedar/Specs", "spec/TestProject"
     
     #
     # The following block of code will generate the target with all the neccessary
@@ -77,6 +77,9 @@ describe "Cedar", :integration => true do
       # E21EB9EE14E359840058122A /* Cedar-iPhone.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Cedar-iPhone.framework"; path = "Vendor/Frameworks/Cedar-iPhone.framework"; sourceTree = "<group>"; };
       cedar_framework = target.project.frameworks_group.create_framework 'name' => 'Cedar-iPhone.framework', 'path' => 'Vendor/Frameworks/Cedar-iPhone.framework', 'sourceTree' => '<group>'
       
+      # @note this is not a requirement of Cedar, but is being added here to test 
+      #   adding a system framework
+      cfnetwork_framework = target.project.frameworks_group.create_system_framework 'CFNetwork'
       
       # @todo this is dumb to have the first being called. There must be a more clear way
       
@@ -85,6 +88,7 @@ describe "Cedar", :integration => true do
         frameworks.add_build_file target.project.frameworks_group.file('UIKit.framework').first
         frameworks.add_build_file target.project.frameworks_group.file('Foundation.framework').first
         frameworks.add_build_file target.project.frameworks_group.file('CoreGraphics.framework').first
+        frameworks.add_build_file cfnetwork_framework
       end
       
       target.create_configurations 'Debug', 'Release' do |config|

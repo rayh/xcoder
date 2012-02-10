@@ -123,6 +123,10 @@ module Xcode
       create_child_object FileReference.framework(framework_properties)
     end
     
+    def create_system_framework(name)
+      create_child_object FileReference.system_framework(name)
+    end
+    
     #
     # Create an infoplist within this group.
     # 
