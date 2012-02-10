@@ -28,9 +28,6 @@ describe "EGORefreshTableHeaderView", :integration => true do
     
     # Select the main target of the project and add the source file to the build
     # phase.
-    # 
-    # @todo this currently will add the files multiple times based on the application 
-    #   execution. This should be addressed to check before adding.
     
     source_build_phase = project.target('TestProject').sources_build_phase
     
