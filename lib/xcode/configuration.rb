@@ -59,12 +59,12 @@ module Xcode
     # @see InfoPlist
     # 
     def info_plist
-      info = Xcode::InfoPlist.new(self, info_plist_location)
+      # puts @json.inspect
+      info = Xcode::InfoPlist.new(self, info_plist_location)  
       yield info if block_given?
       info.save
       info
     end
-
     
     #
     # @return the name of the product that this configuration will generate.
@@ -124,6 +124,6 @@ module Xcode
         value
       end
     end
-   
+
   end
 end
