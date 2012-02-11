@@ -21,8 +21,6 @@ module Xcode
     # This method is used internally to determine if the value that is being 
     # retrieved is an identifier.
     # 
-    # @todo this should likely be moved to the Regsitry which knows much more
-    #   about identifiers and what makes them valid.
     # @param [String] value is the specified value in the form of an identifier
     #
     def self.is_identifier? value
@@ -95,6 +93,8 @@ module Xcode
       objects[identifier]
     end
     
+    MAX_IDENTIFIER_GENERATION_ATTEMPTS = 10
+    
     #
     # Provides a method to generically add objects to the registry. This will
     # create a unqiue identifier and add the specified parameters to the 
@@ -110,11 +110,27 @@ module Xcode
     # 
     def add_object(object_properties)
       
-      # @todo the Simple Generator does not take into account if an identifier
-      #   generated will collide with an existing identifier within the project
-      #   file.
-      
       new_identifier = SimpleIdentifierGenerator.generate
+      
+      # Ensure that the identifier generated is unique
+      
+      identifier_generation_count = 0
+      
+      while objects.key?(new_identifier)
+        
+        new_identifier = SimpleIdentifierGenerator.generate
+        
+        # Increment our identifier generation count and if we reach our max raise
+        # an exception as something has gone horribly wrong.
+
+        identifier_generation_count += 1
+        if identifier_generation_count > MAX_IDENTIFIER_GENERATION_ATTEMPTS
+          raise "Unable to generate a unique identifier for object: #{object_properties}"
+        end
+      end
+      
+      new_identifier = SimpleIdentifierGenerator.generate if objects.key?(new_identifier)
+      
       
       objects[new_identifier] = object_properties
       
