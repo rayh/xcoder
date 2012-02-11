@@ -180,31 +180,18 @@ module Xcode
       end
       
     end
-
     
     #
     # Create a product reference file and add it to the product. This is by
     # default added to the 'Products' group.
     # 
     # @param [String] name of the product reference to add to the product
+    # @return [Resource] the product created
     #
     def create_product_reference(name)
-      
-      # Add the file reference
-      
-      product = @registry.add_object FileReference.app_product(name)
-
-      # Add the file ref to the 'Products' group
-      
-      # @todo change the way that files are added to the group
-      
-      project_group = project.products_group
-      
-      project_group.properties['children'] << product.identifier
-      project_group.save!
-      
-      # set the productReference
-      @properties['productReference'] = product.identifier
+      product = project.products_group.create_product_reference(name)
+      product_reference = product.identifier
+      product
     end
     
   end

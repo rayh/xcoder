@@ -139,6 +139,20 @@ module Xcode
       create_child_object VariantGroup.info_plist(infoplist_properties)
     end
     
+    #
+    # Create a product reference witin this group.
+    # 
+    # @note this is usually performed through the target as it is necessary within
+    #   the target to specify what is the product reference.
+    # 
+    # @see Target#create_product_reference
+    # 
+    # @param [String] name the name of the product to generate
+    # 
+    def create_product_reference(name)
+      create_child_object FileReference.app_product(name)
+    end
+    
     private
     
     #
