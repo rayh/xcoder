@@ -21,6 +21,13 @@ module Xcode
     end
     
     #
+    # @return [Hash] a hash of symbol names to configuration names.
+    # 
+    def self.symbol_config_name_to_config_name
+      { :debug => 'Debug', :release => 'Release' }
+    end
+    
+    #
     # Create a configuration for this ConfigurationList. This configuration needs
     # to have a name.
     # 
@@ -31,7 +38,7 @@ module Xcode
     #
     def create_config(name)
       
-      # @todo translate :debug => 'Debug', :release => 'Release'
+      name = ConfigurationList.symbol_config_name_to_config_name[name] if ConfigurationList.symbol_config_name_to_config_name[name]
       
       # @todo a configuration has additional fields that are ususally set with 
       #   some target information for the title.
