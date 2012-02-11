@@ -77,10 +77,6 @@ describe "Cedar", :integration => true do
       # E21EB9EE14E359840058122A /* Cedar-iPhone.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Cedar-iPhone.framework"; path = "Vendor/Frameworks/Cedar-iPhone.framework"; sourceTree = "<group>"; };
       cedar_framework = target.project.frameworks_group.create_framework 'name' => 'Cedar-iPhone.framework', 'path' => 'Vendor/Frameworks/Cedar-iPhone.framework', 'sourceTree' => '<group>'
       
-      # @note this is not a requirement of Cedar, but is being added here to test 
-      #   adding a system framework
-      cfnetwork_framework = target.project.frameworks_group.create_system_framework 'CFNetwork'
-      
       # @todo this is dumb to have the first being called. There must be a more clear way
       
       target.create_build_phase :framework do |frameworks|
