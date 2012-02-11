@@ -1,5 +1,6 @@
 module Xcode
   module Shell
+    
     def self.execute(bits, show_output=true)
       out = []
       cmd = bits.is_a?(Array) ? bits.join(' ') : bits
