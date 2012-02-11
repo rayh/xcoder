@@ -13,12 +13,6 @@ describe Xcode::Project do
 
       let(:subject) { project.targets }
 
-      it "should give the correct number of targets" do
-        # @todo becaues I have other tests that are generating targets this
-        #   test is not working correctly.
-        # subject.size.should == 4
-      end
-      
       it "should return the correct targets" do
         subject[0].name.should == expected_first_target
         subject[1].name.should == expected_second_target

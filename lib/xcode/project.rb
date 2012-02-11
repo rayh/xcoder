@@ -210,6 +210,11 @@ module Xcode
     # @todo generate a create target with sensible defaults, similar to how
     #   it is done through Xcode itself.
     # 
+    # @todo based on the specified type of target, default build phases and
+    #   configuration should be created for the target similar to what is 
+    #   supported in xcode.  Currently even now the :ios target does not
+    #   generate the deafult build_phases for you and requires you to make those.
+    # 
     # @param [String] name the name to provide to the target. This will also
     #   be the value that other defaults will be based on.
     #
@@ -226,15 +231,6 @@ module Xcode
       target.project = self
       
       yield target if block_given?
-      
-      # @todo if build phases have not been specified then assume we want to
-      #   create all the default build phases. How would one specify that they
-      #   want to not specify any build phases?
-      
-      # @todo if build configurations have not been specified then assume we 
-      #   want to create all the default configrations. How would one specify 
-      #   that they want to not specify any configurations? How do we figure
-      #   out what are the default configurations?
       
       target.save!
     end
