@@ -1,5 +1,4 @@
-require 'rspec'
-require 'xcoder'
+require_relative 'spec_helper'
 
 describe Xcode::Group do 
 
