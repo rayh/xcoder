@@ -34,17 +34,18 @@ module Xcode
     # @param [String] isa the type of the object.
     #
     def self.isa_to_module isa
-      
+
       { 'XCBuildConfiguration' => Configuration,
         'PBXFileReference' => FileReference,
         'PBXGroup' => Group,
         'PBXNativeTarget' => Target,
+        'PBXAggregateTarget' => Target,
         'PBXFrameworksBuildPhase' => BuildPhase,
         'PBXSourcesBuildPhase' => BuildPhase,
         'PBXResourcesBuildPhase' => BuildPhase,
         'PBXBuildFile' => BuildFile,
         'PBXVariantGroup' => VariantGroup }[isa]
-      
+    
     end
     
     #

@@ -60,7 +60,7 @@ module Xcode
     end
     
     #
-    # Saves the current proeject at the specified path.
+    # Saves the current project at the specified path.
     # 
     # @note currently this does not support saving the workspaces associated 
     #   with the project to their new location.
