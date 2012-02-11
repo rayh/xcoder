@@ -8,8 +8,8 @@ describe "Cedar", :integration => true do
     
     # Copy the files necessary for the project to the correct destination
     
-    # FileUtils.cp_r "examples/Cedar/Vendor", "spec/TestProject"
-    # FileUtils.cp_r "examples/Cedar/Specs", "spec/TestProject"
+    FileUtils.cp_r "examples/Cedar/Vendor", "spec/TestProject"
+    FileUtils.cp_r "examples/Cedar/Specs", "spec/TestProject"
     
     #
     # The following block of code will generate the target with all the neccessary
@@ -84,7 +84,6 @@ describe "Cedar", :integration => true do
         frameworks.add_build_file target.project.frameworks_group.file('UIKit.framework').first
         frameworks.add_build_file target.project.frameworks_group.file('Foundation.framework').first
         frameworks.add_build_file target.project.frameworks_group.file('CoreGraphics.framework').first
-        frameworks.add_build_file cfnetwork_framework
       end
       
       target.create_configurations :debug, :release do |config|
