@@ -91,7 +91,7 @@ describe "Cedar", :integration => true do
         frameworks.add_build_file cfnetwork_framework
       end
       
-      target.create_configurations 'Debug', 'Release' do |config|
+      target.create_configurations :debug, :release do |config|
         config.set 'GCC_PREFIX_HEADER', 'Specs/Specs-Prefix.pch'
         config.set 'INFOPLIST_FILE', 'Specs/Specs-Info.plist'
         config.set 'OTHER_LDFLAGS', '-ObjC -all_load -lstdc++'
