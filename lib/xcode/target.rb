@@ -117,23 +117,28 @@ module Xcode
     # @return [BuildPhase] the framework specific build phase of the target.
     # 
     def framework_build_phase
-      build_phases.find {|phase| phase.isa == 'PBXFrameworksBuildPhase' }
+      build_phase 'PBXFrameworksBuildPhase'
     end
     
     #
     # @return [BuildPhase] the sources specific build phase of the target.
     # 
     def sources_build_phase
-      build_phases.find {|phase| phase.isa == 'PBXSourcesBuildPhase' }
+      build_phase 'PBXSourcesBuildPhase'
     end
     
     #
     # @return [BuildPhase] the resources specific build phase of the target.
     # 
     def resources_build_phase
-      build_phases.find {|phase| phase.isa == 'PBXResourcesBuildPhase' }
+      build_phase 'PBXResourcesBuildPhase'
     end
     
+    def build_phase(type,&block)
+      found_build_phase = build_phases.find {|phase| phase.isa == type }
+      found_build_phase.instance_eval(&block) if block_given?
+      found_build_phase
+    end
     #
     # @example building the three main phases for a target.
     # 
