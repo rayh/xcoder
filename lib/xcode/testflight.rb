@@ -36,7 +36,7 @@ module Xcode
       
       cmd = []
       cmd << 'curl'
-      cmd << "--proxy #{@proxy}" unless @proxy.nil?
+      cmd << "--proxy #{@proxy}" unless @proxy.nil? or @proxy=='' 
       cmd << "-X POST http://testflightapp.com/api/builds.json"
       cmd << "-F file=@\"#{ipa_path}\""
       cmd << "-F dsym=@\"#{dsymzip_path}\"" unless dsymzip_path.nil?

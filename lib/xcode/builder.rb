@@ -58,7 +58,10 @@ module Xcode
       parser
     end
     
-    def upload(api_token, team_token)
+    def testflight(api_token, team_token)
+      raise "Can't find #{ipa_path}, do you need to call builder.build?" unless File.exists? ipa_path
+      raise "Can't fins #{dsym_zip_path}, do you need to call builder.build?" unless File.exists? dsym_zip_path
+      
       testflight = Xcode::Testflight.new(api_token, team_token)
       yield(testflight) if block_given?
       testflight.upload(ipa_path, dsym_zip_path)
@@ -77,7 +80,9 @@ module Xcode
       cmd << "SYMROOT=\"#{@build_path}\""
       cmd << "clean"
       Xcode::Shell.execute(cmd)
-
+      
+      @built = false
+      @packaged = false
       # FIXME: Totally not safe
       # cmd = []
       # cmd << "rm -Rf #{build_path}"
@@ -96,6 +101,8 @@ module Xcode
     end
     
     def package
+      raise "Can't find #{app_path}, do you need to call builder.build?" unless File.exists? app_path
+      
       #package IPA
       cmd = []      
       cmd << "xcrun"
@@ -124,6 +131,7 @@ module Xcode
       cmd << "-y \"#{dsym_zip_path}\""
       cmd << "\"#{dsym_path}\""
       Xcode::Shell.execute(cmd)
+
     end
     
     def configuration_build_path
