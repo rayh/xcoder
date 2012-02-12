@@ -10,20 +10,22 @@ describe "EGORefreshTableHeaderView", :integration => true do
     
     FileUtils.cp_r "examples/EGORefreshTableHeaderView/Vendor", "spec/TestProject"
     
-    # Create or traverse to the group to install the source files
-    
-    ptr_group = project.group('Vendor/EGORefreshTableHeaderView')
-    
     # Add the source and header file to the project
     
     source_files = [ { 'name' => 'EGORefreshTableHeaderView.m', 'path' => 'Vendor/EGORefreshTableHeaderView/EGORefreshTableHeaderView.m' },
                      { 'name' => 'EGORefreshTableHeaderView.h', 'path' => 'Vendor/EGORefreshTableHeaderView/EGORefreshTableHeaderView.h' } ]
-    
-    source_files.each do |source|
-      ptr_group.create_file(source) if ptr_group.file(source['name']).empty?
+
+    # Create or traverse to the group to install the source files
+
+    project.group('Vendor/EGORefreshTableHeaderView') do
+
+      source_files.each do |source|
+        create_file(source) if exists? source['name']
+      end
+ 
     end
-    
-    ptr_source = ptr_group.file('EGORefreshTableHeaderView.m').first
+
+    ptr_source = project.file('Vendor/EGORefreshTableHeaderView/EGORefreshTableHeaderView.m')
     
     # Select the main target of the project and add the source file to the build
     # phase.

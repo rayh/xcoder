@@ -86,6 +86,12 @@ module Xcode
     end
     
     #
+    # Check whether a file or group is contained within this group.
+    #
+    def exists?(name)
+      children.find_all {|child| child.name == name }
+    end
+    #
     # Adds a group as a child to current group with the given name. 
     # 
     # @note A group may be added that has the same name as another group as they
