@@ -45,7 +45,8 @@ module Xcode
         'PBXResourcesBuildPhase' => BuildPhase,
         'PBXBuildFile' => BuildFile,
         'PBXVariantGroup' => VariantGroup,
-        'XCConfigurationList' => ConfigurationList }[isa]
+        'XCConfigurationList' => ConfigurationList,
+        'PBXVariantGroup' => VariantGroup }[isa]
     end
     
     #
