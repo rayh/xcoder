@@ -1,11 +1,13 @@
 require 'time'
 require 'FileUtils'
-require 'xcode/test/formatters/junit_formatter'
 require 'xcode/test/suite_result'
 require 'xcode/test/test_result'
 
 module Xcode
   module Test
+    
+    module Formatters
+    end
   
     class OCUnitReportParser
 
@@ -20,6 +22,7 @@ module Xcode
         dir = File.expand_path(dir)
         FileUtils.mkdir_p(dir)
       
+        require "xcode/test/formatters/#{format.to_s}_formatter"
         formatter = Formatters.const_get("#{format.to_s.capitalize}Formatter").new(dir)
         @reports.each do |r|
           formatter.write(r)
