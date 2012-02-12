@@ -44,12 +44,18 @@ module Xcode
     end
     
     
+    #
+    # @return [Fixnum] the project's object version
+    # 
     def object_version
-      @registry['objectVersion']
+      @registry.object_version
     end
-    
+
+    #
+    # @return [Fixnum] the project's archive version
+    # 
     def archive_version
-      @registry['archiveVersion']
+      @registry.archive_version
     end
     
     #

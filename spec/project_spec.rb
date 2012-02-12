@@ -148,13 +148,13 @@ describe Xcode::Project do
   
   describe "#object_version" do
     it "should return the correct version" do
-      project.object_version.should == "46"
+      project.object_version.should == 46
     end
   end
   
   describe "#archive_version" do
     it "should return the correct version" do
-      project.archive_version.should == "1"
+      project.archive_version.should == 1
     end
   end
   
