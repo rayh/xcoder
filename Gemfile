@@ -1,11 +1,14 @@
 source "http://rubygems.org"
 
 gemspec
-gem 'rspec'
 gem 'builder'
 gem 'json'
 gem 'plist'
 gem 'rest-client'
-gem 'guard'
-gem 'guard-rspec'
-gem 'ruby-debug19'
+
+group :test do
+  gem 'rspec'
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'ruby-debug19'
+end
