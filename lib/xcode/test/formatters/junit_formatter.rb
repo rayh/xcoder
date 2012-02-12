@@ -36,8 +36,15 @@ module Xcode
               end
             end
           end
-        end
-      end
-    end
-  end
-end
+          
+          File.open("#{@dir}/TEST-#{report.name}.xml", 'w') do |current_file|
+            current_file.write xml.target!
+          end
+          
+        end # write
+        
+      end # JUnitFormatter
+      
+    end # Formatters
+  end # Test
+end # Xcode
