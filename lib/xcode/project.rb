@@ -92,7 +92,9 @@ module Xcode
     #
     # @param [String] name the group name to find/create
     # 
-    def group(name,&block)
+    def group(name,options = {},&block)
+      # By default create missing groups along the way
+      options = { :create => true }.merge(options)
       
       current_group = @project.main_group
       
@@ -101,11 +103,17 @@ module Xcode
       
       name.split("/").each do |path_component|
         found_group = current_group.group(path_component).first
-        found_group = current_group.create_group(path_component) unless found_group
+        
+        if options[:create] and found_group.nil?
+          found_group = current_group.create_group(path_component)
+        end
+        
         current_group = found_group
+        
+        break unless current_group
       end
       
-      current_group.instance_eval(&block) if block_given?
+      current_group.instance_eval(&block) if block_given? and current_group
       
       current_group
     end
@@ -304,6 +312,32 @@ module Xcode
         puts "    + Launch action => target:#{s.launch.target.name}, config:#{s.launch.name}" unless s.launch.nil?
         puts "    + Test action   => target:#{s.test.target.name}, config:#{s.test.name}" unless s.test.nil?
       end
+    end
+    
+    #
+    # @note Vendor Compatibility
+    # 
+    def root_object
+      self
+    end
+    
+    # 
+    # @note Vendor Compatibility
+    # 
+    def find_target(name)
+      targets.find {|target| target.name == name }
+    end
+    
+    # @note Vendor Compatibility
+    def find_group(name)
+      group(name,:create => false)
+    end
+    
+    alias_method :create_group, :group
+    
+    def remove_group(name)
+      found_group = group(name,:create => false)
+      found_group.remove! if found_group
     end
     
     private
