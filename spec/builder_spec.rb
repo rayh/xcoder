@@ -42,6 +42,32 @@ describe Xcode::Builder do
       end
 
     end
+    
+    
+    describe "#test" do
+      
+      let(:configuration) do
+        Xcode.project('TestProject').target('TestProjectTests').config('Debug')
+      end
+      
+      let(:default_test_parameters) do
+        [ "xcodebuild", 
+          "-sdk iphonesimulator", 
+          "-project \"#{configuration.target.project.path}\"", 
+          "-target \"#{configuration.target.name}\"", 
+          "-configuration \"#{configuration.name}\"", 
+          "OBJROOT=\"#{File.dirname(configuration.target.project.path)}/build/\"", 
+          "SYMROOT=\"#{File.dirname(configuration.target.project.path)}/build/\"",
+          "TEST_AFTER_BUILD=YES",
+          "TEST_HOST=''",]
+      end
+      
+      it "should be able to run the test target" do
+        Xcode::Shell.should_receive(:execute).with(default_test_parameters, false)
+        subject.test
+      end
+      
+    end
 
     describe "#clean" do
 

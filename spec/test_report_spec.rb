@@ -1,10 +1,10 @@
 require 'rspec'
 require 'xcoder'
 
-describe Xcode::Test::ReportParser do 
+describe Xcode::Test::OCUnitReportParser do 
   
   def example_report
-    t = Xcode::Test::ReportParser.new
+    t = Xcode::Test::OCUnitReportParser.new
     t << "Run test suite AnExampleTestSuite"
     t << "Test Suite 'AnExampleTestSuite' started at 2012-02-10 00:37:04 +0000"
     

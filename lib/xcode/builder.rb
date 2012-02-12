@@ -1,6 +1,6 @@
 require 'xcode/shell'
 require 'xcode/provisioning_profile'
-require 'xcode/test/report_parser.rb'
+require 'xcode/test/ocunit_report_parser.rb'
 require 'xcode/testflight'
 
 module Xcode
@@ -45,7 +45,7 @@ module Xcode
       cmd << "TEST_AFTER_BUILD=YES"
       cmd << "TEST_HOST=''"
       
-      parser = Xcode::Test::ReportParser.new
+      parser = Xcode::Test::OCUnitReportParser.new
       Xcode::Shell.execute(cmd, false) do |line|
         puts line
         parser << line
