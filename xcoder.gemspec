@@ -5,8 +5,8 @@ require "xcode/version"
 Gem::Specification.new do |s|
   s.name        = "xcoder"
   s.version     = Xcode::VERSION
-  s.authors     = ["Ray Hilton"]
-  s.email       = ["ray@wirestorm.net"]
+  s.authors     = ["Ray Hilton", "Frank Webber"]
+  s.email       = ["ray@wirestorm.net", "franklin.webber@gmail.com"]
   s.homepage    = "https://github.com/rayh/xcoder"
   s.summary     = %q{Ruby wrapper around xcodebuild, xcrun, agvtool and pbxproj files}
   s.description = %q{Provides a ruby based object-model for parsing project structures and invoking builds}
