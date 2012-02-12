@@ -49,6 +49,7 @@ You can import a certificate from a .p12 file into a keychain.  Here we simply c
 	Xcode::Keychain.temp_keychain('ProjectKeychain.keychain') do |keychain|
 		keychain.import 'Certs/MyCert.p12', 'mycertpassword'
 		
+		builder.keychain = keychain						# Tell the builder to use the temp keychain
 		builder.identity = keychain.identities.first	# Get the first (only) identity name from the keychain
 		builder.build
 	end 
