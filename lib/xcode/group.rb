@@ -176,6 +176,20 @@ module Xcode
       create_child_object FileReference.app_product(name)
     end
     
+    def remove!
+      groups.each {|group| group.remove! }
+      files.each {|file| file.remove! }
+      supergroup.remove_child_object identifier
+      @registry.remove_object identifier
+    end
+    
+    def remove_child_object(identifier)
+      found_child = children.find {|child| child.identifier == identifier }
+      @properties['children'].delete identifier
+      save!
+      found_child
+    end
+    
     private
     
     #

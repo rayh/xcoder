@@ -72,6 +72,14 @@ module Xcode
         'sourceTree' => "BUILT_PRODUCTS_DIR" }
     end
     
+    
+    def remove!
+      # @todo the removal here does not consider if the files have
+      #   been specified within a build phase.
+      supergroup.children.delete identifier if supergroup
+      @registry.remove_object identifier
+    end
+    
   end
   
 end

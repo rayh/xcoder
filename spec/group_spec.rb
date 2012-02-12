@@ -50,7 +50,19 @@ describe Xcode::Group do
         subgroup.identifier.should == found_subgroup.identifier
       end
     end
+  end
+  
+  describe "#remove!" do
 
+    let!(:subject) { project.group('created/groups/to') }
+    let!(:group_losing_a_child) { project.group('created/groups') }
+    let!(:remove_grandchild) { project.group('created/groups/to/here') }
+    
+    it "should remove the group and all the children" do
+      subject.supergroup.remove!
+      group_losing_a_child.groups.should be_empty
+    end
+    
   end
   
   describe "Files" do
