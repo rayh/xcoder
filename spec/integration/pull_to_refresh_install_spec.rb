@@ -30,9 +30,9 @@ describe "EGORefreshTableHeaderView", :integration => true do
     # Select the main target of the project and add the source file to the build
     # phase.
     
-    source_build_phase = project.target('TestProject').sources_build_phase
-    
-    source_build_phase.add_build_file(ptr_source) unless source_build_phase.build_file(ptr_source.name)
+    project.target('TestProject').sources_build_phase do
+      add_build_file ptr_source
+    end
     
     project.save!
   end

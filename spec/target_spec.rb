@@ -85,6 +85,16 @@ describe Xcode::Target do
     it "should return the correct build phase" do
       subject.framework_build_phase.should_not be_nil
     end
+    
+    it "should allow a block to be passed to it" do
+      
+      test_file = project.groups.create_file 'name' => 'TestFile.m', 'path' => 'TestFile.m'
+      
+      subject.framework_build_phase do
+        add_build_file test_file
+      end
+    end
+    
   end
   
   describe "#sources_build_phase" do

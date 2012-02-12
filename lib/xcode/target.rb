@@ -134,8 +134,10 @@ module Xcode
       build_phase 'PBXResourcesBuildPhase'
     end
     
-    def build_phase(type)
-      build_phases.find {|phase| phase.isa == type }
+    def build_phase(type,&block)
+      found_build_phase = build_phases.find {|phase| phase.isa == type }
+      found_build_phase.instance_eval(&block) if block_given?
+      found_build_phase
     end
     #
     # @example building the three main phases for a target.
