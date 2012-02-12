@@ -1,6 +1,6 @@
 # XCoder
 
-A ruby wrapper around various xcode tools and the project.pbxproj
+A ruby wrapper around various xcode tools and project, schemes and workspace configuration files
 
 ## Example Usage
 
@@ -30,6 +30,28 @@ and then require the gem in your project/rakefile/etc
 	builder.profile = 'Profiles/MyAdHoc.mobileprovision'	# This will remove old profiles and install the profile
 	builder.identity = 'iPhone Developer: Ray Hilton'		# The name of the identity to use to sign the IPA (optional)
 	builder.build
+	
+### Working with Keychains
+	
+You will not normally need to worry about manipulating keychains unless you want to automate importing of certificates (in a CI system with many clients) or opening of specific keychains for different builds (the old two-certs-with-same-identity-name workaround).
+
+You can either use the user's login keychain, another named keychain, or simply use a temporary keychain that will be blown away after the build.
+
+	Xcode::Keychain.temp_keychain('ProjectKeychain.keychain') do |keychain|
+		# import certs into the keychain
+		# perform builds within this keychain's context
+	end	# Keychain is deleted
+		
+### Importing a certificate
+
+You can import a certificate from a .p12 file into a keychain.  Here we simply create a temporary keychain, import a certificate, set the identity onto the builder and then perform a build.
+ 
+	Xcode::Keychain.temp_keychain('ProjectKeychain.keychain') do |keychain|
+		keychain.import 'Certs/MyCert.p12', 'mycertpassword'
+		
+		builder.identity = keychain.identities.first	# Get the first (only) identity name from the keychain
+		builder.build
+	end 
 	
 ### Packaging a built .app
 
@@ -88,10 +110,6 @@ Or enumerate installed profiles:
 		p.uninstall		# Removes the profile from ~/Library/
 	end
 
-### Security / Keychain
-
-The missing component here is to be able to manipulate keychains.  This is quite possible through the command line 'security' tool, but will probably only be necessary once per project, and so I have no plans to support this.  If you can think of a use-case, please raise and issue for it!
-
 ### Testflight
 
 The common output of this build/package process is to upload to testflight.  This is pretty simple with xcoder:
@@ -104,7 +122,7 @@ The common output of this build/package process is to upload to testflight.  Thi
 	
 You can also optionally set a .proxy= property or just set the HTTP_PROXY environment variable.
 
-### OCUnit to JUnit 
+### OCUnit to JUnit reports
 
 You can invoke your test target/bundle from the builder
 
