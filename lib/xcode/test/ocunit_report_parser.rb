@@ -1,5 +1,5 @@
 require 'time'
-require 'FileUtils'
+require 'fileutils'
 require 'xcode/test/suite_result'
 require 'xcode/test/test_result'
 
