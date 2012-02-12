@@ -2,6 +2,52 @@ module Xcode
   
   module BuildPhase
     
+    # 
+    # @return [BuildPhase] the framework specific build phase of the target.
+    # 
+    # @example
+    # 
+    #     7165D44D146B4EA100DE2F0E /* Frameworks */ = {
+    #       isa = PBXFrameworksBuildPhase;                                        
+    #       buildActionMask = 2147483647;                                         
+    #       files = (                                                             
+    #         7165D455146B4EA100DE2F0E /* UIKit.framework in Frameworks */,       
+    #         7165D457146B4EA100DE2F0E /* Foundation.framework in Frameworks */,  
+    #         7165D459146B4EA100DE2F0E /* CoreGraphics.framework in Frameworks */,
+    #       );                                                                    
+    #       runOnlyForDeploymentPostprocessing = 0;                               
+    #     };                                                                      
+    # 
+    def self.framework
+      { 'isa' => 'PBXFrameworksBuildPhase',
+        'buildActionMask' => '2147483647',
+        'files' => [],
+        'runOnlyForDeploymentPostprocessing' => '0' }
+    end
+    
+    #
+    # @return [BuildPhase] the sources specific build phase of the target.
+    # 
+    def self.sources
+      { 'isa' => 'PBXSourcesBuildPhase',
+        'buildActionMask' => '2147483647',
+        'files' => [],
+        'runOnlyForDeploymentPostprocessing' => '0' }
+    end
+    
+    #
+    # @return [BuildPhase] the resources specific build phase of the target.
+    # 
+    def self.resources
+      { 'isa' => 'PBXResourcesBuildPhase',
+        'buildActionMask' => '2147483647',
+        'files' => [],
+        'runOnlyForDeploymentPostprocessing' => '0' }
+    end
+    
+    
+    
+    
     #
     # Return the files that are referenced by the build files. This traverses
     # the level of indirection to make it easier to get to the FileReference.
@@ -11,7 +57,7 @@ module Xcode
     # @return [Array<FileReference>] the files referenced by the build files.
     # 
     def build_files
-      files.map {|file| file.fileRef }
+      files.map {|file| file.file_ref }
     end
     
     #
@@ -37,8 +83,8 @@ module Xcode
     # phase.
     #
     def add_build_file(file)
-      build_identifier = @registry.add_object BuildFile.with_properties(file.identifier)
-      @properties['files'] << build_identifier 
+      new_build_file = @registry.add_object BuildFile.with_properties(file.identifier)
+      @properties['files'] << new_build_file.identifier
     end
     
   end

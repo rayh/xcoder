@@ -32,7 +32,7 @@ describe Xcode::BuildPhase do
     
     describe "#add_build_file" do
       it "should add the specified file to the build phase" do
-        source_file = project.groups.add_file 'NewFile.m'
+        source_file = project.groups.create_file 'NewFile.m'
         subject.add_build_file source_file
         subject.build_file('NewFile.m').should_not be_nil
       end

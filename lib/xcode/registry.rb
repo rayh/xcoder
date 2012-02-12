@@ -1,3 +1,5 @@
+require 'xcode/simple_identifier_generator'
+
 module Xcode
   
   #
@@ -19,8 +21,6 @@ module Xcode
     # This method is used internally to determine if the value that is being 
     # retrieved is an identifier.
     # 
-    # @todo this should likely be moved to the Regsitry which knows much more
-    #   about identifiers and what makes them valid.
     # @param [String] value is the specified value in the form of an identifier
     #
     def self.is_identifier? value
@@ -44,8 +44,8 @@ module Xcode
         'PBXSourcesBuildPhase' => BuildPhase,
         'PBXResourcesBuildPhase' => BuildPhase,
         'PBXBuildFile' => BuildFile,
-        'PBXVariantGroup' => VariantGroup }[isa]
-    
+        'PBXVariantGroup' => VariantGroup,
+        'XCConfigurationList' => ConfigurationList }[isa]
     end
     
     #
@@ -69,13 +69,31 @@ module Xcode
     end
     
     #
+    # Retrieve a Resource for the given identifier.
     # 
-    # @return [String] the object associated with this identifier; nil if no 
-    #   object matches the identifier.
+    # @param [String] identifier the unique identifier for the resource you are
+    #   attempting to find.
+    # @return [Resource] the Resource object the the data properties that would
+    #   be stored wihin it.
     # 
     def object(identifier)
+      Resource.new identifier, self
+    end
+    
+    #
+    # Retrieve the properties Hash for the given identifer. 
+    #
+    # @param [String] identifier the unique identifier for the resource you
+    #   are attempting to find.
+    # 
+    # @return [Hash] the raw, properties hash for the particular resource; nil 
+    #   if nothing matches the identifier.
+    #
+    def properties(identifier)
       objects[identifier]
     end
+    
+    MAX_IDENTIFIER_GENERATION_ATTEMPTS = 10
     
     #
     # Provides a method to generically add objects to the registry. This will
@@ -91,18 +109,47 @@ module Xcode
     #   that are known for the particular item.
     # 
     def add_object(object_properties)
-      # define a new group within the object list
-      # add it as a child
       
-      range = ('A'..'F').to_a + (0..9).to_a
+      new_identifier = SimpleIdentifierGenerator.generate
       
-      new_identifier = 24.times.inject("") {|ident| "#{ident}#{range.sample}" }
+      # Ensure that the identifier generated is unique
       
-      # TODO ensure identifier does not collide with other identifiers
+      identifier_generation_count = 0
+      
+      while objects.key?(new_identifier)
+        
+        new_identifier = SimpleIdentifierGenerator.generate
+        
+        # Increment our identifier generation count and if we reach our max raise
+        # an exception as something has gone horribly wrong.
+
+        identifier_generation_count += 1
+        if identifier_generation_count > MAX_IDENTIFIER_GENERATION_ATTEMPTS
+          raise "Unable to generate a unique identifier for object: #{object_properties}"
+        end
+      end
+      
+      new_identifier = SimpleIdentifierGenerator.generate if objects.key?(new_identifier)
+      
       
       objects[new_identifier] = object_properties
       
-      new_identifier
+      Resource.new new_identifier, self
+    end
+
+    #
+    # Replace an existing object that shares that same identifier. This is how
+    # a Resource is saved back into the registry. So that it will be known to 
+    # all other objects that it has changed.
+    # 
+    # @see Resource#save!
+    # 
+    # @param [Resource] resource the resource that you want to set at the specified
+    #   identifier. If an object exists at that identifier already it will be 
+    #   replaced.
+    #
+    def set_object(resource)
+      objects[resource.identifier] = resource.properties
     end
 
     #
