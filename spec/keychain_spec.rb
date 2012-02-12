@@ -13,8 +13,8 @@ describe Xcode::Keychain do
   it "should import a certificate" do 
     Xcode::Keychain.temp_keychain('Test2.keychain') do |kc|
       kc.import "#{File.dirname(__FILE__)}/Provisioning/TestUser.p12", 'testpassword'
-      kc.certificates.size.should==1
-      kc.certificates[0].should=="Test User"
+      kc.identities.size.should==1
+      kc.identities[0].should=="Test User"
     end
   end
   
