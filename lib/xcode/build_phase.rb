@@ -45,9 +45,6 @@ module Xcode
         'runOnlyForDeploymentPostprocessing' => '0' }
     end
     
-    
-    
-    
     #
     # Return the files that are referenced by the build files. This traverses
     # the level of indirection to make it easier to get to the FileReference.
@@ -69,7 +66,7 @@ module Xcode
     #   nil if no file is found.
     # 
     def build_file(name)
-      build_files.find {|file| file.name == name || file.path == name }
+      build_files.find {|file| file.name == name or file.path == name }
     end
     
     #
@@ -83,8 +80,11 @@ module Xcode
     # phase.
     #
     def add_build_file(file)
-      new_build_file = @registry.add_object BuildFile.with_properties(file.identifier)
-      @properties['files'] << new_build_file.identifier
+      find_file_by = file.name || file.path
+      unless build_file(find_file_by)
+        new_build_file = @registry.add_object BuildFile.with_properties(file.identifier)
+        @properties['files'] << new_build_file.identifier
+      end
     end
     
   end

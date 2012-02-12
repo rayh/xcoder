@@ -86,6 +86,12 @@ module Xcode
     end
     
     #
+    # Check whether a file or group is contained within this group.
+    #
+    def exists?(name)
+      children.find_all {|child| child.name == name }
+    end
+    #
     # Adds a group as a child to current group with the given name. 
     # 
     # @note A group may be added that has the same name as another group as they
@@ -110,7 +116,19 @@ module Xcode
     def create_file(file_properties)
       # This allows both support for the string value or the hash as the parameter
       file_properties = { 'path' => file_properties } if file_properties.is_a? String
-      create_child_object FileReference.file(file_properties)
+      
+      # IF the file already exists then we will not create the file with the
+      # parameters that are being supplied, instead we will return what we
+      # found.
+      
+      find_file_by = file_properties['name'] || file_properties['path']
+      found_or_created_file = exists?(find_file_by).first
+      
+      unless found_or_created_file
+        found_or_created_file = create_child_object FileReference.file(file_properties)
+      end
+      
+      found_or_created_file
     end
     
     #
@@ -123,6 +141,11 @@ module Xcode
       create_child_object FileReference.framework(framework_properties)
     end
     
+    #
+    # Create a system framework reference within this group
+    #
+    # @param [String] name the name of the System framework to add to this group.
+    #
     def create_system_framework(name)
       create_child_object FileReference.system_framework(name)
     end

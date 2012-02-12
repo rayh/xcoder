@@ -1,8 +1,9 @@
 require_relative 'spec_helper'
 
 describe Xcode::Group do 
-
-  let(:subject) { Xcode.project('TestProject').groups }
+  
+  let(:project) { Xcode.project('TestProject') }
+  let(:subject) { project.groups }
   
   describe "#groups" do
     context "when a group matches the name specified" do
@@ -52,9 +53,39 @@ describe Xcode::Group do
 
   end
   
-  describe "#files" do
-    it "should return the correct number of files within the group" do
-      subject.group('TestProject').first.files.count.should == 2
+  describe "Files" do
+    let(:subject) { project.groups.group('TestProject').first }
+  
+    describe "#files" do
+      it "should return the correct number of files within the group" do
+        subject.files.count.should == 2
+      end
     end
+  
+    describe "#file" do
+      it "should return the files that match" do
+        subject.file('AppDelegate.m').should_not be_empty
+      end
+    end
+  
+    describe "#create_file" do
+
+      let(:new_file_params) { {'name' => 'NewFile.m', 'path' => 'NewFile.m'} }
+            
+      before(:each) do
+        subject.create_file new_file_params
+      end
+    
+      it "should create the files within the group" do
+        subject.file(new_file_params['name']).should_not be_empty
+      end
+    
+      it "should not duplicate the file within the group" do
+        subject.create_file new_file_params
+        subject.file(new_file_params['name']).count.should == 1
+      end
+    end
+    
   end
+  
 end

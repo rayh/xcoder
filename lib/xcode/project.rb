@@ -77,7 +77,7 @@ module Xcode
     #
     # @param [String] name the group name to find/create
     # 
-    def group(name)
+    def group(name,&block)
       
       current_group = @project.main_group
       
@@ -90,7 +90,21 @@ module Xcode
         current_group = found_group
       end
       
+      current_group.instance_eval(&block) if block_given?
+      
       current_group
+    end
+    
+    #
+    # Return the file that matches the specified path. This will traverse
+    # the project's groups and find the file at the end of the path.
+    #
+    # @param [String] name_with_path the path to the file
+    # @return [FileReference] the file that matches the name, nil if no file
+    #   matches the path.
+    def file(name_with_path)
+      path, name = File.split(name_with_path)
+      group(path).file(name).first
     end
     
     #
