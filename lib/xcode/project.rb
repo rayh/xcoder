@@ -270,7 +270,12 @@ module Xcode
         @registry.remove_object found_target.identifier
       end
     end
-
+    
+    
+    
+    # 
+    # Prints to STDOUT a description of this project's targets, configuration and schemes.  
+    #
     def describe
       puts "Project #{name} contains"
       targets.each do |t|
