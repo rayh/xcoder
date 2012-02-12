@@ -37,22 +37,20 @@ You will not normally need to worry about manipulating keychains unless you want
 
 You can either use the user's login keychain, another named keychain, or simply use a temporary keychain that will be blown away after the build.
 
+#### Creating a temporary keychain
+
 	Xcode::Keychain.temp_keychain('ProjectKeychain.keychain') do |keychain|
 		# import certs into the keychain
 		# perform builds within this keychain's context
 	end	# Keychain is deleted
 		
-### Importing a certificate
+#### Importing a certificate
 
 You can import a certificate from a .p12 file into a keychain.  Here we simply create a temporary keychain, import a certificate, set the identity onto the builder and then perform a build.
  
-	Xcode::Keychain.temp_keychain('ProjectKeychain.keychain') do |keychain|
-		keychain.import 'Certs/MyCert.p12', 'mycertpassword'
-		
-		builder.keychain = keychain						# Tell the builder to use the temp keychain
-		builder.identity = keychain.identities.first	# Get the first (only) identity name from the keychain
-		builder.build
-	end 
+	keychain.import 'Certs/MyCert.p12', 'mycertpassword'		
+	builder.keychain = keychain						# Tell the builder to use the temp keychain
+	builder.identity = keychain.identities.first	# Get the first (only) identity name from the keychain
 	
 ### Packaging a built .app
 
