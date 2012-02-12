@@ -19,7 +19,7 @@ describe "Reachability", :integration => true do
 
      # Create or traverse to the group to install the source files
      project.group('Vendor/Reachability') do
-       source_files.each do {|source| create_file source }
+       source_files.each {|source| create_file source }
      end
 
     source_file = project.file('Vendor/Reachability/Reachability.m')

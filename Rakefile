@@ -1,6 +1,6 @@
 require "bundler/gem_tasks"
 
-task :default => :specs
+task :default => [:specs, :integration, :build]
 
 task :specs do
   system "rspec --color --format d --tag ~integration"
