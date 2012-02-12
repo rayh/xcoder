@@ -114,7 +114,7 @@ Or enumerate installed profiles:
 
 The common output of this build/package process is to upload to testflight.  This is pretty simple with xcoder:
 
-	builder.upload(API_TOKEN, TEAM_TOKEN) do |tf|
+	builder.testflight(API_TOKEN, TEAM_TOKEN) do |tf|
 	  tf.notes = "some release notes"
  	  tf.notify = true	# Whether to send a notification to users, default is true
       tf.lists << "AList"  # The lists to distribute the build to
