@@ -10,31 +10,31 @@ describe "Reachability", :integration => true do
     
     FileUtils.cp_r "examples/Reachability/Vendor", "spec/TestProject"
     
-    # Create or traverse to the group to install the source files
-    
-    reach_group = project.group('Vendor/Reachability')
     
     # Add the source and header file to the project
     
     source_files = [ { 'name' => 'Reachability.m', 'path' => 'Vendor/Reachability/Reachability.m' },
                      { 'name' => 'Reachability.h', 'path' => 'Vendor/Reachability/Reachability.h' } ]
     
-    
-    source_files.each do |source|
-      reach_group.create_file(source) if reach_group.file(source['name']).empty?
-    end
-    
-    source_file = reach_group.file('Reachability.m').first
+
+     # Create or traverse to the group to install the source files
+     project.group('Vendor/Reachability') do
+       source_files.each do {|source| create_file source }
+     end
+
+    source_file = project.file('Vendor/Reachability/Reachability.m')
     
     # Select the main target of the project and add the source file to the build phase.
     
-    source_build_phase = project.target('TestProject').sources_build_phase
-    source_build_phase.add_build_file(source_file) unless source_build_phase.build_file(source_file.name)
-
+    project.target('TestProject').sources_build_phase do
+      add_build_file source_file
+    end
+    
     cfnetwork_framework = project.frameworks_group.create_system_framework 'CFNetwork'
 
-    framework_phase = project.target('TestProject').framework_build_phase
-    framework_phase.add_build_file(cfnetwork_framework) unless framework_phase.build_file(cfnetwork_framework.name)
+    project.target('TestProject').framework_build_phase do
+      add_build_file cfnetwork_framework
+    end 
     
     project.save!
     

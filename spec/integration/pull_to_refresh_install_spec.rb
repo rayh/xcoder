@@ -18,11 +18,7 @@ describe "EGORefreshTableHeaderView", :integration => true do
     # Create or traverse to the group to install the source files
 
     project.group('Vendor/EGORefreshTableHeaderView') do
-
-      source_files.each do |source|
-        create_file(source) if exists? source['name']
-      end
- 
+      source_files.each {|source| create_file source }
     end
 
     ptr_source = project.file('Vendor/EGORefreshTableHeaderView/EGORefreshTableHeaderView.m')
