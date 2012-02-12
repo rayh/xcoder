@@ -1,4 +1,5 @@
 require 'json'
+require 'plist'
 
 module Xcode
   
@@ -7,10 +8,11 @@ module Xcode
   
     #
     # Using the sytem tool plutil, the specified project file is parsed and 
-    # converted to JSON, which is then converted to a hash object.
+    # converted to XML, and then converted into a ruby hash object.
     # 
     def parse path
-      JSON.parse(`plutil -convert json -o - "#{path}"`)
+      xml = `plutil -convert xml1 -o - "#{path}"`
+      Plist::parse_xml(xml)
     end
   
   end

@@ -94,9 +94,25 @@ The missing component here is to be able to manipulate keychains.  This is quite
 
 ### Testflight
 
-The common output of this build/package process is to upload to testflight.  This may become integrated if there is demand, but you can do something like this (this is calling curl from ruby):
+The common output of this build/package process is to upload to testflight.  This is pretty simple with xcoder:
 
-	`curl -X POST http://testflightapp.com/api/builds.json -F file=@"#{builder.ipa_path}" -F dsym=@"#{builder.dsym_zip_path}" -F api_token='#{TESTFLIGHT_API_TOKEN}' -F team_token='#{TESTFLIGHT_TEAM_TOKEN}' -F notify=True -F notes=\"#{CHANGELOG}\" -F distribution_lists='All'`
+	builder.upload(API_TOKEN, TEAM_TOKEN) do |tf|
+	  tf.notes = "some release notes"
+ 	  tf.notify = true	# Whether to send a notification to users, default is true
+      tf.lists << "AList"  # The lists to distribute the build to
+	end
+	
+You can also optionally set a .proxy= property or just set the HTTP_PROXY environment variable.
+
+### OCUnit to JUnit 
+
+You can invoke your test target/bundle from the builder
+
+	builder.test do |report|
+		report.write 'test-reports', :junit
+	end
+	
+This will invoke the test target, capture the output and write the junit reports to the test-reports directory.  Currently only junit is supported.
 
 ## Tests
 

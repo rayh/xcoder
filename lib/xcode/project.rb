@@ -1,3 +1,4 @@
+require 'plist'
 require 'xcode/parsers/plutil_project_parser'
 require 'xcode/resource'
 require 'xcode/target'
@@ -137,7 +138,7 @@ module Xcode
     end
     
     #
-    # Saves the current proeject at the specified path.
+    # Saves the current project at the specified path.
     # 
     # @note currently this does not support saving the workspaces associated 
     #   with the project to their new location.
@@ -302,7 +303,6 @@ module Xcode
     # @see Registry
     # 
     def parse_pbxproj
-      
       registry = Xcode::PLUTILProjectParser.parse "#{@path}/project.pbxproj"
       
       class << registry

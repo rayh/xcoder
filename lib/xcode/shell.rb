@@ -8,6 +8,7 @@ module Xcode
       IO.popen (cmd) do |f| 
         f.each do |line|
           puts line if show_output
+          yield(line) if block_given?
           out << line
         end 
       end
