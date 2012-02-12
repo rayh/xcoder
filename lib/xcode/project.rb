@@ -9,6 +9,7 @@ require 'xcode/file_reference'
 require 'xcode/registry'
 require 'xcode/build_phase'
 require 'xcode/variant_group'
+require 'xcode/configuration_list'
 
 module Xcode
   class Project 
@@ -45,11 +46,88 @@ module Xcode
     #
     # Returns the main group of the project where all the files reside.
     # 
-    # @return [PBXGroup]
-    # @see PBXGroup
+    # @todo this really could use a better name then groups as it is the mainGroup
+    #   but it should likely be something like main_group, root or something
+    #   else that conveys that this is the project root for files, and such.
+    # 
+    # @return [Group] the main group, the heart of the action of the file
+    #   explorer for the Xcode project. From here all other groups and items
+    #   may be found.
     # 
     def groups
-      @project.mainGroup
+      @project.main_group
+    end
+    
+    #
+    # Returns the group specified. If any part of the group does not exist along
+    # the path the group is created. Also paths can be specified to make the 
+    # traversing of the groups easier.
+    # 
+    # @example a group path that contains a traversal to sub-groups
+    # 
+    #     project.group('Vendor/MyCode/Support Files')
+    #     # is equivalent to...
+    #     project.group('Vendor').first.group('MyCode').first.group('Supporting Files')
+    # 
+    # @note this path functionality current is only exercised from the project level
+    #   all groups will treat the path division `/` as simply a character.
+    # 
+    # @note this will attempt to find the paths specified, if it fails to find them
+    #   it will create one and then continue traversing.
+    #
+    # @param [String] name the group name to find/create
+    # 
+    def group(name)
+      
+      current_group = @project.main_group
+      
+      # @todo consider this traversing and find/create as a normal procedure when
+      #   traversing the project.
+      
+      name.split("/").each do |path_component|
+        found_group = current_group.group(path_component).first
+        found_group = current_group.create_group(path_component) unless found_group
+        current_group = found_group
+      end
+      
+      current_group
+    end
+    
+    #
+    # Most Xcode projects have a products group where products are placed. This 
+    # will generate an exception if there is no products group.
+    # 
+    # @return [Group] the 'Products' group of the project.
+    def products_group
+      groups.group('Products').first
+    end
+    
+    #
+    # Most Xcode projects have a Frameworks gorup where all the imported 
+    # frameworks are shown. This will generate an exception if there is no
+    # Frameworks group.
+    # 
+    # @return [Group] the 'Frameworks' group of the projet.
+    def frameworks_group
+      groups.group('Frameworks').first
+    end
+    
+    #
+    # This will convert the current project file into a supported Xcode Plist 
+    # format. This format is not json or a traditional plist so several core
+    # Ruby objects gained the #to_xcplist method to save it properly.
+    # 
+    # Specifically this will add the necessary file header information and the 
+    # surrounding mustache braces around the xcode plist format of the registry.
+    # 
+    # @return [String] Xcode Plist format of the project.
+    def to_xcplist
+      
+      # @note The Hash#to_xcplist, which the Registry will save out as xcode,
+      #   saves a semi-colon at the end which needs to be removed to ensure 
+      #   the project file can be opened.
+      
+      %{// !$*UTF8*$!"\n#{@registry.to_xcplist.gsub(/\};\s*\z/,'}')}}
     end
     
     # 
@@ -76,21 +154,15 @@ module Xcode
       # FileUtils.cp_r "#{path}/project.xcworkspace", "#{path}/project.xcworkspace"
       
       File.open(project_filepath,'w') do |file|
-        
-        # The Hash#to_xcplist saves a semi-colon at the end which needs to be removed
-        # to ensure the project file can be opened.
-        
-        file.puts %{// !$*UTF8*$!"\n#{@registry.to_xcplist.gsub(/\};\s*\z/,'}')}}
-        
+        file.puts to_xcplist
       end
     end
-    
     
     #
     # Return the scheme with the specified name. Raises an error if no schemes 
     # match the specified name.
     # 
-    # @note if two schemes match names, the first matching scheme is return.
+    # @note if two schemes match names, the first matching scheme is returned.
     # 
     # @param [String] name of the specific scheme
     # @return [Scheme] the specific scheme that matches the name specified
@@ -131,6 +203,60 @@ module Xcode
       target
     end
     
+    #
+    # Creates a new target within the Xcode project. This will by default not
+    # generate all the additional build phases, configurations, and files
+    # that create a project.
+    # 
+    # @todo generate a create target with sensible defaults, similar to how
+    #   it is done through Xcode itself.
+    # 
+    # @todo based on the specified type of target, default build phases and
+    #   configuration should be created for the target similar to what is 
+    #   supported in xcode.  Currently even now the :ios target does not
+    #   generate the deafult build_phases for you and requires you to make those.
+    # 
+    # @param [String] name the name to provide to the target. This will also
+    #   be the value that other defaults will be based on.
+    #
+    def create_target(name,type=:ios)
+      
+      target = @registry.add_object Target.send(type)
+      @project.properties['targets'] << target.identifier
+      
+      target.name = name
+      
+      build_configuration_list = @registry.add_object(ConfigurationList.configration_list)
+      target.build_configuration_list = build_configuration_list.identifier
+      
+      target.project = self
+      
+      yield target if block_given?
+      
+      target.save!
+    end
+    
+    #
+    # Remove a target from the Xcode project.
+    # 
+    # @note this will remove the first target that matches the specified name.
+    # 
+    # @note this will remove only the project entry at the moment and not the
+    #   the files that may be associated with the target. All build phases, 
+    #   build files, and configurations will automatically be cleaned up when
+    #   Xcode is opened.
+    # 
+    # @param [String] name the name of the target to remove from the Xcode
+    #   project.
+    #
+    def remove_target(name)
+      found_target = targets.find {|target| target.name == name }
+      if found_target
+        @project.properties['targets'].delete found_target.identifier
+        @registry.remove_object found_target.identifier
+      end
+    end
+
     def describe
       puts "Project #{name} contains"
       targets.each do |t|

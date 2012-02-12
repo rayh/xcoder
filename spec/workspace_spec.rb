@@ -1,5 +1,4 @@
-require 'rspec'
-require 'xcoder'
+require_relative 'spec_helper'
 
 describe Xcode::Workspace do 
   it "should enumerate all workspaces in current directory" do 

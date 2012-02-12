@@ -5,9 +5,20 @@ module Xcode
   # these groups may contain subgroups, files, or other objects. They have
   # children.
   # 
-  # PBXGroup here provides the methods to traverse the groups to find these 
+  # Group here provides the methods to traverse the groups to find these 
   # children resources as well as provide the ability to generate child
   # resources.
+  # 
+  #     7165D451146B4EA100DE2F0E /* Products */ = {
+  #       isa = PBXGroup;
+  #       children = (
+  #         7165D450146B4EA100DE2F0E /* TestProject.app */,
+  #         7165D46B146B4EA100DE2F0E /* TestProjectTests.octest */,
+  #         E21EB9D614E357CF0058122A /* Specs.app */,
+  #       );
+  #       name = Products;
+  #       sourceTree = "<group>";
+  #     };
   # 
   module Group
     
@@ -16,7 +27,7 @@ module Xcode
     # 
     # @param [String] name of the logical group
     # 
-    def self.with_properties_for_logical_group(name)
+    def self.logical_group(name)
       { 'isa' => 'PBXGroup', 
         'name' => name,
         'sourceTree' => '<group>',
@@ -25,19 +36,20 @@ module Xcode
     
     
     # This is the group for which this file is contained within.
+    # @note this value is only set if the group has been discovered 
+    #   by traversing groups to this group.
     attr_accessor :supergroup
     
     # 
     # @example Return all the sub-groups of the main group
     # 
-    #   main_group = Xcode.project('MyProject.xcodeproj').groups
-    #   main_group.groups
+    #     main_group = Xcode.project('MyProject.xcodeproj').groups
+    #     main_group.groups
     # 
     # @return [Array] the sub-groups contained within this group.
     # 
     def groups
-      children.map do |group|
-        # TODO: this will return all children when it should just return subgroups
+      children.find_all {|child| child.is_a?(Group) }.map do |group|
         group.supergroup = self
         group
       end
@@ -47,13 +59,31 @@ module Xcode
     # Find all the child groups that have a name that matches the specified name.
     # 
     # @param [String] name of the group that you are looking to return.
-    # @return [Array<PBXGroup>] the groups with the same matching name. This
+    # @return [Array<Group>] the groups with the same matching name. This
     #   could be no groups, one group, or multiple groups.
     #
     def group(name)
-      groups.find_all {|group| group.name == name }
+      groups.find_all {|group| group.name == name or group.path == name }
     end
     
+    #
+    # Find all the non-group objects within the group and return them
+    # @return [Array] the children of the group, excluding the groups
+    # 
+    def files
+      children.reject {|child| child.is_a?(Group) }
+    end
+    
+    #
+    # Find all the files that have have a name that matches the specified name.
+    #
+    # @param [String] name of the file that you are looking to return.
+    # @return [Array<FileReference>] the files with the same mathching
+    #   name. This could be no files, one file, or multiple files.
+    #
+    def file(name)
+      files.find_all {|file| file.name == name or file.path == name }
+    end
     
     #
     # Adds a group as a child to current group with the given name. 
@@ -64,54 +94,80 @@ module Xcode
     # @param [String] name of the group that you want to add as a child group of
     #   the specified group.
     #
-    def add_group(name)
-      
-      # Groups that represent a physical path often have the key 'path' with
-      # the value being it's path name.
-      # 
-      # Groups that represent a logical group often have the key 'name' with 
-      # the value being it's group name.
-      
-      new_identifier = @registry.add_object Group.with_properties_for_logical_group(name)
-      
-      # Add the group's identifier to the list of children
-      
-      @properties['children'] << new_identifier
-      
-      # Find the newly added group to return
-      
-      groups.find {|group| group.identifier == new_identifier }
-      
+    def create_group(name)
+      new_group = create_child_object Group.logical_group(name)
+      new_group.supergroup = self
+      new_group
     end
     
     #
     # Add a file to the specified group. Currently the file creation requires
     # the path to the physical file.
     # 
-    # @param [String] path to the file that is being added.
+    # @param [String,Hash] path to the file that is being added or a hash that 
+    #   contains the values would be merged with the default values.
     #
-    def add_file(path)
-      
-      new_identifier = @registry.add_object FileReference.with_properties_for_path(path)
-        
-      @properties['children'] << new_identifier
-      
-      children.find {|file| file.identifier == new_identifier }
-      
+    def create_file(file_properties)
+      # This allows both support for the string value or the hash as the parameter
+      file_properties = { 'path' => file_properties } if file_properties.is_a? String
+      create_child_object FileReference.file(file_properties)
     end
     
-    
-    def add_framework framework_name
-      new_identifier = @registry.add_object FileReference.with_properties_for_framework(framework_name)
-      
-      # Add the framework to the group
-      
-      @properties['children'] << new_identifier
-      
-      children.find {|file| file.identifier == new_identifier }
-      
+    #
+    # Create a framework within this group.
+    # 
+    # @param [Hash] framework_properties the properties to merge with the default
+    #   properties.
+    #
+    def create_framework(framework_properties)
+      create_child_object FileReference.framework(framework_properties)
     end
     
+    def create_system_framework(name)
+      create_child_object FileReference.system_framework(name)
+    end
+    
+    #
+    # Create an infoplist within this group.
+    # 
+    # @param [Hash] infoplist_properties the properties to merge with the default
+    #   properties.
+    # 
+    # @see VariantGroup#info_plist
+    #
+    def create_infoplist(infoplist_properties)
+      create_child_object VariantGroup.info_plist(infoplist_properties)
+    end
+    
+    #
+    # Create a product reference witin this group.
+    # 
+    # @note this is usually performed through the target as it is necessary within
+    #   the target to specify what is the product reference.
+    # 
+    # @see Target#create_product_reference
+    # 
+    # @param [String] name the name of the product to generate
+    # 
+    def create_product_reference(name)
+      create_child_object FileReference.app_product(name)
+    end
+    
+    private
+    
+    #
+    # This method is used internally to add objects to the registry and add the
+    # object as a child of this group.
+    # 
+    # @param [Hash] child_as_properties the hash of resource to add as a child
+    #   object of this group.
+    # 
+    # @return [Resource] returns the resource that was added a child
+    def create_child_object(child_properties)
+      child_object = @registry.add_object child_properties
+      @properties['children'] << child_object.identifier
+      child_object
+    end
     
   end
   

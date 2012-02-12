@@ -1,3 +1,4 @@
+require 'xcode/core_ext/string'
 
 module Xcode
   
@@ -90,7 +91,7 @@ module Xcode
       
       # Generate a getter method for this property based on the given name.
       
-      self.class.send :define_method, name do
+      self.class.send :define_method, name.underscore do
         
         # Retrieve the value that is current stored for this name.
         
@@ -127,6 +128,11 @@ module Xcode
 
       end
       
+      self.class.send :define_method, "#{name.underscore}=" do |new_value|
+        @properties[name] = new_value
+      end
+      
+      
     end
 
     #
@@ -145,7 +151,7 @@ module Xcode
       # Create property methods for all of the key-value pairs found in the
       # registry for specified identifier.
       
-      Array(details.object(@identifier)).each do |key,value| 
+      Array(details.properties(@identifier)).each do |key,value| 
         send :define_property, key, value
       end
       
@@ -158,6 +164,16 @@ module Xcode
         
       self.extend(constant) if constant
       
+    end
+    
+    
+    #
+    # Saves the current resource back to the registry. This is necessary as
+    # any changes made are not automatically saved back into the registry.
+    # 
+    def save!
+      @registry.set_object(self)
+      self
     end
     
     #
@@ -177,7 +193,7 @@ module Xcode
     # 
     def to_xcplist
       %{
-        #{@identifier} = { #{ @properties.map {|k,v| "#{k} = \"#{v}\"" }.join("; ") } }
+        #{@identifier} = { #{ @properties.map {|k,v| "#{k} = \"#{v.to_xcplist}\"" }.join("; ") } }
         
       }
     end

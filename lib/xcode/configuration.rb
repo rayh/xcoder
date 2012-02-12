@@ -28,7 +28,31 @@ module Xcode
   #     };                                                           
   # 
   module Configuration
-
+    
+    def self.default_properties(name)
+      { 'isa' => 'XCBuildConfiguration',
+        'buildSettings' => {
+          "SDKROOT" => "iphoneos",
+          "OTHER_CFLAGS" => "-DNS_BLOCK_ASSERTIONS=1",
+          "TARGETED_DEVICE_FAMILY" => "1,2",
+          "GCC_C_LANGUAGE_STANDARD" => "gnu99",
+          "ALWAYS_SEARCH_USER_PATHS" => "NO",
+          "GCC_VERSION" => "com.apple.compilers.llvm.clang.1_0",
+          "ARCHS" => "$(ARCHS_STANDARD_32_BIT)",
+          "GCC_WARN_ABOUT_MISSING_PROTOTYPES" => "YES",
+          "GCC_WARN_ABOUT_RETURN_TYPE" => "YES",
+          "CODE_SIGN_IDENTITY[sdk=>iphoneos*]" => "iPhone Developer",
+          "GCC_PRECOMPILE_PREFIX_HEADER" => "YES",
+          "VALIDATE_PRODUCT" => "YES",
+          "IPHONEOS_DEPLOYMENT_TARGET" => "5.0",
+          "COPY_PHASE_STRIP" => "YES",
+          "GCC_PREFIX_HEADER" => "#{name}/#{name}-Prefix.pch",
+          "INFOPLIST_FILE" => "#{name}/#{name}-Info.plist",
+          "PRODUCT_NAME" => "$(TARGET_NAME)",
+          "WRAPPER_EXTENSION" => "app" },
+          "name" => name }
+    end
+    
     #
     # The configuration is defined within a target.
     # @see PBXNativeTarget
@@ -40,7 +64,7 @@ module Xcode
     # @see InfoPlist
     # 
     def info_plist_location
-      buildSettings['INFOPLIST_FILE']
+      build_settings['INFOPLIST_FILE']
     end
     
     #
@@ -70,19 +94,27 @@ module Xcode
     # @return the name of the product that this configuration will generate.
     # 
     def product_name
-      substitute(buildSettings['PRODUCT_NAME'])
+      substitute(build_settings['PRODUCT_NAME'])
     end
     
-    def set_other_linker_flags(value)
-      set 'OTHER_LDFLAGS', value
-    end
-    
+    #
+    # Retrieve the configuration value for the given name
+    #
+    # @param [String] name of the configuration settings to return
+    # @return [String,Array,Hash] the value stored for the specified configuration
+    #  
     def get(name)
-      buildSettings[name]
+      build_settings[name]
     end
     
-    def set name, value
-      buildSettings[name] = value
+    #
+    # Set the configuration value for the given name
+    #
+    # @param [String] name of the the configuration setting
+    # @param [String,Array,Hash] value the value to store for the specific setting
+    #
+    def set(name, value)
+      build_settings[name] = value
     end
     
     
