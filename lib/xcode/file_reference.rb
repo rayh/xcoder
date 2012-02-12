@@ -54,6 +54,16 @@ module Xcode
       default_properties.merge(properties)
     end
     
+    def self.system_library(name,properties = {})
+      default_properties = { 'isa' => 'PBXFileReference',
+        # @todo what is the right value for this: 'lastKnownFileType' => 'wrapper.framework', 
+        'name' => name,
+        'path' => "usr/lib/#{name}",
+        "sourceTree" => "SDKROOT" }
+        
+      default_properties.merge(properties)
+    end
+    
     #
     # @example app product properties
     # 

@@ -150,6 +150,10 @@ module Xcode
       create_child_object FileReference.system_framework(name)
     end
     
+    def create_system_library(name)
+      create_child_object FileReference.system_library(name)
+    end
+    
     #
     # Create an infoplist within this group.
     # 

@@ -340,6 +340,41 @@ module Xcode
       found_group.remove! if found_group
     end
     
+    def add_framework(name,properties)
+      
+      new_system_framework = nil
+      
+      if name =~ /^.+\.dylib$/
+        new_system_framework = project.frameworks_group.create_system_library name
+      else
+        new_system_framework = project.frameworks_group.create_system_framework name
+      end
+      
+      properties[:targets].each do |target_name|
+        target(target_name).framework_build_phase do
+          add_build_file new_system_framework
+        end
+      end
+      
+    end
+    
+    def add_build_setting(key,value,properties)
+      
+      # @todo I don't know what properties[:changer] is suppose to do
+      
+      # @todo warning are generated if one configuration setting attempts to 
+      #   override the other in the same setting. So there may be a need for
+      #   compatibility to maintain recently changed build configurations.
+      # 
+      
+      properties[:targets].each do |target_name|
+        target(target_name).configs.each do |config|
+          config.set key, value
+        end
+      end
+      
+    end
+    
     private
   
     #
