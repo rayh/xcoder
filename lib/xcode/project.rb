@@ -38,9 +38,18 @@ module Xcode
       # Parse the Xcode project file and create the registry
       
       @registry = parse_pbxproj
-      @project = Xcode::Resource.new registry.root, @registry
+      @project = Xcode::Resource.new @registry.root, @registry
       
       @schemes = parse_schemes
+    end
+    
+    
+    def object_version
+      @registry['objectVersion']
+    end
+    
+    def archive_version
+      @registry['archiveVersion']
     end
     
     #
