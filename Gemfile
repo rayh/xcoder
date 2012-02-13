@@ -5,6 +5,7 @@ gem 'builder'
 gem 'json'
 gem 'plist'
 gem 'rest-client'
+gem 'yard'
 
 group :test do
   gem 'rspec'

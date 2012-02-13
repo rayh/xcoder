@@ -1,4 +1,6 @@
 require "bundler/gem_tasks"
+require "yard"
+require "yard/rake/yardoc_task"
 
 task :default => [:specs, :build]
 
@@ -10,6 +12,11 @@ task :integration do
   system "rspec --color --format d --tag integration"
 end
 
+desc "Generate YARD docs"
+YARD::Rake::YardocTask.new do |t|
+  t.files   = ['lib/**/*.rb']   # optional
+  t.options = ['--any', '--extra', '--opts'] # optional
+end
 
 task :reset => ['test_project:reset']
 
