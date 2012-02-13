@@ -335,9 +335,9 @@ module Xcode
     
     alias_method :create_group, :group
     
-    def remove_group(name)
+    def remove_group(name,&block)
       found_group = group(name,:create => false)
-      found_group.remove! if found_group
+      found_group.remove!(&block) if found_group
     end
     
     def add_framework(name,properties)
@@ -382,7 +382,7 @@ module Xcode
       
       # add the created file to the target
       properties[:targets].each do |target_name|
-        build_phase = target.send(build_phase_for_file(created_file.last_known_file_type)
+        build_phase = target.send(build_phase_for_file(created_file.last_known_file_type))
         build_phase.add_build_file created_file
       end
       
@@ -432,6 +432,9 @@ module Xcode
     def dirty?
       true
     end
+
+    alias_method :main_group, :groups
+    
     
     private
   

@@ -64,7 +64,6 @@ module Xcode
     attr_accessor :identifier
     
     alias_method :id, :identifier
-    alias_method :id=, :indentifier=
     
     # The properties hash that is known about the resource
     attr_accessor :properties

@@ -127,6 +127,7 @@ module Xcode
       unless found_or_created_file
         found_or_created_file = create_child_object FileReference.file(file_properties)
       end
+      found_or_created_file.supergroup = self
       
       found_or_created_file
     end
@@ -180,9 +181,10 @@ module Xcode
       create_child_object FileReference.app_product(name)
     end
     
-    def remove!
-      groups.each {|group| group.remove! }
-      files.each {|file| file.remove! }
+    def remove!(&block)
+      groups.each {|group| group.remove!(&block) }
+      files.each {|file| file.remove!(&block) }
+      yield self if block_given?
       supergroup.remove_child_object identifier
       @registry.remove_object identifier
     end
