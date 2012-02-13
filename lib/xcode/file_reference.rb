@@ -12,6 +12,8 @@ module Xcode
     
     def self.file(properties)
       default_properties = { 'isa' => 'PBXFileReference', 
+        # @todo this is not correct if the file is a .mm
+        'lastKnownFileType' => 'sourcecode.c.objc',
         'path' => nil,
         'sourceTree' => '<group>' }
   
@@ -56,7 +58,7 @@ module Xcode
     
     def self.system_library(name,properties = {})
       default_properties = { 'isa' => 'PBXFileReference',
-        # @todo what is the right value for this: 'lastKnownFileType' => 'wrapper.framework', 
+        'lastKnownFileType' => 'compiled.mach-o.dylib', 
         'name' => name,
         'path' => "usr/lib/#{name}",
         "sourceTree" => "SDKROOT" }

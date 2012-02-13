@@ -375,6 +375,64 @@ module Xcode
       
     end
     
+    
+    def add_file(options)
+      
+      created_file = send("add_#{options[:source_tree]}_file",options)
+      
+      # add the created file to the target
+      properties[:targets].each do |target_name|
+        build_phase = target.send(build_phase_for_file(created_file.last_known_file_type)
+        build_phase.add_build_file created_file
+      end
+      
+    end
+    
+    def build_phase_for_file(file_type)
+      case file_type
+      when "sourcecode.c.objc", "sourcecode.c.c"
+        :sources_build_phase
+      when "wrapper.framework"
+        :framework_build_phase
+      when "compiled.mach-o.dylib"
+        :framework_build_phase
+      else
+        :resources_build_phase
+      end
+    end
+    
+    def add_group_file(options)
+      group(options[:path]).create_file 'path' => File.basename(options[:file])
+    end
+    
+    def add_sdkroot_file
+      group(options[:path]).create_file 'name' => File.basename(options[:file]), 'path' => options[:file], 'sourceTree' => 'SDKROOT'
+    end
+    
+    def add_absolute_file
+      group(options[:path]).create_file 'name' => File.basename(options[:file]), 'path' => options[:file]
+    end
+    
+    def valid?
+      raise "todo"
+    end
+    
+    # def save @todo this is different between the two projects
+    
+    def to_ascii_plist
+      raise "todo"
+    end
+    
+    def dirty
+      true
+    end
+    
+    alias_method :dirty?, :dirty
+    
+    def dirty?
+      true
+    end
+    
     private
   
     #
