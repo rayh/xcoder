@@ -104,23 +104,6 @@ module Xcode
         'sourceTree' => "BUILT_PRODUCTS_DIR" }
     end
     
-    #
-    # This is the path with the group
-    # 
-    def fullpath
-      
-      parent_group = supergroup
-      
-      fullpath_for_file = path || name
-      
-      until parent_group.nil?
-        fullpath_for_file = "#{parent_group.name || parent_group.path}/#{fullpath_for_file}"
-        parent_group = parent_group.supergroup
-      end
-      
-      fullpath_for_file
-    end
-    
     
     def remove!
       # @todo the removal here does not consider if the files have
