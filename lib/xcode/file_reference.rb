@@ -12,8 +12,6 @@ module Xcode
     
     def self.file(properties)
       default_properties = { 'isa' => 'PBXFileReference', 
-        # @todo this is not correct if the file is a .mm
-        'lastKnownFileType' => 'sourcecode.c.objc',
         'path' => nil,
         'sourceTree' => '<group>' }
   
