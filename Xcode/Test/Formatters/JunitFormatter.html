@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Xcode::Test::Formatters::JunitFormatter
+  
+    &mdash; Documentation by YARD 0.7.5
+  
+</title>
+
+  <link rel="stylesheet" href="../../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../../..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../../_index.html">Index (J)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../../Xcode.html" title="Xcode (module)">Xcode</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Test.html" title="Xcode::Test (module)">Test</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Formatters.html" title="Xcode::Test::Formatters (module)">Formatters</a></span></span>
+     &raquo; 
+    <span class="title">JunitFormatter</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Xcode::Test::Formatters::JunitFormatter
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Xcode::Test::Formatters::JunitFormatter</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/xcode/test/formatters/junit_formatter.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (JunitFormatter) <strong>initialize</strong>(dir) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+A new instance of JunitFormatter.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#write-instance_method" title="#write (instance method)">- (Object) <strong>write</strong>(report) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Xcode::Test::Formatters::JunitFormatter (class)">JunitFormatter</a></span></tt>) <strong>initialize</strong>(dir) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+A new instance of JunitFormatter
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/test/formatters/junit_formatter.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_dir'>dir</span><span class='rparen'>)</span>
+  <span class='ivar'>@dir</span> <span class='op'>=</span> <span class='id identifier rubyid_dir'>dir</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="write-instance_method">
+  
+    - (<tt>Object</tt>) <strong>write</strong>(report) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/test/formatters/junit_formatter.rb', line 12</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='id identifier rubyid_report'>report</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_end_time'>end_time</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Report </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_report'>report</span><span class='rbrace'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'> has a nil end time!?</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_xml'>xml</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Builder</span><span class='op'>::</span><span class='const'>XmlMarkup</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span> <span class='symbol'>:indent</span> <span class='op'>=&gt;</span> <span class='int'>2</span> <span class='rparen'>)</span>
+  <span class='id identifier rubyid_xml'>xml</span><span class='period'>.</span><span class='id identifier rubyid_instruct!'>instruct!</span> <span class='symbol'>:xml</span><span class='comma'>,</span> <span class='symbol'>:encoding</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>UTF-8</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_xml'>xml</span><span class='period'>.</span><span class='id identifier rubyid_testsuite'>testsuite</span><span class='lparen'>(</span><span class='symbol'>:errors</span>     <span class='op'>=&gt;</span> <span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_total_error_tests'>total_error_tests</span><span class='comma'>,</span>
+    <span class='symbol'>:failures</span>   <span class='op'>=&gt;</span> <span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_total_failed_tests'>total_failed_tests</span><span class='comma'>,</span>
+    <span class='symbol'>:hostname</span>   <span class='op'>=&gt;</span> <span class='const'>Socket</span><span class='period'>.</span><span class='id identifier rubyid_gethostname'>gethostname</span><span class='comma'>,</span>
+    <span class='symbol'>:name</span>       <span class='op'>=&gt;</span> <span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span>
+    <span class='symbol'>:tests</span>      <span class='op'>=&gt;</span> <span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_tests'>tests</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span><span class='comma'>,</span>
+    <span class='symbol'>:time</span>       <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_end_time'>end_time</span> <span class='op'>-</span> <span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_start_time'>start_time</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='symbol'>:timestamp</span>  <span class='op'>=&gt;</span> <span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_end_time'>end_time</span>
+    <span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span>     
+             
+    <span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_tests'>tests</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_t'>t</span><span class='op'>|</span>
+      <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_testcase'>testcase</span><span class='lparen'>(</span><span class='symbol'>:classname</span>  <span class='op'>=&gt;</span> <span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span>
+        <span class='symbol'>:name</span>       <span class='op'>=&gt;</span> <span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span>
+        <span class='symbol'>:time</span>       <span class='op'>=&gt;</span> <span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_time'>time</span>
+        <span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span>
+  
+        <span class='kw'>if</span> <span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_error?'>error?</span>
+          <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_failure'>failure</span> <span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_error_location'>error_location</span><span class='comma'>,</span> <span class='symbol'>:message</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_error_message'>error_message</span><span class='comma'>,</span> <span class='symbol'>:type</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Failure</span><span class='tstring_end'>'</span></span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@dir</span><span class='rbrace'>}</span><span class='tstring_content'>/TEST-</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'>.xml</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>w</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_current_file'>current_file</span><span class='op'>|</span>
+    <span class='id identifier rubyid_current_file'>current_file</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span> <span class='id identifier rubyid_xml'>xml</span><span class='period'>.</span><span class='id identifier rubyid_target!'>target!</span>
+  <span class='kw'>end</span>
+  
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Mon Feb 13 23:50:11 2012 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.5 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

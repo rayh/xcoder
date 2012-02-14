@@ -1,0 +1,557 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: Xcode
+  
+    &mdash; Documentation by YARD 0.7.5
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (X)</a> &raquo; 
+    
+    
+    <span class="title">Xcode</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: Xcode
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/xcoder.rb<span class="defines">,<br />
+  lib/xcode/shell.rb,<br /> lib/xcode/group.rb,<br /> lib/xcode/target.rb,<br /> lib/xcode/scheme.rb,<br /> lib/xcode/version.rb,<br /> lib/xcode/builder.rb,<br /> lib/xcode/project.rb,<br /> lib/xcode/keychain.rb,<br /> lib/xcode/resource.rb,<br /> lib/xcode/registry.rb,<br /> lib/xcode/buildfile.rb,<br /> lib/xcode/workspace.rb,<br /> lib/xcode/info_plist.rb,<br /> lib/xcode/build_file.rb,<br /> lib/xcode/testflight.rb,<br /> lib/xcode/build_phase.rb,<br /> lib/xcode/variant_group.rb,<br /> lib/xcode/configuration.rb,<br /> lib/xcode/file_reference.rb,<br /> lib/xcode/test/test_result.rb,<br /> lib/xcode/test/suite_result.rb,<br /> lib/xcode/configuration_list.rb,<br /> lib/xcode/provisioning_profile.rb,<br /> lib/xcode/test/ocunit_report_parser.rb,<br /> lib/xcode/parsers/plutil_project_parser.rb,<br /> lib/xcode/test/formatters/junit_formatter.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Xcode/BuildFile.html" title="Xcode::BuildFile (module)">BuildFile</a></span>, <span class='object_link'><a href="Xcode/BuildPhase.html" title="Xcode::BuildPhase (module)">BuildPhase</a></span>, <span class='object_link'><a href="Xcode/Configuration.html" title="Xcode::Configuration (module)">Configuration</a></span>, <span class='object_link'><a href="Xcode/ConfigurationList.html" title="Xcode::ConfigurationList (module)">ConfigurationList</a></span>, <span class='object_link'><a href="Xcode/FileReference.html" title="Xcode::FileReference (module)">FileReference</a></span>, <span class='object_link'><a href="Xcode/Group.html" title="Xcode::Group (module)">Group</a></span>, <span class='object_link'><a href="Xcode/PLUTILProjectParser.html" title="Xcode::PLUTILProjectParser (module)">PLUTILProjectParser</a></span>, <span class='object_link'><a href="Xcode/Registry.html" title="Xcode::Registry (module)">Registry</a></span>, <span class='object_link'><a href="Xcode/Shell.html" title="Xcode::Shell (module)">Shell</a></span>, <span class='object_link'><a href="Xcode/Target.html" title="Xcode::Target (module)">Target</a></span>, <span class='object_link'><a href="Xcode/Test.html" title="Xcode::Test (module)">Test</a></span>, <span class='object_link'><a href="Xcode/VariantGroup.html" title="Xcode::VariantGroup (module)">VariantGroup</a></span>
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Xcode/Builder.html" title="Xcode::Builder (class)">Builder</a></span>, <span class='object_link'><a href="Xcode/Buildfile.html" title="Xcode::Buildfile (class)">Buildfile</a></span>, <span class='object_link'><a href="Xcode/InfoPlist.html" title="Xcode::InfoPlist (class)">InfoPlist</a></span>, <span class='object_link'><a href="Xcode/Keychain.html" title="Xcode::Keychain (class)">Keychain</a></span>, <span class='object_link'><a href="Xcode/Project.html" title="Xcode::Project (class)">Project</a></span>, <span class='object_link'><a href="Xcode/ProvisioningProfile.html" title="Xcode::ProvisioningProfile (class)">ProvisioningProfile</a></span>, <span class='object_link'><a href="Xcode/Resource.html" title="Xcode::Resource (class)">Resource</a></span>, <span class='object_link'><a href="Xcode/Scheme.html" title="Xcode::Scheme (class)">Scheme</a></span>, <span class='object_link'><a href="Xcode/Testflight.html" title="Xcode::Testflight (class)">Testflight</a></span>, <span class='object_link'><a href="Xcode/Workspace.html" title="Xcode::Workspace (class)">Workspace</a></span>
+    
+  
+</p>
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="VERSION-constant" class="">VERSION =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0.1.2</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+        <dt id="projects-classvariable" class="">@@projects =
+          
+        </dt>
+        <dd><pre class="code"><span class='kw'>nil</span></pre></dd>
+      
+        <dt id="workspaces-classvariable" class="">@@workspaces =
+          
+        </dt>
+        <dd><pre class="code"><span class='kw'>nil</span></pre></dd>
+      
+        <dt id="sdks-classvariable" class="">@@sdks =
+          
+        </dt>
+        <dd><pre class="code"><span class='kw'>nil</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#available_sdks-class_method" title="available_sdks (class method)">+ (Object) <strong>available_sdks</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#find_projects-class_method" title="find_projects (class method)">+ (Object) <strong>find_projects</strong>(dir = '.') </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#is_sdk_available%3F-class_method" title="is_sdk_available? (class method)">+ (Boolean) <strong>is_sdk_available?</strong>(sdk) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#project-class_method" title="project (class method)">+ (Object) <strong>project</strong>(name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#projects-class_method" title="projects (class method)">+ (Object) <strong>projects</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#workspace-class_method" title="workspace (class method)">+ (Object) <strong>workspace</strong>(name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#workspaces-class_method" title="workspaces (class method)">+ (Object) <strong>workspaces</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="available_sdks-class_method">
+  
+    + (<tt>Object</tt>) <strong>available_sdks</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+58
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcoder.rb', line 58</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_available_sdks'>available_sdks</span>
+  <span class='id identifier rubyid_parse_sdks'>parse_sdks</span> <span class='kw'>if</span> <span class='cvar'>@@sdks</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='cvar'>@@sdks</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="find_projects-class_method">
+  
+    + (<tt>Object</tt>) <strong>find_projects</strong>(dir = '.') 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcoder.rb', line 49</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_find_projects'>find_projects</span><span class='lparen'>(</span><span class='id identifier rubyid_dir'>dir</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_parse_projects'>parse_projects</span><span class='lparen'>(</span><span class='id identifier rubyid_dir'>dir</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="is_sdk_available?-class_method">
+  
+    + (<tt>Boolean</tt>) <strong>is_sdk_available?</strong>(sdk) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+53
+54
+55
+56</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcoder.rb', line 53</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_is_sdk_available?'>is_sdk_available?</span><span class='lparen'>(</span><span class='id identifier rubyid_sdk'>sdk</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_parse_sdks'>parse_sdks</span> <span class='kw'>if</span> <span class='cvar'>@@sdks</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='cvar'>@@sdks</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_sdk'>sdk</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="project-class_method">
+  
+    + (<tt>Object</tt>) <strong>project</strong>(name) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcoder.rb', line 27</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_project'>project</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+  
+  <span class='kw'>return</span> <span class='const'>Xcode</span><span class='op'>::</span><span class='const'>Project</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span><span class='op'>=~</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\.xcodeproj</span><span class='regexp_end'>/</span></span>
+  
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_projects'>projects</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_p'>p</span> <span class='kw'>if</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_name'>name</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unable to find a project named </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'>.  However, I did find these projects: </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_projects'>projects</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>, </span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="projects-class_method">
+  
+    + (<tt>Object</tt>) <strong>projects</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17
+18
+19
+20</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcoder.rb', line 17</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_projects'>projects</span>
+  <span class='cvar'>@@projects</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_projects'>parse_projects</span> <span class='kw'>if</span> <span class='cvar'>@@projects</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='cvar'>@@projects</span>  
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="workspace-class_method">
+  
+    + (<tt>Object</tt>) <strong>workspace</strong>(name) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcoder.rb', line 38</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_workspace'>workspace</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+  
+  <span class='kw'>return</span> <span class='const'>Xcode</span><span class='op'>::</span><span class='const'>Workspace</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span><span class='op'>=~</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\.xcworkspace</span><span class='regexp_end'>/</span></span>
+  
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_workspaces'>workspaces</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_p'>p</span> <span class='kw'>if</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_name'>name</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unable to find a workspace named </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'>.  However, I did find these workspaces: </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_workspaces'>workspaces</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>, </span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="workspaces-class_method">
+  
+    + (<tt>Object</tt>) <strong>workspaces</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+22
+23
+24
+25</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcoder.rb', line 22</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_workspaces'>workspaces</span>
+  <span class='cvar'>@@workspaces</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_workspaces'>parse_workspaces</span> <span class='kw'>if</span> <span class='cvar'>@@workspaces</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='cvar'>@@workspaces</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Mon Feb 13 23:50:10 2012 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.5 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

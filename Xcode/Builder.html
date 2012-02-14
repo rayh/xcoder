@@ -1,0 +1,1484 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Xcode::Builder
+  
+    &mdash; Documentation by YARD 0.7.5
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (B)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Xcode.html" title="Xcode (module)">Xcode</a></span></span>
+     &raquo; 
+    <span class="title">Builder</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Xcode::Builder
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Xcode::Builder</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/xcode/builder.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#build_path-instance_method" title="#build_path (instance method)">- (Object) <strong>build_path</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Returns the value of attribute build_path.
+</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#identity-instance_method" title="#identity (instance method)">- (Object) <strong>identity</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Returns the value of attribute identity.
+</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#keychain-instance_method" title="#keychain (instance method)">- (Object) <strong>keychain</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Returns the value of attribute keychain.
+</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#profile-instance_method" title="#profile (instance method)">- (Object) <strong>profile</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Returns the value of attribute profile.
+</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sdk-instance_method" title="#sdk (instance method)">- (Object) <strong>sdk</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Returns the value of attribute sdk.
+</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#app_path-instance_method" title="#app_path (instance method)">- (Object) <strong>app_path</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#build-instance_method" title="#build (instance method)">- (Object) <strong>build</strong>(sdk = @sdk) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clean-instance_method" title="#clean (instance method)">- (Object) <strong>clean</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#configuration_build_path-instance_method" title="#configuration_build_path (instance method)">- (Object) <strong>configuration_build_path</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dsym_path-instance_method" title="#dsym_path (instance method)">- (Object) <strong>dsym_path</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dsym_zip_path-instance_method" title="#dsym_zip_path (instance method)">- (Object) <strong>dsym_zip_path</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#entitlements_path-instance_method" title="#entitlements_path (instance method)">- (Object) <strong>entitlements_path</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Builder) <strong>initialize</strong>(config) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+A new instance of Builder.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#install_profile-instance_method" title="#install_profile (instance method)">- (Object) <strong>install_profile</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ipa_path-instance_method" title="#ipa_path (instance method)">- (Object) <strong>ipa_path</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#package-instance_method" title="#package (instance method)">- (Object) <strong>package</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#product_version_basename-instance_method" title="#product_version_basename (instance method)">- (Object) <strong>product_version_basename</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sign-instance_method" title="#sign (instance method)">- (Object) <strong>sign</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#test-instance_method" title="#test (instance method)">- (Object) <strong>test</strong> {|parser| ... }</a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#testflight-instance_method" title="#testflight (instance method)">- (Object) <strong>testflight</strong>(api_token, team_token) {|testflight| ... }</a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Xcode::Builder (class)">Builder</a></span></tt>) <strong>initialize</strong>(config) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+A new instance of Builder
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 10</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_config'>config</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Xcode</span><span class='op'>::</span><span class='const'>Scheme</span>
+    <span class='ivar'>@scheme</span> <span class='op'>=</span> <span class='id identifier rubyid_config'>config</span>
+    <span class='id identifier rubyid_config'>config</span> <span class='op'>=</span> <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_launch'>launch</span>
+  <span class='kw'>end</span>
+  
+  <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CONFIG: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_config'>config</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='ivar'>@target</span> <span class='op'>=</span> <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_target'>target</span>
+  <span class='ivar'>@sdk</span> <span class='op'>=</span> <span class='ivar'>@target</span><span class='period'>.</span><span class='id identifier rubyid_project'>project</span><span class='period'>.</span><span class='id identifier rubyid_sdk'>sdk</span>
+  <span class='ivar'>@config</span> <span class='op'>=</span> <span class='id identifier rubyid_config'>config</span>
+  <span class='ivar'>@build_path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='ivar'>@target</span><span class='period'>.</span><span class='id identifier rubyid_project'>project</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'>/build/</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="build_path=-instance_method"></span>
+      <span id="build_path-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="build_path-instance_method">
+  
+    - (<tt>Object</tt>) <strong>build_path</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the value of attribute build_path
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_build_path'>build_path</span>
+  <span class='ivar'>@build_path</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="identity=-instance_method"></span>
+      <span id="identity-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="identity-instance_method">
+  
+    - (<tt>Object</tt>) <strong>identity</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the value of attribute identity
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_identity'>identity</span>
+  <span class='ivar'>@identity</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="keychain=-instance_method"></span>
+      <span id="keychain-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="keychain-instance_method">
+  
+    - (<tt>Object</tt>) <strong>keychain</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the value of attribute keychain
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_keychain'>keychain</span>
+  <span class='ivar'>@keychain</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="profile=-instance_method"></span>
+      <span id="profile-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="profile-instance_method">
+  
+    - (<tt>Object</tt>) <strong>profile</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the value of attribute profile
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_profile'>profile</span>
+  <span class='ivar'>@profile</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="sdk=-instance_method"></span>
+      <span id="sdk-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="sdk-instance_method">
+  
+    - (<tt>Object</tt>) <strong>sdk</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the value of attribute sdk
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sdk'>sdk</span>
+  <span class='ivar'>@sdk</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="app_path-instance_method">
+  
+    - (<tt>Object</tt>) <strong>app_path</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+145
+146
+147</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 145</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_app_path'>app_path</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_configuration_build_path'>configuration_build_path</span><span class='rbrace'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_product_name'>product_name</span><span class='rbrace'>}</span><span class='tstring_content'>.app</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="build-instance_method">
+  
+    - (<tt>Object</tt>) <strong>build</strong>(sdk = @sdk) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+38
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 38</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_build'>build</span><span class='lparen'>(</span><span class='id identifier rubyid_sdk'>sdk</span><span class='op'>=</span><span class='ivar'>@sdk</span><span class='rparen'>)</span>    
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>=</span> <span class='id identifier rubyid_build_command'>build_command</span><span class='lparen'>(</span><span class='ivar'>@sdk</span><span class='rparen'>)</span>
+  <span class='const'>Xcode</span><span class='op'>::</span><span class='const'>Shell</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_cmd'>cmd</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="clean-instance_method">
+  
+    - (<tt>Object</tt>) <strong>clean</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 70</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_clean'>clean</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>xcodebuild</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-project \&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@target</span><span class='period'>.</span><span class='id identifier rubyid_project'>project</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
+  
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-scheme </span><span class='embexpr_beg'>#{</span><span class='ivar'>@scheme</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@scheme</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-target \&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@target</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@scheme</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-configuration \&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@scheme</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>OBJROOT=\&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@build_path</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SYMROOT=\&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@build_path</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>clean</span><span class='tstring_end'>&quot;</span></span>
+  <span class='const'>Xcode</span><span class='op'>::</span><span class='const'>Shell</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_cmd'>cmd</span><span class='rparen'>)</span>
+  
+  <span class='ivar'>@built</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@packaged</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='comment'># FIXME: Totally not safe
+</span>  <span class='comment'># cmd = []
+</span>  <span class='comment'># cmd &lt;&lt; &quot;rm -Rf #{build_path}&quot;
+</span>  <span class='comment'># Xcode::Shell.execute(cmd)
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="configuration_build_path-instance_method">
+  
+    - (<tt>Object</tt>) <strong>configuration_build_path</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+137
+138
+139</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 137</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_configuration_build_path'>configuration_build_path</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_build_path'>build_path</span><span class='rbrace'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'>-</span><span class='embexpr_beg'>#{</span><span class='ivar'>@sdk</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="dsym_path-instance_method">
+  
+    - (<tt>Object</tt>) <strong>dsym_path</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+159
+160
+161</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 159</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_dsym_path'>dsym_path</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_app_path'>app_path</span><span class='rbrace'>}</span><span class='tstring_content'>.dSYM</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="dsym_zip_path-instance_method">
+  
+    - (<tt>Object</tt>) <strong>dsym_zip_path</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+163
+164
+165</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 163</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_dsym_zip_path'>dsym_zip_path</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_product_version_basename'>product_version_basename</span><span class='rbrace'>}</span><span class='tstring_content'>.dSYM.zip</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="entitlements_path-instance_method">
+  
+    - (<tt>Object</tt>) <strong>entitlements_path</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+141
+142
+143</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 141</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_entitlements_path'>entitlements_path</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_build_path'>build_path</span><span class='rbrace'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@target</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'>.build/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'>-</span><span class='embexpr_beg'>#{</span><span class='ivar'>@target</span><span class='period'>.</span><span class='id identifier rubyid_project'>project</span><span class='period'>.</span><span class='id identifier rubyid_sdk'>sdk</span><span class='rbrace'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@target</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'>.build/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_product_name'>product_name</span><span class='rbrace'>}</span><span class='tstring_content'>.xcent</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="install_profile-instance_method">
+  
+    - (<tt>Object</tt>) <strong>install_profile</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 23</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_install_profile'>install_profile</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='ivar'>@profile</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='comment'># TODO: remove other profiles for the same app?
+</span>  <span class='id identifier rubyid_p'>p</span> <span class='op'>=</span> <span class='const'>ProvisioningProfile</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@profile</span><span class='rparen'>)</span>
+  
+  <span class='const'>ProvisioningProfile</span><span class='period'>.</span><span class='id identifier rubyid_installed_profiles'>installed_profiles</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_installed'>installed</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_installed'>installed</span><span class='period'>.</span><span class='id identifier rubyid_identifiers'>identifiers</span><span class='op'>==</span><span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_identifiers'>identifiers</span> <span class='kw'>and</span> <span class='id identifier rubyid_installed'>installed</span><span class='period'>.</span><span class='id identifier rubyid_uuid'>uuid</span><span class='op'>==</span><span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_uuid'>uuid</span>
+      <span class='id identifier rubyid_installed'>installed</span><span class='period'>.</span><span class='id identifier rubyid_uninstall'>uninstall</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  
+  <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_install'>install</span>
+  <span class='id identifier rubyid_p'>p</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="ipa_path-instance_method">
+  
+    - (<tt>Object</tt>) <strong>ipa_path</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+155
+156
+157</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 155</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ipa_path'>ipa_path</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_product_version_basename'>product_version_basename</span><span class='rbrace'>}</span><span class='tstring_content'>.ipa</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="package-instance_method">
+  
+    - (<tt>Object</tt>) <strong>package</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 103</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_package'>package</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can't find </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_app_path'>app_path</span><span class='rbrace'>}</span><span class='tstring_content'>, do you need to call builder.build?</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span> <span class='id identifier rubyid_app_path'>app_path</span>
+  
+  <span class='comment'>#package IPA
+</span>  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>      
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>xcrun</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-sdk </span><span class='embexpr_beg'>#{</span><span class='ivar'>@target</span><span class='period'>.</span><span class='id identifier rubyid_project'>project</span><span class='period'>.</span><span class='id identifier rubyid_sdk'>sdk</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>iphoneos</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='ivar'>@target</span><span class='period'>.</span><span class='id identifier rubyid_project'>project</span><span class='period'>.</span><span class='id identifier rubyid_sdk'>sdk</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>PackageApplication</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-v \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_app_path'>app_path</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-o \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ipa_path'>ipa_path</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
+  
+  <span class='comment'># cmd &lt;&lt; &quot;OTHER_CODE_SIGN_FLAGS=\&quot;--keychain #{@keychain.path}\&quot;&quot; unless @keychain.nil?
+</span>  <span class='comment'># 
+</span>  <span class='comment'># unless @identity.nil?
+</span>  <span class='comment'>#   cmd &lt;&lt; &quot;--sign \&quot;#{@identity}\&quot;&quot;
+</span>  <span class='comment'># end
+</span>  
+  <span class='kw'>unless</span> <span class='ivar'>@profile</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--embed \&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@profile</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  
+  <span class='const'>Xcode</span><span class='op'>::</span><span class='const'>Shell</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_cmd'>cmd</span><span class='rparen'>)</span>
+  
+  <span class='comment'># package dSYM
+</span>  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>zip</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-r</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-T</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-y \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_dsym_zip_path'>dsym_zip_path</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_dsym_path'>dsym_path</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='const'>Xcode</span><span class='op'>::</span><span class='const'>Shell</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_cmd'>cmd</span><span class='rparen'>)</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="product_version_basename-instance_method">
+  
+    - (<tt>Object</tt>) <strong>product_version_basename</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+149
+150
+151
+152
+153</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 149</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_product_version_basename'>product_version_basename</span>
+  <span class='id identifier rubyid_version'>version</span> <span class='op'>=</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_info_plist'>info_plist</span><span class='period'>.</span><span class='id identifier rubyid_version'>version</span>
+  <span class='id identifier rubyid_version'>version</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SNAPSHOT</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_version'>version</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_version'>version</span><span class='op'>==</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_configuration_build_path'>configuration_build_path</span><span class='rbrace'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_product_name'>product_name</span><span class='rbrace'>}</span><span class='tstring_content'>-</span><span class='embexpr_beg'>#{</span><span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'>-</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_version'>version</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="sign-instance_method">
+  
+    - (<tt>Object</tt>) <strong>sign</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 92</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sign'>sign</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>codesign</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--force</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--sign \&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@identity</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--resource-rules=\&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_app_path'>app_path</span><span class='rbrace'>}</span><span class='tstring_content'>/ResourceRules.plist\&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--entitlements \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_entitlements_path'>entitlements_path</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ipa_path'>ipa_path</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='const'>Xcode</span><span class='op'>::</span><span class='const'>Shell</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_cmd'>cmd</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="test-instance_method">
+  
+    - (<tt>Object</tt>) <strong>test</strong> {|parser| ... }
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Yields:</h3>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>parser</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 43</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_test'>test</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>=</span> <span class='id identifier rubyid_build_command'>build_command</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>iphonesimulator</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>TEST_AFTER_BUILD=YES</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>TEST_HOST=''</span><span class='tstring_end'>&quot;</span></span>
+  
+  <span class='id identifier rubyid_parser'>parser</span> <span class='op'>=</span> <span class='const'>Xcode</span><span class='op'>::</span><span class='const'>Test</span><span class='op'>::</span><span class='const'>OCUnitReportParser</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='const'>Xcode</span><span class='op'>::</span><span class='const'>Shell</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_cmd'>cmd</span><span class='comma'>,</span> <span class='kw'>false</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='op'>|</span>
+    <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_line'>line</span>
+    <span class='id identifier rubyid_parser'>parser</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_line'>line</span>
+  <span class='kw'>end</span>
+  
+  <span class='kw'>yield</span><span class='lparen'>(</span><span class='id identifier rubyid_parser'>parser</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+  
+  <span class='id identifier rubyid_exit'>exit</span> <span class='id identifier rubyid_parser'>parser</span><span class='period'>.</span><span class='id identifier rubyid_exit_code'>exit_code</span> <span class='kw'>if</span> <span class='id identifier rubyid_parser'>parser</span><span class='period'>.</span><span class='id identifier rubyid_exit_code'>exit_code</span><span class='op'>!=</span><span class='int'>0</span>
+  
+  <span class='id identifier rubyid_parser'>parser</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="testflight-instance_method">
+  
+    - (<tt>Object</tt>) <strong>testflight</strong>(api_token, team_token) {|testflight| ... }
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Yields:</h3>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>testflight</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+61
+62
+63
+64
+65
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder.rb', line 61</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_testflight'>testflight</span><span class='lparen'>(</span><span class='id identifier rubyid_api_token'>api_token</span><span class='comma'>,</span> <span class='id identifier rubyid_team_token'>team_token</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can't find </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ipa_path'>ipa_path</span><span class='rbrace'>}</span><span class='tstring_content'>, do you need to call builder.build?</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span> <span class='id identifier rubyid_ipa_path'>ipa_path</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can't fins </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_dsym_zip_path'>dsym_zip_path</span><span class='rbrace'>}</span><span class='tstring_content'>, do you need to call builder.build?</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span> <span class='id identifier rubyid_dsym_zip_path'>dsym_zip_path</span>
+  
+  <span class='id identifier rubyid_testflight'>testflight</span> <span class='op'>=</span> <span class='const'>Xcode</span><span class='op'>::</span><span class='const'>Testflight</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_api_token'>api_token</span><span class='comma'>,</span> <span class='id identifier rubyid_team_token'>team_token</span><span class='rparen'>)</span>
+  <span class='kw'>yield</span><span class='lparen'>(</span><span class='id identifier rubyid_testflight'>testflight</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+  <span class='id identifier rubyid_testflight'>testflight</span><span class='period'>.</span><span class='id identifier rubyid_upload'>upload</span><span class='lparen'>(</span><span class='id identifier rubyid_ipa_path'>ipa_path</span><span class='comma'>,</span> <span class='id identifier rubyid_dsym_zip_path'>dsym_zip_path</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Mon Feb 13 23:50:10 2012 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.5 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>
