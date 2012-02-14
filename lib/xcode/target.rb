@@ -116,22 +116,22 @@ module Xcode
     # 
     # @return [BuildPhase] the framework specific build phase of the target.
     # 
-    def framework_build_phase
-      build_phase 'PBXFrameworksBuildPhase'
+    def framework_build_phase(&block)
+      build_phase 'PBXFrameworksBuildPhase', &block
     end
     
     #
     # @return [BuildPhase] the sources specific build phase of the target.
     # 
-    def sources_build_phase
-      build_phase 'PBXSourcesBuildPhase'
+    def sources_build_phase(&block)
+      build_phase 'PBXSourcesBuildPhase', &block
     end
     
     #
     # @return [BuildPhase] the resources specific build phase of the target.
     # 
-    def resources_build_phase
-      build_phase 'PBXResourcesBuildPhase'
+    def resources_build_phase(&block)
+      build_phase 'PBXResourcesBuildPhase', &block
     end
     
     def build_phase(type,&block)

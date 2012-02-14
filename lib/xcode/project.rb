@@ -38,9 +38,24 @@ module Xcode
       # Parse the Xcode project file and create the registry
       
       @registry = parse_pbxproj
-      @project = Xcode::Resource.new registry.root, @registry
+      @project = Xcode::Resource.new @registry.root, @registry
       
       @schemes = parse_schemes
+    end
+    
+    
+    #
+    # @return [Fixnum] the project's object version
+    # 
+    def object_version
+      @registry.object_version
+    end
+
+    #
+    # @return [Fixnum] the project's archive version
+    # 
+    def archive_version
+      @registry.archive_version
     end
     
     #
@@ -77,7 +92,9 @@ module Xcode
     #
     # @param [String] name the group name to find/create
     # 
-    def group(name,&block)
+    def group(name,options = {},&block)
+      # By default create missing groups along the way
+      options = { :create => true }.merge(options)
       
       current_group = @project.main_group
       
@@ -86,11 +103,17 @@ module Xcode
       
       name.split("/").each do |path_component|
         found_group = current_group.group(path_component).first
-        found_group = current_group.create_group(path_component) unless found_group
+        
+        if options[:create] and found_group.nil?
+          found_group = current_group.create_group(path_component)
+        end
+        
         current_group = found_group
+        
+        break unless current_group
       end
       
-      current_group.instance_eval(&block) if block_given?
+      current_group.instance_eval(&block) if block_given? and current_group
       
       current_group
     end
@@ -113,7 +136,11 @@ module Xcode
     # 
     # @return [Group] the 'Products' group of the project.
     def products_group
-      groups.group('Products').first
+      current_group = groups.group('Products').first
+      
+      current_group.instance_eval(&block) if block_given? and current_group
+      
+      current_group
     end
     
     #
@@ -123,7 +150,11 @@ module Xcode
     # 
     # @return [Group] the 'Frameworks' group of the projet.
     def frameworks_group
-      groups.group('Frameworks').first
+      current_group = groups.group('Frameworks').first
+      
+      current_group.instance_eval(&block) if block_given? and current_group
+      
+      current_group
     end
     
     #

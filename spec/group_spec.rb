@@ -34,7 +34,7 @@ describe Xcode::Group do
     end
   end
   
-  describe "#add_group" do
+  describe "#create_group" do
     it "should return the group" do
       subject.create_group('TestGroup').should_not be_nil
     end
@@ -50,7 +50,19 @@ describe Xcode::Group do
         subgroup.identifier.should == found_subgroup.identifier
       end
     end
+  end
+  
+  describe "#remove!" do
 
+    let!(:subject) { project.group('created/groups/to') }
+    let!(:group_losing_a_child) { project.group('created/groups') }
+    let!(:remove_grandchild) { project.group('created/groups/to/here') }
+    
+    it "should remove the group and all the children" do
+      subject.supergroup.remove!
+      group_losing_a_child.groups.should be_empty
+    end
+    
   end
   
   describe "Files" do
@@ -84,6 +96,47 @@ describe Xcode::Group do
         subject.create_file new_file_params
         subject.file(new_file_params['name']).count.should == 1
       end
+    end
+    
+    describe "#create_system_framework" do
+
+      let(:framework_name) { 'CFNetwork' }
+      let(:full_framework_name) { 'CFNetwork.framework' }
+      
+      before(:each) do
+        subject.create_system_framework framework_name
+      end
+      
+      it "should create the framework within the group" do
+        subject.file(full_framework_name).should_not be_nil
+      end
+      
+      it "should not create the framework again if it exists" do
+        subject.exists?(full_framework_name).should be_true
+        subject.create_system_framework framework_name
+        subject.file(full_framework_name).count.should == 1
+      end
+
+    end
+    
+    describe "#create_system_library" do
+
+      let(:library_name) { 'libz.dylib' }
+      
+      it "should create the system library within the group" do
+        subject.create_system_library library_name
+      end
+      
+      it "should create a system library with the correct path" do
+        subject.create_system_library(library_name).path.should == "usr/lib/libz.dylib"
+      end
+      
+      it "should not create a system library twice" do
+        subject.create_system_library library_name
+        subject.create_system_library library_name
+        subject.file(library_name).count.should == 1
+      end
+
     end
     
   end

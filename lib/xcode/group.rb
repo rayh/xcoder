@@ -110,6 +110,14 @@ module Xcode
     # Add a file to the specified group. Currently the file creation requires
     # the path to the physical file.
     # 
+    # @example creating a file with just a path
+    # 
+    #     project.main_group.create_file 'AppDelegate.m'
+    # 
+    # @example creating a file with a name and path
+    # 
+    #     project.main_group.create_file 'name' => 'AppDelegate.m', 'path' => 'Subfolder/AppDelegate.m'
+    # 
     # @param [String,Hash] path to the file that is being added or a hash that 
     #   contains the values would be merged with the default values.
     #
@@ -127,6 +135,7 @@ module Xcode
       unless found_or_created_file
         found_or_created_file = create_child_object FileReference.file(file_properties)
       end
+      found_or_created_file.supergroup = self
       
       found_or_created_file
     end
@@ -134,20 +143,43 @@ module Xcode
     #
     # Create a framework within this group.
     # 
+    # @example Custom.Framework
+    # 
+    #     project.frameworks_group.create_framework 'name' => 'Custom.framework', 
+    #       'path' => 'Vendor/Custom/Custom.framework' 
+    # 
     # @param [Hash] framework_properties the properties to merge with the default
     #   properties.
     #
     def create_framework(framework_properties)
-      create_child_object FileReference.framework(framework_properties)
+      find_or_create_child_object FileReference.framework(framework_properties)
     end
     
     #
     # Create a system framework reference within this group
+    # 
+    # @example creating 'CoreGraphics' and 'Foundation' frameworks
+    # 
+    #     project.frameworks_group.create_system_framework "CoreGraphics.framework"
+    #     project.frameworks_group.create_system_framework "Foundation"
     #
     # @param [String] name the name of the System framework to add to this group.
     #
     def create_system_framework(name)
-      create_child_object FileReference.system_framework(name)
+      find_or_create_child_object FileReference.system_framework(name)
+    end
+
+    #
+    # Create a system library reference within this group
+    #
+    #  @example libz.dylib
+    # 
+    #     project.frameworks_group.create_system_library "libz.dylib"
+    #
+    # @param [String] name the name of the System Library to add to this group.
+    #
+    def create_system_library(name)
+      find_or_create_child_object FileReference.system_library(name)
     end
     
     #
@@ -176,10 +208,29 @@ module Xcode
       create_child_object FileReference.app_product(name)
     end
     
+    #
+    # Remove the resource from the registry. 
+    # 
+    # @note all children objects of this group are removed as well.
+    # 
+    def remove!(&block)
+      
+      # @note #groups and #files is used because it adds the very precious
+      #   supergroup to each of the child items.
+      
+      groups.each {|group| group.remove!(&block) }
+      files.each {|file| file.remove!(&block) }
+      yield self if block_given?
+      
+      child_identifier = identifier
+      supergroup.instance_eval { remove_child_object(child_identifier) }
+      @registry.remove_object identifier
+    end
+    
     private
     
     #
-    # This method is used internally to add objects to the registry and add the
+    # This method is used internally to add object to the registry and add the
     # object as a child of this group.
     # 
     # @param [Hash] child_as_properties the hash of resource to add as a child
@@ -190,6 +241,33 @@ module Xcode
       child_object = @registry.add_object child_properties
       @properties['children'] << child_object.identifier
       child_object
+    end
+    
+    #
+    # This method is used internally to find the specified object or add the object
+    # as a child of this group.
+    # 
+    # @param [Hash] child_properties the hash of resource to add as a child
+    #   object of this group if it does not already exist as a child.
+    #
+    # @return [Resource] returns the resource that was added a child
+    def find_or_create_child_object(child_properties)
+      found_child = children.find {|child| child.name == child_properties['name'] or child.path == child_properties['path'] }
+      found_child = create_child_object(child_properties) unless found_child
+      found_child
+    end
+    
+    #
+    # This method is used internally to remove a child object from this and the
+    # registry.
+    #
+    # @param [String] identifier of the child object to be removed.
+    # @return [Resource] the removed child resource
+    def remove_child_object(identifier)
+      found_child = children.find {|child| child.identifier == identifier }
+      @properties['children'].delete identifier
+      save!
+      found_child
     end
     
   end
