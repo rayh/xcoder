@@ -135,6 +135,10 @@ module Xcode
     #
     # Create a framework within this group.
     # 
+    # @example Custom.Framework
+    # 
+    #     project.frameworks_group.create_framework 'name' => 'Custom.framework', 'path' => 'Vendor/Custom/Custom.framework' 
+    # 
     # @param [Hash] framework_properties the properties to merge with the default
     #   properties.
     #
@@ -155,7 +159,6 @@ module Xcode
     def create_system_framework(name)
       create_child_object FileReference.system_framework(name)
     end
-    
 
     #
     # Create a system library reference within this group
