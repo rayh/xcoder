@@ -4,7 +4,7 @@ module SpaceDelimitedString
   extend self
   
   def open(value)
-    value.split(" ")
+    value.to_s.split(" ")
   end
   
   def save(value)

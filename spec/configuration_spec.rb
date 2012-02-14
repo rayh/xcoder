@@ -21,7 +21,15 @@ describe Xcode::Configuration do
   
   describe "#supported_platforms" do
     it "should return the correct platforms" do
-      subject.supported_platforms.should == ["another", "iphonesimulator", "iphoneos"]
+      # by default the test configuration defaults to the parent project configuration
+      subject.supported_platforms.should == []
+    end
+  end
+  
+  describe "#supported_platforms=" do
+    it "should correctly set the supported platforms" do
+      subject.supported_platforms = "justthisplatform"
+      subject.supported_platforms.should == [ "justthisplatform" ]
     end
   end
   
