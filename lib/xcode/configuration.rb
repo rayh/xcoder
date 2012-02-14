@@ -119,6 +119,30 @@ module Xcode
     
     
     #
+    # Append the configuration value for the given name
+    # 
+    # @param [String] name of the the configuration setting
+    # @param [String,Array,Hash] value the value to store for the specific setting
+    # 
+    def append(name,value)
+      current_value = get(name)
+      
+      if current_value.is_a? Array
+        # @note there is a big assumption that when you add an element to an array
+        #   here that you want to ensure the uniquness of the array.
+        set name, current_value.push(value).uniq
+      elsif current_value.is_a? Hash
+        set name, current_value.merge(value)
+      else
+        # @note there is a big assumption that when you want to append the value
+        #   here that you want to include a space between the two.
+        set name, "#{current_value} #{value}"
+      end  
+
+    end
+    
+    
+    #
     # Create a builder for this given project->target->configuration.
     # 
     # @return [Builder] this is a builder for the configuration.
