@@ -52,7 +52,7 @@ module Xcode
     #
     def self.system_framework(name,properties = {})
 
-      name = name[/(.+)\.framework/,1]
+      name = name[/(.+)(?:\.framework)?$/,1]
       
       default_properties = { 'isa' => 'PBXFileReference',
         'lastKnownFileType' => 'wrapper.framework', 

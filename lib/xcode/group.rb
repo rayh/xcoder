@@ -110,6 +110,14 @@ module Xcode
     # Add a file to the specified group. Currently the file creation requires
     # the path to the physical file.
     # 
+    # @example creating a file with just a path
+    # 
+    #     project.main_group.create_file 'AppDelegate.m'
+    # 
+    # @example creating a file with a name and path
+    # 
+    #     project.main_group.create_file 'name' => 'AppDelegate.m', 'path' => 'Subfolder/AppDelegate.m'
+    # 
     # @param [String,Hash] path to the file that is being added or a hash that 
     #   contains the values would be merged with the default values.
     #
@@ -137,7 +145,8 @@ module Xcode
     # 
     # @example Custom.Framework
     # 
-    #     project.frameworks_group.create_framework 'name' => 'Custom.framework', 'path' => 'Vendor/Custom/Custom.framework' 
+    #     project.frameworks_group.create_framework 'name' => 'Custom.framework', 
+    #       'path' => 'Vendor/Custom/Custom.framework' 
     # 
     # @param [Hash] framework_properties the properties to merge with the default
     #   properties.

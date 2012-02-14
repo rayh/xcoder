@@ -13,7 +13,6 @@ describe Xcode::BuildPhase do
     let(:second_build_file) { "AppDelegate.m" }
     
     describe "#files" do
-
       it "should return the correct number of build files" do
         subject.files.count.should == 2
       end
@@ -23,7 +22,6 @@ describe Xcode::BuildPhase do
           file.file_ref.should be_kind_of Xcode::FileReference
         end
       end
-
     end
     
     describe "#file" do
@@ -31,7 +29,6 @@ describe Xcode::BuildPhase do
         subject.file('main.m').should_not be_nil
         subject.file('main.m').file_ref.path.should == 'main.m'
       end
-
     end
     
     describe "#build_files" do
