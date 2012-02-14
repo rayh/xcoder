@@ -63,8 +63,6 @@ module Xcode
     # The unique identifier for this resource
     attr_accessor :identifier
     
-    alias_method :id, :identifier
-    
     # The properties hash that is known about the resource
     attr_accessor :properties
     
