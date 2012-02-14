@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite errors="0" failures="0" hostname="Pod.local" name="AnExampleTestSuite" tests="2" time="0.0" timestamp="2012-02-09 16:37:04 -0800">
-  <testcase classname="AnExampleTestSuite" name="anExampleTest1" time="0.003">
-  </testcase>
-  <testcase classname="AnExampleTestSuite" name="anExampleTest2" time="0.003">
-  </testcase>
-</testsuite>
