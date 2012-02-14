@@ -136,7 +136,11 @@ module Xcode
     # 
     # @return [Group] the 'Products' group of the project.
     def products_group
-      groups.group('Products').first
+      current_group = groups.group('Products').first
+      
+      current_group.instance_eval(&block) if block_given? and current_group
+      
+      current_group
     end
     
     #
@@ -146,7 +150,11 @@ module Xcode
     # 
     # @return [Group] the 'Frameworks' group of the projet.
     def frameworks_group
-      groups.group('Frameworks').first
+      current_group = groups.group('Frameworks').first
+      
+      current_group.instance_eval(&block) if block_given? and current_group
+      
+      current_group
     end
     
     #
