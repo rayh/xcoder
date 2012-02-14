@@ -1,4 +1,8 @@
 require 'xcode/builder'
+require 'xcode/configurations/space_delimited_string'
+require 'xcode/configurations/targeted_device_family'
+require 'xcode/configurations/string_property'
+require 'xcode/configurations/boolean_property'
 
 module Xcode
   
@@ -27,6 +31,29 @@ module Xcode
   #       name = Debug;                                              
   #     };                                                           
   # 
+  # Configuration values are stored in a variety of formats:
+  # 
+  #   * Strings
+  #     * String with space separation
+  #   * Numbers
+  #   * Booleans YES|NO
+  #   * Arrays
+  #   * Hashes
+  # 
+  # Common Strings With Space Separated:
+  # 
+  #     Supported Platforms : SUPPORTED_PLATFORMS
+  #     User Header Search Paths: USER_HEADER_SEARCH_PATHS
+  #     Other Test Flags : OTHER_TEST_FLAGS
+  # 
+  # Common Strings With Comma Separation:
+  # 
+  #     Targeted Device Family : TARGETED_DEVICE_FAMILY (1:iPhone 2:iPad 1,2:iPhone and iPad)
+  # 
+  # Arrays:
+  # 
+  #     Header Search Paths         : HEADER_SEARCH_PATHS
+  # 
   module Configuration
     
     def self.default_properties(name)
@@ -54,18 +81,51 @@ module Xcode
     end
     
     #
-    # The configuration is defined within a target.
-    # @see PBXNativeTarget
+    # This method will define getters/setters mapped to the build configuration.
     # 
-    attr_accessor :target
+    # This allows for dynamic values to be saved and loaded by allowing a parsing
+    # process to take place on the loaded value and when saving back to the value.
+    #
+    # @param [Symbol] property_name the name of the property that is being defined
+    # @param [String setting_name the configuration value string
+    # @param [Types] type is the class that is used to load and save the value
+    #   correctly.
+    # 
+    def self.property(property_name,setting_name,type)
+      
+      # Define a getter method
+
+      define_method property_name do
+        substitute type.open(build_settings[setting_name])
+      end
+
+      # Define a setter method
+      
+      define_method "#{property_name}=" do |value|
+        build_settings[setting_name] = unsubstitute(type.save(value))
+      end
+      
+    end
     
     #
-    # @return the location for the InfoPlist file for the configuration.
-    # @see InfoPlist
+    # The configuration is defined within a target.
+    # @see Target
     # 
-    def info_plist_location
-      build_settings['INFOPLIST_FILE']
-    end
+    attr_accessor :target
+
+    property :product_name, "PRODUCT_NAME", StringProperty
+    
+    property :supported_platforms, "SUPPORTED_PLATFORMS", SpaceDelimitedString
+    
+    property :precompile_prefiex_headers, "GCC_PRECOMPILE_PREFIX_HEADER", BooleanProperty
+    
+    property :prefix_header, "GCC_PREFIX_HEADER", StringProperty
+    
+    property :info_plist_location, "INFOPLIST_FILE", StringProperty
+    
+    property :wrapper_extension, "WRAPPER_EXTENSION", StringProperty
+    
+    property :targeted_device_family, "TARGETED_DEVICE_FAMILY", TargetedDeviceFamily
     
     #
     # Opens the info plist associated with the configuration and allows you to 
@@ -83,19 +143,13 @@ module Xcode
     # @see InfoPlist
     # 
     def info_plist
-      # puts @json.inspect
       info = Xcode::InfoPlist.new(self, info_plist_location)  
       yield info if block_given?
       info.save
       info
     end
     
-    #
-    # @return the name of the product that this configuration will generate.
-    # 
-    def product_name
-      substitute(build_settings['PRODUCT_NAME'])
-    end
+    property :user_header_search_paths, "USER_HEADER_SEARCH_PATHS", SpaceDelimitedString
     
     #
     # Retrieve the configuration value for the given name
@@ -117,31 +171,6 @@ module Xcode
       build_settings[name] = value
     end
     
-    
-    #
-    # Append the configuration value for the given name
-    # 
-    # @param [String] name of the the configuration setting
-    # @param [String,Array,Hash] value the value to store for the specific setting
-    # 
-    def append(name,value)
-      current_value = get(name)
-      
-      if current_value.is_a? Array
-        # @note there is a big assumption that when you add an element to an array
-        #   here that you want to ensure the uniquness of the array.
-        set name, current_value.push(value).uniq
-      elsif current_value.is_a? Hash
-        set name, current_value.merge(value)
-      else
-        # @note there is a big assumption that when you want to append the value
-        #   here that you want to include a space between the two.
-        set name, "#{current_value} #{value}"
-      end  
-
-    end
-    
-    
     #
     # Create a builder for this given project->target->configuration.
     # 
@@ -149,10 +178,8 @@ module Xcode
     # @see Builder
     # 
     def builder
-      puts "Making a Builder with #{self} #{self.methods}"
       Xcode::Builder.new(self)
     end
-    
     
     private
     
@@ -179,6 +206,18 @@ module Xcode
       else
         value
       end
+    end
+    
+    #
+    # @todo currently this performs no operation, but perhaps it should
+    #   in the future to support the ability to persist intelligently back with
+    #   paths
+    # 
+    # @param [Object] value the object that is scanned to figure out if it 
+    #   should have content values replaced with environment variables
+    #
+    def unsubstitute(value)
+      value
     end
 
   end

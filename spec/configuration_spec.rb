@@ -18,6 +18,13 @@ describe Xcode::Configuration do
     end
   end
   
+  
+  describe "#supported_platforms" do
+    it "should return the correct platforms" do
+      subject.supported_platforms.should == ["another", "iphonesimulator", "iphoneos"]
+    end
+  end
+  
   describe "#product_name" do
     it "should return the correct product name" do
       subject.product_name.should == "TestProject"
