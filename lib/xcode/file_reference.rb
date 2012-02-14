@@ -104,7 +104,9 @@ module Xcode
         'sourceTree' => "BUILT_PRODUCTS_DIR" }
     end
     
-    
+    #
+    # Remove the given file from the project and the supergroup of the file.
+    # 
     def remove!
       # @todo the removal here does not consider if the files have
       #   been specified within a build phase.
