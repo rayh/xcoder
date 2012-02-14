@@ -125,7 +125,7 @@ module Xcode
     # @see Builder
     # 
     def builder
-      puts "Making a Builder with #{self} #{self.methods}"
+      #puts "Making a Builder with #{self} #{self.methods}"
       Xcode::Builder.new(self)
     end
     
