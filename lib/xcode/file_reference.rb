@@ -45,8 +45,8 @@ module Xcode
     # 
     # @example CoreGraphics.framework
     # 
-    #     project.frameworks_group.create_system_framework "CoreGraphics.framework"
-    #     project.frameworks_group.create_system_framework "Foundation"
+    #     FileReference.system_framework "CoreGraphics.framework"
+    #     FileReference.system_framework "Foundation"
     # 
     # @param [String] name of the system framework which can be specified with or
     #   without the ".framework" suffix / extension.
@@ -65,6 +65,17 @@ module Xcode
       default_properties.merge(properties)
     end
     
+    #
+    # Generate the properties for a system library
+    # 
+    # @example libz.dylib
+    # 
+    #     FileReference.system_library "libz.dylib"
+    # 
+    # @param [String] name of the system library, which can be found by default
+    #   in the /usr/lib folder.
+    # @param [Types] properties the parameters to override for the system library
+    #
     def self.system_library(name,properties = {})
       default_properties = { 'isa' => 'PBXFileReference',
         'lastKnownFileType' => 'compiled.mach-o.dylib', 

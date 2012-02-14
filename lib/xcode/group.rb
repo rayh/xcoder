@@ -144,6 +144,11 @@ module Xcode
     
     #
     # Create a system framework reference within this group
+    # 
+    # @example creating 'CoreGraphics' and 'Foundation' frameworks
+    # 
+    #     project.frameworks_group.create_system_framework "CoreGraphics.framework"
+    #     project.frameworks_group.create_system_framework "Foundation"
     #
     # @param [String] name the name of the System framework to add to this group.
     #
@@ -151,6 +156,16 @@ module Xcode
       create_child_object FileReference.system_framework(name)
     end
     
+
+    #
+    # Create a system library reference within this group
+    #
+    #  @example libz.dylib
+    # 
+    #     project.frameworks_group.create_system_library "libz.dylib"
+    #
+    # @param [String] name the name of the System Library to add to this group.
+    #
     def create_system_library(name)
       create_child_object FileReference.system_library(name)
     end
