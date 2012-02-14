@@ -43,8 +43,9 @@ describe Xcode::Builder do
       end
     
       it "should upload ipa and dsym to testflight" do 
-        Xcode::Shell.should_receive(:execute).with(testflight_parameters).and_return(['{}'])
+        subject.build.package
         
+        Xcode::Shell.should_receive(:execute).with(testflight_parameters).and_return(['{}'])
         subject.testflight("api_token", "team_token") do |tf|
           tf.proxy = "http://proxyhost:8080"
           tf.notes = "some notes"
