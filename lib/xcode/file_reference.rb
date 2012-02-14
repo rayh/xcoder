@@ -43,10 +43,19 @@ module Xcode
     #
     # Generate the properties for a system framework.
     # 
-    # @param [String] name of the system framework
+    # @example CoreGraphics.framework
+    # 
+    #     project.frameworks_group.create_system_framework "CoreGraphics.framework"
+    #     project.frameworks_group.create_system_framework "Foundation"
+    # 
+    # @param [String] name of the system framework which can be specified with or
+    #   without the ".framework" suffix / extension.
     # @param [Hash] properties the parameters to override for the system framework
     #
     def self.system_framework(name,properties = {})
+
+      name = name[/(.+)\.framework/,1]
+      
       default_properties = { 'isa' => 'PBXFileReference',
         'lastKnownFileType' => 'wrapper.framework', 
         'name' => "#{name}.framework",
