@@ -31,29 +31,6 @@ module Xcode
   #       name = Debug;                                              
   #     };                                                           
   # 
-  # Configuration values are stored in a variety of formats:
-  # 
-  #   * Strings
-  #     * String with space separation
-  #   * Numbers
-  #   * Booleans YES|NO
-  #   * Arrays
-  #   * Hashes
-  # 
-  # Common Strings With Space Separated:
-  # 
-  #     Supported Platforms : SUPPORTED_PLATFORMS
-  #     User Header Search Paths: USER_HEADER_SEARCH_PATHS
-  #     Other Test Flags : OTHER_TEST_FLAGS
-  # 
-  # Common Strings With Comma Separation:
-  # 
-  #     Targeted Device Family : TARGETED_DEVICE_FAMILY (1:iPhone 2:iPad 1,2:iPhone and iPad)
-  # 
-  # Arrays:
-  # 
-  #     Header Search Paths         : HEADER_SEARCH_PATHS
-  # 
   module Configuration
     
     def self.default_properties(name)
