@@ -199,7 +199,16 @@ module Xcode
       create_child_object FileReference.app_product(name)
     end
     
+    #
+    # Remove the resource from the registry. 
+    # 
+    # @note all children objects of this group are removed as well.
+    # 
     def remove!(&block)
+      
+      # @note #groups and #files is used because it adds the very precious
+      #   supergroup to each of the child items.
+      
       groups.each {|group| group.remove!(&block) }
       files.each {|file| file.remove!(&block) }
       yield self if block_given?
@@ -207,17 +216,10 @@ module Xcode
       @registry.remove_object identifier
     end
     
-    def remove_child_object(identifier)
-      found_child = children.find {|child| child.identifier == identifier }
-      @properties['children'].delete identifier
-      save!
-      found_child
-    end
-    
     private
     
     #
-    # This method is used internally to add objects to the registry and add the
+    # This method is used internally to add object to the registry and add the
     # object as a child of this group.
     # 
     # @param [Hash] child_as_properties the hash of resource to add as a child
@@ -230,9 +232,30 @@ module Xcode
       child_object
     end
     
+    #
+    # This method is used internally to find the specified object or add the object
+    # as a child of this group.
+    # 
+    # @param [Hash] child_properties the hash of resource to add as a child
+    #   object of this group if it does not already exist as a child.
+    #
+    # @return [Resource] returns the resource that was added a child
     def find_or_create_child_object(child_properties)
       found_child = children.find {|child| child.name == child_properties['name'] or child.path == child_properties['path'] }
       found_child = create_child_object(child_properties) unless found_child
+      found_child
+    end
+    
+    #
+    # This method is used internally to remove a child object from this and the
+    # registry.
+    #
+    # @param [String] identifier of the child object to be removed.
+    # @return [Resource] the removed child resource
+    def remove_child_object(identifier)
+      found_child = children.find {|child| child.identifier == identifier }
+      @properties['children'].delete identifier
+      save!
       found_child
     end
     
