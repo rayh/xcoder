@@ -57,7 +57,7 @@ module Xcode
      Keychain.temp_keychain(@values[:project]) do |kc|
        kc.import @values[:certificate], @values[:password]
        
-       builder.identity = @values[:identity] || kc.certificates.first
+       builder.identity = @values[:identity] || kc.identities.first
        builder.keychain = kc
        
        puts "[#{label}] CLEAN"

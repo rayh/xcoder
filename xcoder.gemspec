@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "xcoder"
 
-  s.files         = `git ls-files`.split("\n").select {|f| !f=~/^examples\//} # Ignore example files
+  s.files         = `git ls-files`.split("\n").reject {|f| f=~/^(?:spec|examples)\//} # Ignore example files
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
