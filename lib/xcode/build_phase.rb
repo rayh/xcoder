@@ -46,6 +46,17 @@ module Xcode
     end
     
     #
+    # Return the BuildFile given the file name.
+    #
+    # @param [String] name of the FileReference that is being built.
+    # @return [BuildFile] the BuildFile that links to the file specified with 
+    #   the name.
+    # 
+    def file(name)
+      files.find {|file| file.file_ref.name == name or file.file_ref.path == name  }
+    end
+    
+    #
     # Return the files that are referenced by the build files. This traverses
     # the level of indirection to make it easier to get to the FileReference.
     # 
@@ -59,7 +70,12 @@ module Xcode
     
     #
     # Find the first file that has the name or path that matches the specified
-    # parameter. 
+    # parameter.
+    # 
+    # @note this is the FileReference, the file being built and not the instance
+    #   of the BuildFile.
+    # 
+    # @see #file
     # 
     # @param [String] name the name or the path of the file.
     # @return [FileReference] the file referenced that matches the name or path;
@@ -97,10 +113,6 @@ module Xcode
     
     #
     # Add the specified file to the Build Phase.
-    # 
-    # First a BuildFile entry is created for the file and then the build file
-    # entry is added to the particular build phase. A BuildFile identifier must
-    # exist for each target.
     # 
     # @example adding a source file, that does not use ARC, to the sources build phase
     # 

@@ -12,6 +12,28 @@ describe Xcode::BuildPhase do
     let(:first_build_file) { "main.m" }
     let(:second_build_file) { "AppDelegate.m" }
     
+    describe "#files" do
+
+      it "should return the correct number of build files" do
+        subject.files.count.should == 2
+      end
+      
+      it "should return BuildFiles with references to their files" do
+        subject.files.each do |file| 
+          file.file_ref.should be_kind_of Xcode::FileReference
+        end
+      end
+
+    end
+    
+    describe "#file" do
+      it "should return the build file specified from the file name" do
+        subject.file('main.m').should_not be_nil
+        subject.file('main.m').file_ref.path.should == 'main.m'
+      end
+
+    end
+    
     describe "#build_files" do
       it "should return the correct number of build files" do
         subject.build_files.count.should == 2
@@ -35,6 +57,15 @@ describe Xcode::BuildPhase do
         source_file = project.groups.create_file 'NewFile.m'
         subject.add_build_file source_file
         subject.build_file('NewFile.m').should_not be_nil
+      end
+    end
+    
+    describe "#add_build_file_without_arc" do
+      it "should add the specified file to the build phase with the correct parameters" do
+        source_file = project.groups.create_file 'ArcLessSource.m'
+        subject.add_build_file_without_arc source_file
+        subject.build_file('ArcLessSource.m').should_not be_nil
+        subject.file('ArcLessSource.m').settings.should == { 'COMPILER_FLAGS' => "-fno-objc-arc" }
       end
     end
   end
