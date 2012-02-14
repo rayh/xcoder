@@ -212,7 +212,9 @@ module Xcode
       groups.each {|group| group.remove!(&block) }
       files.each {|file| file.remove!(&block) }
       yield self if block_given?
-      supergroup.remove_child_object identifier
+      
+      child_identifier = identifier
+      supergroup.instance_eval { remove_child_object(child_identifier) }
       @registry.remove_object identifier
     end
     

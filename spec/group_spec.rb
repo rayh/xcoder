@@ -64,22 +64,6 @@ describe Xcode::Group do
     end
     
   end
-
-  describe "File#fullpath" do
-    
-    let!(:subject) { project.group('created/groups/to') }
-    
-    it "should return the correct full path" do
-      
-      new_file = subject.create_file 'name' => 'TestFile.m'
-      
-      new_file.fullpath.should == "/created/groups/to/TestFile.m"
-      
-      
-    end
-    
-    
-  end
   
   describe "Files" do
     let(:subject) { project.groups.group('TestProject').first }
