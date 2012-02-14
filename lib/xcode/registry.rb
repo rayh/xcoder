@@ -68,6 +68,20 @@ module Xcode
     def objects
       self['objects']
     end
+
+    #
+    # @return [Fixnum] the object version
+    # 
+    def object_version
+      self['objectVersion'].to_i
+    end
+    
+    #
+    # @return [Fixnum] the archive version
+    # 
+    def archive_version
+      self['archiveVersion'].to_i
+    end
     
     #
     # Retrieve a Resource for the given identifier.

@@ -14,8 +14,10 @@ module Xcode
     # @param [String] file_identifier the unique identifier for the file
     # @return [Hash] the properties hash for a default BuildFile.
     # 
-    def self.with_properties file_identifier
-      { 'isa' => "PBXBuildFile", 'fileRef' => file_identifier }
+    def self.buildfile(file_identifier,settings)
+      properties = { 'isa' => "PBXBuildFile", 'fileRef' => file_identifier }
+      properties.merge!('settings' => settings) unless settings.empty?
+      properties
     end
     
   end
