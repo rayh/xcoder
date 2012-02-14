@@ -143,7 +143,7 @@ module Xcode
     #   properties.
     #
     def create_framework(framework_properties)
-      create_child_object FileReference.framework(framework_properties)
+      find_or_create_child_object FileReference.framework(framework_properties)
     end
     
     #
@@ -157,7 +157,7 @@ module Xcode
     # @param [String] name the name of the System framework to add to this group.
     #
     def create_system_framework(name)
-      create_child_object FileReference.system_framework(name)
+      find_or_create_child_object FileReference.system_framework(name)
     end
 
     #
@@ -170,7 +170,7 @@ module Xcode
     # @param [String] name the name of the System Library to add to this group.
     #
     def create_system_library(name)
-      create_child_object FileReference.system_library(name)
+      find_or_create_child_object FileReference.system_library(name)
     end
     
     #
@@ -228,6 +228,12 @@ module Xcode
       child_object = @registry.add_object child_properties
       @properties['children'] << child_object.identifier
       child_object
+    end
+    
+    def find_or_create_child_object(child_properties)
+      found_child = children.find {|child| child.name == child_properties['name'] or child.path == child_properties['path'] }
+      found_child = create_child_object(child_properties) unless found_child
+      found_child
     end
     
   end
