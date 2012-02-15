@@ -33,6 +33,16 @@ module Xcode
   # 
   module Configuration
     
+    #
+    # A large number of these default build settings properties for a configuration 
+    # are as defined for Xcode 4.2.
+    # 
+    # @todo remove the name requirement and replace all these configuration settings
+    #   with the smaller subset. As a lot of these are usually maintained by the project
+    # @param [String] name is used to create the correct prefix header file and 
+    #   info.plist file.
+    # @return [Hash] properties for a default build configuration
+    # 
     def self.default_properties(name)
       { 'isa' => 'XCBuildConfiguration',
         'buildSettings' => {
@@ -62,7 +72,7 @@ module Xcode
     # 
     # This allows for dynamic values to be saved and loaded by allowing a parsing
     # process to take place on the loaded value and when saving back to the value.
-    #
+    # 
     # @param [Symbol] property_name the name of the property that is being defined
     # @param [String setting_name the configuration value string
     # @param [Types] type is the class that is used to load and save the value
@@ -85,23 +95,44 @@ module Xcode
     end
     
     #
-    # The configuration is defined within a target.
+    # As configurations are defined within a target, this will return the target
+    # that owns this configuration through a build_configuration list.
+    # 
+    # However, a build configuration list can also be defined at the project level
+    # which means target may likely be nil when viewing the configuration of
+    # the project.
+    # 
     # @see Target
+    # @see ConfigurationList
     # 
     attr_accessor :target
 
+    # @attribute
+    # Building Setting - "PRODUCT_NAME"
     property :product_name, "PRODUCT_NAME", StringProperty
-    
+
+    # @attribute
+    # Building Setting - "SUPPORTED_PLATFORMS"
     property :supported_platforms, "SUPPORTED_PLATFORMS", SpaceDelimitedString
-    
-    property :precompile_prefiex_headers, "GCC_PRECOMPILE_PREFIX_HEADER", BooleanProperty
-    
+
+    # @attribute
+    # Building Setting - "GCC_PRECOMPILE_PREFIX_HEADER"
+    property :precompile_prefix_headers, "GCC_PRECOMPILE_PREFIX_HEADER", BooleanProperty
+
+    # @attribute
+    # Building Setting - "GCC_PREFIX_HEADER"
     property :prefix_header, "GCC_PREFIX_HEADER", StringProperty
     
+    # @attribute
+    # Building Setting - "INFOPLIST_FILE"
     property :info_plist_location, "INFOPLIST_FILE", StringProperty
-    
+
+    # @attribute
+    # Building Setting - "WRAPPER_EXTENSION"
     property :wrapper_extension, "WRAPPER_EXTENSION", StringProperty
     
+    # @attribute
+    # Building Setting - "TARGETED_DEVICE_FAMILY"
     property :targeted_device_family, "TARGETED_DEVICE_FAMILY", TargetedDeviceFamily
     
     #
@@ -126,6 +157,8 @@ module Xcode
       info
     end
     
+    # @attribute
+    # Building Setting - "USER_HEADER_SEARCH_PATHS"
     property :user_header_search_paths, "USER_HEADER_SEARCH_PATHS", SpaceDelimitedString
     
     #
@@ -169,6 +202,9 @@ module Xcode
     #   the target variable to replace.
     # 
     # @return [String] a string without the variable reference.
+    # 
+    # @todo move this to a decorator that wraps the other objects that load/save
+    #   properties 
     #
     def substitute(value)
       if value=~/\$\(.*\)/
@@ -192,6 +228,9 @@ module Xcode
     # 
     # @param [Object] value the object that is scanned to figure out if it 
     #   should have content values replaced with environment variables
+    # 
+    # @todo move this to a decorator that wraps the other objects that load/save
+    #   properties 
     #
     def unsubstitute(value)
       value

@@ -43,7 +43,7 @@ module Xcode
   #     
   # @example of hot this works currently because of this indirection
   # 
-  #     group = Xcode.project('MyProject.xcodeproj').mainGroup
+  #     group = Xcode.project('MyProject.xcodeproj').main_group
   #     subgroup = group.group('Models')
   # 
   # 

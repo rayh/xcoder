@@ -49,13 +49,13 @@ module Xcode
         'productType' => 'com.apple.product-type.application' }
     end
     
-    # A reference to the project for which these targets reside.
+    # @return [Project] the reference to the project for which these targets reside.
     attr_accessor :project
     
     #
-    # @return [PBXBuildConfiguration] the configurations that this target supports.
-    #   these are generally 'Debug' or 'Release' but may be custom designed
-    #   configurations.
+    # @return [Array<BuildConfiguration>] the configurations that this target 
+    #   supports. These are generally 'Debug' or 'Release' but may be custom 
+    #   created configurations.
     # 
     def configs
       build_configuration_list.build_configurations.map do |config|
@@ -65,11 +65,14 @@ module Xcode
     end
     
     #
-    # Return a specific build configuration. When one is not found to match,
-    # an exception is raised.
+    # Return a specific build configuration. 
+    # 
+    # @note an exception is raised if no configuration matches the specified name.
+    # 
     # 
     # @param [String] name of a configuration to return
-    # @return [PBXBuildConfiguration] a specific build configuration that 
+    # 
+    # @return [BuildConfiguration] a specific build configuration that 
     #   matches the specified name.
     #
     def config(name)
