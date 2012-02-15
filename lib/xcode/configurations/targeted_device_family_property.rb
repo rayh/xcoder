@@ -11,13 +11,22 @@ module Xcode
     # 
     module TargetedDeviceFamily
       extend self
-  
+      
+      #
+      # @param [String] value convert the comma-delimited list of platforms
+      # @return [Array<String>] the platform names supported.
+      #
       def open(value)
         value.split(",").map do |platform_number|
           platforms[platform_number]
         end
       end
-  
+    
+      #
+      # @param [Array<String>] value convert the array of platform names 
+      # @return [String] the comma-delimited list of numeric values representing 
+      #   the platforms.
+      #
       def save(value)
         Array(value).map do |platform_name|
           platforms.map {|number,name| number if name == platform_name }

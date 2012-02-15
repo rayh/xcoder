@@ -194,6 +194,7 @@ module Xcode
     # @attribute
     # Build Setting - "IPHONEOS_DEPLOYMENT_TARGET"
     # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW156
+    # @todo this should be a numeric scale from 2.0 through 5.0; at the levels specified in the documentation
     property :iphoneos_deployment_target, "IPHONEOS_DEPLOYMENT_TARGET", StringProperty
     
     # @attribute

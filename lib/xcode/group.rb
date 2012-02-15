@@ -26,6 +26,7 @@ module Xcode
     # Return the hash that maps to the properties for a logical group
     # 
     # @param [String] name of the logical group
+    # @return [Hash] the properties for a Group
     # 
     def self.logical_group(name)
       { 'isa' => 'PBXGroup', 
@@ -68,7 +69,9 @@ module Xcode
     
     #
     # Find all the non-group objects within the group and return them
-    # @return [Array] the children of the group, excluding the groups
+    # 
+    # @return [Array<Resource>] the children of the group, excluding the 
+    #   groups, which is usually composed of FileReferences
     # 
     def files
       children.reject {|child| child.is_a?(Group) }
@@ -86,11 +89,18 @@ module Xcode
     end
     
     #
-    # Check whether a file or group is contained within this group.
-    #
+    # Check whether a file or group is contained within this group that has a name
+    # that matches the one specified
+    # 
+    # @param [String] name of the group attempting to be found.
+    # 
+    # @return [Array<Resource>] resource with the name that matches; empty array 
+    #   if no matches were found.
+    # 
     def exists?(name)
       children.find_all {|child| child.name == name }
     end
+    
     #
     # Adds a group as a child to current group with the given name. 
     # 
@@ -99,7 +109,9 @@ module Xcode
     # 
     # @param [String] name of the group that you want to add as a child group of
     #   the specified group.
-    #
+    # 
+    # @return [Group] the created group
+    # 
     def create_group(name)
       new_group = create_child_object Group.logical_group(name)
       new_group.supergroup = self
@@ -120,7 +132,9 @@ module Xcode
     # 
     # @param [String,Hash] path to the file that is being added or a hash that 
     #   contains the values would be merged with the default values.
-    #
+    # 
+    # @return [FileReference] the file created.
+    # 
     def create_file(file_properties)
       # This allows both support for the string value or the hash as the parameter
       file_properties = { 'path' => file_properties } if file_properties.is_a? String
@@ -151,6 +165,8 @@ module Xcode
     # @param [Hash] framework_properties the properties to merge with the default
     #   properties.
     #
+    # @return [FileReference] the framework created.
+    # 
     def create_framework(framework_properties)
       find_or_create_child_object FileReference.framework(framework_properties)
     end
@@ -164,7 +180,8 @@ module Xcode
     #     project.frameworks_group.create_system_framework "Foundation"
     #
     # @param [String] name the name of the System framework to add to this group.
-    #
+    # @return [FileReference] the system framework created.
+    # 
     def create_system_framework(name)
       find_or_create_child_object FileReference.system_framework(name)
     end
@@ -177,7 +194,8 @@ module Xcode
     #     project.frameworks_group.create_system_library "libz.dylib"
     #
     # @param [String] name the name of the System Library to add to this group.
-    #
+    # @return [FileReference] the system library created.
+    # 
     def create_system_library(name)
       find_or_create_child_object FileReference.system_library(name)
     end
@@ -189,7 +207,8 @@ module Xcode
     #   properties.
     # 
     # @see VariantGroup#info_plist
-    #
+    # @return [VariantGroup] the infoplist created
+    # 
     def create_infoplist(infoplist_properties)
       create_child_object VariantGroup.info_plist(infoplist_properties)
     end
@@ -203,6 +222,7 @@ module Xcode
     # @see Target#create_product_reference
     # 
     # @param [String] name the name of the product to generate
+    # @return [FileReference] the app product created.
     # 
     def create_product_reference(name)
       create_child_object FileReference.app_product(name)
