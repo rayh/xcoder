@@ -1,8 +1,23 @@
-*.gem
+
+# Dependency management
+
 .bundle
 Gemfile.lock
+
+# Documentation
+
+.yardoc
+doc/
+
+# Gem creation and packaging
+
 pkg/*
+*.gem
+
+# Tests and Test Related Files
+
 spec/TestProject/TestProject.xcodeproj/xcuserdata
 spec/TestProject/TestProject.xcodeproj/project.xcworkspace/
 spec/TestProject/build
 spec/test-reports
+
