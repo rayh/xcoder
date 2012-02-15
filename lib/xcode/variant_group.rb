@@ -2,6 +2,10 @@ require_relative 'group'
 
 module Xcode
   
+  #
+  # A VariantGroup is generally a special group reserved for InfoPlist.strings
+  # folders that contain additional files within it that are referenced.
+  # 
   module VariantGroup
     include Group ; extend Group
     
