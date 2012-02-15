@@ -2,6 +2,8 @@
 
 A ruby wrapper around various xcode tools and project, schemes and workspace configuration files
 
+Full documentation can be found here: http://rayh.github.com/xcoder/
+
 ## Example Usage
 
 You will need to install the gem:

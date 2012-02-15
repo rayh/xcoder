@@ -10,9 +10,11 @@ module Xcode
     # 
     # @param [String] the name of the keychain
     #
-    def initialize(name)
-      @name = name
-      @path = File.expand_path "~/Library/Keychains/#{name}"
+    def initialize(path)
+      @path = File.expand_path path
+      @name = File.basename path
+      
+      yield(self) if block_given?
     end
     
     #
@@ -25,7 +27,7 @@ module Xcode
       cmd = []
       cmd << "security"
       cmd << "import '#{cert}'"
-      cmd << "-k '#{@path}'"
+      cmd << "-k \"#{@path}\""
       cmd << "-P #{password}"
       cmd << "-T /usr/bin/codesign"
       Xcode::Shell.execute(cmd)
@@ -42,7 +44,7 @@ module Xcode
       cmd << "security"
       cmd << "find-certificate"
       cmd << "-a"
-      cmd << "#{@name}"
+      cmd << "\"#{@path}\""
       data = Xcode::Shell.execute(cmd, false).join("")
       data.scan /\s+"labl"<blob>="([^"]+)"/ do |m|
         names << m[0]
@@ -60,7 +62,7 @@ module Xcode
       cmd << "security"
       cmd << "unlock-keychain"
       cmd << "-p #{password}"
-      cmd << "#{@name}"
+      cmd << "\"#{@path}\""
       Xcode::Shell.execute(cmd)
     end
     
@@ -71,15 +73,17 @@ module Xcode
     # @param [String] the password for the new keychain
     # @return [Xcode::Keychain] an object representing the new keychain
     #
-    def self.create(name, password)
+    def self.create(path, password)
       cmd = []
       cmd << "security"
       cmd << "create-keychain"
       cmd << "-p #{password}"
-      cmd << "#{name}"
+      cmd << "\"#{path}\""
       Xcode::Shell.execute(cmd)
       
-      Xcode::Keychain.new(name)
+      kc = Xcode::Keychain.new(path)
+      yield(kc) if block_given?
+      kc
     end
     
     #
@@ -90,7 +94,7 @@ module Xcode
     def delete
       cmd = []
       cmd << "security"
-      cmd << "delete-keychain #{name}"
+      cmd << "delete-keychain \"#{@path}\""
       Xcode::Shell.execute(cmd)
     end
     
@@ -100,8 +104,8 @@ module Xcode
     # 
     # @param [String] the name of the temporary keychain to create
     #
-    def self.temp_keychain(name, &block)
-      kc = Xcode::Keychain.create(name, TEMP_PASSWORD)
+    def self.temp(&block)
+      kc = Xcode::Keychain.create("/tmp/xcoder#{Time.now.to_i}", TEMP_PASSWORD)
       begin
         kc.unlock(TEMP_PASSWORD)
         block.call(kc)
@@ -115,8 +119,10 @@ module Xcode
     # 
     # @return [Xcode::Keychain] the current user's login keychain
     #
-    def self.login_keychain
-      Xcode::Keychain.new("login.keychain")
+    def self.login
+      kc = Xcode::Keychain.new("~/Library/Keychains/login.keychain")
+      yield(kc) if block_given?
+      kc
     end
   end
 end

@@ -13,7 +13,7 @@ module Xcode
         config = config.launch
       end
       
-      puts "CONFIG: #{config}"
+      #puts "CONFIG: #{config}"
       @target = config.target
       @sdk = @target.project.sdk
       @config = config
@@ -38,6 +38,7 @@ module Xcode
     def build(sdk=@sdk)    
       cmd = build_command(@sdk)
       Xcode::Shell.execute(cmd)
+      self
     end
     
     def test
@@ -55,16 +56,17 @@ module Xcode
       
       exit parser.exit_code if parser.exit_code!=0
       
-      parser
+      self
     end
     
     def testflight(api_token, team_token)
-      raise "Can't find #{ipa_path}, do you need to call builder.build?" unless File.exists? ipa_path
-      raise "Can't fins #{dsym_zip_path}, do you need to call builder.build?" unless File.exists? dsym_zip_path
+      raise "Can't find #{ipa_path}, do you need to call builder.package?" unless File.exists? ipa_path
+      raise "Can't fins #{dsym_zip_path}, do you need to call builder.package?" unless File.exists? dsym_zip_path
       
       testflight = Xcode::Testflight.new(api_token, team_token)
       yield(testflight) if block_given?
       testflight.upload(ipa_path, dsym_zip_path)
+      self
     end
     
     def clean
@@ -87,6 +89,7 @@ module Xcode
       # cmd = []
       # cmd << "rm -Rf #{build_path}"
       # Xcode::Shell.execute(cmd)
+      self
     end    
     
     def sign
@@ -98,6 +101,7 @@ module Xcode
       cmd << "--entitlements \"#{entitlements_path}\""
       cmd << "\"#{ipa_path}\""
       Xcode::Shell.execute(cmd)
+      self
     end
     
     def package
@@ -132,6 +136,7 @@ module Xcode
       cmd << "\"#{dsym_path}\""
       Xcode::Shell.execute(cmd)
 
+      self
     end
     
     def configuration_build_path
