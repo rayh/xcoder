@@ -9,9 +9,12 @@ module Xcode
     # 
     # When opened the value returns is going to be an Array.
     # 
-    # @example common build settings that are booleans
-    # 
     # @example setting and getting a property
+    # 
+    #     debug_config project.target('SomeTarget').config('Debug')
+    #     debug_config.always_search_user_paths  # => false
+    #     debug_config.always_search_user_paths = true
+    #     debug_config.always_search_user_paths  # true
     # 
     module BooleanProperty
       extend self

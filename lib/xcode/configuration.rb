@@ -1,8 +1,9 @@
 require 'xcode/builder'
-require 'xcode/configurations/space_delimited_string'
-require 'xcode/configurations/targeted_device_family'
+require 'xcode/configurations/space_delimited_string_property'
+require 'xcode/configurations/targeted_device_family_property'
 require 'xcode/configurations/string_property'
 require 'xcode/configurations/boolean_property'
+require 'xcode/configurations/array_property'
 
 module Xcode
   
@@ -12,7 +13,7 @@ module Xcode
   # defined.
   # 
   # @see https://developer.apple.com/library/ios/#documentation/ToolsLanguages/Conceptual/Xcode4UserGuide/Building/Building.html
-  # 
+  #
   # Each configuration is defined and then a reference of that configuration is
   # maintained in the Target through the XCConfigurationList.
   # 
@@ -108,32 +109,97 @@ module Xcode
     attr_accessor :target
 
     # @attribute
-    # Building Setting - "PRODUCT_NAME"
+    # Build Setting - "PRODUCT_NAME"
     property :product_name, "PRODUCT_NAME", StringProperty
 
     # @attribute
-    # Building Setting - "SUPPORTED_PLATFORMS"
+    # Build Setting - "SUPPORTED_PLATFORMS"
     property :supported_platforms, "SUPPORTED_PLATFORMS", SpaceDelimitedString
 
     # @attribute
-    # Building Setting - "GCC_PRECOMPILE_PREFIX_HEADER"
+    # Build Setting - "GCC_PRECOMPILE_PREFIX_HEADER"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW11
     property :precompile_prefix_headers, "GCC_PRECOMPILE_PREFIX_HEADER", BooleanProperty
 
     # @attribute
-    # Building Setting - "GCC_PREFIX_HEADER"
+    # Build Setting - "GCC_PREFIX_HEADER"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW12
     property :prefix_header, "GCC_PREFIX_HEADER", StringProperty
     
     # @attribute
-    # Building Setting - "INFOPLIST_FILE"
+    # Build Setting - "INFOPLIST_FILE"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW68
     property :info_plist_location, "INFOPLIST_FILE", StringProperty
 
     # @attribute
-    # Building Setting - "WRAPPER_EXTENSION"
+    # Build Setting - "WRAPPER_EXTENSION"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW3
     property :wrapper_extension, "WRAPPER_EXTENSION", StringProperty
     
     # @attribute
-    # Building Setting - "TARGETED_DEVICE_FAMILY"
+    # Build Setting - "TARGETED_DEVICE_FAMILY"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW165
     property :targeted_device_family, "TARGETED_DEVICE_FAMILY", TargetedDeviceFamily
+
+    # @attribute
+    # Build Setting - "SDKROOT"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW89
+    property :sdkroot, "SDKROOT", StringProperty
+    
+    # @attribute
+    # Build Setting - "OTHER_CFLAGS"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW17
+    property :other_c_flags, "OTHER_CFLAGS", ArrayProperty
+
+    # @attribute
+    # Build Setting - "GCC_C_LANGUAGE_STANDARD"
+    # Usually set to gnu99
+    property :c_language_standard, "GCC_C_LANGUAGE_STANDARD", StringProperty
+    
+    # @attribute
+    # Build Setting - "ALWAYS_SEARCH_USER_PATHS"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW110
+    property :always_search_user_paths, "ALWAYS_SEARCH_USER_PATHS", BooleanProperty
+    
+    # @attribute
+    # Build Setting - "GCC_VERSION"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW15
+    property :gcc_version, "GCC_VERSION", StringProperty
+
+    # @attribute
+    # Build Setting - "ARCHS"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW62
+    property :architectures, "ARCHS", SpaceDelimitedString
+
+    # @attribute
+    # Build Setting - "GCC_WARN_ABOUT_MISSING_PROTOTYPES"
+    # Defaults to YES
+    property :warn_about_missing_prototypes, "GCC_WARN_ABOUT_MISSING_PROTOTYPES", BooleanProperty
+
+    # @attribute
+    # Build Setting - "GCC_WARN_ABOUT_MISSING_PROTOTYPES"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW123
+    property :warn_about_return_type, "GCC_WARN_ABOUT_RETURN_TYPE", BooleanProperty
+
+    # @attribute
+    # Build Setting - "CODE_SIGN_IDENTITY[sdk=>iphoneos*]"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-DontLinkElementID_10
+    property :code_sign_identity, "CODE_SIGN_IDENTITY[sdk=>iphoneos*]", StringProperty
+
+    # @attribute
+    # Build Setting - "VALIDATE_PRODUCT"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW167
+    property :validate_product, "VALIDATE_PRODUCT", BooleanProperty
+
+    # @attribute
+    # Build Setting - "IPHONEOS_DEPLOYMENT_TARGET"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW156
+    property :iphoneos_deployment_target, "IPHONEOS_DEPLOYMENT_TARGET", StringProperty
+    
+    # @attribute
+    # Build Setting - "COPY_PHASE_STRIP"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW144
+    property :copy_phase_strip, "COPY_PHASE_STRIP", BooleanProperty
     
     #
     # Opens the info plist associated with the configuration and allows you to 
@@ -158,7 +224,8 @@ module Xcode
     end
     
     # @attribute
-    # Building Setting - "USER_HEADER_SEARCH_PATHS"
+    # Build Setting - "USER_HEADER_SEARCH_PATHS"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW21
     property :user_header_search_paths, "USER_HEADER_SEARCH_PATHS", SpaceDelimitedString
     
     #
