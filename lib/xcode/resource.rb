@@ -43,7 +43,7 @@ module Xcode
   #     
   # @example of hot this works currently because of this indirection
   # 
-  #     group = Xcode.project('MyProject.xcodeproj').mainGroup
+  #     group = Xcode.project('MyProject.xcodeproj').main_group
   #     subgroup = group.group('Models')
   # 
   # 
@@ -171,6 +171,13 @@ module Xcode
     # Saves the current resource back to the registry. This is necessary as
     # any changes made are not automatically saved back into the registry.
     # 
+    # @example group adding a files and then saving itself
+    # 
+    #     group = project.main_group
+    #     group.create_file 'name' => 'AppDelegate.m', 'path' => 'AppDelegate.m'
+    #     group.save!
+    # 
+    # @return [Resource] the object that is being saved.
     def save!
       @registry.set_object(self)
       self

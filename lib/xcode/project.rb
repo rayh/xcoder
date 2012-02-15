@@ -12,9 +12,38 @@ require 'xcode/variant_group'
 require 'xcode/configuration_list'
 
 module Xcode
+  
+  #
+  # The project is the representation of an Xcode Project folder, the `*.xcodeproj`,
+  # folder that contains a number of workspace files and project files like
+  # `project.pbxproj`. 
+  # 
+  # The Project represents the top-most element within the structure. It contains 
+  # most of the methods that allow you to traverse through the targets and
+  # configurations that it is composed.
+  # 
   class Project 
     
-    attr_reader :name, :sdk, :path, :schemes, :registry
+    # @return [String] the name of the project; This value is deteremined from the 
+    #   first part of the Xcode project folder name (e.g. "TestProject.xcodeproj" 
+    #   name is "TestProject")
+    attr_reader :name
+    
+    # @return [String] the sdks for the project. This is specified during the project
+    #   initialization. If none are provided this currently defaults to "iphoneos"
+    attr_reader :sdk
+    
+    # @return [String] the expanded file path for the project. This is expanded from the
+    #   file path specified during initialization.
+    attr_reader :path
+    
+    # @return [Array<Scheme>] the schemes that are found within the project path.
+    attr_reader :schemes
+    
+    # @return [Registry] the data that is parsed from the project.pbxproj, it is
+    #   in most part a Hash with additional methods included to provide core
+    #   functionality.
+    attr_reader :registry
     
     #
     # Initialized with a specific path and sdk.
@@ -61,7 +90,7 @@ module Xcode
     #
     # Returns the main group of the project where all the files reside.
     # 
-    # @todo this really could use a better name then groups as it is the mainGroup
+    # @todo this really could use a better name then groups as it is the main group
     #   but it should likely be something like main_group, root or something
     #   else that conveys that this is the project root for files, and such.
     # 
@@ -78,19 +107,21 @@ module Xcode
     # the path the group is created. Also paths can be specified to make the 
     # traversing of the groups easier.
     # 
-    # @example a group path that contains a traversal to sub-groups
+    # @note this will attempt to find the paths specified, if it fails to find them
+    #   it will create one and then continue traversing.
+    #
+    # @example Traverse a path through the various sub-groups.
     # 
     #     project.group('Vendor/MyCode/Support Files')
-    #     # is equivalent to...
+    #     # is equivalent to ...
     #     project.group('Vendor').first.group('MyCode').first.group('Supporting Files')
     # 
     # @note this path functionality current is only exercised from the project level
     #   all groups will treat the path division `/` as simply a character.
     # 
-    # @note this will attempt to find the paths specified, if it fails to find them
-    #   it will create one and then continue traversing.
-    #
     # @param [String] name the group name to find/create
+    # 
+    # @return [Group] the group with the specified name.
     # 
     def group(name,options = {},&block)
       # By default create missing groups along the way
@@ -222,7 +253,7 @@ module Xcode
     #
     # All the targets specified within the project.
     # 
-    # @return [Array<PBXNativeTarget>] an array of all the available targets for
+    # @return [Array<Target>] an array of all the available targets for
     #   the specific project.
     # 
     def targets
@@ -239,7 +270,7 @@ module Xcode
     # @note if two targets match names, the first matching target is returned.
     # 
     # @param [String] name of the specific target
-    # @return [PBXNativeTarget] the specific target that matches the name specified
+    # @return [Target] the specific target that matches the name specified
     #
     def target(name)
       target = targets.select {|t| t.name == name.to_s}.first
@@ -264,6 +295,8 @@ module Xcode
     # @param [String] name the name to provide to the target. This will also
     #   be the value that other defaults will be based on.
     #
+    # @return [Target] the target created.
+    # 
     def create_target(name,type=:ios)
       
       target = @registry.add_object Target.send(type)
@@ -294,15 +327,16 @@ module Xcode
     # @param [String] name the name of the target to remove from the Xcode
     #   project.
     #
+    # @return [Target] the target that has been removed.
+    # 
     def remove_target(name)
       found_target = targets.find {|target| target.name == name }
       if found_target
         @project.properties['targets'].delete found_target.identifier
         @registry.remove_object found_target.identifier
       end
+      found_target
     end
-    
-    
     
     # 
     # Prints to STDOUT a description of this project's targets, configuration and schemes.  
@@ -330,6 +364,9 @@ module Xcode
     # the schemes will load the shared ones and then the current acting user's
     # schemes.
     # 
+    # @return [Array<Scheme>] the shared schemes and user specific schemes found
+    #   within the projet at the path defined for schemes.
+    # 
     def parse_schemes
       shared_schemes = Dir["#{@path}/xcshareddata/xcschemes/*.xcscheme"]
       user_specific_schemes = Dir["#{@path}/xcuserdata/#{ENV['USER']}.xcuserdatad/xcschemes/*.xcscheme"]
@@ -341,16 +378,12 @@ module Xcode
   
     #
     # Using the sytem tool plutil, the specified project file is parsed and 
-    # converted to JSON, which is then converted to a hash object.
+    # converted to JSON, which is then converted to a hash object. This content 
+    # contains all the data within the project file and is used to create the 
+    # Registry.
     # 
-    # This content contains all the data within the project file and is used
-    # to create the Registry.
-    # 
-    # @return [Resource] a resource mapped to the root resource within the project
-    #   this is generally the project file which contains details about the main
-    #   group, targets, etc.
-    # 
-    # @see Registry
+    # @return [Registry] the representation of the project, this is a Hash with
+    #   additional methods to provide easier functionality.
     # 
     def parse_pbxproj
       registry = Xcode::PLUTILProjectParser.parse "#{@path}/project.pbxproj"

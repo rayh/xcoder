@@ -53,6 +53,8 @@ module Xcode
     # This is the root object of the project. This is generally an identifier
     # pointing to a project.
     # 
+    # @return [Resource] this is traditionally the root, project object.
+    # 
     def root
       self['rootObject']
     end

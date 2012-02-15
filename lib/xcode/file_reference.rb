@@ -1,15 +1,30 @@
 module Xcode
   
   #
-  # Within the project file the PBXFileReference represents the object 
-  # representation to the file on the file sytem. This is usually your source
-  # files within your project.
+  # Within the project file the FileReference represents a large number of objects
+  # related to files like source files, resources, frameworks, and system libraries.
+  # 
+  # A FileReference is used as input to add to the various Build Phases.
+  # 
+  # @see BuildPhase 
+  # @see BuildFile
   # 
   module FileReference
     
     # This is the group for which this file is contained within.
+    # @return [Group] the group that contains this file.
     attr_accessor :supergroup
     
+    #
+    # Generate the properties for a file. A name and a path option need to
+    # be specified in the properties.
+    # 
+    # @note a 'name' and 'path' key need to be specified in the framework for
+    #   the framework to be added correctly.
+    # 
+    # @param [Hash] properties to override or merge with the base properties.
+    # @return [Hash] properties of a file
+    #
     def self.file(properties)
       default_properties = { 'isa' => 'PBXFileReference', 
         'path' => nil,
@@ -49,7 +64,8 @@ module Xcode
     # @param [String] name of the system framework which can be specified with or
     #   without the ".framework" suffix / extension.
     # @param [Hash] properties the parameters to override for the system framework
-    #
+    # @return [Hash] system framework properties
+    # 
     def self.system_framework(name,properties = {})
 
       name = name[/(.+)(?:\.framework)?$/,1]
@@ -73,7 +89,8 @@ module Xcode
     # @param [String] name of the system library, which can be found by default
     #   in the /usr/lib folder.
     # @param [Types] properties the parameters to override for the system library
-    #
+    # @return [Hash] system library properties
+    # 
     def self.system_library(name,properties = {})
       default_properties = { 'isa' => 'PBXFileReference',
         'lastKnownFileType' => 'compiled.mach-o.dylib', 
@@ -93,6 +110,9 @@ module Xcode
     #       includeInIndex = 0; 
     #       path = newtarget.app; 
     #       sourceTree = BUILT_PRODUCTS_DIR; };
+    # 
+    # @param [String] name name of the app product
+    # @return [Hash] app product properties
     # 
     def self.app_product(name)
       { 'isa' => 'PBXFileReference',

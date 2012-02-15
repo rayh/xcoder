@@ -1,4 +1,9 @@
 require 'xcode/builder'
+require 'xcode/configurations/space_delimited_string_property'
+require 'xcode/configurations/targeted_device_family_property'
+require 'xcode/configurations/string_property'
+require 'xcode/configurations/boolean_property'
+require 'xcode/configurations/array_property'
 
 module Xcode
   
@@ -8,7 +13,7 @@ module Xcode
   # defined.
   # 
   # @see https://developer.apple.com/library/ios/#documentation/ToolsLanguages/Conceptual/Xcode4UserGuide/Building/Building.html
-  # 
+  #
   # Each configuration is defined and then a reference of that configuration is
   # maintained in the Target through the XCConfigurationList.
   # 
@@ -29,6 +34,16 @@ module Xcode
   # 
   module Configuration
     
+    #
+    # A large number of these default build settings properties for a configuration 
+    # are as defined for Xcode 4.2.
+    # 
+    # @todo remove the name requirement and replace all these configuration settings
+    #   with the smaller subset. As a lot of these are usually maintained by the project
+    # @param [String] name is used to create the correct prefix header file and 
+    #   info.plist file.
+    # @return [Hash] properties for a default build configuration
+    # 
     def self.default_properties(name)
       { 'isa' => 'XCBuildConfiguration',
         'buildSettings' => {
@@ -54,18 +69,138 @@ module Xcode
     end
     
     #
-    # The configuration is defined within a target.
-    # @see PBXNativeTarget
+    # This method will define getters/setters mapped to the build configuration.
     # 
-    attr_accessor :target
+    # This allows for dynamic values to be saved and loaded by allowing a parsing
+    # process to take place on the loaded value and when saving back to the value.
+    # 
+    # @param [Symbol] property_name the name of the property that is being defined
+    # @param [String setting_name the configuration value string
+    # @param [Types] type is the class that is used to load and save the value
+    #   correctly.
+    # 
+    def self.property(property_name,setting_name,type)
+      
+      # Define a getter method
+
+      define_method property_name do
+        substitute type.open(build_settings[setting_name])
+      end
+
+      # Define a setter method
+      
+      define_method "#{property_name}=" do |value|
+        build_settings[setting_name] = unsubstitute(type.save(value))
+      end
+      
+    end
     
     #
-    # @return the location for the InfoPlist file for the configuration.
-    # @see InfoPlist
+    # As configurations are defined within a target, this will return the target
+    # that owns this configuration through a build_configuration list.
     # 
-    def info_plist_location
-      build_settings['INFOPLIST_FILE']
-    end
+    # However, a build configuration list can also be defined at the project level
+    # which means target may likely be nil when viewing the configuration of
+    # the project.
+    # 
+    # @see Target
+    # @see ConfigurationList
+    # 
+    attr_accessor :target
+
+    # @attribute
+    # Build Setting - "PRODUCT_NAME"
+    property :product_name, "PRODUCT_NAME", StringProperty
+
+    # @attribute
+    # Build Setting - "SUPPORTED_PLATFORMS"
+    property :supported_platforms, "SUPPORTED_PLATFORMS", SpaceDelimitedString
+
+    # @attribute
+    # Build Setting - "GCC_PRECOMPILE_PREFIX_HEADER"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW11
+    property :precompile_prefix_headers, "GCC_PRECOMPILE_PREFIX_HEADER", BooleanProperty
+
+    # @attribute
+    # Build Setting - "GCC_PREFIX_HEADER"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW12
+    property :prefix_header, "GCC_PREFIX_HEADER", StringProperty
+    
+    # @attribute
+    # Build Setting - "INFOPLIST_FILE"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW68
+    property :info_plist_location, "INFOPLIST_FILE", StringProperty
+
+    # @attribute
+    # Build Setting - "WRAPPER_EXTENSION"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW3
+    property :wrapper_extension, "WRAPPER_EXTENSION", StringProperty
+    
+    # @attribute
+    # Build Setting - "TARGETED_DEVICE_FAMILY"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW165
+    property :targeted_device_family, "TARGETED_DEVICE_FAMILY", TargetedDeviceFamily
+
+    # @attribute
+    # Build Setting - "SDKROOT"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW89
+    property :sdkroot, "SDKROOT", StringProperty
+    
+    # @attribute
+    # Build Setting - "OTHER_CFLAGS"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW17
+    property :other_c_flags, "OTHER_CFLAGS", ArrayProperty
+
+    # @attribute
+    # Build Setting - "GCC_C_LANGUAGE_STANDARD"
+    # Usually set to gnu99
+    property :c_language_standard, "GCC_C_LANGUAGE_STANDARD", StringProperty
+    
+    # @attribute
+    # Build Setting - "ALWAYS_SEARCH_USER_PATHS"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW110
+    property :always_search_user_paths, "ALWAYS_SEARCH_USER_PATHS", BooleanProperty
+    
+    # @attribute
+    # Build Setting - "GCC_VERSION"
+    # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW15
+    property :gcc_version, "GCC_VERSION", StringProperty
+
+    # @attribute
+    # Build Setting - "ARCHS"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW62
+    property :architectures, "ARCHS", SpaceDelimitedString
+
+    # @attribute
+    # Build Setting - "GCC_WARN_ABOUT_MISSING_PROTOTYPES"
+    # Defaults to YES
+    property :warn_about_missing_prototypes, "GCC_WARN_ABOUT_MISSING_PROTOTYPES", BooleanProperty
+
+    # @attribute
+    # Build Setting - "GCC_WARN_ABOUT_MISSING_PROTOTYPES"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW123
+    property :warn_about_return_type, "GCC_WARN_ABOUT_RETURN_TYPE", BooleanProperty
+
+    # @attribute
+    # Build Setting - "CODE_SIGN_IDENTITY[sdk=>iphoneos*]"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-DontLinkElementID_10
+    property :code_sign_identity, "CODE_SIGN_IDENTITY[sdk=>iphoneos*]", StringProperty
+
+    # @attribute
+    # Build Setting - "VALIDATE_PRODUCT"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW167
+    property :validate_product, "VALIDATE_PRODUCT", BooleanProperty
+
+    # @attribute
+    # Build Setting - "IPHONEOS_DEPLOYMENT_TARGET"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW156
+    # @todo this should be a numeric scale from 2.0 through 5.0; at the levels specified in the documentation
+    property :iphoneos_deployment_target, "IPHONEOS_DEPLOYMENT_TARGET", StringProperty
+    
+    # @attribute
+    # Build Setting - "COPY_PHASE_STRIP"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW144
+    property :copy_phase_strip, "COPY_PHASE_STRIP", BooleanProperty
     
     #
     # Opens the info plist associated with the configuration and allows you to 
@@ -83,19 +218,16 @@ module Xcode
     # @see InfoPlist
     # 
     def info_plist
-      # puts @json.inspect
       info = Xcode::InfoPlist.new(self, info_plist_location)  
       yield info if block_given?
       info.save
       info
     end
     
-    #
-    # @return the name of the product that this configuration will generate.
-    # 
-    def product_name
-      substitute(build_settings['PRODUCT_NAME'])
-    end
+    # @attribute
+    # Build Setting - "USER_HEADER_SEARCH_PATHS"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW21
+    property :user_header_search_paths, "USER_HEADER_SEARCH_PATHS", SpaceDelimitedString
     
     #
     # Retrieve the configuration value for the given name
@@ -117,7 +249,6 @@ module Xcode
       build_settings[name] = value
     end
     
-    
     #
     # Create a builder for this given project->target->configuration.
     # 
@@ -125,10 +256,8 @@ module Xcode
     # @see Builder
     # 
     def builder
-      #puts "Making a Builder with #{self} #{self.methods}"
       Xcode::Builder.new(self)
     end
-    
     
     private
     
@@ -141,6 +270,9 @@ module Xcode
     #   the target variable to replace.
     # 
     # @return [String] a string without the variable reference.
+    # 
+    # @todo move this to a decorator that wraps the other objects that load/save
+    #   properties 
     #
     def substitute(value)
       if value=~/\$\(.*\)/
@@ -155,6 +287,21 @@ module Xcode
       else
         value
       end
+    end
+    
+    #
+    # @todo currently this performs no operation, but perhaps it should
+    #   in the future to support the ability to persist intelligently back with
+    #   paths
+    # 
+    # @param [Object] value the object that is scanned to figure out if it 
+    #   should have content values replaced with environment variables
+    # 
+    # @todo move this to a decorator that wraps the other objects that load/save
+    #   properties 
+    #
+    def unsubstitute(value)
+      value
     end
 
   end

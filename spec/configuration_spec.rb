@@ -18,6 +18,21 @@ describe Xcode::Configuration do
     end
   end
   
+  
+  describe "#supported_platforms" do
+    it "should return the correct platforms" do
+      # by default the test configuration defaults to the parent project configuration
+      subject.supported_platforms.should == []
+    end
+  end
+  
+  describe "#supported_platforms=" do
+    it "should correctly set the supported platforms" do
+      subject.supported_platforms = "justthisplatform"
+      subject.supported_platforms.should == [ "justthisplatform" ]
+    end
+  end
+  
   describe "#product_name" do
     it "should return the correct product name" do
       subject.product_name.should == "TestProject"
