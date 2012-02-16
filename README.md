@@ -1,6 +1,8 @@
 # XCoder
 
-A ruby wrapper around various xcode tools and project, schemes and workspace configuration files
+Taking the pain out of scripting and automating xcode builds.
+
+Xcoder is a ruby wrapper around various xcode tools as well as providing project and workspace parsing and partial write support.  Xcoder also supports manipulation of keychains, packaging and uploading artefacts to testflight and provisioning profile management.
 
 Full documentation can be found here: http://rayh.github.com/xcoder/
 
