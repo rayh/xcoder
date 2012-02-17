@@ -72,19 +72,19 @@ describe Xcode::Configuration do
 
   end
   
-  describe "String Properties" do
-    
-    let(:string_properties) do
-      [ :product_name, 
-        :prefix_header,
-        :info_plist_location,
-        :wrapper_extension,
-        :sdkroot,
-        :c_language_standard,
-        :gcc_version,
-        :code_sign_identity,
-        :iphoneos_deployment_target ]
+  let(:string_properties) do
+    [ :product_name, 
+      :prefix_header,
+      :info_plist_location,
+      :wrapper_extension,
+      :sdkroot,
+      :c_language_standard,
+      :gcc_version,
+      :code_sign_identity,
+      :iphoneos_deployment_target ]
     end
+
+  describe "String Properties" do
     
     it "should be able to correctly get the property" do
       
@@ -104,18 +104,18 @@ describe Xcode::Configuration do
     end
     
   end
+
+  let(:boolean_properties) do
+    [ :precompile_prefix_headers,
+      :always_search_user_paths,
+      :warn_about_missing_prototypes,
+      :warn_about_return_type,
+      :validate_product,
+      :copy_phase_strip ]
+  end
   
   describe "Boolean Properties" do
 
-    let(:boolean_properties) do
-      [ :precompile_prefix_headers,
-        :always_search_user_paths,
-        :warn_about_missing_prototypes,
-        :warn_about_return_type,
-        :validate_product,
-        :copy_phase_strip ]
-    end
-    
     it "should be able to set to false with NO" do
       
       boolean_properties.each do |property|
@@ -154,13 +154,13 @@ describe Xcode::Configuration do
     
   end
   
+  let(:space_delimited_string_properties) do
+    [ :architectures,
+      :supported_platforms ]
+  end
+  
   describe "Space Delimited String Properties" do
 
-    let(:space_delimited_string_properties) do
-      [ :architectures,
-        :supported_platforms ]
-    end
-    
     it "should be able to correctly get the property" do
       
       space_delimited_string_properties.each do |property|
@@ -189,10 +189,10 @@ describe Xcode::Configuration do
     
   end
   
+  let(:targeted_device_family_properties) { [ :targeted_device_family ] }
+  
   describe "Targeted Device Family Properties" do
 
-    let(:targeted_device_family_properties) { [ :targeted_device_family ] }
-    
     it "should be able to correctly get the property" do
       
       targeted_device_family_properties.each do |property|
@@ -211,6 +211,35 @@ describe Xcode::Configuration do
       
     end
     
+  end
+  
+  let(:all_properties) do
+    string_properties + 
+    boolean_properties + 
+    space_delimited_string_properties +
+    targeted_device_family_properties
+  end
+  
+  describe "Property Environment Names" do
+    it "should have all property environment names available" do
+      all_properties.each do |property|
+        subject.send("env_#{property}").should_not be_nil, "The property #{property} does not have an env_#{property} method defined"
+      end
+    end
+  end
+  
+  describe "Raw Getter and Setter" do
+    it "should have a raw getter method" do
+      all_properties.each do |property|
+        subject.should respond_to("raw_#{property}"), "The property #{property} does not have a raw_#{property} getter method defined"
+      end
+    end
+    
+    it "should have a raw setter method" do
+      all_properties.each do |property|
+        subject.should respond_to("raw_#{property}="), "The property #{property} does not have a raw_#{property} setter method defined"
+      end
+    end
   end
   
 end

@@ -93,6 +93,24 @@ module Xcode
         build_settings[setting_name] = unsubstitute(type.save(value))
       end
       
+      # Define a environment name method (to return the settings name)
+      
+      define_method "env_#{property_name}" do
+        setting_name
+      end
+      
+      # Define a raw getter
+      
+      define_method "raw_#{property_name}" do
+        build_settings[setting_name]
+      end
+      
+      # Define a raw setter
+      
+      define_method "raw_#{property_name}=" do |value|
+        build_settings[setting_name] = value
+      end
+      
     end
     
     #
