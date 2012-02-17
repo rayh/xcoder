@@ -24,7 +24,7 @@ module Xcode
       # @return [TrueClass,FalseClass] the boolean value based on the specified
       #   value.
       # 
-      def load(value)
+      def open(value)
         value.to_s =~ /^YES$/
       end
     
@@ -33,7 +33,7 @@ module Xcode
       # @return [String] YES or NO
       #
       def save(value)
-        value ? "YES" : "NO"
+        value.to_s =~ /^(?:NO|false)$/ ? "NO" : "YES"
       end
   
     end
