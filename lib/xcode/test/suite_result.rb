@@ -13,9 +13,13 @@ module Xcode
         raise "Time is nil" if time.nil?
         @end_time = time
       end
-
-      def total_error_tests
-        @tests.select {|t| t.error? }.count
+      
+      def total_errors
+        errors = 0
+        @tests.each do |t| 
+          errors = errors + t.errors.count if t.failed?
+        end
+        errors
       end
 
       def total_passed_tests

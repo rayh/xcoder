@@ -47,13 +47,15 @@ module Xcode
       cmd << "TEST_HOST=''"
       
       parser = Xcode::Test::OCUnitReportParser.new
-      Xcode::Shell.execute(cmd, false) do |line|
-        puts line
-        parser << line
-      end
-      
       yield(parser) if block_given?
       
+      begin
+        Xcode::Shell.execute(cmd, false) do |line|
+          parser << line
+        end
+      rescue => e
+        # Swallow this, as failure means test error
+      end
       exit parser.exit_code if parser.exit_code!=0
       
       self
@@ -73,6 +75,7 @@ module Xcode
       cmd = []
       cmd << "xcodebuild"
       cmd << "-project \"#{@target.project.path}\""
+      cmd << "-sdk #{@sdk}" unless @sdk.nil?
       
       cmd << "-scheme #{@scheme.name}" unless @scheme.nil?
       cmd << "-target \"#{@target.name}\"" if @scheme.nil?
@@ -101,6 +104,14 @@ module Xcode
       cmd << "--entitlements \"#{entitlements_path}\""
       cmd << "\"#{ipa_path}\""
       Xcode::Shell.execute(cmd)
+ 
+# CodeSign build/AdHoc-iphoneos/Dial.app
+#     cd "/Users/ray/Projects/Clients/CBAA/Community Radio"
+#     setenv CODESIGN_ALLOCATE /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate
+#     setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@cbaa/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@global/bin:/Users/ray/.rvm/rubies/ruby-1.9.2-p290/bin:/Users/ray/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/git/bin"
+#     /usr/bin/codesign --force --sign "iPhone Distribution: Community Broadcasting Association of Australia" "--resource-rules=/Users/ray/Projects/Clients/CBAA/Community Radio/build/AdHoc-iphoneos/Dial.app/ResourceRules.plist" --keychain "\"/Users/ray/Projects/Clients/CBAA/Community\\" "Radio/Provisioning/CBAA.keychain\"" --entitlements "/Users/ray/Projects/Clients/CBAA/Community Radio/build/CommunityRadio.build/AdHoc-iphoneos/CommunityRadio.build/Dial.xcent" "/Users/ray/Projects/Clients/CBAA/Community Radio/build/AdHoc-iphoneos/Dial.app"
+# iPhone Distribution: Community Broadcasting Association of Australia: no identity found
+# Command /usr/bin/codesign failed with exit code 1
       self
     end
     
@@ -110,7 +121,7 @@ module Xcode
       #package IPA
       cmd = []      
       cmd << "xcrun"
-      cmd << "-sdk #{@target.project.sdk.nil? ? "iphoneos" : @target.project.sdk}"
+      cmd << "-sdk #{@sdk}" unless @sdk.nil?
       cmd << "PackageApplication"
       cmd << "-v \"#{app_path}\""
       cmd << "-o \"#{ipa_path}\""
@@ -183,7 +194,7 @@ module Xcode
       cmd << "-target \"#{@target.name}\"" if @scheme.nil?
       cmd << "-configuration \"#{@config.name}\"" if @scheme.nil?
       
-      cmd << "OTHER_CODE_SIGN_FLAGS=\"--keychain #{@keychain.path}\"" unless @keychain.nil?
+      cmd << "OTHER_CODE_SIGN_FLAGS='--keychain #{@keychain.path}'" unless @keychain.nil?
       cmd << "CODE_SIGN_IDENTITY=\"#{@identity}\"" unless @identity.nil?
       cmd << "OBJROOT=\"#{@build_path}\""
       cmd << "SYMROOT=\"#{@build_path}\""
