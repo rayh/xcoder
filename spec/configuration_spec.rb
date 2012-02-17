@@ -103,6 +103,16 @@ describe Xcode::Configuration do
       
     end
     
+    it "should be able to append to the property" do
+      
+      string_properties.each do |property|
+        subject.send("#{property}=","new value")
+        subject.send("append_to_#{property}"," there")
+        subject.send(property).should eq("new value there"), "#{property} failed to be set correctly"
+      end
+      
+    end
+    
   end
 
   let(:boolean_properties) do
@@ -151,7 +161,6 @@ describe Xcode::Configuration do
       end
       
     end
-    
   end
   
   let(:space_delimited_string_properties) do
@@ -187,6 +196,16 @@ describe Xcode::Configuration do
       
     end
     
+    it "should be able to append to the property" do
+      
+      space_delimited_string_properties.each do |property|
+        subject.send("#{property}=",["more", "value"])
+        subject.send("append_to_#{property}","there")
+        subject.send(property).should eq([ "more", "value", "there" ]), "#{property} failed to be set correctly"
+      end
+      
+    end
+    
   end
   
   let(:targeted_device_family_properties) { [ :targeted_device_family ] }
@@ -206,6 +225,16 @@ describe Xcode::Configuration do
       targeted_device_family_properties.each do |property|
         subject.send("#{property}=",[ 'IPHONE', :ipad ])
         subject.get("TARGETED_DEVICE_FAMILY").should == "1,2"
+        subject.send(property).should == [ :iphone, :ipad ]
+      end
+      
+    end
+    
+    it "should be able to append to the property" do
+      
+      targeted_device_family_properties.each do |property|
+        subject.send("#{property}=",'IPHONE')
+        subject.send("append_to_#{property}","iPad")
         subject.send(property).should == [ :iphone, :ipad ]
       end
       

@@ -23,16 +23,26 @@ module Xcode
       end
     
       #
-      # @param [Array<String>] value convert the array of platform names 
+      # @param [String,Array<String>] value convert the array of platform names 
       # @return [String] the comma-delimited list of numeric values representing 
       #   the platforms.
       #
       def save(value)
         Array(value).map do |platform_name|
           platforms.map {|number,name| number if name.to_s == platform_name.to_s.downcase }
-        end.flatten.compact.join(",")
+        end.flatten.compact.uniq.join(",")
       end
-  
+      
+      #
+      # @param [String] original is the current string value stored in the configuration
+      #   that needs to be converted into an Array of names.
+      # @param [String,Array<String>] value the new values to include in the device
+      #   family.
+      # 
+      def append(original,value)
+        save(open(original) + Array(value))
+      end
+    
       private
   
       def platforms

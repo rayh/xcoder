@@ -92,6 +92,12 @@ module Xcode
       define_method "#{property_name}=" do |value|
         build_settings[setting_name] = unsubstitute(type.save(value))
       end
+
+      # Define an append method
+      
+      define_method "append_to_#{property_name}" do |value|
+        build_settings[setting_name] = unsubstitute type.append(build_settings[setting_name],value)
+      end
       
       # Define a environment name method (to return the settings name)
       

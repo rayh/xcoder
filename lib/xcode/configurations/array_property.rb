@@ -26,6 +26,10 @@ module Xcode
       def save(value)
         Array(value)
       end
+      
+      def append(original,value)
+        Array(orignal) + Array(value)
+      end
   
     end
     
