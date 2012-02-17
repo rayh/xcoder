@@ -54,7 +54,8 @@ module Xcode
           parser << line
         end
       rescue => e
-        # Swallow this, as failure means test error
+        # Let the failure bubble up unless parser has got an error from the output
+        raise e unless parser.exit_code!=0
       end
       exit parser.exit_code if parser.exit_code!=0
       
