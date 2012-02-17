@@ -3,15 +3,21 @@ require 'xcode/simple_identifier_generator'
 module Xcode
   
   #
-  # The Registry represents the parsed data from the Xcode Project file. Namely
-  # the registry is a Hash that provides additional functionality to allow the 
+  # The Registry represents the parsed data from the Xcode Project file. The 
+  # registry is a Hash that provides additional functionality to allow the 
   # the ability to query, add, and remove resources from the object hash.
   # 
   # Opening the Xcode project file in a text-editor you'll notice that it is a
-  # big hash/plist with a file core keys. The most important key is the 'objects'
-  # dictionary which maintains the master-list of Identifiers to properties. All 
-  # objects are represented here and all other resources use the reference
-  # to make the connection to the objects.
+  # big hash/plist. The registry represents this structure and provides access
+  # to the top-level items: 'rootObject'; 'objectVersion'; 'archiveVersion' and 
+  # 'objects'. The registry provides a number of methods to access these items.
+  # 
+  # The most important key is the 'objects' dictionary which maintains the 
+  # master-list of Identifiers to properties. The registry provides additional
+  # methods get, add, remove, and update the objects stored within it. The 
+  # registry returns {Resource} objects which is a wrapper class around the 
+  # properties hash that would normally be returned. Providing additional 
+  # functionality to make it easier to traverse the project.
   # 
   # @see Project
   # 
@@ -21,18 +27,31 @@ module Xcode
     # This method is used internally to determine if the value that is being 
     # retrieved is an identifier.
     # 
+    # @see Resource#define_property
+    # 
     # @param [String] value is the specified value in the form of an identifier
-    #
+    # @return [TrueClass,FalseClass] true if the value specified is a valid 
+    #   identifier; false if it is not.
+    # 
     def self.is_identifier? value
       value =~ /^[0-9A-F]{24}$/
     end
 
     #
-    # Objects within the registry contain an `isa` property, which translates
-    # to modules which can be mixed in to provide additional functionality.
+    # All object parameters contain an `isa` property, which represents the class
+    # within Xcode. Here the `isa` string value is translated into a Ruby module.
+    # 
+    # Initially the `isa` values were mapped directly to Ruby modules but that
+    # was changed to this model to make it easy to repair if Xcode were to 
+    # change their `isa` values and also provide the ability to mixin different
+    # functionality as needed.
+    # 
+    # @see Resource#initialize
     # 
     # @param [String] isa the type of the object.
-    #
+    # @return [Module] the module name mapped to the parameter. If the parameter
+    #   matches no module then a nil is returned.
+    # 
     def self.isa_to_module isa
 
       { 'XCBuildConfiguration' => Configuration,
@@ -110,8 +129,6 @@ module Xcode
       objects[identifier]
     end
     
-    MAX_IDENTIFIER_GENERATION_ATTEMPTS = 10
-    
     #
     # Provides a method to generically add objects to the registry. This will
     # create a unqiue identifier and add the specified parameters to the 
@@ -126,28 +143,7 @@ module Xcode
     #   that are known for the particular item.
     # 
     def add_object(object_properties)
-      
-      new_identifier = SimpleIdentifierGenerator.generate
-      
-      # Ensure that the identifier generated is unique
-      
-      identifier_generation_count = 0
-      
-      while objects.key?(new_identifier)
-        
-        new_identifier = SimpleIdentifierGenerator.generate
-        
-        # Increment our identifier generation count and if we reach our max raise
-        # an exception as something has gone horribly wrong.
-
-        identifier_generation_count += 1
-        if identifier_generation_count > MAX_IDENTIFIER_GENERATION_ATTEMPTS
-          raise "Unable to generate a unique identifier for object: #{object_properties}"
-        end
-      end
-      
-      new_identifier = SimpleIdentifierGenerator.generate if objects.key?(new_identifier)
-      
+      new_identifier = SimpleIdentifierGenerator.generate :existing_keys => objects.keys
       
       objects[new_identifier] = object_properties
       
