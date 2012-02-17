@@ -16,7 +16,7 @@ module Xcode
       # @param [Array] value to be parsed into the correct format
       #
       def open(value)
-        value.to_a
+        Array(value)
       end
     
       #
@@ -24,7 +24,7 @@ module Xcode
       #   be in a multitude of formats as long as it responds_to? #to_a
       #
       def save(value)
-        value.to_s
+        Array(value)
       end
   
     end

@@ -213,11 +213,32 @@ describe Xcode::Configuration do
     
   end
   
+  let(:array_properties) do
+    [ :other_c_flags ]
+  end
+  
+  describe "Array Properties" do
+    it "should be able to correctly get the property" do
+      array_properties.each do |property|
+        subject.send(property).should be_kind_of(Array), "#{property} failed to return an Array"
+      end
+    end
+    
+    it "should be able to correctly set the property" do
+      array_properties.each do |property|
+        subject.send("#{property}=","PARAMETER=1")
+        subject.send(property).should eq(["PARAMETER=1"]), "The property #{property} failed to set correctly"
+      end
+    end
+  end
+  
+  
   let(:all_properties) do
     string_properties + 
     boolean_properties + 
     space_delimited_string_properties +
-    targeted_device_family_properties
+    targeted_device_family_properties + 
+    array_properties
   end
   
   describe "Property Environment Names" do
