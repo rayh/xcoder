@@ -7,14 +7,14 @@ module Xcode
     # Family which assigns particular numeric values to the platform types.
     # 
     # Instead of manipulating the numeric values, this will perform a conversion
-    # return an array of names like 'iPhone' and 'iPad'.
+    # return an array of symbols with the platforms like :iphone and :ipad.
     # 
     module TargetedDeviceFamily
       extend self
       
       #
       # @param [String] value convert the comma-delimited list of platforms
-      # @return [Array<String>] the platform names supported.
+      # @return [Array<Symbol>] the platform names supported.
       #
       def open(value)
         value.to_s.split(",").map do |platform_number|
