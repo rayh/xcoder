@@ -56,18 +56,31 @@ describe Xcode::Configuration do
     
     it "should override existing settings" do
       linker_flags = settings['OTHER_LDFLAGS']
-      subject.set 'OTHER_LDFLAGS', '-NONE'
+      subject.set 'OTHER_LDFLAGS', '-NONE -FOR -ME'
       settings['OTHER_LDFLAGS'].should_not == linker_flags
     end
+    
+  end
+  
+  describe "#append" do
 
+    let(:settings) { subject.build_settings }
+
+    it "should append to  existing settings" do
+      subject.set 'OTHER_LDFLAGS', '-NONE'
+      subject.append 'OTHER_LDFLAGS', '-FOR -ME'
+      settings['OTHER_LDFLAGS'].should == "-NONE -FOR -ME"
+    end
+    
   end
   
   describe "#get" do
 
     let(:settings) { subject.build_settings }
     
-    it "should return the correct configuration value" do
-      subject.get('OTHER_LDFLAGS').should == settings['OTHER_LDFLAGS']
+    it "should return the configuration value processed through their property" do
+      subject.get('OTHER_LDFLAGS').should_not == settings['OTHER_LDFLAGS']
+      subject.get('OTHER_LDFLAGS').should == settings['OTHER_LDFLAGS'].split(" ")
     end
 
   end
@@ -165,7 +178,8 @@ describe Xcode::Configuration do
   
   let(:space_delimited_string_properties) do
     [ :architectures,
-      :supported_platforms ]
+      :supported_platforms,
+      :other_linker_flags ]
   end
   
   describe "Space Delimited String Properties" do
@@ -201,7 +215,17 @@ describe Xcode::Configuration do
       space_delimited_string_properties.each do |property|
         subject.send("#{property}=",["more", "value"])
         subject.send("append_to_#{property}","there")
-        subject.send(property).should eq([ "more", "value", "there" ]), "#{property} failed to be set correctly"
+        subject.send(property).should eq([ "more", "value", "there" ]), "#{property} failed to be appended correctly"
+      end
+      
+    end
+    
+    it "should not allow duplcate values" do
+      
+      space_delimited_string_properties.each do |property|
+        subject.send("#{property}=",["more", "value"])
+        subject.send("append_to_#{property}","value")
+        subject.send(property).should eq([ "more", "value" ]), "#{property} failed to be appended correctly"
       end
       
     end
@@ -224,7 +248,7 @@ describe Xcode::Configuration do
       
       targeted_device_family_properties.each do |property|
         subject.send("#{property}=",[ 'IPHONE', :ipad ])
-        subject.get("TARGETED_DEVICE_FAMILY").should == "1,2"
+        subject.build_settings["TARGETED_DEVICE_FAMILY"].should == "1,2"
         subject.send(property).should == [ :iphone, :ipad ]
       end
       
@@ -242,21 +266,29 @@ describe Xcode::Configuration do
     
   end
   
-  let(:array_properties) do
+  let(:key_value_array_properties) do
     [ :other_c_flags ]
   end
   
   describe "Array Properties" do
     it "should be able to correctly get the property" do
-      array_properties.each do |property|
+      key_value_array_properties.each do |property|
         subject.send(property).should be_kind_of(Array), "#{property} failed to return an Array"
       end
     end
     
     it "should be able to correctly set the property" do
-      array_properties.each do |property|
+      key_value_array_properties.each do |property|
         subject.send("#{property}=","PARAMETER=1")
         subject.send(property).should eq(["PARAMETER=1"]), "The property #{property} failed to set correctly"
+      end
+    end
+    
+    it "should be able to correctly append the property" do
+      key_value_array_properties.each do |property|
+        subject.send("#{property}=","PARAMETER=1")
+        subject.send("append_to_#{property}",[ "PARAMETER=4", "PARAMETER2=2"])
+        subject.send(property).should eq([ "PARAMETER=4","PARAMETER2=2" ]), "The property #{property} failed to set correctly"
       end
     end
   end
@@ -267,7 +299,7 @@ describe Xcode::Configuration do
     boolean_properties + 
     space_delimited_string_properties +
     targeted_device_family_properties + 
-    array_properties
+    key_value_array_properties
   end
   
   describe "Property Environment Names" do

@@ -4,10 +4,9 @@ module Xcode
     
     #
     # Within the a build settings for a configuration there are a number of
-    # settings that are stored as Arrays. This helper module is for the most part 
-    # a pass-through method to provide parity with the other methods.
+    # settings that are stored as key-value pairs in Arrays.
     # 
-    module ArrayProperty
+    module KeyValueArrayProperty
       extend self
   
       #
@@ -27,8 +26,14 @@ module Xcode
         Array(value)
       end
       
+      #
+      # To ensure uniqueness, the original value array is added to the new value
+      # array and then all the key-values pairs are placed in a Hash then mapped
+      # back out to a key=value pair array.
+      # 
       def append(original,value)
-        (Array(original) + Array(value)).uniq
+        all_values = (Array(original) + Array(value)).map {|key_value| key_value.split("=") }.flatten
+        Hash[*all_values].map {|k,v| "#{k}=#{v}" }
       end
   
     end

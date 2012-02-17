@@ -42,7 +42,7 @@ module Xcode
       end
       
       def append(original,value)
-        save(open(original) + open(value))
+        save( ( open(original) + open(value) ).uniq )
       end
   
     end
