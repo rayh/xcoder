@@ -1,7 +1,8 @@
-require 'plist'
 require 'xcode/parsers/plutil_project_parser'
 require 'xcode/resource'
+require 'xcode/project_reference'
 require 'xcode/target'
+require 'xcode/configuration_owner'
 require 'xcode/configuration'
 require 'xcode/scheme'
 require 'xcode/group'
@@ -18,9 +19,9 @@ module Xcode
   # folder that contains a number of workspace files and project files like
   # `project.pbxproj`. 
   # 
-  # The Project represents the top-most element within the structure. It contains 
-  # most of the methods that allow you to traverse through the targets and
-  # configurations that it is composed.
+  # 
+  # The Project represents encapsulates the an actual Resource that is ProjectReference
+  # and other objects.
   # 
   class Project 
     
@@ -87,6 +88,14 @@ module Xcode
       @registry.archive_version
     end
     
+    def global_configs
+      @project.configs
+    end
+    
+    def global_config(name)
+      @project.config(name)
+    end
+    
     #
     # Returns the main group of the project where all the files reside.
     # 
@@ -124,31 +133,9 @@ module Xcode
     # @return [Group] the group with the specified name.
     # 
     def group(name,options = {},&block)
-      # By default create missing groups along the way
-      options = { :create => true }.merge(options)
-      
-      current_group = @project.main_group
-      
-      # @todo consider this traversing and find/create as a normal procedure when
-      #   traversing the project.
-      
-      name.split("/").each do |path_component|
-        found_group = current_group.group(path_component).first
-        
-        if options[:create] and found_group.nil?
-          found_group = current_group.create_group(path_component)
-        end
-        
-        current_group = found_group
-        
-        break unless current_group
-      end
-      
-      current_group.instance_eval(&block) if block_given? and current_group
-      
-      current_group
+      @project.group(name,options,&block)
     end
-    
+
     #
     # Return the file that matches the specified path. This will traverse
     # the project's groups and find the file at the end of the path.
@@ -168,9 +155,7 @@ module Xcode
     # @return [Group] the 'Products' group of the project.
     def products_group
       current_group = groups.group('Products').first
-      
       current_group.instance_eval(&block) if block_given? and current_group
-      
       current_group
     end
     
@@ -182,9 +167,7 @@ module Xcode
     # @return [Group] the 'Frameworks' group of the projet.
     def frameworks_group
       current_group = groups.group('Frameworks').first
-      
       current_group.instance_eval(&block) if block_given? and current_group
-      
       current_group
     end
     

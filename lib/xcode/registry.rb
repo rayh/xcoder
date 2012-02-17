@@ -32,13 +32,15 @@ module Xcode
     # to modules which can be mixed in to provide additional functionality.
     # 
     # @param [String] isa the type of the object.
-    #
+    # @return [Array<Module>] an array of modules that are mapped to the 
+    #   string name.
     def self.isa_to_module isa
 
-      { 'XCBuildConfiguration' => Configuration,
+      modules = { 'PBXProject' => [ProjectReference, ConfigurationOwner],
+        'XCBuildConfiguration' => Configuration,
         'PBXFileReference' => FileReference,
         'PBXGroup' => Group,
-        'PBXNativeTarget' => Target,
+        'PBXNativeTarget' => [Target, ConfigurationOwner],
         'PBXAggregateTarget' => Target,
         'PBXFrameworksBuildPhase' => BuildPhase,
         'PBXSourcesBuildPhase' => BuildPhase,
@@ -47,6 +49,8 @@ module Xcode
         'PBXVariantGroup' => VariantGroup,
         'XCConfigurationList' => ConfigurationList,
         'PBXVariantGroup' => VariantGroup }[isa]
+        
+        Array(modules)
     end
     
     #
