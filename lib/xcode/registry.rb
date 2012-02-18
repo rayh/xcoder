@@ -1,4 +1,14 @@
+require 'xcode/build_file'
+require 'xcode/build_phase'
+require 'xcode/configuration'
+require 'xcode/configuration_list'
+require 'xcode/file_reference'
+require 'xcode/group'
+require 'xcode/resource'
+require 'xcode/scheme'
 require 'xcode/simple_identifier_generator'
+require 'xcode/target'
+require 'xcode/variant_group'
 
 module Xcode
   

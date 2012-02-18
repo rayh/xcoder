@@ -1,4 +1,5 @@
 require 'xcode/core_ext/string'
+require 'xcode/registry'
 
 module Xcode
   
