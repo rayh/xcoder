@@ -1,4 +1,4 @@
-require_relative 'build_file'
+require 'xcode/build_file'
 
 module Xcode
   
