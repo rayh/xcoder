@@ -1,82 +1,111 @@
 require 'xcode/core_ext/string'
+require 'xcode/registry'
 
 module Xcode
   
   #
   # Resources are not represented as a true entity within an Xcode project.
-  # When traversing through groups, targets, configurations, etc. you will find
-  # yourself interacting with these objects. As they represent a class that
-  # acts as a shim around the hash data is parsed from the project.
+  # However when traversing through groups, targets, configurations, etc. you will 
+  # find yourself interacting with these objects. As they represent a class that
+  # acts as a shim around their hash data.
   # 
-  # A resource do some things that should be explained:
+  # The goal of the {Resource} is to aid in the navigation through the project
+  # and provide a flexible system to allow for Xcoder to adapt to changes to 
+  # the Xcode project format.
   # 
-  # When a resource is created it requires an identifier and an instance of
-  # of the Registry. It finds the properties hash of that given identifier 
-  # within the registry and creates a bunch of read-only methods that allow for 
-  # easy access to those elements. This is not unlike an OpenStruct.
+  # A Resource requires an identifier and an instance of the {Registry}. Based
+  # on the supplied identifier, it peforms a look up of it's properties or hash
+  # of data. With that hash it then proceeds to create methods that allow for
+  # easy read/write access to those property elements. This is similar to Ruby's
+  # OpenStruct.
+  #
+  # @example Accessing the contents of a file reference
   # 
-  # @example of accessing the contents of a file reference
-  # 
-  #     file_resource.properties # => 
+  #     file = project.file('IOSApp/IOSAppDelegate.m').properties # => 
   # 
   #     { 'isa' => 'PBXFileReference',
   #       'lastKnownFileType' => 'sourcecode.c.h',
   #       'path' => IOSAppDelegate.h', 
   #       'sourceTree' => "<group>" }
   # 
-  #     file_resource.isa # => 'PBXFileReference'
-  #     file_resource.sourceTree # => "<group>"
+  #     file.isa # => 'PBXFileReference'
+  #     file.last_known_file_type # => 'sourcecode.c.h'
+  #     file.path # => 'IOSAppDelegate.m'
+  #     file.path = "NewIOSAppDelegate.m" # => 'NewIOSAppDeleget.m'
+  #     file.source_tree # => "<group>"
   #
+  # In the above example, you can still gain access to the internal properties
+  # through the {#properties} method. However, the {Resource} provides for you
+  # additional ruby friendly methods to access the properties.
   # 
   # To provide additional convenience when traversing through the
-  # various objects, the read-only method will check to see if the value
+  # various objects, the getter methods will check to see if the value
   # being returned matches that of a unique identifier. If it does, instead of
-  # providing that identifier as a result and then having additional code to
-  # perform the look up, it does it automatically.
+  # providing that identifier, it will instead look in the {Registry} for the 
+  # object that matches and return a new Resource automatically.
   # 
-  # @example of how this would have to been done without this indirection
+  # @example Magically accessing resources through resources
   # 
-  #     project = Xcode.project('MyProject')
-  #     main_group = project.groups
-  #     child_identifier = group.children.first
-  #     subgroup = project.registry['objects'][child_identifier]
-  #     
-  # @example of hot this works currently because of this indirection
+  #     group = project.groups
+  #     group.properties # =>
   # 
-  #     group = Xcode.project('MyProject.xcodeproj').main_group
-  #     subgroup = group.group('Models')
+  #     { "children"=>["7165D45A146B4EA100DE2F0E", 
+  #                    "7165D472146B4EA100DE2F0E", 
+  #                    "7165D453146B4EA100DE2F0E", 
+  #                    "7165D451146B4EA100DE2F0E"], 
+  #       "isa"=>"PBXGroup", 
+  #       "sourceTree"=>"<group>"}
   # 
+  #     group.children.first # => 
   # 
-  # Next, as most every one of these objects is a Hash that contain the properties
-  # instead of objects it would likely be better to encapsulate these resources
-  # within specific classes that provide additional functionality. So that when 
-  # a group resource or a file resource is returned you can perform unique 
-  # functionality with it automatically.
+  #     PBXGroup 7165D45A146B4EA100DE2F0E {"children"=>["7165D463146B4EA100DE2F0E", 
+  #                                                     "7165D464146B4EA100DE2F0E", 
+  #                                                     "7165D45B146B4EA100DE2F0E"], 
+  #                                        "isa"=>"PBXGroup", 
+  #                                        "path"=>"TestProject", 
+  #                                        "sourceTree"=>"<group>"} 
   # 
-  # This is done by using the 'isa' property field which contains the type of
-  # content object. Instead of creating an object and encapsulating if a module
-  # that matches the name of the 'isa', that module of functionality is 
-  # automatically mixed-in to provide that functionality.
+  # In this example when accessing the first element of children instead of an
+  # identifier string being returned the child resource is returned. This
+  # functionality is in place to allow Xcoder to flexibly conform to new relationships 
+  # that may exist or come to exist.
+  # 
+  # Lastly, a {Resource} is simply not enough to describe most of the objects
+  # within an Xcode project as each object has unique functionality that needs 
+  # to be able to perform. So each resource when it is created will query the
+  # {Registry#isa_to_module} hash to determine the functionality that it needs
+  # to additionally extend into the Resource.
+  # 
+  # This `isa` property mapped to Ruby modules allows for the easy expansion of
+  # new objects or for changes to be made to existing ones as needed.
   # 
   class Resource
     
-    # The unique identifier for this resource
+    # @return [String] the unique identifier for this resource
     attr_accessor :identifier
     
-    # The properties hash that is known about the resource
+    # The raw properties hash that is known about the resource. This is the best
+    # way to manipulate the raw values of the resource.
+    # 
+    # @return [Hash] the raw properties hash for the object
     attr_accessor :properties
     
     # The registry of all objects within the project file which all resources
     # have a reference to so that they can retrieve any items they may own that
-    # are simply referenced by identifiers.
-    attr_accessor :registry
+    # are simply referenced by identifiers. This registry is used to convert
+    # identifier keys to resource objects. It is also passed to any resources
+    # that are created.
+    # 
+    # @return [Registry] the registry for the entire project.
+    attr_reader :registry
     
     #
     # Definiing a property allows the creation of an alias to the actual value.
     # This level of indirection allows for the replacement of values which are
     # identifiers with a resource representation of it.
     # 
-    # @note This is used internally by the resource when it is created.
+    # @note This is used internally by the resource when it is created to create
+    #   the getter/setter methods.
     # 
     # @param [String] name of the property
     # @param [String] value of the property
@@ -128,6 +157,8 @@ module Xcode
 
       end
       
+      # Generate a setter method for this property based on the given name.
+      
       self.class.send :define_method, "#{name.underscore}=" do |new_value|
         @properties[name] = new_value
       end
@@ -136,22 +167,25 @@ module Xcode
     end
 
     #
-    # Within the code, a single resource is created and that is with the root
-    # projet object. All other resources are created through the indirecation of
-    # the above property methods.
+    # A Resource is created during {Project#initialize}, when the project is
+    # first parsed. Afterwards each Resource is usually generated through the 
+    # special getter method defined through {#define_property}.
+    # 
+    # @see Project#initialize
+    # @see #defined_property
     # 
     # @param [String] identifier the unique identifier for this resource.
-    # @param [Types] details Description
+    # @param [Registry] registry the core registry for the system. 
     #
-    def initialize identifier, details
-      @registry = details
+    def initialize identifier, registry
+      @registry = registry
       @properties = {}
       @identifier = identifier
       
       # Create property methods for all of the key-value pairs found in the
       # registry for specified identifier.
       
-      Array(details.properties(@identifier)).each do |key,value| 
+      Array(registry.properties(@identifier)).each do |key,value| 
         send :define_property, key, value
       end
       
@@ -173,7 +207,7 @@ module Xcode
     # 
     # @example group adding a files and then saving itself
     # 
-    #     group = project.main_group
+    #     group = project.groups
     #     group.create_file 'name' => 'AppDelegate.m', 'path' => 'AppDelegate.m'
     #     group.save!
     # 
@@ -201,7 +235,6 @@ module Xcode
     def to_xcplist
       %{
         #{@identifier} = { #{ @properties.map {|k,v| "#{k} = \"#{v.to_xcplist}\"" }.join("; ") } }
-        
       }
     end
     
