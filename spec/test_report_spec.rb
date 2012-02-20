@@ -113,12 +113,10 @@ describe Xcode::Test::OCUnitReportParser do
     t << "/Path/To/Project/Tests/YPKeywordSuggestHandlerTest.m:45: error: -[AnExampleTestSuite anExampleTest1] : 'An example test spec' [FAILED], mock received unexpected message -setSuspended: 1 "
     t << "/Developer/Tools/RunPlatformUnitTests.include: line 415: 32225 Bus error: 10           \"${THIN_TEST_RIG}\" \"${OTHER_TEST_FLAGS}\" \"${TEST_BUNDLE_PATH}\""
     t << "/Developer/Tools/RunPlatformUnitTests.include:451: error: Test rig '/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.0.sdk/Developer/usr/bin/otest' exited abnormally with code 138 (it may have crashed)."
-    t << "** BUILD FAILED **"
-    t << ""
-    t << "The following build commands failed:"
-    t << "    	PhaseScriptExecution \"Run Script\" build/Project.build/Debug-iphonesimulator/Tests.build/Script-750943CE1474BB7200ECF882.sh"
-    t << "(1 failure)"
     
+    t.flush
+    t.failed?.should==true
+    t.finished?.should==true
     failure = t.reports.first.tests[0]
     failure.passed?.should==false
     failure.data.count.should==2

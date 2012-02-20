@@ -31,7 +31,7 @@ module Xcode
             end
           end
           
-          puts "End tests (#{report.failed? ? 'FAILED' : 'PASSED'})"
+          puts "\n\nEnd tests (#{report.failed? ? 'FAILED' : 'PASSED'}).  Took #{report.duration}s"
         end
         
         def before_suite(suite)
@@ -43,6 +43,7 @@ module Xcode
         end
         
         def before_test(test)
+          # puts "[#{test.suite.name} #{test.name}] << BEGIN"
         end
         
         def after_test(test)
@@ -52,7 +53,8 @@ module Xcode
             print "F"
             @errors << test 
           end 
-        end
+          # puts "[#{test.suite.name} #{test.name}] << END"
+      end
                 
       end # StdoutFormatter
     end # Formatters

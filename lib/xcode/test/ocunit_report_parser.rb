@@ -11,7 +11,7 @@ module Xcode
   
     class OCUnitReportParser
 
-      attr_reader :reports
+      attr_reader :reports, :end_time, :start_time
       attr_accessor :debug, :formatters
   
       def initialize
@@ -20,7 +20,8 @@ module Xcode
         @reports = []
         @formatters = []
         @failed = false
-        @finished = false
+        @start_time = nil
+        @end_time = nil
         
         add_formatter :junit, 'test-reports'
         add_formatter :stdout
@@ -31,7 +32,11 @@ module Xcode
       end
       
       def finished?
-        @finished
+        !@end_time.nil?
+      end
+      
+      def duration
+        @end_time - @start_time
       end
       
       def add_formatter(format, *args)
@@ -57,7 +62,7 @@ module Xcode
         end
         
         # finish all tests
-        @finished = true
+        @end_time = Time.now
         notify_formatters(:after, self)
       end
     
@@ -71,6 +76,7 @@ module Xcode
             time = Time.parse($2)
             if name=~/\//
               # all tests begin
+              @start_time = Time.now
               notify_formatters(:before, self)
             else
               @reports << SuiteResult.new(name, time) 
@@ -82,7 +88,7 @@ module Xcode
             name = $1
             if name=~/\//
               # all tests ended
-              @finished = true
+              @end_time = Time.now
               notify_formatters(:after, self)
             else
               @reports.last.finish(time)
@@ -136,7 +142,7 @@ module Xcode
       end
       
       def current_test
-        @reports.last.tests.last
+        @reports.last.tests.last unless current_suite.nil?
       end
       
       def fail_current_test(duration=0)
