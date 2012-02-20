@@ -43,7 +43,7 @@ You can either use the user's login keychain, another named keychain, or simply 
 
 #### Creating a temporary keychain
 
-	Xcode::Keychain.temp_keychain('ProjectKeychain.keychain') do |keychain|
+	Xcode::Keychain.temp do |keychain|
 		# import certs into the keychain
 		# perform builds within this keychain's context
 	end	# Keychain is deleted
@@ -130,10 +130,16 @@ You can also optionally set a .proxy= property or just set the HTTP_PROXY enviro
 You can invoke your test target/bundle from the builder
 
 	builder.test do |report|
-		report.write 'test-reports', :junit
+		report.debug = false	# default false, set to true to see raw output from xcodebuild
+		
+		# The following is the default setup, you wouldnt normally need to do this unless
+		# you want to add new formatters
+		report.formatters = []
+		report.add_formatter :junit, 'test-reports'	# Output JUnit format results to test-reports/
+		report.add_formatter :stdout				# Output a simplified output to STDOUT
 	end
 	
-This will invoke the test target, capture the output and write the junit reports to the test-reports directory.  Currently only junit is supported.
+This will invoke the test target, capture the output and write the junit reports to the test-reports directory.  Currently only junit is supported, although you can write your own formatter quite easily (for an example, look at Xcode::Test::Formatters::JunitFormatter).
 
 ## Rake Tasks
 
