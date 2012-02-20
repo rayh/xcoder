@@ -36,6 +36,7 @@ module Xcode
       end
       
       def duration
+        return Time.now - @start_time if @end_time.nil?
         @end_time - @start_time
       end
       
