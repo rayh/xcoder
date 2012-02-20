@@ -75,14 +75,14 @@ describe Xcode::Test::OCUnitReportParser do
     t.reports.first.end_time.should==Time.parse("2012-02-10 00:37:04 +0000")
   end
   
-  it "should set the exist status to 0" do
+  it "should detect a passing report" do
     t = example_report
-    t.exit_code.should==0
+    t.failed?.should==false
   end
   
-  it "should set the exit status to non 0" do 
+  it "should detect a failing report" do 
     t = example_failing_report
-    t.exit_code.should_not==0
+    t.failed?.should==true
   end
   
   it "should record a failure" do
@@ -102,6 +102,28 @@ describe Xcode::Test::OCUnitReportParser do
     t.reports.first.tests[1].name.should=='anExampleTest2'
     t.reports.first.tests[1].time.should==0.003
     t.reports.first.tests[1].passed?.should==true
+  end
+  
+  it "should capture failed build" do
+    t = Xcode::Test::OCUnitReportParser.new
+    t << "Run test suite AnExampleTestSuite"
+    t << "Test Suite 'AnExampleTestSuite' started at 2012-02-10 00:37:04 +0000"
+    t << "Run test case anExampleTest1"
+    t << "Test Case '-[AnExampleTestSuite anExampleTest1]' started."
+    t << "/Path/To/Project/Tests/YPKeywordSuggestHandlerTest.m:45: error: -[AnExampleTestSuite anExampleTest1] : 'An example test spec' [FAILED], mock received unexpected message -setSuspended: 1 "
+    t << "/Developer/Tools/RunPlatformUnitTests.include: line 415: 32225 Bus error: 10           \"${THIN_TEST_RIG}\" \"${OTHER_TEST_FLAGS}\" \"${TEST_BUNDLE_PATH}\""
+    t << "/Developer/Tools/RunPlatformUnitTests.include:451: error: Test rig '/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.0.sdk/Developer/usr/bin/otest' exited abnormally with code 138 (it may have crashed)."
+    t << "** BUILD FAILED **"
+    t << ""
+    t << "The following build commands failed:"
+    t << "    	PhaseScriptExecution \"Run Script\" build/Project.build/Debug-iphonesimulator/Tests.build/Script-750943CE1474BB7200ECF882.sh"
+    t << "(1 failure)"
+    
+    failure = t.reports.first.tests[0]
+    failure.passed?.should==false
+    failure.data.count.should==2
+    failure.data[0].should=~/32225 Bus error: 10/
+    failure.data[1].should=~/Test rig/
   end
 
   context "Junit output" do

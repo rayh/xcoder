@@ -18,12 +18,20 @@ module Xcode
             e.errors.each do |error|
               puts "  #{error[:message]}"
               puts "    at #{error[:location]}"
-              puts "\n   Test Output:"
-              puts "   > #{error[:data].join("   > ")}\n\n"
-            end            
+              if error[:data].count>0
+                puts "\n   Test Output:"
+                puts "   > #{error[:data].join("   > ")}\n\n"
+              end
+            end       
+            
+            # if there is left over data in the test report, show that
+            if e.data.count>0
+              puts "\n  There was this trailing output after the above failures"
+              puts "   > #{e.data.join("   > ")}\n\n"
+            end
           end
           
-          puts "End tests (exit code #{report.exit_code})"
+          puts "End tests (#{report.failed? ? 'FAILED' : 'PASSED'})"
         end
         
         def before_suite(suite)

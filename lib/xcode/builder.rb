@@ -54,10 +54,11 @@ module Xcode
           parser << line
         end
       rescue => e
+        parser.flush
         # Let the failure bubble up unless parser has got an error from the output
-        raise e unless parser.exit_code!=0
+        raise e unless parser.failed?
       end
-      exit parser.exit_code if parser.exit_code!=0
+      exit 1 if parser.failed?
       
       self
     end

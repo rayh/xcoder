@@ -11,7 +11,7 @@ module Xcode
   
     class OCUnitReportParser
 
-      attr_reader :exit_code, :reports
+      attr_reader :reports
       attr_accessor :debug, :formatters
   
       def initialize
@@ -19,9 +19,19 @@ module Xcode
         @exit_code = 0
         @reports = []
         @formatters = []
+        @failed = false
+        @finished = false
         
         add_formatter :junit, 'test-reports'
         add_formatter :stdout
+      end
+      
+      def failed?
+        @failed
+      end
+      
+      def finished?
+        @finished
       end
       
       def add_formatter(format, *args)
@@ -30,10 +40,25 @@ module Xcode
         @formatters << formatter
       end
       
-      def notify_formatters(event, obj=nil)
-        @formatters.each do |f|
-          f.send event, obj if f.respond_to? event
+      def flush
+        return if finished?
+        
+        # if there is a current, unfinished test - fail it
+        unless current_test.nil? or current_test.passed?
+          fail_current_test(0) 
+          @failed = true
         end
+        
+        # if there is a current suite which isnt finished - finish it
+        unless current_suite.nil? or current_suite.finished? 
+          @failed = true # It may not have failed, but we want to indicate an unexpected end
+          current_suite.finish
+          notify_formatters(:after_suite, current_suite)
+        end
+        
+        # finish all tests
+        @finished = true
+        notify_formatters(:after, self)
       end
     
       def <<(piped_row)
@@ -49,7 +74,7 @@ module Xcode
               notify_formatters(:before, self)
             else
               @reports << SuiteResult.new(name, time) 
-              notify_formatters(:before_suite, @reports.last)
+              notify_formatters(:before_suite, current_suite)
             end
             
           when /Test Suite '(\S+)'.*finished at\s+(.*)./
@@ -57,46 +82,76 @@ module Xcode
             name = $1
             if name=~/\//
               # all tests ended
+              @finished = true
               notify_formatters(:after, self)
             else
               @reports.last.finish(time)
-              notify_formatters(:after_suite, @reports.last)
+              notify_formatters(:after_suite, current_suite)
             end
 
           when /Test Case '-\[\S+\s+(\S+)\]' started./
-            test = TestResult.new($1, @reports.last)
+            test = TestResult.new($1, current_suite)
             @reports.last.tests << test
             notify_formatters(:before_test, test)
 
           when /Test Case '-\[\S+\s+(\S+)\]' passed \((.*) seconds\)/
             @reports.last.tests.last.passed($2.to_f)
-            notify_formatters(:after_test, @reports.last.tests.last)
+            notify_formatters(:after_test, current_test)
 
           when /(.*): error: -\[(\S+) (\S+)\] : (.*)/
-            @reports.last.tests.last.add_error($4,$1)
-            @exit_code = 1 # should terminate
+            current_test.add_error($4,$1)
+            @failed = true
             # notify_formatters(:after_test, @reports.last.tests.last)
             
           when /Test Case '-\[\S+ (\S+)\]' failed \((\S+) seconds\)/
-            @reports.last.tests.last.failed($2.to_f)
-            @exit_code = 1  # should terminate
-            notify_formatters(:after_test, @reports.last.tests.last)
-
-          when /failed with exit code (\d+)/
-            @exit_code = $1.to_i
-      
-          when /BUILD FAILED/
-            @exit_code = -1;
+            fail_current_test($2.to_f)
+            @failed = true
             
+          # when /failed with exit code (\d+)/, 
+          when /BUILD FAILED/ 
+            flush
+            
+          when /Run test case (\w+)/
+            # ignore
           when /Run test suite (\w+)/
             # ignore
           when /Executed (\d+) test, with (\d+) failures \((\d+) unexpected\) in (\S+) \((\S+)\) seconds/
             # ignore
           else
-            @reports.last.tests.last.data << piped_row unless @reports.last.nil? or @reports.last.tests.last.nil?
+            append_line_to_current_test piped_row
         end # case
         
       end # <<
+      
+      private 
+      
+      def notify_formatters(event, obj=nil)
+        @formatters.each do |f|
+          f.send event, obj if f.respond_to? event
+        end
+      end
+      
+      def current_suite
+        @reports.last
+      end
+      
+      def current_test
+        @reports.last.tests.last
+      end
+      
+      def fail_current_test(duration=0)
+        return if current_test.nil?
+        
+        current_test.failed(duration)
+        notify_formatters(:after_test, current_test)
+      end
+      
+      def append_line_to_current_test(line)
+        return if current_suite.nil? or !current_suite.end_time.nil?
+        return if current_test.nil?
+        current_test << line
+      end
+      
       
     end # OCUnitReportParser
   end # Test

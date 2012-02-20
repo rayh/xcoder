@@ -9,9 +9,13 @@ module Xcode
         @tests = []
       end
 
-      def finish(time)
+      def finish(time=Time.now)
         raise "Time is nil" if time.nil?
         @end_time = time
+      end
+      
+      def finished?
+        !@end_time.nil?
       end
       
       def total_errors

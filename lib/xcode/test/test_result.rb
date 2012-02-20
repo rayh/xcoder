@@ -27,6 +27,12 @@ module Xcode
         @passed = false
         @time = time
       end
+      
+      def << (line)
+        # puts "[#{@suite.name} #{@name}] << #{line}"
+        return if @data.count==0 and line.strip.empty?
+        @data << line
+      end
     
       def add_error(error_message,error_location)
         @errors << {:message => error_message, :location => error_location, :data => @data}
