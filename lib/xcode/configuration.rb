@@ -85,7 +85,14 @@ module Xcode
       # Define a getter method
 
       define_method property_name do
-        substitute type.open(build_settings[setting_name])
+        
+        if not build_settings.key?(setting_name) and target.is_a?(Target)
+          project_config = target.project.global_config(name)
+          project_config.send(property_name)
+        else
+          substitute type.open(build_settings[setting_name])
+        end
+        
       end
 
       # Define a setter method

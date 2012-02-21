@@ -79,8 +79,10 @@ describe Xcode::Configuration do
     let(:settings) { subject.build_settings }
     
     it "should return the configuration value processed through their property" do
+
       subject.get('OTHER_LDFLAGS').should_not == settings['OTHER_LDFLAGS']
       subject.get('OTHER_LDFLAGS').should == settings['OTHER_LDFLAGS'].split(" ")
+      
     end
 
   end
@@ -236,10 +238,15 @@ describe Xcode::Configuration do
   
   describe "Targeted Device Family Properties" do
 
-    it "should be able to correctly get the property" do
+    let(:expect_device_family_for_config) { [] }
+    
+    let(:expect_device_family_for_global_config) { [ :iphone, :ipad ] }
+
+    it "should get the project's default property when it is not specified for the target configuration" do
       
       targeted_device_family_properties.each do |property|
-        subject.send(property).should == [ ]
+        
+        subject.send(property).should == expect_device_family_for_global_config
       end
       
     end
