@@ -86,6 +86,10 @@ module Xcode
 
       define_method property_name do
         
+        # When the build setting is missing from the existing configuration, look
+        # for the configuration of the target's project (only if we are currently
+        # at the Target level).
+        
         if not build_settings.key?(setting_name) and target.is_a?(Target)
           project_config = target.project.global_config(name)
           project_config.send(property_name)
