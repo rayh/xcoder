@@ -1,16 +1,6 @@
 require 'xcode/parsers/plutil_project_parser'
 require 'xcode/resource'
-require 'xcode/project_reference'
-require 'xcode/target'
-require 'xcode/configuration_owner'
-require 'xcode/configuration'
-require 'xcode/scheme'
-require 'xcode/group'
-require 'xcode/file_reference'
 require 'xcode/registry'
-require 'xcode/build_phase'
-require 'xcode/variant_group'
-require 'xcode/configuration_list'
 
 module Xcode
   

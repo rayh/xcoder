@@ -1,10 +1,13 @@
 module Xcode
   module Test
     class TestResult
-      attr_reader :name, :time, :error_message, :error_location
+      attr_reader :name, :time, :errors, :suite, :data
     
-      def initialize(name)
+      def initialize(name, suite)
         @name = name
+        @data = []
+        @suite = suite
+        @errors = []
       end
     
       def passed?
@@ -12,11 +15,7 @@ module Xcode
       end
     
       def failed?
-        error? or !@passed
-      end
-      
-      def error?
-        !@error_message.nil?
+        !@passed
       end
     
       def passed(time)
@@ -28,10 +27,16 @@ module Xcode
         @passed = false
         @time = time
       end
+      
+      def << (line)
+        # puts "[#{@suite.name} #{@name}] << #{line}"
+        return if @data.count==0 and line.strip.empty?
+        @data << line
+      end
     
-      def error(error_message,error_location)
-        @error_message = error_message
-        @error_location = error_location
+      def add_error(error_message,error_location)
+        @errors << {:message => error_message, :location => error_location, :data => @data}
+        @data = []
       end
     end
   end

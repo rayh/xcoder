@@ -1,6 +1,8 @@
 # XCoder
 
-A ruby wrapper around various xcode tools and project, schemes and workspace configuration files
+Taking the pain out of scripting and automating xcode builds.
+
+Xcoder is a ruby wrapper around various Xcode tools as well as providing project and workspace parsing and partial write support.  Xcoder also supports manipulation of keychains, packaging and uploading artifacts to [Testflight](http://testflightapp.com) and provisioning profile management.
 
 Full documentation can be found here: http://rayh.github.com/xcoder/
 
@@ -111,9 +113,9 @@ Or enumerate installed profiles:
 		p.uninstall		# Removes the profile from ~/Library/
 	end
 
-### Testflight
+### [Testflight](http://testflightapp.com)
 
-The common output of this build/package process is to upload to testflight.  This is pretty simple with xcoder:
+The common output of this build/package process is to upload to Testflight.  This is pretty simple with Xcoder:
 
 	builder.testflight(API_TOKEN, TEAM_TOKEN) do |tf|
 	  tf.notes = "some release notes"
@@ -132,6 +134,64 @@ You can invoke your test target/bundle from the builder
 	end
 	
 This will invoke the test target, capture the output and write the junit reports to the test-reports directory.  Currently only junit is supported.
+
+## Manipulating a Project
+
+Xcoder can also create targets, configurations, and add files. Xcoder could be used to programmatically manipulate or install external sources into a project.
+
+It is important to note that Xcode gets cranky when the Xcode project file is changed by external sources. This usually causes the project and schemes to reset or maybe even cause Xcode to crash. It is often best to close the project before manipulating it with Xcoder.
+
+### Add the source and header file to the project
+
+    # Copy the physical source files into the project path `Vendor/Reachability`
+    FileUtils.cp_r "examples/Reachability/Vendor", "spec/TestProject"
+    
+    source_files = [ { 'name' => 'Reachability.m', 'path' => 'Vendor/Reachability/Reachability.m' },
+                     { 'name' => 'Reachability.h', 'path' => 'Vendor/Reachability/Reachability.h' } ]
+
+
+     # Create and traverse to the group Reachability within the Vendor folder
+     project.group('Vendor/Reachability') do
+       # Create files for each source file defined above
+       source_files.each |source| create_file source }
+     end
+     
+
+Within the project file the groups in the path are created or found and then file references are added for the two specified source files. Xcoder only updates the logical project file, it does not copy physical files, that is done by the FileUtils.
+
+
+### Adding source file to the sources build phase
+
+    source_file = project.file('Vendor/Reachability/Reachability.m')
+
+    # Select the main target of the project and add the source file to the build phase.
+
+    project.target('TestProject').sources_build_phase do
+      add_build_file source_file
+    end
+
+Adding source files does not automatically include it in any of the built targets. That is done after you add the source file to the `sources_build_phase`. First we find the source file reference, select our target and then add it as a build file.
+
+### Adding a System Framework
+
+    cfnetwork_framework = project.frameworks_group.create_system_framework 'CFNetwork'
+
+    project.target('TestProject').framework_build_phase do
+      add_build_file cfnetwork_framework
+    end 
+    
+The **CFNetwork.framework** is added to the `Frameworks` group of the project and then added to the frameworks build phase.
+
+### Saving your changes!
+
+
+    project.save!
+
+The saved file output is ugly compared to what you may normally see when you view a Xcode project file. Luckily, Xcode will fix the format of the file if you make any small changes to the project that require it to save.
+
+### More Examples
+
+Within the `specs/integration` folder there are more examples.
 
 ## Tests
 

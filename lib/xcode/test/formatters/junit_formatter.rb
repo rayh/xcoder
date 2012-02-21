@@ -6,7 +6,12 @@ module Xcode
     module Formatters
       class JunitFormatter
         def initialize(dir)
-          @dir = dir
+          @dir = File.expand_path(dir)
+          FileUtils.mkdir_p(@dir)
+        end
+        
+        def after_suite(suite)
+          write(suite)
         end
 
         def write(report)
@@ -15,7 +20,7 @@ module Xcode
           end
           xml = ::Builder::XmlMarkup.new( :indent => 2 )
           xml.instruct! :xml, :encoding => "UTF-8"
-          xml.testsuite(:errors     => report.total_error_tests,
+          xml.testsuite(:errors     => report.total_errors,
             :failures   => report.total_failed_tests,
             :hostname   => Socket.gethostname,
             :name       => report.name,
@@ -28,10 +33,10 @@ module Xcode
               p.testcase(:classname  => report.name,
                 :name       => t.name,
                 :time       => t.time
-                ) do |e|
+                ) do |testcase|
   
-                if t.error?
-                  e.failure t.error_location, :message => t.error_message, :type => 'Failure'
+                t.errors.each do |error|
+                  testcase.failure error[:location], :message => error[:message], :type => 'Failure'
                 end
               end
             end

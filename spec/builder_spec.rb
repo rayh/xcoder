@@ -86,6 +86,7 @@ describe Xcode::Builder do
       let(:default_clean_parameters) do
         [ "xcodebuild", 
           "-project \"#{configuration.target.project.path}\"", 
+          "-sdk iphoneos",
           "-target \"#{configuration.target.name}\"", 
           "-configuration \"#{configuration.name}\"", 
           "OBJROOT=\"#{File.dirname(configuration.target.project.path)}/build/\"", 
@@ -132,6 +133,7 @@ describe Xcode::Builder do
       let(:default_clean_parameters) do
         [ "xcodebuild",
           "-project \"#{scheme.project.path}\"",
+          "-sdk iphoneos",
           "-scheme #{scheme.name}",
           "OBJROOT=\"#{File.dirname(scheme.project.path)}/build/\"", 
           "SYMROOT=\"#{File.dirname(scheme.project.path)}/build/\"",
