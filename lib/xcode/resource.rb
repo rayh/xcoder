@@ -190,13 +190,15 @@ module Xcode
       end
       
       #  
-      # Based on the `isa` property find if there is a constant within
+      # Based on the `isa` property find if there are constants within
       # the Xcode module that matches and if it does, then we want to 
-      # automatically include module into the Resource object.
+      # automatically include those modules into the Resource object.
       # 
-      constant = Registry.isa_to_module(isa)
-        
-      self.extend(constant) if constant
+      constants = Registry.isa_to_module(isa)
+      
+      constants.each do |constant|
+        self.extend(constant) if constant
+      end
       
     end
     

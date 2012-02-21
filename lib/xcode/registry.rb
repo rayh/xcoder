@@ -7,8 +7,10 @@ require 'xcode/group'
 require 'xcode/resource'
 require 'xcode/scheme'
 require 'xcode/simple_identifier_generator'
+require 'xcode/configuration_owner'
 require 'xcode/target'
 require 'xcode/variant_group'
+require 'xcode/project_reference'
 
 module Xcode
   
@@ -59,15 +61,16 @@ module Xcode
     # @see Resource#initialize
     # 
     # @param [String] isa the type of the object.
-    # @return [Module] the module name mapped to the parameter. If the parameter
-    #   matches no module then a nil is returned.
+    # @return [Array<Module>] an array of modules that are mapped to the 
+    #   string name.
     # 
     def self.isa_to_module isa
 
-      { 'XCBuildConfiguration' => Configuration,
+      modules = { 'PBXProject' => [ProjectReference, ConfigurationOwner],
+        'XCBuildConfiguration' => Configuration,
         'PBXFileReference' => FileReference,
         'PBXGroup' => Group,
-        'PBXNativeTarget' => Target,
+        'PBXNativeTarget' => [Target, ConfigurationOwner],
         'PBXAggregateTarget' => Target,
         'PBXFrameworksBuildPhase' => BuildPhase,
         'PBXSourcesBuildPhase' => BuildPhase,
@@ -76,6 +79,8 @@ module Xcode
         'PBXVariantGroup' => VariantGroup,
         'XCConfigurationList' => ConfigurationList,
         'PBXVariantGroup' => VariantGroup }[isa]
+        
+        Array(modules)
     end
     
     #

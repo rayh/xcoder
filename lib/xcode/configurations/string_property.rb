@@ -18,6 +18,10 @@ module Xcode
       def save(value)
         value.to_s
       end
+      
+      def append(original,value)
+        original.to_s + value.to_s
+      end
   
     end
     

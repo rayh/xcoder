@@ -35,6 +35,10 @@ module Xcode
       def save(value)
         value.to_s =~ /^(?:NO|false)$/ ? "NO" : "YES"
       end
+      
+      def append(original,value)
+        save(original) | save(value)
+      end
   
     end
     
