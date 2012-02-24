@@ -135,6 +135,53 @@ You can invoke your test target/bundle from the builder
 	
 This will invoke the test target, capture the output and write the junit reports to the test-reports directory.  Currently only junit is supported.
 
+## Rake Tasks
+
+Xcoder provides a rake task to assist with make it easier to perform common Xcode project actions from the command-line.
+
+Within your `Rakefile` add the following:
+
+    require 'xcoder/rake_task'
+    
+Then define your Rake Task:
+
+    Xcode::RakeTask.new
+
+By default this will generate rake tasks within the 'xcode' namespace for
+all the projects (within the current working directory), all their targets, 
+and all their configs. This will also generate tasks for all of a projects
+schemes as well.
+
+    All names from the project, schemes, targets, and configs are remove
+    the camel-casing and replacing the cameling with underscores. Spaces
+    are replaced with dashes (-)
+
+This will generate rake tasks that appear similar to the following:
+
+      rake xcode:project-name:targetname:debug:build   
+      rake xcode:project-name:targetname:debug:clean         
+      # ...
+
+You can specify a parameter to change the root rake namespace:
+
+     Xcode::RakeTask.new :apple
+     
+     # Resulting Rake Tasks:
+     # rake apple:project-name:targetname:debug:build
+     # rake apple:project-name:targetname:debug:clean
+     # ...
+
+You can also supply a block to provide additional configuration to specify the folder to search for projects and the projects that should generate tasks for:
+
+     Xcode::RakeTask.new :hudson do |xcoder|
+       xcoder.directory = "projects"
+       xcoder.projects = [ "Project Alpha", "Project Beta" ]
+     end
+     
+     rake hudson:project-alpha:targetname:debug:build
+     # ...
+
+
 ## Manipulating a Project
 
 Xcoder can also create targets, configurations, and add files. Xcoder could be used to programmatically manipulate or install external sources into a project.
