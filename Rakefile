@@ -35,3 +35,9 @@ namespace :test_project do
   
 end
 
+
+require './lib/xcoder/rake_task'
+
+Xcode::RakeTask.new :xcode do |xcoder|
+  xcoder.directory = 'spec'
+end
