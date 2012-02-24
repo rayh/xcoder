@@ -27,7 +27,7 @@ namespace :test_project do
   task :reset do
     puts "Reseting the TestProject Project File"
     system "git co -- spec/TestProject"
-    puts "Removing any User schemes generated for in the project"
+    puts "Removing any User schemes generated in the project"
     system "rm -rf spec/TestProject/TestProject.xcodeproj/xcuserdata"
     puts "Removing any installed files"
     system "git clean -df spec/TestProject"
