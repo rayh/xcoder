@@ -4,6 +4,7 @@ require 'xcode/configurations/targeted_device_family_property'
 require 'xcode/configurations/string_property'
 require 'xcode/configurations/boolean_property'
 require 'xcode/configurations/array_property'
+require 'xcode/configurations/key_value_array_property'
 
 module Xcode
   
@@ -84,7 +85,18 @@ module Xcode
       # Define a getter method
 
       define_method property_name do
-        substitute type.open(build_settings[setting_name])
+        
+        # When the build setting is missing from the existing configuration, look
+        # for the configuration of the target's project (only if we are currently
+        # at the Target level).
+        
+        if not build_settings.key?(setting_name) and target.is_a?(Target)
+          project_config = target.project.global_config(name)
+          project_config.send(property_name)
+        else
+          substitute type.open(build_settings[setting_name])
+        end
+        
       end
 
       # Define a setter method
@@ -92,7 +104,39 @@ module Xcode
       define_method "#{property_name}=" do |value|
         build_settings[setting_name] = unsubstitute(type.save(value))
       end
+
+      # Define an append method
       
+      define_method "append_to_#{property_name}" do |value|
+        build_settings[setting_name] = unsubstitute type.append(build_settings[setting_name],value)
+      end
+      
+      # Define a environment name method (to return the settings name)
+      
+      define_method "env_#{property_name}" do
+        setting_name
+      end
+      
+      # Define a raw getter
+      
+      define_method "raw_#{property_name}" do
+        build_settings[setting_name]
+      end
+      
+      # Define a raw setter
+      
+      define_method "raw_#{property_name}=" do |value|
+        build_settings[setting_name] = value
+      end
+      
+      
+      @setting_name_to_property = {} unless @setting_name_to_property
+      @setting_name_to_property[setting_name] = property_name
+      
+    end
+    
+    def self.setting_name_to_property(name)
+      @setting_name_to_property[name]
     end
     
     #
@@ -149,7 +193,7 @@ module Xcode
     # @attribute
     # Build Setting - "OTHER_CFLAGS"
     # @see https://developer.apple.com/library/mac/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW17
-    property :other_c_flags, "OTHER_CFLAGS", ArrayProperty
+    property :other_c_flags, "OTHER_CFLAGS", KeyValueArrayProperty
 
     # @attribute
     # Build Setting - "GCC_C_LANGUAGE_STANDARD"
@@ -202,6 +246,11 @@ module Xcode
     # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW144
     property :copy_phase_strip, "COPY_PHASE_STRIP", BooleanProperty
     
+    # @attribute
+    # Build Setting - "OTHER_LDFLAGS"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW76
+    property :other_linker_flags, "OTHER_LDFLAGS", SpaceDelimitedString
+    
     #
     # Opens the info plist associated with the configuration and allows you to 
     # edit the configuration.
@@ -236,7 +285,11 @@ module Xcode
     # @return [String,Array,Hash] the value stored for the specified configuration
     #  
     def get(name)
-      build_settings[name]
+      if Configuration.setting_name_to_property(name)
+        send Configuration.setting_name_to_property(name)
+      else
+        build_settings[name]
+      end
     end
     
     #
@@ -246,7 +299,27 @@ module Xcode
     # @param [String,Array,Hash] value the value to store for the specific setting
     #
     def set(name, value)
-      build_settings[name] = value
+      if Configuration.setting_name_to_property(name)
+        send("#{Configuration.setting_name_to_property(name)}=",value)
+      else
+        build_settings[name] = value
+      end
+    end
+    
+    #
+    # Append a value to the the configuration value for the given name
+    #
+    # @param [String] name of the the configuration setting
+    # @param [String,Array,Hash] value the value to store for the specific setting
+    #
+    def append(name, value)
+      if Configuration.setting_name_to_property(name)
+        send("append_to_#{Configuration.setting_name_to_property(name)}",value)
+      else
+        # @todo this will likely raise some errors if trying to append a string
+        #   to an array, but that likely means a new property should be defined.
+        build_settings[name] = build_settings[name] + value
+      end
     end
     
     #

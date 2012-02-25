@@ -40,6 +40,10 @@ module Xcode
       def save(value)
         Array(value).join(" ")
       end
+      
+      def append(original,value)
+        save( ( open(original) + open(value) ).uniq )
+      end
   
     end
     
