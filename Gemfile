@@ -1,6 +1,8 @@
 source "http://rubygems.org"
 
 gemspec
+gem 'rake'
+
 gem 'builder'
 gem 'json'
 gem 'plist'
