@@ -16,7 +16,7 @@ namespace :doc do
   desc "Generate YARD docs"
   YARD::Rake::YardocTask.new(:generate) do |t|
     t.files   = ['lib/**/*.rb',  '-', 'README.md']   # optional
-    t.options = ["-o ../xcoder-doc"]
+    # t.options = ["-o ../xcoder-doc"]
   end
 end
 
