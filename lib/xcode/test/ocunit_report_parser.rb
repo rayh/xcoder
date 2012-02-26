@@ -11,7 +11,7 @@ module Xcode
   
     class OCUnitReportParser
 
-      attr_reader :reports, :end_time, :start_time
+      attr_reader :reports, :end_time, :start_timel
       attr_accessor :debug, :formatters
   
       def initialize
@@ -22,13 +22,18 @@ module Xcode
         @failed = false
         @start_time = nil
         @end_time = nil
+        @unexpected = false
         
         add_formatter :junit, 'test-reports'
         add_formatter :stdout
       end
       
+      def unexpected?
+        @unexpected
+      end
+      
       def failed?
-        @failed
+        @failed or @unexpected
       end
       
       def finished?
@@ -36,6 +41,7 @@ module Xcode
       end
       
       def duration
+        return 0 if @start_time.nil?
         return Time.now - @start_time if @end_time.nil?
         @end_time - @start_time
       end
@@ -117,6 +123,9 @@ module Xcode
           # when /failed with exit code (\d+)/, 
           when /BUILD FAILED/ 
             flush
+            
+          when /Segmentation fault/
+            @unexpected=true
             
           when /Run test case (\w+)/
             # ignore
