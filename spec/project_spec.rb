@@ -158,4 +158,18 @@ describe Xcode::Project do
     end
   end
   
+  describe "#global_configs" do
+    it "should return all the configurations global for the project" do
+      project.global_configs
+    end
+  end
+  
+  describe "#global_config" do
+    it "should return the global configuration with the specified name" do
+      project.global_config('Debug')
+    end
+    
+
+  end
+  
 end

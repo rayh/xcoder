@@ -16,7 +16,7 @@ namespace :doc do
   desc "Generate YARD docs"
   YARD::Rake::YardocTask.new(:generate) do |t|
     t.files   = ['lib/**/*.rb',  '-', 'README.md']   # optional
-    t.options = ["-o ../xcoder-doc"]
+    # t.options = ["-o ../xcoder-doc"]
   end
 end
 
@@ -27,7 +27,7 @@ namespace :test_project do
   task :reset do
     puts "Reseting the TestProject Project File"
     system "git co -- spec/TestProject"
-    puts "Removing any User schemes generated for in the project"
+    puts "Removing any User schemes generated in the project"
     system "rm -rf spec/TestProject/TestProject.xcodeproj/xcuserdata"
     puts "Removing any installed files"
     system "git clean -df spec/TestProject"
@@ -35,3 +35,9 @@ namespace :test_project do
   
 end
 
+
+require './lib/xcoder/rake_task'
+
+Xcode::RakeTask.new :xcode do |xcoder|
+  xcoder.directory = 'spec'
+end

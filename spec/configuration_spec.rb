@@ -56,35 +56,50 @@ describe Xcode::Configuration do
     
     it "should override existing settings" do
       linker_flags = settings['OTHER_LDFLAGS']
-      subject.set 'OTHER_LDFLAGS', '-NONE'
+      subject.set 'OTHER_LDFLAGS', '-NONE -FOR -ME'
       settings['OTHER_LDFLAGS'].should_not == linker_flags
     end
+    
+  end
+  
+  describe "#append" do
 
+    let(:settings) { subject.build_settings }
+
+    it "should append to  existing settings" do
+      subject.set 'OTHER_LDFLAGS', '-NONE'
+      subject.append 'OTHER_LDFLAGS', '-FOR -ME'
+      settings['OTHER_LDFLAGS'].should == "-NONE -FOR -ME"
+    end
+    
   end
   
   describe "#get" do
 
     let(:settings) { subject.build_settings }
     
-    it "should return the correct configuration value" do
-      subject.get('OTHER_LDFLAGS').should == settings['OTHER_LDFLAGS']
+    it "should return the configuration value processed through their property" do
+
+      subject.get('OTHER_LDFLAGS').should_not == settings['OTHER_LDFLAGS']
+      subject.get('OTHER_LDFLAGS').should == settings['OTHER_LDFLAGS'].split(" ")
+      
     end
 
   end
   
-  describe "String Properties" do
-    
-    let(:string_properties) do
-      [ :product_name, 
-        :prefix_header,
-        :info_plist_location,
-        :wrapper_extension,
-        :sdkroot,
-        :c_language_standard,
-        :gcc_version,
-        :code_sign_identity,
-        :iphoneos_deployment_target ]
+  let(:string_properties) do
+    [ :product_name, 
+      :prefix_header,
+      :info_plist_location,
+      :wrapper_extension,
+      :sdkroot,
+      :c_language_standard,
+      :gcc_version,
+      :code_sign_identity,
+      :iphoneos_deployment_target ]
     end
+
+  describe "String Properties" do
     
     it "should be able to correctly get the property" do
       
@@ -103,19 +118,29 @@ describe Xcode::Configuration do
       
     end
     
+    it "should be able to append to the property" do
+      
+      string_properties.each do |property|
+        subject.send("#{property}=","new value")
+        subject.send("append_to_#{property}"," there")
+        subject.send(property).should eq("new value there"), "#{property} failed to be set correctly"
+      end
+      
+    end
+    
+  end
+
+  let(:boolean_properties) do
+    [ :precompile_prefix_headers,
+      :always_search_user_paths,
+      :warn_about_missing_prototypes,
+      :warn_about_return_type,
+      :validate_product,
+      :copy_phase_strip ]
   end
   
   describe "Boolean Properties" do
 
-    let(:boolean_properties) do
-      [ :precompile_prefix_headers,
-        :always_search_user_paths,
-        :warn_about_missing_prototypes,
-        :warn_about_return_type,
-        :validate_product,
-        :copy_phase_strip ]
-    end
-    
     it "should be able to set to false with NO" do
       
       boolean_properties.each do |property|
@@ -151,16 +176,16 @@ describe Xcode::Configuration do
       end
       
     end
-    
+  end
+  
+  let(:space_delimited_string_properties) do
+    [ :architectures,
+      :supported_platforms,
+      :other_linker_flags ]
   end
   
   describe "Space Delimited String Properties" do
 
-    let(:space_delimited_string_properties) do
-      [ :architectures,
-        :supported_platforms ]
-    end
-    
     it "should be able to correctly get the property" do
       
       space_delimited_string_properties.each do |property|
@@ -187,16 +212,41 @@ describe Xcode::Configuration do
       
     end
     
+    it "should be able to append to the property" do
+      
+      space_delimited_string_properties.each do |property|
+        subject.send("#{property}=",["more", "value"])
+        subject.send("append_to_#{property}","there")
+        subject.send(property).should eq([ "more", "value", "there" ]), "#{property} failed to be appended correctly"
+      end
+      
+    end
+    
+    it "should not allow duplcate values" do
+      
+      space_delimited_string_properties.each do |property|
+        subject.send("#{property}=",["more", "value"])
+        subject.send("append_to_#{property}","value")
+        subject.send(property).should eq([ "more", "value" ]), "#{property} failed to be appended correctly"
+      end
+      
+    end
+    
   end
+  
+  let(:targeted_device_family_properties) { [ :targeted_device_family ] }
   
   describe "Targeted Device Family Properties" do
 
-    let(:targeted_device_family_properties) { [ :targeted_device_family ] }
+    let(:expect_device_family_for_config) { [] }
     
-    it "should be able to correctly get the property" do
+    let(:expect_device_family_for_global_config) { [ :iphone, :ipad ] }
+
+    it "should get the project's default property when it is not specified for the target configuration" do
       
       targeted_device_family_properties.each do |property|
-        subject.send(property).should == [ ]
+        
+        subject.send(property).should == expect_device_family_for_global_config
       end
       
     end
@@ -205,12 +255,80 @@ describe Xcode::Configuration do
       
       targeted_device_family_properties.each do |property|
         subject.send("#{property}=",[ 'IPHONE', :ipad ])
-        subject.get("TARGETED_DEVICE_FAMILY").should == "1,2"
+        subject.build_settings["TARGETED_DEVICE_FAMILY"].should == "1,2"
         subject.send(property).should == [ :iphone, :ipad ]
       end
       
     end
     
+    it "should be able to append to the property" do
+      
+      targeted_device_family_properties.each do |property|
+        subject.send("#{property}=",'IPHONE')
+        subject.send("append_to_#{property}","iPad")
+        subject.send(property).should == [ :iphone, :ipad ]
+      end
+      
+    end
+    
+  end
+  
+  let(:key_value_array_properties) do
+    [ :other_c_flags ]
+  end
+  
+  describe "Array Properties" do
+    it "should be able to correctly get the property" do
+      key_value_array_properties.each do |property|
+        subject.send(property).should be_kind_of(Array), "#{property} failed to return an Array"
+      end
+    end
+    
+    it "should be able to correctly set the property" do
+      key_value_array_properties.each do |property|
+        subject.send("#{property}=","PARAMETER=1")
+        subject.send(property).should eq(["PARAMETER=1"]), "The property #{property} failed to set correctly"
+      end
+    end
+    
+    it "should be able to correctly append the property" do
+      key_value_array_properties.each do |property|
+        subject.send("#{property}=","PARAMETER=1")
+        subject.send("append_to_#{property}",[ "PARAMETER=4", "PARAMETER2=2"])
+        subject.send(property).should eq([ "PARAMETER=4","PARAMETER2=2" ]), "The property #{property} failed to set correctly"
+      end
+    end
+  end
+  
+  
+  let(:all_properties) do
+    string_properties + 
+    boolean_properties + 
+    space_delimited_string_properties +
+    targeted_device_family_properties + 
+    key_value_array_properties
+  end
+  
+  describe "Property Environment Names" do
+    it "should have all property environment names available" do
+      all_properties.each do |property|
+        subject.send("env_#{property}").should_not be_nil, "The property #{property} does not have an env_#{property} method defined"
+      end
+    end
+  end
+  
+  describe "Raw Getter and Setter" do
+    it "should have a raw getter method" do
+      all_properties.each do |property|
+        subject.should respond_to("raw_#{property}"), "The property #{property} does not have a raw_#{property} getter method defined"
+      end
+    end
+    
+    it "should have a raw setter method" do
+      all_properties.each do |property|
+        subject.should respond_to("raw_#{property}="), "The property #{property} does not have a raw_#{property} setter method defined"
+      end
+    end
   end
   
 end
