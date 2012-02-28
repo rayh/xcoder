@@ -54,7 +54,7 @@ module Xcode
        puts "[#{label}] Set build profile to #{@values[:profile]}"
      end
      
-     Keychain.temp_keychain(@values[:project]) do |kc|
+     Keychain.temp do |kc|
        kc.import @values[:certificate], @values[:password]
        
        builder.identity = @values[:identity] || kc.identities.first

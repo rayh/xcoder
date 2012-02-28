@@ -6,10 +6,12 @@ describe Xcode::ProvisioningProfile do
      path = "#{File.dirname(__FILE__)}/Provisioning/AdHoc.mobileprovision"
      Xcode::ProvisioningProfile.new(path) 
   end
+  
   let(:appstore) do
      path = "#{File.dirname(__FILE__)}/Provisioning/AppStore.mobileprovision"
      Xcode::ProvisioningProfile.new(path) 
   end
+  
   
   context "app store provisionig profile" do
     it "should read the uuid from the profile" do
