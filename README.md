@@ -187,6 +187,22 @@ You can also supply a block to provide additional configuration to specify the f
      rake hudson:project-alpha:targetname:debug:build
      # ...
 
+## [Guard](https://github.com/guard/guard)
+
+Guard provides the ability to launch commands when files changed. There is a [guard-xcoder](https://github.com/burtlo/guard-xcoder) which allows you easily execute build actions whenever your project file changes.
+
+    gem install guard
+    gem install guard-xcoder
+    
+    guard init
+    guard init xcoder
+
+Afterwards you will need to define the project you want to monitor and the actions that you want to take place when a source files changes within the project file.
+
+    guard 'xcoder', :actions => [ :clean, :build, :test ] do
+      watch('ProjectName')
+      watch('ProjectName//TargetName')
+    end
 
 ## Manipulating a Project
 
