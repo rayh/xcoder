@@ -71,6 +71,7 @@ module Xcode
         'PBXFileReference' => FileReference,
         'PBXGroup' => Group,
         'PBXNativeTarget' => [Target, ConfigurationOwner],
+        'PBXLegacyTarget' => [Target, ConfigurationOwner],
         'PBXAggregateTarget' => Target,
         'PBXFrameworksBuildPhase' => BuildPhase,
         'PBXSourcesBuildPhase' => BuildPhase,
