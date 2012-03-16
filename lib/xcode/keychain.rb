@@ -101,16 +101,24 @@ module Xcode
     #
     # Creates a keychain with the given name that lasts for the duration of the provided block.  
     # The keychain is deleted even if the block throws an exception.
-    # 
-    # @param [String] the name of the temporary keychain to create
     #
-    def self.temp(&block)
+    # If no block is provided, the temporary keychain is returned and it is deleted on system exit
+    #
+    def self.temp
       kc = Xcode::Keychain.create("/tmp/xcoder#{Time.now.to_i}", TEMP_PASSWORD)
-      begin
-        kc.unlock(TEMP_PASSWORD)
-        block.call(kc)
-      ensure
-        kc.delete
+      kc.unlock(TEMP_PASSWORD)
+      
+      if !block_given?
+        at_exit do
+          kc.delete
+        end
+        kc
+      else
+        begin
+          yield(kc)
+        ensure
+          kc.delete
+        end
       end
     end
     
