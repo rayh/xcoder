@@ -67,8 +67,7 @@ module Xcode
     # @return [Hash] system framework properties
     # 
     def self.system_framework(name,properties = {})
-
-      name = name[/(.+)(?:\.framework)?$/,1]
+      name = name.gsub(File.extname(name),"")
       
       default_properties = { 'isa' => 'PBXFileReference',
         'lastKnownFileType' => 'wrapper.framework', 
