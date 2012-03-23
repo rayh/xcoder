@@ -26,11 +26,16 @@ module Xcode
       extend self
   
       #
+      # While the space delimited string can and is often stored in that way,
+      # it appears as though Xcode is now possibly storing these values in a format
+      # that the parser is returning as an Array. So if the raw value is an
+      # array, simply return that raw value instead of attempting to convert it.
+      # 
       # @param [Nil,String] value stored within the build settings
       # @return [Array<String>] a list of the strings that are within this string
       # 
       def open(value)
-        value.to_s.split(" ")
+        value.is_a?(Array) ? value : value.to_s.split(" ")
       end
   
       #

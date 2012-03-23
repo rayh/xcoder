@@ -68,10 +68,17 @@ describe Xcode::Configuration do
 
     it "should append to  existing settings" do
       subject.set 'OTHER_LDFLAGS', '-NONE'
-      subject.append 'OTHER_LDFLAGS', '-FOR -ME'
+      subject.append 'OTHER_LDFLAGS', '-FOR'
+      subject.append 'OTHER_LDFLAGS', [ '-FOR' , '-ME' ]
       settings['OTHER_LDFLAGS'].should == "-NONE -FOR -ME"
     end
     
+     it "should append to  existing settings" do
+      subject.set 'OTHER_LDFLAGS', '-NONE -FOR'
+      subject.append 'OTHER_LDFLAGS', '-FOR'
+      subject.append 'OTHER_LDFLAGS', [ '-FOR' , '-ME' ]
+      settings['OTHER_LDFLAGS'].should == "-FOR -ME"
+    end
   end
   
   describe "#get" do
