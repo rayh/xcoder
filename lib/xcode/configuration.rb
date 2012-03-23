@@ -316,9 +316,21 @@ module Xcode
       if Configuration.setting_name_to_property(name)
         send("append_to_#{Configuration.setting_name_to_property(name)}",value)
       else
-        # @todo this will likely raise some errors if trying to append a string
+
+        # @note this will likely raise some errors if trying to append a string
         #   to an array, but that likely means a new property should be defined.
-        build_settings[name] = build_settings[name] + value
+  
+        if build_settings[name].is_a?(Array)
+          # Ensure that we are appending an array to the array; Array() does not
+          # work in this case in the event we were to pass in a Hash.
+          value = value.is_a?(Array) ? value : [ value ]
+          build_settings[name] = build_settings[name] + value
+        else
+          # Ensure we handle the cases where a nil value is present that we append
+          # correctly to the value.
+          build_settings[name] = build_settings[name].to_s + value.to_s
+        end
+       
       end
     end
     

@@ -36,8 +36,16 @@ module Xcode
         value.to_s =~ /^(?:NO|false)$/ ? "NO" : "YES"
       end
       
+      #
+      # @note Appending boolean properties has no real good default operation. What
+      #   happens in this case is that whatever you decide to append will automatically
+      #   override the previously existing settings.
+      # 
+      # @param [Types] original the original value to be appended
+      # @param [Types] value Description
+      #
       def append(original,value)
-        save(original) | save(value)
+        save(value)
       end
   
     end
