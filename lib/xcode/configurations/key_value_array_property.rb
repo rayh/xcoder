@@ -32,7 +32,7 @@ module Xcode
       # back out to a key=value pair array.
       # 
       def append(original,value)
-        all_values = (Array(original) + Array(value)).map {|key_value| key_value.split("=") }.flatten
+        all_values = (open(original) + Array(value)).map {|key_value| key_value.split("=") }.flatten
         Hash[*all_values].map {|k,v| "#{k}=#{v}" }
       end
   

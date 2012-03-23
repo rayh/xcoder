@@ -41,8 +41,17 @@ module Xcode
         Array(value).join(" ")
       end
       
+      #
+      # Space Delimited Strings are not unlike arrays and those we assume that the
+      # inputs are going to be two arrays that will be joined and then ensured 
+      # that only the unique values are saved.
+      # 
+      # @param [Nil,String] original the original value stored within the field
+      # @param [Nil,String,Array] value the new values that will coerced into an array
+      #   and joined with the original values.
+      #
       def append(original,value)
-        save( ( open(original) + open(value) ).uniq )
+        save( ( open(original) + Array(value)).uniq )
       end
   
     end
