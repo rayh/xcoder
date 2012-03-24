@@ -28,7 +28,7 @@ module Xcode
       end
       
       def append(original,value)
-        (Array(original) + Array(value)).uniq
+        (open(original) + Array(value)).uniq
       end
   
     end
