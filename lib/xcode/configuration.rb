@@ -285,7 +285,9 @@ module Xcode
     # @return [String,Array,Hash] the value stored for the specified configuration
     #  
     def get(name)
-      if Configuration.setting_name_to_property(name)
+      if respond_to?(name)
+        send(name)
+      elsif Configuration.setting_name_to_property(name)
         send Configuration.setting_name_to_property(name)
       else
         build_settings[name]
@@ -299,7 +301,9 @@ module Xcode
     # @param [String,Array,Hash] value the value to store for the specific setting
     #
     def set(name, value)
-      if Configuration.setting_name_to_property(name)
+      if respond_to?(name)
+        send("#{name}=",value)
+      elsif Configuration.setting_name_to_property(name)
         send("#{Configuration.setting_name_to_property(name)}=",value)
       else
         build_settings[name] = value
@@ -313,7 +317,11 @@ module Xcode
     # @param [String,Array,Hash] value the value to store for the specific setting
     #
     def append(name, value)
-      if Configuration.setting_name_to_property(name)
+      require 'ruby-debug'
+      debugger
+      if respond_to?(name)
+        send("append_to_#{name}",value)
+      elsif Configuration.setting_name_to_property(name)
         send("append_to_#{Configuration.setting_name_to_property(name)}",value)
       else
 
