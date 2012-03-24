@@ -195,16 +195,15 @@ module Xcode
     # @param [String] path the path to save the project
     #
     def save(path)
-      Dir.mkdir(path) unless File.exists?(path)
       
+      Dir.mkdir(path) unless File.exists?(path)
       project_filepath = "#{path}/project.pbxproj"
       
       # @toodo Save the workspace when the project is saved
       # FileUtils.cp_r "#{path}/project.xcworkspace", "#{path}/project.xcworkspace"
+  
+      Xcode::PLUTILProjectParser.save "#{@path}/project.pbxproj", to_xcplist
       
-      File.open(project_filepath,'w') do |file|
-        file.puts to_xcplist
-      end
     end
     
     #
