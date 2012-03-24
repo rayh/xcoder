@@ -317,8 +317,7 @@ module Xcode
     # @param [String,Array,Hash] value the value to store for the specific setting
     #
     def append(name, value)
-      require 'ruby-debug'
-      debugger
+      
       if respond_to?(name)
         send("append_to_#{name}",value)
       elsif Configuration.setting_name_to_property(name)
