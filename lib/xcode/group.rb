@@ -98,7 +98,9 @@ module Xcode
     #   if no matches were found.
     # 
     def exists?(name)
-      children.find_all {|child| child.name == name }
+      children.find_all do |child| 
+        child.name ? (child.name == name) : (File.basename(child.path) == name)
+      end
     end
     
     #
@@ -144,11 +146,13 @@ module Xcode
       # found.
       
       find_file_by = file_properties['name'] || file_properties['path']
+      
       found_or_created_file = exists?(find_file_by).first
       
       unless found_or_created_file
         found_or_created_file = create_child_object FileReference.file(file_properties)
       end
+      
       found_or_created_file.supergroup = self
       
       found_or_created_file

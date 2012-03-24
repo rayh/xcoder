@@ -285,7 +285,9 @@ module Xcode
     # @return [String,Array,Hash] the value stored for the specified configuration
     #  
     def get(name)
-      if Configuration.setting_name_to_property(name)
+      if respond_to?(name)
+        send(name)
+      elsif Configuration.setting_name_to_property(name)
         send Configuration.setting_name_to_property(name)
       else
         build_settings[name]
@@ -299,7 +301,9 @@ module Xcode
     # @param [String,Array,Hash] value the value to store for the specific setting
     #
     def set(name, value)
-      if Configuration.setting_name_to_property(name)
+      if respond_to?(name)
+        send("#{name}=",value)
+      elsif Configuration.setting_name_to_property(name)
         send("#{Configuration.setting_name_to_property(name)}=",value)
       else
         build_settings[name] = value
@@ -313,22 +317,35 @@ module Xcode
     # @param [String,Array,Hash] value the value to store for the specific setting
     #
     def append(name, value)
-      if Configuration.setting_name_to_property(name)
+      
+      if respond_to?(name)
+        send("append_to_#{name}",value)
+      elsif Configuration.setting_name_to_property(name)
         send("append_to_#{Configuration.setting_name_to_property(name)}",value)
       else
 
-        # @note this will likely raise some errors if trying to append a string
-        #   to an array, but that likely means a new property should be defined.
+        # @note this will likely raise some errors if trying to append a booleans
+        #   to fixnums, strings to booleans, symbols + arrays, etc. but that likely 
+        #   means a new property should be defined so that the appending logic
+        #   wil behave correctly.
   
         if build_settings[name].is_a?(Array)
+          
           # Ensure that we are appending an array to the array; Array() does not
           # work in this case in the event we were to pass in a Hash.
           value = value.is_a?(Array) ? value : [ value ]
-          build_settings[name] = build_settings[name] + value
+          build_settings[name] = build_settings[name] + value.compact
+          
         else
+          
           # Ensure we handle the cases where a nil value is present that we append
-          # correctly to the value.
-          build_settings[name] = build_settings[name].to_s + value.to_s
+          # correctly to the value. We also need to try and leave intact boolean
+          # values which may be stored
+          
+          value = "" unless value
+          build_settings[name] = "" unless build_settings[name]
+          
+          build_settings[name] = build_settings[name] + value
         end
        
       end

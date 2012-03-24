@@ -20,7 +20,7 @@ module Xcode
       end
       
       def append(original,value)
-        original.to_s + value.to_s
+        open(original) + value.to_s
       end
   
     end
