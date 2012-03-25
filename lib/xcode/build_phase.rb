@@ -3,7 +3,7 @@ module Xcode
   module BuildPhase
     
     # 
-    # @return [BuildPhase] the framework specific build phase of the target.
+    # @return [BuildPhase] properties for a link frameworks build phase 
     # 
     # @example
     # 
@@ -26,7 +26,7 @@ module Xcode
     end
     
     #
-    # @return [BuildPhase] the sources specific build phase of the target.
+    # @return [BuildPhase] properties for a compile sources build phase
     # 
     def self.sources
       { 'isa' => 'PBXSourcesBuildPhase',
@@ -36,7 +36,7 @@ module Xcode
     end
     
     #
-    # @return [BuildPhase] the resources specific build phase of the target.
+    # @return [BuildPhase] properties for a resources build phase
     # 
     def self.resources
       { 'isa' => 'PBXResourcesBuildPhase',
@@ -46,9 +46,23 @@ module Xcode
     end
     
     #
-    # @return [BuildPhase] the headers specific build phase of the target.
+    # @return [BuildPhase] properties for a run shell script build phase
     # 
-    def self.headers
+    def self.run_script
+      { 'isa' => 'PBXShellScriptBuildPhase',
+        'buildActionMask' => '2147483647',
+        'files' => [],
+        'inputPaths' => [],
+        'outputPaths' => [],
+        'shellPath' => '/bin/sh',
+        'shellScript' => '',
+        'runOnlyForDeploymentPostprocessing' => '0' }
+    end
+    
+    #
+    # @return [BuildPhase] properties for a copy headers build phase
+    # 
+    def self.copy_headers
       { 'isa' => 'PBXHeadersBuildPhase',
         'buildActionMask' => '2147483647',
         'files' => [],

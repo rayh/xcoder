@@ -77,6 +77,7 @@ module Xcode
         'PBXSourcesBuildPhase' => BuildPhase,
         'PBXResourcesBuildPhase' => BuildPhase,
         'PBXHeadersBuildPhase' => BuildPhase,
+        'PBXShellScriptBuildPhase' => BuildPhase,
         'PBXBuildFile' => BuildFile,
         'PBXVariantGroup' => VariantGroup,
         'XCConfigurationList' => ConfigurationList,
