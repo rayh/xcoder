@@ -256,20 +256,18 @@ module Xcode
     # generate all the additional build phases, configurations, and files
     # that create a project.
     # 
-    # @todo generate a create target with sensible defaults, similar to how
-    #   it is done through Xcode itself.
+    # Available targts:
     # 
-    # @todo based on the specified type of target, default build phases and
-    #   configuration should be created for the target similar to what is 
-    #   supported in xcode.  Currently even now the :ios target does not
-    #   generate the deafult build_phases for you and requires you to make those.
+    # * native
+    # * aggregate
     # 
     # @param [String] name the name to provide to the target. This will also
     #   be the value that other defaults will be based on.
+    # @param [String,Symbol] type the type of build target to create.
     #
     # @return [Target] the target created.
     # 
-    def create_target(name,type=:ios)
+    def create_target(name,type=:native)
       
       target = @registry.add_object Target.send(type)
       @project.properties['targets'] << target.identifier

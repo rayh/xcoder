@@ -34,10 +34,8 @@ module Xcode
     
     #
     # This is a generic properties hash for an ios target
-    # @todo this target should create by default the sources, frameworks, and 
-    #   resources build phases.
     # 
-    def self.ios
+    def self.native
       { 'isa' => 'PBXNativeTarget',
         'buildConfigurationList' => nil,
         'buildPhases' => [],
@@ -47,6 +45,33 @@ module Xcode
         'productName' => '',
         'productReference' => '',
         'productType' => 'com.apple.product-type.application' }
+    end
+    
+    #
+    # Creates a generic properties set for an Aggregate target
+    # 
+    #     /* Begin PBXAggregateTarget section */
+    #         98E1216814CDEF42009CE4EE /* Facebook Universal Framework */ = {
+    #           isa = PBXAggregateTarget;
+    #           buildConfigurationList = 98E1216914CDEF42009CE4EE /* Build configuration list for PBXAggregateTarget "Facebook Universal Framework" */;
+    #           buildPhases = (
+    #             98E1216E14CDEF4C009CE4EE /* ShellScript */,
+    #           );
+    #           dependencies = (
+    #             98A30E0414CDF2D800DF81EF /* PBXTargetDependency */,
+    #           );
+    #           name = "Facebook Universal Framework";
+    #           productName = Facebook;
+    #         };
+    #     /* End PBXAggregateTarget section */
+    # 
+    def self.aggregate
+      { 'isa' => 'PBXAggregateTarget',
+        'buildConfigurationList' => nil,
+        'buildPhases' => [],
+        'dependencies' => [],
+        'name' => '',
+        'productName' => '' }
     end
     
     # @return [Project] the reference to the project for which these targets reside.
@@ -73,15 +98,40 @@ module Xcode
       build_phase 'PBXResourcesBuildPhase', &block
     end
     
+    #
+    # @return [BuildPhase] the run script specific build phase of the target.
+    # 
+    def run_script_build_phase(&block)
+      build_phase 'PBXShellScriptBuildPhase', &block
+    end
+    
+    #
+    # @return [BuildPhase] the copy headers specific build phase of the target.
+    # 
+    def copy_headers_build_phase(&block)
+      build_phase 'PBXHeadersBuildPhase', &block
+    end
+    
     def build_phase(type,&block)
       found_build_phase = build_phases.find {|phase| phase.isa == type }
       found_build_phase.instance_eval(&block) if block_given?
       found_build_phase
     end
+    
     #
-    # @example building the three main phases for a target.
+    # Create a build phase with the given name. Available build phases:
+    # 
+    # * sources
+    # * resources
+    # * framework 
+    # * run_script
+    # * copy_headers 
+    # 
+    # @example Creating the sources build phase
     # 
     #     target.create_build_phase :sources
+    #
+    # @example Creating the resources build phase (with optional block)
     # 
     #     target.create_build_phase :resources do |phase|
     #       # each phase that is created.
