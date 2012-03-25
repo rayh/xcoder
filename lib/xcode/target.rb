@@ -7,33 +7,37 @@ module Xcode
   # be to generate the application, generate a universal framework, or execute
   # tests.
   # 
+  # Creating a target is usually done within a Project. There a specific target
+  # type can be specified.
   # 
-  # @example Target as Hash
-  # 
-  #    E21D8AA914E0F817002E56AA /* newtarget */ = {
-  #        isa = PBXNativeTarget;
-  #        buildConfigurationList = E21D8ABD14E0F817002E56AA /* Build configuration list for PBXNativeTarget "newtarget" */;
-  #        buildPhases = (
-  #          E21D8AA614E0F817002E56AA /* Sources */,
-  #          E21D8AA714E0F817002E56AA /* Frameworks */,
-  #          E21D8AA814E0F817002E56AA /* Resources */,
-  #        );
-  #        buildRules = (
-  #        );
-  #        dependencies = (
-  #        );
-  #        name = newtarget;
-  #        productName = newtarget;
-  #        productReference = E21D8AAA14E0F817002E56AA /* newtarget.app */;
-  #        productType = "com.apple.product-type.application";
-  #      };
-  #   
-  # @todo provide more targets, based on the properties hash generated from Xcode
+  # @see Project#create_target
   # 
   module Target
     
     #
-    # This is a generic properties hash for an ios target
+    # This is a generic properties hash for a native target
+    #
+    # @example Native Target Properties
+    # 
+    #     E21D8AA914E0F817002E56AA /* newtarget */ = {
+    #        isa = PBXNativeTarget;
+    #        buildConfigurationList = E21D8ABD14E0F817002E56AA /* Build configuration list for PBXNativeTarget "newtarget" */;
+    #        buildPhases = (
+    #          E21D8AA614E0F817002E56AA /* Sources */,
+    #          E21D8AA714E0F817002E56AA /* Frameworks */,
+    #          E21D8AA814E0F817002E56AA /* Resources */,
+    #        );
+    #        buildRules = (
+    #        );
+    #        dependencies = (
+    #        );
+    #        name = newtarget;
+    #        productName = newtarget;
+    #        productReference = E21D8AAA14E0F817002E56AA /* newtarget.app */;
+    #        productType = "com.apple.product-type.application";
+    #      };
+    # 
+    # @return [Hash] the properties default to a native target
     # 
     def self.native
       { 'isa' => 'PBXNativeTarget',
@@ -46,9 +50,21 @@ module Xcode
         'productReference' => '',
         'productType' => 'com.apple.product-type.application' }
     end
+
+    #
+    # This is a generic properties hash for an a bundle target. It shares numerous
+    # similarities with the native target, it simply has a bundle product type.
+    # 
+    # @return [Hash] the properties default to a bundle target
+    # 
+    def self.bundle
+      self.native.merge('productType' => 'com.apple.product-type.bundle')
+    end
     
     #
-    # Creates a generic properties set for an Aggregate target
+    # This is a generic properties hash for an aggregate target.
+    # 
+    # @example Aggregate Target properties
     # 
     #     /* Begin PBXAggregateTarget section */
     #         98E1216814CDEF42009CE4EE /* Facebook Universal Framework */ = {
@@ -64,6 +80,8 @@ module Xcode
     #           productName = Facebook;
     #         };
     #     /* End PBXAggregateTarget section */
+    # 
+    # @return [Hash] the properties defalut to a aggregate target
     # 
     def self.aggregate
       { 'isa' => 'PBXAggregateTarget',
