@@ -82,10 +82,19 @@ module Xcode
       @registry.archive_version
     end
     
+    #
+    # @return [Array<Configuration>] a list of configurations global to the project
+    # 
     def global_configs
       @project.configs
     end
     
+    #
+    # @param [String,Symbol] name of the configuration for the project
+    # 
+    # @return [Configuration] the project level configuration with the given name;
+    #   raise an exception if no configuration exists with that name.
+    #
     def global_config(name)
       @project.config(name)
     end
