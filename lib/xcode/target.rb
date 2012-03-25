@@ -176,6 +176,20 @@ module Xcode
     end
     
     #
+    # @param [Target] target the target that the current target is dependent on
+    #   for compilation.
+    #
+    def add_dependency(target)
+      
+      target_dependency = TargetDependency.default
+      target_dependency = @registry.add_object target_dependency 
+      target_dependency.create_dependency_on target
+      
+      target_dependency
+      
+    end
+    
+    #
     # Create a product reference file and add it to the product. This is by
     # default added to the 'Products' group.
     # 
