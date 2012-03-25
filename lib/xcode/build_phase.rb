@@ -46,6 +46,16 @@ module Xcode
     end
     
     #
+    # @return [BuildPhase] the headers specific build phase of the target.
+    # 
+    def self.resources
+      { 'isa' => 'PBXHeadersBuildPhase',
+        'buildActionMask' => '2147483647',
+        'files' => [],
+        'runOnlyForDeploymentPostprocessing' => '0' }
+    end
+    
+    #
     # Return the BuildFile given the file name.
     #
     # @param [String] name of the FileReference that is being built.
@@ -116,18 +126,48 @@ module Xcode
     end
     
     #
-    # Add the specified file to the Build Phase.
-    #
-    #  
+    # Add the specified file to the Build Phase that will have specific compiler
+    # flags to disable ARC.
     # 
     # @param [FileReference] file the FileReference Resource to add to the build 
-    # phase.
-    # @param [Hash] settings additional build settings that are specifically applied
-    #   to this individual file.
+    #   phase.
     #
     def add_build_file_without_arc(file)
       add_build_file file, { 'COMPILER_FLAGS' => "-fno-objc-arc" }
     end
+    
+    #
+    # Add the specific file to the Build Phase with the privacy settings used
+    # for header files that are added to the build headers phase.
+    # 
+    # @example Add a source header file as public
+    # 
+    #     spec_file = project.group('Specs/Controller').create_file('FirstControllerSpec.h')
+    #     project.target('Specs').headers_build_phase.add_build_file_with_public_privacy
+    # 
+    # @param [FileReference] file the FileReference Resource to add to the build
+    #   phase.
+    # 
+    def add_build_file_with_public_privacy
+      add_build_file file, { 'settings' => { "ATTRIBUTES" => 'Public' } }
+    end
+
+    #
+    # Add the specific file to the Build Phase with the privacy settings used
+    # for header files that are added to the build headers phase.
+    # 
+    # @example Add a source header file as private
+    # 
+    #     spec_file = project.group('Specs/Controller').create_file('FirstControllerSpec.h')
+    #     project.target('Specs').headers_build_phase.add_build_file_with_private_privacy
+    # 
+    # @param [FileReference] file the FileReference Resource to add to the build
+    #   phase.
+    # 
+    def add_build_file_with_private_privacy
+      add_build_file file, { 'settings' => { "ATTRIBUTES" => 'Private' } }
+    end
+
     
   end
   
