@@ -48,7 +48,7 @@ module Xcode
     #
     # @return [BuildPhase] the headers specific build phase of the target.
     # 
-    def self.resources
+    def self.headers
       { 'isa' => 'PBXHeadersBuildPhase',
         'buildActionMask' => '2147483647',
         'files' => [],
