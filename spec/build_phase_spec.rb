@@ -65,6 +65,25 @@ describe Xcode::BuildPhase do
         subject.file('ArcLessSource.m').settings.should == { 'COMPILER_FLAGS' => "-fno-objc-arc" }
       end
     end
+    
+    describe "#add_build_file_with_public_privacy" do
+      it "should add the specified file to the build phase with the correct parameters" do
+        source_file = project.groups.create_file 'publicheader.h'
+        subject.add_build_file_with_public_privacy source_file
+        subject.build_file('publicheader.h').should_not be_nil
+        subject.file('publicheader.h').settings.should == { 'ATTRIBUTES' => "Public" }
+      end
+    end
+    
+    describe "#add_build_file_with_private_privacy" do
+      it "should add the specified file to the build phase with the correct parameters" do
+        source_file = project.groups.create_file 'privateheader.h'
+        subject.add_build_file_with_private_privacy source_file
+        subject.build_file('privateheader.h').should_not be_nil
+        subject.file('privateheader.h').settings.should == { 'ATTRIBUTES' => "Private" }
+      end
+    end
+    
   end
   
   

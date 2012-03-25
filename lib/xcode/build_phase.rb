@@ -148,8 +148,8 @@ module Xcode
     # @param [FileReference] file the FileReference Resource to add to the build
     #   phase.
     # 
-    def add_build_file_with_public_privacy
-      add_build_file file, { 'settings' => { "ATTRIBUTES" => 'Public' } }
+    def add_build_file_with_public_privacy(file)
+      add_build_file file, { "ATTRIBUTES" => 'Public' }
     end
 
     #
@@ -164,8 +164,8 @@ module Xcode
     # @param [FileReference] file the FileReference Resource to add to the build
     #   phase.
     # 
-    def add_build_file_with_private_privacy
-      add_build_file file, { 'settings' => { "ATTRIBUTES" => 'Private' } }
+    def add_build_file_with_private_privacy(file)
+      add_build_file file, { "ATTRIBUTES" => 'Private' }
     end
 
     
