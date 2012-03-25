@@ -17,7 +17,7 @@ class Hash
   # 
   def to_xcplist
     plist_of_items = map do |k,v| 
-      "\"#{k}\" = #{v.to_xcplist};"
+      "#{k.to_xcplist} = #{v.to_xcplist};"
     end.join("\n")
     
     %{{
