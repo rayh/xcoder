@@ -53,6 +53,17 @@ module Xcode
     end
     
     #
+    # Secure the keychain 
+    #
+    def lock
+      cmd = []
+      cmd << "security"
+      cmd << "lock-keychain"
+      cmd << "\"#{@path}\""
+      Xcode::Shell.execute(cmd)
+    end
+    
+    #
     # Unlock the keychain using the provided password
     # 
     # @param [String] the password to open the keychain

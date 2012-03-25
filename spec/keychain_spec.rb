@@ -26,6 +26,14 @@ describe Xcode::Keychain do
     kc.identities[0].should=="Test User"
   end
   
+  # FIXME: Need to surpress GUI dialog prompting to unlock keychain
+  # it "should lock the keychain" do 
+  #     kc = Xcode::Keychain.temp
+  #     kc.lock
+  #     kc.import "#{File.dirname(__FILE__)}/Provisioning/TestUser.p12", 'testpassword'
+  #     kc.identities.size.should==0
+  #   end
+  
   it "should fetch the login keychain" do
     kc = Xcode::Keychain.login
     File.exists?(kc.path).should==true
