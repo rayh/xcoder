@@ -77,7 +77,7 @@ describe Xcode::Configuration do
       subject.set 'OTHER_LDFLAGS', '-NONE -FOR'
       subject.append 'OTHER_LDFLAGS', '-FOR'
       subject.append 'OTHER_LDFLAGS', [ '-FOR' , '-ME' ]
-      settings['OTHER_LDFLAGS'].should == "-FOR -ME"
+      settings['OTHER_LDFLAGS'].should == "-NONE -FOR -ME"
     end
   end
   
