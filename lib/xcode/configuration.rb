@@ -5,6 +5,7 @@ require 'xcode/configurations/string_property'
 require 'xcode/configurations/boolean_property'
 require 'xcode/configurations/array_property'
 require 'xcode/configurations/key_value_array_property'
+require 'xcode/configurations/enumeration_property'
 
 module Xcode
   
@@ -250,6 +251,59 @@ module Xcode
     # Build Setting - "OTHER_LDFLAGS"
     # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW76
     property :other_linker_flags, "OTHER_LDFLAGS", SpaceDelimitedString
+
+    # @attribute
+    # Build Setting - "DEAD_CODE_STRIPPING"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-DontLinkElementID_216
+    property :dead_code_stripping, "DEAD_CODE_STRIPPING", BooleanProperty
+
+    # @attribute
+    # Build Setting - "DEBUG_INFORMATION_FORMAT"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-DontLinkElementID_54
+    property :debug_information_format, "DEBUG_INFORMATION_FORMAT", 
+      EnumerationProperty.new('stabs','dwarf','dwarf-with-dsym')
+
+    # @attribute
+    # Build Setting - "GCC_ENABLE_OBJC_EXCEPTIONS"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW109
+    property :enable_objc_exceptions, "GCC_ENABLE_OBJC_EXCEPTIONS", BooleanProperty
+
+    # @attribute
+    # Build Setting - "GCC_WARN_64_TO_32_BIT_CONVERSION"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html
+    property :warn_64_to_32_bit_conversion, "GCC_WARN_64_TO_32_BIT_CONVERSION", BooleanProperty
+
+    # @attribute
+    # Build Setting - "GCC_WARN_ABOUT_MISSING_PROTOTYPES"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html
+    property :warn_about_missing_protoypes, "GCC_WARN_ABOUT_MISSING_PROTOTYPES", BooleanProperty
+
+    # @attribute
+    # Build Setting - "LINK_WITH_STANDARD_LIBRARIES"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-DontLinkElementID_227
+    property :link_with_standard_libraries, "LINK_WITH_STANDARD_LIBRARIES", BooleanProperty
+
+    # @attribute
+    # Build Setting - "INSTALL_PATH"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-DontLinkElementID_82
+    property :install_path, "INSTALL_PATH", StringProperty
+
+    # @attribute
+    # Build Setting - "MACH_O_TYPE"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-DontLinkElementID_39
+    property :mach_o_type, "MACH_O_TYPE", 
+      EnumerationProperty.new('mh_executable', 'mh_bundle', 'mh_object', 'mh_dylib', 'staticlib')
+
+    # @attribute
+    # Build Setting - "MACOSX_DEPLOYMENT_TARGET"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-DontLinkElementID_188
+    property :macosx_deployment_target, "MACOSX_DEPLOYMENT_TARGET", 
+      EnumerationProperty.new('10.7','10.6','10.5','10.4','10.3','10.2','10.1')
+
+    # @attribute
+    # Build Setting - "VALID_ARCHS"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-DontLinkElementID_43
+    property :valid_archs, "VALID_ARCHS", SpaceDelimitedString
     
     #
     # Opens the info plist associated with the configuration and allows you to 
