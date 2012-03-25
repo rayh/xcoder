@@ -36,6 +36,10 @@ module Xcode
     #   functionality.
     attr_reader :registry
     
+    # @return [ProjectReference] the project object that is contained in the 
+    #   project file that contains additional information
+    attr_reader :project
+    
     #
     # Initialized with a specific path and sdk.
     # 
