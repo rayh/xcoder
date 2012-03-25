@@ -51,6 +51,11 @@ You can either use the user's login keychain, another named keychain, or simply 
 		# import certs into the keychain
 		# perform builds within this keychain's context
 	end	# Keychain is deleted
+	
+Or, you can create a temporary keychain that will be deleted when the process exits:
+
+	keychain = Xcode::Keychain.temp
+
 		
 #### Importing a certificate
 
