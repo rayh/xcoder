@@ -263,10 +263,16 @@ module Xcode
     property :debug_information_format, "DEBUG_INFORMATION_FORMAT", 
       EnumerationProperty.new('stabs','dwarf','dwarf-with-dsym')
 
+
     # @attribute
     # Build Setting - "GCC_ENABLE_OBJC_EXCEPTIONS"
     # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW109
     property :enable_objc_exceptions, "GCC_ENABLE_OBJC_EXCEPTIONS", BooleanProperty
+    
+    # @attribute
+    # Build Setting - "GCC_GENERATE_DEBUGGING_SYMBOLS"
+    # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html
+    property :generate_debugging_symbols, "GCC_GENERATE_DEBUGGING_SYMBOLS", BooleanProperty
 
     # @attribute
     # Build Setting - "GCC_WARN_64_TO_32_BIT_CONVERSION"
@@ -303,7 +309,7 @@ module Xcode
     # @attribute
     # Build Setting - "VALID_ARCHS"
     # @see https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-DontLinkElementID_43
-    property :valid_archs, "VALID_ARCHS", SpaceDelimitedString
+    property :valid_architectures, "VALID_ARCHS", SpaceDelimitedString
     
     #
     # Opens the info plist associated with the configuration and allows you to 
