@@ -163,7 +163,7 @@ module Xcode
     #   phase.
     # 
     def add_build_file_with_public_privacy(file)
-      add_build_file file, { "ATTRIBUTES" => 'Public' }
+      add_build_file file, { "ATTRIBUTES" => [ 'Public' ] }
     end
 
     #
@@ -179,7 +179,7 @@ module Xcode
     #   phase.
     # 
     def add_build_file_with_private_privacy(file)
-      add_build_file file, { "ATTRIBUTES" => 'Private' }
+      add_build_file file, { "ATTRIBUTES" => [ 'Private' ] }
     end
 
     
