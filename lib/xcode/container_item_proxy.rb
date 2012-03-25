@@ -1,6 +1,14 @@
 
 module Xcode
   
+  #
+  # Within a Target Dependency there is a ContainerItemProxy object which likely
+  # holds the reference to the project (important if there are multiple projects)
+  # and the target within that project.
+  # 
+  # @see TargetDependency#create_dependency_on
+  # @see Target#add_dependency
+  # 
   module ContainerItemProxy
     
     # 
@@ -23,7 +31,9 @@ module Xcode
         'containerPortal' => project_identifier,
         'proxyType' => 1,
         'remoteGlobalIDString' => target_identifier,
-        # @todo I am not sure how this is set; perhaps just the target name
+        # @todo It is unclear if the remoteInfo name is necessary and it is currently
+        #   unclear to me how this value is set. At the moment it simply set with
+        #   the target name supplied.
         'remoteInfo' => target_name }
     end
     

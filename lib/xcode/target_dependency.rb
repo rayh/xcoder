@@ -1,6 +1,16 @@
 require 'xcode/container_item_proxy'
 
 module Xcode
+  
+  #
+  # Targets, usually Aggregate targets, have dependencies on other targets. This
+  # object manages that relationship. While the class-level default properties 
+  # method will return the properties necessary for a target it does not configure
+  # it correctly until the method #create_dependency_on is called with the particular
+  # target.
+  # 
+  # @see Target#add_dependency
+  # 
   module TargetDependency
     
     #
@@ -13,6 +23,10 @@ module Xcode
     #           targetProxy = 98A30E0314CDF2D800DF81EF /* PBXContainerItemProxy */;
     #         };
     #     /* End PBXTargetDependency section */
+    # 
+    # @return [Hash] the properties default to a target dependency; however they
+    #   are all nil and this properties list is incomplete until the property
+    #   values are setup through #create_dependency_on
     # 
     def self.default
       { 'isa' => 'PBXTargetDependency',
