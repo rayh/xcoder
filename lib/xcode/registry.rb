@@ -11,6 +11,8 @@ require 'xcode/configuration_owner'
 require 'xcode/target'
 require 'xcode/variant_group'
 require 'xcode/project_reference'
+require 'xcode/target_dependency'
+require 'xcode/container_item_proxy'
 
 module Xcode
   
@@ -78,6 +80,8 @@ module Xcode
         'PBXResourcesBuildPhase' => BuildPhase,
         'PBXHeadersBuildPhase' => BuildPhase,
         'PBXShellScriptBuildPhase' => BuildPhase,
+        'PBXTargetDependency' => TargetDependency,
+        'PBXContainerItemProxy' => ContainerItemProxy,
         'PBXBuildFile' => BuildFile,
         'PBXVariantGroup' => VariantGroup,
         'XCConfigurationList' => ConfigurationList,
