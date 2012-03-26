@@ -3,7 +3,7 @@ module Xcode
   module BuildPhase
     
     # 
-    # @return [BuildPhase] the framework specific build phase of the target.
+    # @return [BuildPhase] properties for a link frameworks build phase 
     # 
     # @example
     # 
@@ -26,7 +26,7 @@ module Xcode
     end
     
     #
-    # @return [BuildPhase] the sources specific build phase of the target.
+    # @return [BuildPhase] properties for a compile sources build phase
     # 
     def self.sources
       { 'isa' => 'PBXSourcesBuildPhase',
@@ -36,10 +36,34 @@ module Xcode
     end
     
     #
-    # @return [BuildPhase] the resources specific build phase of the target.
+    # @return [BuildPhase] properties for a resources build phase
     # 
     def self.resources
       { 'isa' => 'PBXResourcesBuildPhase',
+        'buildActionMask' => '2147483647',
+        'files' => [],
+        'runOnlyForDeploymentPostprocessing' => '0' }
+    end
+    
+    #
+    # @return [BuildPhase] properties for a run shell script build phase
+    # 
+    def self.run_script
+      { 'isa' => 'PBXShellScriptBuildPhase',
+        'buildActionMask' => '2147483647',
+        'files' => [],
+        'inputPaths' => [],
+        'outputPaths' => [],
+        'shellPath' => '/bin/sh',
+        'shellScript' => '',
+        'runOnlyForDeploymentPostprocessing' => '0' }
+    end
+    
+    #
+    # @return [BuildPhase] properties for a copy headers build phase
+    # 
+    def self.copy_headers
+      { 'isa' => 'PBXHeadersBuildPhase',
         'buildActionMask' => '2147483647',
         'files' => [],
         'runOnlyForDeploymentPostprocessing' => '0' }
@@ -116,18 +140,48 @@ module Xcode
     end
     
     #
-    # Add the specified file to the Build Phase.
-    #
-    #  
+    # Add the specified file to the Build Phase that will have specific compiler
+    # flags to disable ARC.
     # 
     # @param [FileReference] file the FileReference Resource to add to the build 
-    # phase.
-    # @param [Hash] settings additional build settings that are specifically applied
-    #   to this individual file.
+    #   phase.
     #
     def add_build_file_without_arc(file)
       add_build_file file, { 'COMPILER_FLAGS' => "-fno-objc-arc" }
     end
+    
+    #
+    # Add the specific file to the Build Phase with the privacy settings used
+    # for header files that are added to the build headers phase.
+    # 
+    # @example Add a source header file as public
+    # 
+    #     spec_file = project.group('Specs/Controller').create_file('FirstControllerSpec.h')
+    #     project.target('Specs').headers_build_phase.add_build_file_with_public_privacy
+    # 
+    # @param [FileReference] file the FileReference Resource to add to the build
+    #   phase.
+    # 
+    def add_build_file_with_public_privacy(file)
+      add_build_file file, { "ATTRIBUTES" => [ 'Public' ] }
+    end
+
+    #
+    # Add the specific file to the Build Phase with the privacy settings used
+    # for header files that are added to the build headers phase.
+    # 
+    # @example Add a source header file as private
+    # 
+    #     spec_file = project.group('Specs/Controller').create_file('FirstControllerSpec.h')
+    #     project.target('Specs').headers_build_phase.add_build_file_with_private_privacy
+    # 
+    # @param [FileReference] file the FileReference Resource to add to the build
+    #   phase.
+    # 
+    def add_build_file_with_private_privacy(file)
+      add_build_file file, { "ATTRIBUTES" => [ 'Private' ] }
+    end
+
     
   end
   

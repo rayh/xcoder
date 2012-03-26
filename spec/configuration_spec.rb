@@ -77,7 +77,7 @@ describe Xcode::Configuration do
       subject.set 'OTHER_LDFLAGS', '-NONE -FOR'
       subject.append 'OTHER_LDFLAGS', '-FOR'
       subject.append 'OTHER_LDFLAGS', [ '-FOR' , '-ME' ]
-      settings['OTHER_LDFLAGS'].should == "-FOR -ME"
+      settings['OTHER_LDFLAGS'].should == "-NONE -FOR -ME"
     end
   end
   
@@ -306,7 +306,31 @@ describe Xcode::Configuration do
       end
     end
   end
-  
+
+  describe "debug_information_format" do
+    
+    before(:each) do
+      subject.build_settings['DEBUG_INFORMATION_FORMAT'] = 'stabs'
+    end
+    
+    it "should be able to correctly get the property" do
+      subject.debug_information_format.should == 'stabs'
+    end
+    
+    it "should be able to correctly set the property" do
+      subject.debug_information_format = 'dwarf' 
+    end
+    
+    it "should raise an error when attempting to set a value not in the enumeration" do
+      expect { subject.debug_information_format = 'unknown' }.to raise_error
+    end
+    
+    it "should set the new value when appending a value" do
+      subject.append_to_debug_information_format 'dwarf'
+    end
+    
+  end
+
   
   let(:all_properties) do
     string_properties + 

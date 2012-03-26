@@ -7,37 +7,39 @@ module Xcode
   # be to generate the application, generate a universal framework, or execute
   # tests.
   # 
+  # Creating a target is usually done within a Project. There a specific target
+  # type can be specified.
   # 
-  # @example Target as Hash
-  # 
-  #    E21D8AA914E0F817002E56AA /* newtarget */ = {
-  #        isa = PBXNativeTarget;
-  #        buildConfigurationList = E21D8ABD14E0F817002E56AA /* Build configuration list for PBXNativeTarget "newtarget" */;
-  #        buildPhases = (
-  #          E21D8AA614E0F817002E56AA /* Sources */,
-  #          E21D8AA714E0F817002E56AA /* Frameworks */,
-  #          E21D8AA814E0F817002E56AA /* Resources */,
-  #        );
-  #        buildRules = (
-  #        );
-  #        dependencies = (
-  #        );
-  #        name = newtarget;
-  #        productName = newtarget;
-  #        productReference = E21D8AAA14E0F817002E56AA /* newtarget.app */;
-  #        productType = "com.apple.product-type.application";
-  #      };
-  #   
-  # @todo provide more targets, based on the properties hash generated from Xcode
+  # @see Project#create_target
   # 
   module Target
     
     #
-    # This is a generic properties hash for an ios target
-    # @todo this target should create by default the sources, frameworks, and 
-    #   resources build phases.
+    # This is a generic properties hash for a native target
+    #
+    # @example Native Target Properties
     # 
-    def self.ios
+    #     E21D8AA914E0F817002E56AA /* newtarget */ = {
+    #        isa = PBXNativeTarget;
+    #        buildConfigurationList = E21D8ABD14E0F817002E56AA /* Build configuration list for PBXNativeTarget "newtarget" */;
+    #        buildPhases = (
+    #          E21D8AA614E0F817002E56AA /* Sources */,
+    #          E21D8AA714E0F817002E56AA /* Frameworks */,
+    #          E21D8AA814E0F817002E56AA /* Resources */,
+    #        );
+    #        buildRules = (
+    #        );
+    #        dependencies = (
+    #        );
+    #        name = newtarget;
+    #        productName = newtarget;
+    #        productReference = E21D8AAA14E0F817002E56AA /* newtarget.app */;
+    #        productType = "com.apple.product-type.application";
+    #      };
+    # 
+    # @return [Hash] the properties default to a native target
+    # 
+    def self.native
       { 'isa' => 'PBXNativeTarget',
         'buildConfigurationList' => nil,
         'buildPhases' => [],
@@ -47,6 +49,47 @@ module Xcode
         'productName' => '',
         'productReference' => '',
         'productType' => 'com.apple.product-type.application' }
+    end
+
+    #
+    # This is a generic properties hash for an a bundle target. It shares numerous
+    # similarities with the native target, it simply has a bundle product type.
+    # 
+    # @return [Hash] the properties default to a bundle target
+    # 
+    def self.bundle
+      self.native.merge('productType' => 'com.apple.product-type.bundle')
+    end
+    
+    #
+    # This is a generic properties hash for an aggregate target.
+    # 
+    # @example Aggregate Target properties
+    # 
+    #     /* Begin PBXAggregateTarget section */
+    #         98E1216814CDEF42009CE4EE /* Facebook Universal Framework */ = {
+    #           isa = PBXAggregateTarget;
+    #           buildConfigurationList = 98E1216914CDEF42009CE4EE /* Build configuration list for PBXAggregateTarget "Facebook Universal Framework" */;
+    #           buildPhases = (
+    #             98E1216E14CDEF4C009CE4EE /* ShellScript */,
+    #           );
+    #           dependencies = (
+    #             98A30E0414CDF2D800DF81EF /* PBXTargetDependency */,
+    #           );
+    #           name = "Facebook Universal Framework";
+    #           productName = Facebook;
+    #         };
+    #     /* End PBXAggregateTarget section */
+    # 
+    # @return [Hash] the properties defalut to a aggregate target
+    # 
+    def self.aggregate
+      { 'isa' => 'PBXAggregateTarget',
+        'buildConfigurationList' => nil,
+        'buildPhases' => [],
+        'dependencies' => [],
+        'name' => '',
+        'productName' => '' }
     end
     
     # @return [Project] the reference to the project for which these targets reside.
@@ -73,15 +116,40 @@ module Xcode
       build_phase 'PBXResourcesBuildPhase', &block
     end
     
+    #
+    # @return [BuildPhase] the run script specific build phase of the target.
+    # 
+    def run_script_build_phase(&block)
+      build_phase 'PBXShellScriptBuildPhase', &block
+    end
+    
+    #
+    # @return [BuildPhase] the copy headers specific build phase of the target.
+    # 
+    def copy_headers_build_phase(&block)
+      build_phase 'PBXHeadersBuildPhase', &block
+    end
+    
     def build_phase(type,&block)
       found_build_phase = build_phases.find {|phase| phase.isa == type }
       found_build_phase.instance_eval(&block) if block_given?
       found_build_phase
     end
+    
     #
-    # @example building the three main phases for a target.
+    # Create a build phase with the given name. Available build phases:
+    # 
+    # * sources
+    # * resources
+    # * framework 
+    # * run_script
+    # * copy_headers 
+    # 
+    # @example Creating the sources build phase
     # 
     #     target.create_build_phase :sources
+    #
+    # @example Creating the resources build phase (with optional block)
     # 
     #     target.create_build_phase :resources do |phase|
     #       # each phase that is created.
@@ -122,6 +190,20 @@ module Xcode
         
         build_phase.save!
       end
+      
+    end
+    
+    #
+    # @param [Target] target the target that the current target is dependent on
+    #   for compilation.
+    #
+    def add_dependency(target)
+      
+      target_dependency = TargetDependency.default
+      target_dependency = @registry.add_object target_dependency 
+      target_dependency.create_dependency_on target
+      
+      target_dependency
       
     end
     
