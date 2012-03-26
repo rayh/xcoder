@@ -221,51 +221,78 @@ It is important to note that Xcode gets cranky when the Xcode project file is ch
 
 ### Add the source and header file to the project
 
-    # Copy the physical source files into the project path `Vendor/Reachability`
-    FileUtils.cp_r "examples/Reachability/Vendor", "spec/TestProject"
-    
-    source_files = [ { 'name' => 'Reachability.m', 'path' => 'Vendor/Reachability/Reachability.m' },
-                     { 'name' => 'Reachability.h', 'path' => 'Vendor/Reachability/Reachability.h' } ]
+```ruby
+# Copy the physical source files into the project path `Vendor/Reachability`
+FileUtils.cp_r "examples/Reachability/Vendor", "spec/TestProject"
 
+source_files = [ 'Vendor/Reachability/Reachability.m' , 'Vendor/Reachability/Reachability.h' ]
 
-     # Create and traverse to the group Reachability within the Vendor folder
-     project.group('Vendor/Reachability') do
-       # Create files for each source file defined above
-       source_files.each |source| create_file source }
-     end
-     
+# Create and traverse to the group Reachability within the Vendor folder
+project.group('Vendor/Reachability') do
+ # Create files for each source file defined above
+ source_files.each |source| create_file source }
+end
+```     
 
 Within the project file the groups in the path are created or found and then file references are added for the two specified source files. Xcoder only updates the logical project file, it does not copy physical files, that is done by the FileUtils.
 
 
-### Adding source file to the sources build phase
+### Adding source file to the sources build phase of a target
 
-    source_file = project.file('Vendor/Reachability/Reachability.m')
+```ruby
+source_file = project.file('Vendor/Reachability/Reachability.m')
 
-    # Select the main target of the project and add the source file to the build phase.
-
-    project.target('TestProject').sources_build_phase do
-      add_build_file source_file
-    end
+project.target('TestProject').sources_build_phase do
+  add_build_file source_file
+end
+```
 
 Adding source files does not automatically include it in any of the built targets. That is done after you add the source file to the `sources_build_phase`. First we find the source file reference, select our target and then add it as a build file.
 
-### Adding a System Framework
+### Adding a System Framework to the project and built in a target
 
-    cfnetwork_framework = project.frameworks_group.create_system_framework 'CFNetwork'
+```ruby
+cfnetwork_framework = project.frameworks_group.create_system_framework 'CFNetwork'
 
-    project.target('TestProject').framework_build_phase do
-      add_build_file cfnetwork_framework
-    end 
-    
+project.target('TestProject').framework_build_phase do
+  add_build_file cfnetwork_framework
+end
+```
+
 The **CFNetwork.framework** is added to the `Frameworks` group of the project and then added to the frameworks build phase.
+
+### Add additional build phases to a target
+
+```ruby
+target.create_build_phases :copy_headers, :run_script
+```
+
+### Configure the Release build settings of a target
+
+```ruby
+release_config = target.config 'Release'
+release_config.set 'ALWAYS_SEARCH_USER_PATHS', false
+
+target.config 'Release' do |config|
+  config.always_search_user_paths = false
+  config.architectures = [ "$(ARCHS_STANDARD_32_BIT)", 'armv6' ]
+  config.copy_phase_strip = true
+  config.dead_code_stripping = false
+  config.debug_information_format = "dwarf-with-dsym"
+  config.c_language_standard = 'gnu99'
+end
+```
+
+Configuration settings can be accessed through `get`, `set`, and `append` with their [Xcode Build Names](https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW110) or through convenience methods generated for most of the build settings (`property_name`, `property_name=`, `append_to_property_name`). The entire list of property names can be found in the [configuration](/rayh/xcoder/blob/master/lib/xcode/configuration.rb). 
+
 
 ### Saving your changes!
 
+```ruby
+project.save!
+```
 
-    project.save!
-
-The saved file output is ugly compared to what you may normally see when you view a Xcode project file. Luckily, Xcode will fix the format of the file if you make any small changes to the project that require it to save.
+The saved file output is slightly different than what you normally see when you view a Xcode project file. Luckily, Xcode will fix the format of the file if you make any small changes to the project that requires it to save.
 
 ### More Examples
 
