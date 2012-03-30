@@ -50,6 +50,9 @@ module Xcode
       
       json = JSON.parse(response.join(''))
       puts " + Done, got: #{json.inspect}"
+      
+      yield(json) if block_given?
+      
       json
     end
   end

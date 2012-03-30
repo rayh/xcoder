@@ -70,7 +70,6 @@ module Xcode
       testflight = Xcode::Testflight.new(api_token, team_token)
       yield(testflight) if block_given?
       testflight.upload(ipa_path, dsym_zip_path)
-      self
     end
     
     def clean
