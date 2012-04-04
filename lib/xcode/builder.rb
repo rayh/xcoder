@@ -78,7 +78,7 @@ module Xcode
       cmd << "-project \"#{@target.project.path}\""
       cmd << "-sdk #{@sdk}" unless @sdk.nil?
       
-      cmd << "-scheme #{@scheme.name}" unless @scheme.nil?
+      cmd << "-scheme \"#{@scheme.name}\"" unless @scheme.nil?
       cmd << "-target \"#{@target.name}\"" if @scheme.nil?
       cmd << "-configuration \"#{@config.name}\"" if @scheme.nil?
       
@@ -191,7 +191,7 @@ module Xcode
       cmd << "-sdk #{sdk}" unless sdk.nil?
       cmd << "-project \"#{@target.project.path}\""
       
-      cmd << "-scheme #{@scheme.name}" unless @scheme.nil?
+      cmd << "-scheme \"#{@scheme.name}\"" unless @scheme.nil?
       cmd << "-target \"#{@target.name}\"" if @scheme.nil?
       cmd << "-configuration \"#{@config.name}\"" if @scheme.nil?
       
