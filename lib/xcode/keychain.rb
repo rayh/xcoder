@@ -1,4 +1,50 @@
 module Xcode
+  
+  module Keychains
+    
+    #
+    # Yield when the keychain is in the search path and remove it when the block returns
+    #
+    def self.with_keychain_in_search_path(kc, &block)
+      keychains = self.search_path
+      begin 
+        self.search_path = [kc] + keychains
+        yield
+      ensure
+        self.search_path = keychains
+      end
+    end
+    
+    
+    #
+    # Get the list of search keychains
+    #
+    # @return [Array<Xcode::Keychain>] the array of keychains the system currently searches
+    #
+    def self.search_path
+      `security list-keychain`.split.map do |keychain| 
+        Xcode::Keychain.new keychain.strip.gsub(/\"/,'')
+      end
+    end
+    
+    #
+    # Set the keychains search path and order
+    #
+    # @param [Array<Xcode::Keychain>] the array of keychains for the system to search when signing
+    #
+    def self.search_path=(keychains)
+      search_list = keychains.map do |kc|
+        "\"#{kc.path}\""
+      end
+      
+      cmd = []
+      cmd << "security"
+      cmd << "list-keychain"
+      cmd << "-s #{search_list.join(' ')}"
+      Xcode::Shell.execute(cmd)
+    end
+  end
+  
   class Keychain
     attr_accessor :name, :path
     
@@ -144,33 +190,5 @@ module Xcode
       kc
     end
     
-    
-    #
-    # Get the list of search keychains
-    #
-    # @return [Array<Xcode::Keychain>] the array of keychains the system currently searches
-    #
-    def self.keychains
-      `security list-keychain`.split.map do |keychain| 
-        Xcode::Keychain.new keychain.strip.gsub(/\"/,'')
-      end
-    end
-    
-    #
-    # Set the keychains search path and order
-    #
-    # @param [Array<Xcode::Keychain>] the array of keychains for the system to search when signing
-    #
-    def self.keychains=(keychains)
-      search_list = keychains.map do |kc|
-        "\"#{kc.path}\""
-      end
-      
-      cmd = []
-      cmd << "security"
-      cmd << "list-keychain"
-      cmd << "-s #{search_list.join(' ')}"
-      Xcode::Shell.execute(cmd)
-    end
   end
 end

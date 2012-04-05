@@ -4,6 +4,11 @@ require 'xcode/test/ocunit_report_parser.rb'
 require 'xcode/testflight'
 
 module Xcode
+
+  #
+  # This class tries to pull various bits of Xcoder together to provide a higher-level API for common 
+  # project build tasks.
+  #
   class Builder
     attr_accessor :profile, :identity, :build_path, :keychain, :sdk
     
@@ -20,24 +25,12 @@ module Xcode
       @build_path = "#{File.dirname(@target.project.path)}/build/"
     end
     
-    def install_profile
-      return nil if @profile.nil?
-      # TODO: remove other profiles for the same app?
-      p = ProvisioningProfile.new(@profile)
-      
-      ProvisioningProfile.installed_profiles.each do |installed|
-        if installed.identifiers==p.identifiers and installed.uuid==p.uuid
-          installed.uninstall
-        end
-      end
-      
-      p.install
-      p
-    end
     
     def build(sdk=@sdk)    
       cmd = build_command(@sdk)
-      Xcode::Shell.execute(cmd)
+      with_keychain do
+        Xcode::Shell.execute(cmd)
+      end
       self
     end
     
@@ -137,7 +130,9 @@ module Xcode
         cmd << "--embed \"#{@profile}\""
       end
       
-      Xcode::Shell.execute(cmd)
+      with_keychain do
+        Xcode::Shell.execute(cmd)
+      end
       
       # package dSYM
       cmd = []
@@ -183,6 +178,29 @@ module Xcode
     
     
     private 
+    
+    def with_keychain(&block)
+      if @keychain.nil?
+        yield
+      else
+        Xcode::Keychains.with_keychain_in_search_path @keychain, &block
+      end
+    end
+    
+    def install_profile
+      return nil if @profile.nil?
+      # TODO: remove other profiles for the same app?
+      p = ProvisioningProfile.new(@profile)
+      
+      ProvisioningProfile.installed_profiles.each do |installed|
+        if installed.identifiers==p.identifiers and installed.uuid==p.uuid
+          installed.uninstall
+        end
+      end
+      
+      p.install
+      p
+    end
     
     def build_command(sdk=@sdk)
       profile = install_profile
