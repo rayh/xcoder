@@ -38,4 +38,19 @@ describe Xcode::Keychain do
     kc = Xcode::Keychain.login
     File.exists?(kc.path).should==true
   end
+  
+  it "should read the current keychain search path" do
+    Xcode::Keychain.keychains[0].path.should=~/login.keychain/
+  end
+  
+  it "should update the keychain search path" do
+    keychains = Xcode::Keychain.keychains
+    test_keychain = Xcode::Keychain.new("#{File.dirname(__FILE__)}/Provisioning/Test.keychain")
+    begin 
+      Xcode::Keychain.keychains = [test_keychain] + keychains
+      `security list-keychains`.include?(test_keychain.path).should be_true
+    ensure
+      Xcode::Keychain.keychains = keychains
+    end
+  end
 end
