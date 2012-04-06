@@ -41,8 +41,8 @@ module Xcode
       self
     end
     
-    def test
-      cmd = build_command('iphonesimulator')
+    def test(sdk = 'iphonesimulator')
+      cmd = build_command(sdk)
       cmd << "TEST_AFTER_BUILD=YES"
       cmd << "TEST_HOST=''"
       
