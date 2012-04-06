@@ -71,7 +71,8 @@ describe Xcode::Builder do
           "OBJROOT=\"#{File.dirname(configuration.target.project.path)}/build/\"", 
           "SYMROOT=\"#{File.dirname(configuration.target.project.path)}/build/\"",
           "TEST_AFTER_BUILD=YES",
-          "TEST_HOST=''",]
+          # "TEST_HOST=''",
+          ]
       end
       
       it "should be able to run the test target" do
@@ -116,7 +117,7 @@ describe Xcode::Builder do
         [ "xcodebuild",
           "-sdk iphoneos",
           "-project \"#{scheme.project.path}\"",
-          "-scheme #{scheme.name}",
+          "-scheme \"#{scheme.name}\"",
           "OBJROOT=\"#{File.dirname(scheme.project.path)}/build/\"", 
           "SYMROOT=\"#{File.dirname(scheme.project.path)}/build/\"" ]
       end
@@ -134,7 +135,7 @@ describe Xcode::Builder do
         [ "xcodebuild",
           "-project \"#{scheme.project.path}\"",
           "-sdk iphoneos",
-          "-scheme #{scheme.name}",
+          "-scheme \"#{scheme.name}\"",
           "OBJROOT=\"#{File.dirname(scheme.project.path)}/build/\"", 
           "SYMROOT=\"#{File.dirname(scheme.project.path)}/build/\"",
           "clean" ]
