@@ -24,7 +24,14 @@ describe Xcode::Builder do
         Xcode::Shell.should_receive(:execute).with(default_build_parameters)
         subject.build
       end
-
+      
+      it "should allow the override of the sdk" do
+        expected = default_build_parameters
+        expected[1] = '-sdk macosx10.7'
+        Xcode::Shell.should_receive(:execute).with(expected)
+        subject.build :sdk => 'macosx10.7'
+      end
+      
     end
     
     describe "#testflight" do
@@ -78,6 +85,13 @@ describe Xcode::Builder do
       it "should be able to run the test target" do
         Xcode::Shell.should_receive(:execute).with(default_test_parameters, false)
         subject.test
+      end
+      
+      it "should allow the override of the sdk" do
+        expected = default_test_parameters
+        expected[1] = '-sdk macosx10.7'
+        Xcode::Shell.should_receive(:execute).with(expected, false)
+        subject.test :sdk => 'macosx10.7'
       end
       
     end

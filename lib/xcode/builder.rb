@@ -26,16 +26,16 @@ module Xcode
     end
     
     
-    def build(sdk=@sdk)    
-      cmd = build_command(@sdk)
+    def build(options = {:sdk => @sdk})    
+      cmd = build_command(options)
       with_keychain do
         Xcode::Shell.execute(cmd)
       end
       self
     end
-    
-    def test
-      cmd = build_command('iphonesimulator')
+      
+    def test(options = {:sdk => 'iphonesimulator'})
+      cmd = build_command(options)
       cmd << "TEST_AFTER_BUILD=YES"
       # cmd << "TEST_HOST=''"
       
@@ -202,11 +202,12 @@ module Xcode
       p
     end
     
-    def build_command(sdk=@sdk)
+    def build_command(options = {})
+      options = {:sdk => @sdk}.merge options
       profile = install_profile
       cmd = []
       cmd << "xcodebuild"
-      cmd << "-sdk #{sdk}" unless sdk.nil?
+      cmd << "-sdk #{options[:sdk]}" unless options[:sdk].nil?
       cmd << "-project \"#{@target.project.path}\""
       
       cmd << "-scheme \"#{@scheme.name}\"" unless @scheme.nil?
