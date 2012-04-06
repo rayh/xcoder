@@ -10,7 +10,7 @@ module Xcode
   # project build tasks.
   #
   class Builder
-    attr_accessor :profile, :identity, :build_path, :keychain, :sdk
+    attr_accessor :profile, :identity, :build_path, :keychain, :sdk, :objroot, :symroot
     
     def initialize(config)
       if config.is_a? Xcode::Scheme
@@ -23,6 +23,8 @@ module Xcode
       @sdk = @target.project.sdk
       @config = config
       @build_path = "#{File.dirname(@target.project.path)}/build/"
+      @objroot = @build_path
+      @symroot = @build_path
     end
     
     
@@ -216,8 +218,8 @@ module Xcode
       
       cmd << "OTHER_CODE_SIGN_FLAGS='--keychain #{@keychain.path}'" unless @keychain.nil?
       cmd << "CODE_SIGN_IDENTITY=\"#{@identity}\"" unless @identity.nil?
-      cmd << "OBJROOT=\"#{@build_path}\""
-      cmd << "SYMROOT=\"#{@build_path}\""
+      cmd << "OBJROOT=\"#{@objroot}\""
+      cmd << "SYMROOT=\"#{@symroot}\""
       cmd << "PROVISIONING_PROFILE=#{profile.uuid}" unless profile.nil?
       cmd
     end
