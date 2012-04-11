@@ -12,7 +12,7 @@ module Xcode
       @path = File.expand_path path
       
       File.open(@path).read.split(/<FileRef/).each do |line|
-        if line=~/location\s*=\s*\"group\:(.+?)\"/
+        if line=~/location\s*=\s*[\"\']group\:(.+?)[\"\']/
           project_path = "#{workspace_root}/#{$1}"
           @projects << Xcode::Project.new(project_path)
         end
