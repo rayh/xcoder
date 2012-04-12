@@ -77,12 +77,14 @@ describe Xcode::Test::OCUnitReportParser do
   
   it "should detect a passing report" do
     t = example_report
-    t.failed?.should==false
+    t.should be_succeed
+    t.should_not be_failed
   end
   
   it "should detect a failing report" do 
     t = example_failing_report
-    t.failed?.should==true
+    t.should_not be_succeed
+    t.should be_failed
   end
   
   it "should record a failure" do
