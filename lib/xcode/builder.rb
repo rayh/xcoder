@@ -1,6 +1,6 @@
 require 'xcode/shell'
 require 'xcode/provisioning_profile'
-require 'xcode/test/ocunit_report_parser.rb'
+require 'xcode/test/parsers/ocunit_parser.rb'
 require 'xcode/testflight'
 
 module Xcode
@@ -41,7 +41,7 @@ module Xcode
       cmd << "TEST_AFTER_BUILD=YES"
       # cmd << "TEST_HOST=''"
       
-      parser = Xcode::Test::OCUnitReportParser.new
+      parser = Xcode::Test::Parsers::OCUnitParser.new
       yield(parser) if block_given?
       
       begin
@@ -51,11 +51,11 @@ module Xcode
       rescue => e
         parser.flush
         # Let the failure bubble up unless parser has got an error from the output
-        raise e unless parser.failed?
+        raise e unless parser.report.failed?
       end
-      exit 1 if parser.failed?
+      exit 1 if parser.report.failed?
       
-      self
+      parser.report
     end
     
     def testflight(api_token, team_token)
