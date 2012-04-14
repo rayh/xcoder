@@ -43,6 +43,10 @@ module Xcode
         @unexpected
       end
       
+      def succeed?
+        !self.failed?
+      end
+      
       def failed?
         return true if unexpected?
         

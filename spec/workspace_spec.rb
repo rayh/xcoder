@@ -3,9 +3,9 @@ require_relative 'spec_helper'
 describe Xcode::Workspace do 
   it "should enumerate all workspaces in current directory" do 
     workspaces = Xcode.workspaces
-    workspaces.size.should==1
-    workspaces.first.name.should=="TestWorkspace"
-    workspaces.first.projects.size.should==1
+    workspaces.size.should == 2
+    workspaces.first.name.should == "TestWorkspace"
+    workspaces.first.projects.size.should == 1
   end
   
   it "should fetch workspace by name" do 
@@ -15,6 +15,11 @@ describe Xcode::Workspace do
   
   it "should fetch workspace by name with extension and path" do 
     w = Xcode.workspace "#{File.dirname(__FILE__)}/TestWorkspace.xcworkspace"
+    w.should_not be_nil
+  end
+  
+  it "should handle workspace that use ' in the XML" do 
+    w = Xcode.workspace "#{File.dirname(__FILE__)}/TestWorkspace2.xcworkspace"
     w.should_not be_nil
   end
   

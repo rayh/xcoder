@@ -1,4 +1,5 @@
 require 'xcode/project'
+require 'nokogiri'
 
 module Xcode
   class Workspace
@@ -11,9 +12,11 @@ module Xcode
       @projects = []
       @path = File.expand_path path
       
-      File.open(@path).read.split(/<FileRef/).each do |line|
-        if line=~/location\s*=\s*\"group\:(.+?)\"/
-          project_path = "#{workspace_root}/#{$1}"
+      doc = Nokogiri::XML(open(@path))
+      doc.search("FileRef").each do |file|
+        location = file["location"]
+        if matcher = location.match(/^group:(.+)$/)
+          project_path = "#{workspace_root}/#{matcher[1]}"
           @projects << Xcode::Project.new(project_path)
         end
       end
