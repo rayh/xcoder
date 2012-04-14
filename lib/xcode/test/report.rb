@@ -71,14 +71,15 @@ module Xcode
       end
       
       def in_current_suite
-        raise InvalidStateException.new("There is no active suite") if @suites.size==0 or !@suites.last.end_time.nil?
+        # raise InvalidStateException.new("There is no active suite")
+        return if @suites.size==0 or !@suites.last.end_time.nil?
         yield @suites.last
       end
     
       def in_current_test
         in_current_suite do |suite|
-          raise InvalidStateException.new("There is no active test case") if suite.tests.size==0
-          
+          # raise InvalidStateException.new("There is no active test case")
+          return if suite.tests.size==0
           yield suite.tests.last
         end
       end

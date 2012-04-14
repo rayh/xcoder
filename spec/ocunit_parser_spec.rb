@@ -123,27 +123,6 @@ describe Xcode::Test::Parsers::OCUnitParser do
     failure.data[0].should=~/32225 Bus error: 10/
     failure.data[1].should=~/Test rig/
   end
-  
-  context "illegal state" do
-    it "should raise error when a test starts but there is no active suite" do
-      lambda do
-        parser << "Run test case anExampleTest1"
-        parser << "Test Case '-[AnExampleTestSuite anExampleTest1]' started."
-      end.should raise_error
-    end
-    
-    it "should raise error when a test starts but the previous suite has finsihed" do
-      lambda do
-        parser << "Run test suite AnExampleTestSuite"
-        parser << "Test Suite 'AnExampleTestSuite' started at 2012-02-10 00:37:04 +0000"
-        parser << "Test Suite 'AnExampleTestSuite' finished at 2012-02-10 00:37:04 +0000."
-        
-        parser << "Run test case anExampleTest1"
-        parser << "Test Case '-[AnExampleTestSuite anExampleTest1]' started."
-      end.should raise_error
-    end
-    
-  end
     
 
   context "Junit output" do
