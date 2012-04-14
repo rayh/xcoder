@@ -69,7 +69,7 @@ describe Xcode::Builder do
         Xcode.project('TestProject').target('TestProjectTests').config('Debug')
       end
       
-      let(:default_test_parameters) do
+      let(:iphonesimulator_test_parameters) do
         [ "xcodebuild", 
           "-sdk iphonesimulator", 
           "-project \"#{configuration.target.project.path}\"", 
@@ -78,17 +78,35 @@ describe Xcode::Builder do
           "OBJROOT=\"#{File.dirname(configuration.target.project.path)}/build/\"", 
           "SYMROOT=\"#{File.dirname(configuration.target.project.path)}/build/\"",
           "TEST_AFTER_BUILD=YES",
-          # "TEST_HOST=''",
+          "TEST_HOST=''",
           ]
       end
       
-      it "should be able to run the test target" do
-        Xcode::Shell.should_receive(:execute).with(default_test_parameters, false)
-        subject.test
+      let(:macosx_test_parameters) do
+        [ "xcodebuild", 
+          "-sdk macosx10.7", 
+          "-project \"#{configuration.target.project.path}\"", 
+          "-target \"#{configuration.target.name}\"", 
+          "-configuration \"#{configuration.name}\"", 
+          "OBJROOT=\"#{File.dirname(configuration.target.project.path)}/build/\"", 
+          "SYMROOT=\"#{File.dirname(configuration.target.project.path)}/build/\"",
+          "TEST_AFTER_BUILD=YES",
+          ]
+      end
+      
+      
+      it "should be able to run the test target on iphonesimulator" do
+        Xcode::Shell.should_receive(:execute).with(iphonesimulator_test_parameters, false)
+        subject.test :sdk => 'iphonesimulator'
+      end
+
+      it "should be able to run the test target on macosx10.7" do
+        Xcode::Shell.should_receive(:execute).with(macosx_test_parameters, false)
+        subject.test :sdk => 'macosx10.7'
       end
       
       it "should allow the override of the sdk" do
-        expected = default_test_parameters
+        expected = macosx_test_parameters
         expected[1] = '-sdk macosx10.7'
         Xcode::Shell.should_receive(:execute).with(expected, false)
         subject.test :sdk => 'macosx10.7'
