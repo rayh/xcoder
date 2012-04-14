@@ -18,7 +18,7 @@ module Xcode
         end
     
         def <<(piped_row)
-          case piped_row
+          case piped_row.force_encoding("UTF-8")
     
             when /Test Suite '(\S+)'.*started at\s+(.*)/
               name = $1
@@ -66,7 +66,7 @@ module Xcode
               end
             
             # when /failed with exit code (\d+)/, 
-            when /BUILD FAILED/ 
+            when /BUILD FAILED/
               @report.finish
             
             when /Segmentation fault/

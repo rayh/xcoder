@@ -125,7 +125,16 @@ describe Xcode::Test::Parsers::OCUnitParser do
     failure.data[0].should=~/32225 Bus error: 10/
     failure.data[1].should=~/Test rig/
   end
-    
+  
+  context "encoding" do
+    it "should not fail due to Unicode characters" do
+      expect do
+        string = "2012-04-09 16:56:32.682 otest[81203:7803] E restkit.object_mapping:RKObjectMappingOperation.m:248 Validation failed while mapping attribute at key path boolString to value FAIL. Error: The operation couldn\xE2\x80\x99t be completed. (org.restkit.RestKit.ErrorDomain error 1003.)"
+        string.force_encoding("US-ASCII")
+        parser << string
+      end.not_to raise_error
+    end
+  end
 
   context "Junit output" do
     
