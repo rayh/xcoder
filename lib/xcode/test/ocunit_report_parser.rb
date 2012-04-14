@@ -31,7 +31,11 @@ module Xcode
       def unexpected?
         @unexpected
       end
-      
+
+      def succeed?
+        !self.failed?
+      end
+
       def failed?
         @failed or @unexpected
       end

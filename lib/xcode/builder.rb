@@ -53,9 +53,8 @@ module Xcode
         # Let the failure bubble up unless parser has got an error from the output
         raise e unless parser.failed?
       end
-      exit 1 if parser.failed?
-      
-      self
+      parser
+
     end
     
     def testflight(api_token, team_token)

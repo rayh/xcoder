@@ -94,6 +94,14 @@ describe Xcode::Builder do
         subject.test :sdk => 'macosx10.7'
       end
       
+      it "should not exit when test failed" do
+        Xcode::Shell.stub(:execute)
+        fake_parser = stub(:parser)
+        fake_parser.stub(:failed? => true)
+        Xcode::Test::OCUnitReportParser.stub(:new => fake_parser)
+        subject.test
+      end
+      
     end
 
     describe "#clean" do
@@ -110,7 +118,7 @@ describe Xcode::Builder do
       end
 
 
-      it "should clean the project with the default parametesr" do
+      it "should clean the project with the default parameter" do
         Xcode::Shell.should_receive(:execute).with(default_clean_parameters)
         subject.clean
       end
