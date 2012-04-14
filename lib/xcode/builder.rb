@@ -35,27 +35,36 @@ module Xcode
       end
       self
     end
-      
-    def test(options = {:sdk => 'iphonesimulator'})
+     
+    # 
+    # Invoke the configuration's test target and parse the resulting output
+    #
+    # If a block is provided, the report is yielded for configuration before the test is run
+    #
+    def test(options = {:sdk => 'iphonesimulator'}) #, :parser => :OCUnit })
       cmd = build_command(options)
       cmd << "TEST_AFTER_BUILD=YES"
       # cmd << "TEST_HOST=''"
       
-      parser = Xcode::Test::Parsers::OCUnitParser.new
-      yield(parser) if block_given?
+      report = Xcode::Test::Report.new
+      if block_given?
+        yield(report)
+      else
+        report.add_formatter :stdout
+        report.add_formatter :junit, 'test-reports'
+      end
+      
+      parser = Xcode::Test::Parsers::OCUnitParser.new report
       
       begin
         Xcode::Shell.execute(cmd, false) do |line|
           parser << line
         end
-      rescue => e
+      ensure
         parser.flush
-        # Let the failure bubble up unless parser has got an error from the output
-        raise e unless parser.report.failed?
       end
-      exit 1 if parser.report.failed?
       
-      parser.report
+      report
     end
     
     def testflight(api_token, team_token)

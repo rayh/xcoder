@@ -4,11 +4,13 @@ module Xcode
       class TestResult
         attr_reader :name, :time, :errors, :suite, :data
     
-        def initialize(name, suite)
+        def initialize(suite, name)
           @name = name
           @data = []
           @suite = suite
-          @errors = []
+          @errors = []  
+          
+          @suite.report.notify_observers :before_test, self
         end
     
         def passed?
@@ -22,11 +24,13 @@ module Xcode
         def passed(time)
           @passed = true
           @time = time
+          @suite.report.notify_observers :after_test, self
         end
     
         def failed(time)
           @passed = false
           @time = time
+          @suite.report.notify_observers :after_test, self
         end
       
         def << (line)

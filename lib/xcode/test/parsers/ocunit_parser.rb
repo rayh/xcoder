@@ -8,58 +8,69 @@ module Xcode
       class OCUnitParser
         attr_accessor :report, :builder
         
-        def initialize
-          @report   = Xcode::Test::Report.new
-          @builder  = Xcode::Test::ReportBuilder.new @report
-          
+        def initialize(report = Xcode::Test::Report.new)
+          @report = report          
           yield self if block_given?
         end
     
         def flush
-          @builder.end_all
+          @report.finish
         end
     
         def <<(piped_row)
-          puts piped_row if @debug
-        
           case piped_row
     
             when /Test Suite '(\S+)'.*started at\s+(.*)/
               name = $1
               time = Time.parse($2)
               if name=~/\//
-                @builder.begin_all
+                @report.start
               else
-                @builder.begin_suite(name, time)
+                @report.add_suite name, time
               end
             
             when /Test Suite '(\S+)'.*finished at\s+(.*)./
               time = Time.parse($2)
               name = $1
               if name=~/\//
-                @builder.end_all
+                @report.finish
               else
-                @builder.end_suite(time)
+                @report.in_current_suite do |suite|
+                  suite.finish(time)
+                end
               end
 
             when /Test Case '-\[\S+\s+(\S+)\]' started./
-              @builder.begin_test_case($1)
+              name = $1
+              @report.in_current_suite do |suite|
+                suite.add_test_case name
+              end
 
             when /Test Case '-\[\S+\s+(\S+)\]' passed \((.*) seconds\)/
-              @builder.pass_test_case($2.to_f)
+              duration = $2.to_f
+              @report.in_current_test do |test|
+                test.passed(duration)
+              end
 
             when /(.*): error: -\[(\S+) (\S+)\] : (.*)/
-              @builder.append_error_to_current_test($4,$1)
+              message = $4
+              location = $1
+              @report.in_current_test do |test|
+                test.add_error(message, location)
+              end
             
             when /Test Case '-\[\S+ (\S+)\]' failed \((\S+) seconds\)/
-              @builder.fail_test_case($2.to_f)
+              duration = $2.to_f
+              @report.in_current_test do |test|
+                test.failed(duration)
+              end
             
             # when /failed with exit code (\d+)/, 
             when /BUILD FAILED/ 
-              @builder.end_all
+              @report.finish
             
             when /Segmentation fault/
-              @builder.abort
+              @report.abort
             
             when /Run test case (\w+)/
               # ignore
@@ -68,7 +79,9 @@ module Xcode
             when /Executed (\d+) test, with (\d+) failures \((\d+) unexpected\) in (\S+) \((\S+)\) seconds/
               # ignore
             else
-              @builder.append_line_to_current_test piped_row
+              @report.in_current_test do |test|
+                test << piped_row
+              end
           end # case
         
         end # <<
