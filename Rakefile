@@ -4,10 +4,12 @@ require "yard/rake/yardoc_task"
 
 task :default => [:specs, :build]
 
+desc "Run specs"
 task :specs do
   system "rspec --color --format d --tag ~integration"
 end
 
+desc "Run integration tests"
 task :integration do
   system "rspec --color --format d --tag integration"
 end
