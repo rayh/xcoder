@@ -32,8 +32,18 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7165D46A146B4EA100DE2F0E"
-               BuildableName = "TestProjectTests.octest"
-               BlueprintName = "TestProjectTests"
+               BuildableName = "LogicTests.octest"
+               BlueprintName = "LogicTests"
+               ReferencedContainer = "container:TestProject.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7147F906153E347700763224"
+               BuildableName = "ApplicationTests.octest"
+               BlueprintName = "ApplicationTests"
                ReferencedContainer = "container:TestProject.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -54,6 +64,7 @@
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Debug"
+      ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable>

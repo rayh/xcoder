@@ -1,6 +1,8 @@
 module Xcode
   module Shell
     
+    class ExecutionError < StandardError; end
+    
     def self.execute(bits, show_output=true)
       out = []
       cmd = bits.is_a?(Array) ? bits.join(' ') : bits
@@ -14,7 +16,7 @@ module Xcode
         end 
       end
       #Process.wait
-      raise "Error (#{$?.exitstatus}) executing '#{cmd}'\n\n  #{out.join("  ")}" if $?.exitstatus>0
+      raise ExecutionError.new("Error (#{$?.exitstatus}) executing '#{cmd}'\n\n  #{out.join("  ")}") if $?.exitstatus>0
       #puts "RETURN: #{out.inspect}"
       out
     end

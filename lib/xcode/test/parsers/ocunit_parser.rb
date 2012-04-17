@@ -78,6 +78,8 @@ module Xcode
               # ignore
             when /Executed (\d+) test, with (\d+) failures \((\d+) unexpected\) in (\S+) \((\S+)\) seconds/
               # ignore
+            when /the iPhoneSimulator platform does not currently support application-hosted tests/
+              raise "Application tests are not currently supported by the iphone simulator.  If these are logic tests, try unsetting TEST_HOST in your project config"
             else
               @report.in_current_test do |test|
                 test << piped_row

@@ -7,7 +7,7 @@ describe Xcode::Project do
   describe "Targets" do
     
     let(:expected_first_target) { "TestProject" }
-    let(:expected_second_target) { "TestProjectTests" }
+    let(:expected_second_target) { "LogicTests" }
     
     describe "#targets" do
 

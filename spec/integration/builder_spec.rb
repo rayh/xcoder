@@ -27,9 +27,9 @@ describe Xcode::Builder, :integration => true do
     end
     
     
-    describe "#test" do
+    describe "logic tests" do
       
-      let(:configuration) { Xcode.project('TestProject').target('TestProjectTests').config('Debug') }
+      let(:configuration) { Xcode.project('TestProject').target('LogicTests').config('Debug') }
       let(:subject) { configuration.builder }
       
       it "should be able to run unit tests" do
@@ -45,6 +45,21 @@ describe Xcode::Builder, :integration => true do
         tests = report.suites[0].tests
         tests.count.should==1
         tests[0].should be_passed
+      end
+    
+    end
+    
+    
+    describe "application tests" do
+      
+      # FIXME: known issue with xcodebuild and iphonesimulator application tests (when TEST_HOST is set)
+      let(:configuration) { Xcode.project('TestProject').target('ApplicationTests').config('Debug') }
+      let(:subject) { configuration.builder }
+      
+      it "should be able to run unit tests" do
+        subject.clean
+        report = subject.test
+        report.should be_succeed
       end
     
     end
@@ -78,6 +93,7 @@ describe Xcode::Builder, :integration => true do
     
     describe "#test" do
       
+      # FIXME: cant seem to run tests when part of a scheme
       it "should be able to run unit tests" do
         subject.clean
         report = subject.test

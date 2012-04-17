@@ -66,7 +66,7 @@ describe Xcode::Builder do
     describe "#test" do
       
       let(:configuration) do
-        Xcode.project('TestProject').target('TestProjectTests').config('Debug')
+        Xcode.project('TestProject').target('LogicTests').config('Debug')
       end
       
       let(:iphonesimulator_test_parameters) do
@@ -77,8 +77,7 @@ describe Xcode::Builder do
           "-configuration \"#{configuration.name}\"", 
           "OBJROOT=\"#{File.dirname(configuration.target.project.path)}/build/\"", 
           "SYMROOT=\"#{File.dirname(configuration.target.project.path)}/build/\"",
-          "TEST_AFTER_BUILD=YES",
-          "TEST_HOST=''",
+          "TEST_AFTER_BUILD=YES"
           ]
       end
       
