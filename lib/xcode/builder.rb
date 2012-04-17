@@ -60,6 +60,8 @@ module Xcode
         Xcode::Shell.execute(cmd, false) do |line|
           parser << line
         end
+      rescue => e
+        puts "Test platform exited: #{e.message}"
       ensure
         parser.flush
       end
