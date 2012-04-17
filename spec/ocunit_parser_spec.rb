@@ -45,6 +45,12 @@ describe Xcode::Test::Parsers::OCUnitParser do
     parser.report
   end
   
+  it "should start the report" do
+    parser.report.start_time.should be_nil
+    parser << "Test Suite '/Users/blake/Projects/RestKit/RestKit/Build/Products/Debug-iphonesimulator/RestKitTests.octest(Tests)' started at 2012-04-17 01:36:20 +0000\n"
+    parser.report.start_time.should_not be_nil
+  end
+  
   it "should capture output for a test case" do
     
     failure = example_failing_report.suites.first.tests[0]
