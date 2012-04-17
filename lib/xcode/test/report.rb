@@ -28,9 +28,6 @@ module Xcode
         @observers = []
       
         yield self if block_given?
-        
-        @start_time = Time.now
-        notify_observers :before, self
       end
       
       def add_formatter(format, *args)
@@ -57,6 +54,11 @@ module Xcode
         end
 
         false
+      end
+      
+      def start
+        @start_time = Time.now
+        notify_observers :before, self
       end
       
       def add_suite(name, time=Time.now)
