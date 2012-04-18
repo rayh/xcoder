@@ -71,7 +71,7 @@ describe Xcode::BuildPhase do
         source_file = project.groups.create_file 'publicheader.h'
         subject.add_build_file_with_public_privacy source_file
         subject.build_file('publicheader.h').should_not be_nil
-        subject.file('publicheader.h').settings.should == { 'ATTRIBUTES' => "Public" }
+        subject.file('publicheader.h').settings.should == { 'ATTRIBUTES' => ["Public"] }
       end
     end
     
@@ -80,7 +80,7 @@ describe Xcode::BuildPhase do
         source_file = project.groups.create_file 'privateheader.h'
         subject.add_build_file_with_private_privacy source_file
         subject.build_file('privateheader.h').should_not be_nil
-        subject.file('privateheader.h').settings.should == { 'ATTRIBUTES' => "Private" }
+        subject.file('privateheader.h').settings.should == { 'ATTRIBUTES' => ["Private"] }
       end
     end
     
