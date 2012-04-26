@@ -62,6 +62,7 @@ module Xcode
       # Parse the Xcode project file and create the registry
       
       @registry = parse_pbxproj
+      raise "Unable to parse project at #{@path}" if @registry.nil?
       @project = Xcode::Resource.new @registry.root, @registry      
     end
     

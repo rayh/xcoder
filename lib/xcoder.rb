@@ -131,7 +131,11 @@ module Xcode
     projects = []
     Find.find(dir) do |path|
       if path=~/\.xcworkspace$/ and !(path=~/\.xcodeproj\//)
-        projects << Xcode::Workspace.new(path)
+        begin
+          projects << Xcode::Workspace.new(path)
+        rescue => e
+          puts "Skipping #{path} as it raised an error: #{e.message}"
+        end
       end
     end
     projects
@@ -141,7 +145,11 @@ module Xcode
     projects = []
     Find.find(dir) do |path|
       if path=~/(.*)\.xcodeproj$/
-        projects << Xcode::Project.new(path)
+        begin
+          projects << Xcode::Project.new(path)
+        rescue => e
+          puts "Skipping #{path} as it raised an error: #{e.message}"
+        end
       end
     end
     projects
