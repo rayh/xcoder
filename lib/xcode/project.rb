@@ -55,16 +55,22 @@ module Xcode
     def initialize(path, sdk=nil)
       @sdk = sdk || "iphoneos"  # FIXME: should support OSX/simulator too
       @path = File.expand_path path
-      @schemes = []
+      @schemes = nil
       @groups = []
       @name = File.basename(@path).gsub(/\.xcodeproj/,'')
       
       # Parse the Xcode project file and create the registry
       
       @registry = parse_pbxproj
-      @project = Xcode::Resource.new @registry.root, @registry
-      
-      @schemes = parse_schemes
+      @project = Xcode::Resource.new @registry.root, @registry      
+    end
+    
+    #
+    # @return [Array<Xcode::Scheme>] available schemes for the project
+    #
+    def schemes
+      return @schemes unless @schemes.nil?
+      @schemes = Xcode::Scheme.find_in_path @path
     end
     
     
@@ -229,8 +235,8 @@ module Xcode
     # @return [Scheme] the specific scheme that matches the name specified
     #
     def scheme(name)
-      scheme = @schemes.select {|t| t.name == name.to_s}.first
-      raise "No such scheme #{name}, available schemes are #{@schemes.map {|t| t.name}.join(', ')}" if scheme.nil?
+      scheme = schemes.select {|t| t.name == name.to_s}.first
+      raise "No such scheme #{name}, available schemes are #{schemes.map {|t| t.name}.join(', ')}" if scheme.nil?
       yield scheme if block_given?
       scheme
     end
@@ -340,24 +346,6 @@ module Xcode
     end
     
     private
-  
-    #
-    # Parse all the scheme files that can be found within the project. Schemes
-    # can be defined as `shared` schemes and then `user` specific schemes. Parsing
-    # the schemes will load the shared ones and then the current acting user's
-    # schemes.
-    # 
-    # @return [Array<Scheme>] the shared schemes and user specific schemes found
-    #   within the projet at the path defined for schemes.
-    # 
-    def parse_schemes
-      shared_schemes = Dir["#{@path}/xcshareddata/xcschemes/*.xcscheme"]
-      user_specific_schemes = Dir["#{@path}/xcuserdata/#{ENV['USER']}.xcuserdatad/xcschemes/*.xcscheme"]
-      
-      (shared_schemes + user_specific_schemes).map do |scheme|
-        Xcode::Scheme.new(self, scheme)
-      end
-    end
   
     #
     # Using the sytem tool plutil, the specified project file is parsed and 
