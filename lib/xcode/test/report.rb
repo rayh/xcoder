@@ -18,7 +18,6 @@ module Xcode
       class InvalidStateException < StandardError; end
   
       def initialize
-        @debug = false
         @exit_code = 0
         @suites = []
         @formatters = []
