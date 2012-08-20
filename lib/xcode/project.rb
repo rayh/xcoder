@@ -222,7 +222,7 @@ module Xcode
       # @toodo Save the workspace when the project is saved
       # FileUtils.cp_r "#{path}/project.xcworkspace", "#{path}/project.xcworkspace"
   
-      Xcode::PLUTILProjectParser.save "#{@path}/project.pbxproj", to_xcplist
+      Xcode::PLUTILProjectParser.save "#{path}/project.pbxproj", to_xcplist
       
     end
     
