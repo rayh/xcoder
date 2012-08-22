@@ -133,7 +133,7 @@ module Xcode
     #
     def add_build_file(file,settings = {})
       find_file_by = file.name || file.path
-      unless build_file(find_file_by)
+      unless file(find_file_by)
         new_build_file = @registry.add_object BuildFile.buildfile(file.identifier,settings)
         @properties['files'] << new_build_file.identifier
       end
