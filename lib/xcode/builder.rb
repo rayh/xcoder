@@ -215,7 +215,7 @@ module Xcode
     end
     
     def build_command(options = {})
-      options = {:sdk => @sdk}.merge options
+      options = {:sdk => @sdk, :env => {}}.merge options
       profile = install_profile
       cmd = []
       cmd << "xcodebuild"
@@ -231,6 +231,11 @@ module Xcode
       cmd << "OBJROOT=\"#{@objroot}\""
       cmd << "SYMROOT=\"#{@symroot}\""
       cmd << "PROVISIONING_PROFILE=#{profile.uuid}" unless profile.nil?
+
+      options[:env].each_pair do |key, value|
+        cmd << "#{key}=\"#{value}\""
+      end
+
       cmd
     end
     
