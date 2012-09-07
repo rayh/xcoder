@@ -31,6 +31,13 @@ describe Xcode::Builder do
         Xcode::Shell.should_receive(:execute).with(expected)
         subject.build :sdk => 'macosx10.7'
       end
+
+      it "should allow custom environment variables to be passed along" do
+        expected = default_build_parameters
+        expected << "SOME_OTHER_VAR=\"abc123\""
+        Xcode::Shell.should_receive(:execute).with(expected)
+        subject.build :env => { 'SOME_OTHER_VAR' => 'abc123' }
+      end
       
     end
     
