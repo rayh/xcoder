@@ -19,7 +19,7 @@ You will need to install the gem:
 and then require the gem in your project/rakefile/etc
 
 	require 'xcoder'
-	
+
 ### Load a project
 
     project = Xcode.project('MyProject')  # Can be the name, the file (e.g. MyProject.xcodeproj) or the path
@@ -27,7 +27,7 @@ and then require the gem in your project/rakefile/etc
 ### Finding all projects from the current directory down
 
 	Xcode.find_projects.each {|p| puts p.name }
-	
+
 ### Find a configuration for a target on a project
 
 	config = Xcode.project(:MyProject).target(:Target).config(:Debug)	# returns an Xcode::Configuration object
@@ -42,9 +42,9 @@ and then require the gem in your project/rakefile/etc
 	builder.build
 	# Building uses the targets's default sdk, which you can override:
 	builder.build :sdk => :iphonesimulator
-	
+
 ### Working with Keychains
-	
+
 You will not normally need to worry about manipulating keychains unless you want to automate importing of certificates (in a CI system with many clients) or opening of specific keychains for different builds (the old two-certs-with-same-identity-name workaround).
 
 You can either use the user's login keychain, another named keychain, or simply use a temporary keychain that will be blown away after the build.
@@ -55,26 +55,26 @@ You can either use the user's login keychain, another named keychain, or simply 
 		# import certs into the keychain
 		# perform builds within this keychain's context
 	end	# Keychain is deleted
-	
+
 Or, you can create a temporary keychain that will be deleted when the process exits:
 
 	keychain = Xcode::Keychain.temp
 
-		
+
 #### Importing a certificate
 
 You can import a certificate from a .p12 file into a keychain.  Here we simply create a temporary keychain, import a certificate, set the identity onto the builder and then perform a build.
- 
-	keychain.import 'Certs/MyCert.p12', 'mycertpassword'		
+
+	keychain.import 'Certs/MyCert.p12', 'mycertpassword'
 	builder.keychain = keychain						# Tell the builder to use the temp keychain
 	builder.identity = keychain.identities.first	# Get the first (only) identity name from the keychain
-	
+
 ### Packaging a built .app
 
 After performing the above build, you can create a versioned, well named .ipa and .dSYM.zip
 
 	builder.package
-	
+
 This will produce something like: MyProject-Debug-1.0.ipa and MyProject-Debug-1.0.dSYM.zip
 
 ### Incrementing the build number
@@ -89,15 +89,15 @@ This will produce something like: MyProject-Debug-1.0.ipa and MyProject-Debug-1.
 Loading workspaces can be done in a similar way to projects:
 
 	Xcode.workspaces.each do |w|
-	  w.describe								# prints a recursive description of the 
+	  w.describe								# prints a recursive description of the
 												# structure of the workspace and its projects
 	end
-	
+
 Or, if you know the name:
 
 	workspace = Xcode.workspace('MyWorkspace')  # Can be the name, the file (e.g. MyWorkspace.xcworkspace) or the path
-	
-	
+
+
 ### Schemes
 
 There is basic support for schemes, you can enumerate them from a project like so:
@@ -105,11 +105,11 @@ There is basic support for schemes, you can enumerate them from a project like s
 	project.schemes.each do |s|
 	  s.builder.build
 	end
-	
+
 Or, access them by name:
 
 	builder = project.scheme('MyScheme').builder
-	
+
 Note: The builder behaves the same as the builder for the target/config approach and will force xcodebuild to use the local build/ directory (as per xcode3) rather than a generated temporary directory in DerivedData.  This may or may not be a good thing.
 
 Note: Shared schemes and user (current logged in user) specific schemes are both loaded. They may share names and other similarities that make them hard to distinguish. Currently the priority loading order is shared schemes and then user specific schemes.
@@ -119,9 +119,9 @@ Note: Shared schemes and user (current logged in user) specific schemes are both
 The library provides a mechanism to install/uninstall a provisioning profile.  This normally happens as part of a build (if a profile is provided to the builder, see above), but you can do this manually:
 
 	Xcode::ProvisioningProfile.new("Myprofile.mobileprovision").install	# installs profile into ~/Library
-	
+
 Or enumerate installed profiles:
-   
+
 	Xcode::ProvisioningProfile.installed_profiles.each do |p|
 		p.uninstall		# Removes the profile from ~/Library/
 	end
@@ -135,7 +135,7 @@ The common output of this build/package process is to upload to Testflight.  Thi
  	  tf.notify = true	# Whether to send a notification to users, default is true
       tf.lists << "AList"  # The lists to distribute the build to
 	end
-	
+
 You can also optionally set a .proxy= property or just set the HTTP_PROXY environment variable.
 
 ### OCUnit to JUnit reports
@@ -144,14 +144,14 @@ You can invoke your test target/bundle from the builder
 
 	builder.test do |report|
 		report.debug = false	# default false, set to true to see raw output from xcodebuild
-		
+
 		# The following is the default setup, you wouldnt normally need to do this unless
 		# you want to add new formatters
 		report.formatters = []
 		report.add_formatter :junit, 'test-reports'	# Output JUnit format results to test-reports/
 		report.add_formatter :stdout				# Output a simplified output to STDOUT
 	end
-	
+
 This will invoke the test target, capture the output and write the junit reports to the test-reports directory.  Currently only junit is supported, although you can write your own formatter quite easily (for an example, look at Xcode::Test::Formatters::JunitFormatter).
 
 ## Rake Tasks
@@ -161,13 +161,13 @@ Xcoder provides a rake task to assist with make it easier to perform common Xcod
 Within your `Rakefile` add the following:
 
     require 'xcoder/rake_task'
-    
+
 Then define your Rake Task:
 
     Xcode::RakeTask.new
 
 By default this will generate rake tasks within the 'xcode' namespace for
-all the projects (within the current working directory), all their targets, 
+all the projects (within the current working directory), all their targets,
 and all their configs. This will also generate tasks for all of a projects
 schemes as well.
 
@@ -177,14 +177,14 @@ schemes as well.
 
 This will generate rake tasks that appear similar to the following:
 
-      rake xcode:project-name:targetname:debug:build   
-      rake xcode:project-name:targetname:debug:clean         
+      rake xcode:project-name:targetname:debug:build
+      rake xcode:project-name:targetname:debug:clean
       # ...
 
 You can specify a parameter to change the root rake namespace:
 
      Xcode::RakeTask.new :apple
-     
+
      # Resulting Rake Tasks:
      # rake apple:project-name:targetname:debug:build
      # rake apple:project-name:targetname:debug:clean
@@ -196,7 +196,7 @@ You can also supply a block to provide additional configuration to specify the f
        xcoder.directory = "projects"
        xcoder.projects = [ "Project Alpha", "Project Beta" ]
      end
-     
+
      rake hudson:project-alpha:targetname:debug:build
      # ...
 
@@ -206,7 +206,7 @@ Guard provides the ability to launch commands when files changed. There is a [gu
 
     gem install guard
     gem install guard-xcoder
-    
+
     guard init
     guard init xcoder
 
@@ -236,7 +236,7 @@ project.group('Vendor/Reachability') do
  # Create files for each source file defined above
  source_files.each |source| create_file source }
 end
-```     
+```
 
 Within the project file the groups in the path are created or found and then file references are added for the two specified source files. Xcoder only updates the logical project file, it does not copy physical files, that is done by the FileUtils.
 
@@ -287,7 +287,7 @@ target.config 'Release' do |config|
 end
 ```
 
-Configuration settings can be accessed through `get`, `set`, and `append` with their [Xcode Build Names](https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW110) or through convenience methods generated for most of the build settings (`property_name`, `property_name=`, `append_to_property_name`). The entire list of property names can be found in the [configuration](/rayh/xcoder/blob/master/lib/xcode/configuration.rb). 
+Configuration settings can be accessed through `get`, `set`, and `append` with their [Xcode Build Names](https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW110) or through convenience methods generated for most of the build settings (`property_name`, `property_name=`, `append_to_property_name`). The entire list of property names can be found in the [configuration](/rayh/xcoder/blob/master/lib/xcode/configuration.rb).
 
 
 ### Saving your changes!
@@ -304,10 +304,10 @@ Within the `specs/integration` folder there are more examples.
 
 ## Tests
 
-There are some basic RSpec tests in the project which I suspect /wont/ work on machines without my identity installed.  
+There are some basic RSpec tests in the project which I suspect /wont/ work on machines without my identity installed.
 
 Currently these tests only assert the basic project file parsing and build code and do not perform file modification tests (e.g. for info plists) or provisioning profile/keychain importing
-	
+
 ## Feedback
 
-Please raise issues if you find defects or have a feature request.  
+Please raise issues if you find defects or have a feature request.
