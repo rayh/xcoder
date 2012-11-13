@@ -48,7 +48,7 @@ module Xcode
     #   identifier; false if it is not.
     # 
     def self.is_identifier? value
-      value =~ /^[0-9A-F]{24,}$/
+      value =~ /^[0-9a-fA-F]{24,}$/
     end
 
     #
