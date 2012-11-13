@@ -27,7 +27,7 @@ module Xcode
     #
     def schemes
       return @schemes unless @schemes.nil?
-      @schemes = Xcode::Scheme.find_in_path @path
+      @schemes = Xcode::Scheme.find_in_workspace(self)
     end
     
     #
