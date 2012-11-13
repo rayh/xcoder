@@ -34,10 +34,14 @@ and then require the gem in your project/rakefile/etc
 
 ### Building a configuration
 
+	config = Xcode.project(:MyProject).target(:Target).config(:Debug)
 	builder = config.builder
 	builder.profile = 'Profiles/MyAdHoc.mobileprovision'	# This will remove old profiles and install the profile
 	builder.identity = 'iPhone Developer: Ray Hilton'		# The name of the identity to use to sign the IPA (optional)
+	builder.clean
 	builder.build
+	# Building uses the targets's default sdk, which you can override:
+	builder.build :sdk => :iphonesimulator
 	
 ### Working with Keychains
 	
