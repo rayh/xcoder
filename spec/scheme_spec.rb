@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-describe Xcode::Scheme do 
+describe Xcode::ProjectScheme do 
   let :project do
     Xcode.project 'TestProject'
   end

@@ -23,6 +23,11 @@ describe Xcode::Workspace do
     w.should_not be_nil
   end
   
+  it "should handle cocoapods generated workspace" do 
+    w = Xcode.workspace "#{File.dirname(__FILE__)}/CocoaPodsWorkspace.xcworkspace"
+    w.should_not be_nil
+  end
+  
   it "should have many projects" do 
     w = Xcode.workspace "TestWorkspace"
     w.projects.size.should==1

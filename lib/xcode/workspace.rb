@@ -23,11 +23,15 @@ module Xcode
     end    
     
     #
-    # @return [Array<Xcode::Scheme>] available schemes for the workspace
+    # @return [Array<Xcode::ProjectScheme>] available schemes for the workspace
     #
     def schemes
       return @schemes unless @schemes.nil?
-      @schemes = Xcode::Scheme.find_in_path @path
+      @schemes = []
+      projects.each do |project|
+        @schemes+=project.schemes
+      end
+      @schemes
     end
     
     #
