@@ -67,11 +67,11 @@ module Xcode
     end
     
     #
-    # @return [Array<Xcode::ProjectScheme>] available schemes for the project
+    # @return [Array<Xcode::Scheme>] available schemes for the project
     #
     def schemes
       return @schemes unless @schemes.nil?
-      @schemes = Xcode::ProjectScheme.find_in_path self, @path
+      @schemes = Xcode::Scheme.find_in_path @path, self
     end
     
     

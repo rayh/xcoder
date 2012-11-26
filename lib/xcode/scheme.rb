@@ -4,26 +4,21 @@ module Xcode
   
   # Schemes are an XML file that describe build, test, launch and profile actions
   # For the purposes of Xcoder, we want to be able to build and test
-  # The scheme's build action only describes a target, so we need to look at launch for the config
-  class ProjectScheme
-    attr_reader :path, :name, :launch, :test, :project
-    def initialize(project, path)
-      @project = project
+  class Scheme
+    attr_reader :parent, :path, :name, :build_config, :build_targets
+    def initialize(parent, path)
+      @parent = parent
       @path = File.expand_path(path)
-      @root = File.expand_path "#{@path}/../../../../"
+      @root = File.expand_path "#{parent.path}/../"
       @name = File.basename(path).gsub(/\.xcscheme$/,'')
-      doc = Nokogiri::XML(open(@path))
+      doc = Nokogiri::XML(open(@path))      
       
-      @launch = parse_action(doc, 'launch')
-      @test = parse_action(doc, 'test')
+      parse_build_actions(doc)
     end
     
-    # def project
-    #   launch.target.project
-    # end
-    
+    # Returns a builder for building this scheme
     def builder
-      Xcode::Builder::ProjectSchemeBuilder.new(scheme)
+      Xcode::Builder::SchemeBuilder.new(self)
     end
     
     #
@@ -36,27 +31,35 @@ module Xcode
     # @return [Array<Scheme>] the shared schemes and user specific schemes found
     #   within the projet/workspace at the path defined for schemes.
     #
-    def self.find_in_path(project, path)
+    def self.find_in_path(path, parent)
       shared_schemes = Dir["#{path}/xcshareddata/xcschemes/*.xcscheme"]
       user_specific_schemes = Dir["#{path}/xcuserdata/#{ENV['USER']}.xcuserdatad/xcschemes/*.xcscheme"]
       
       (shared_schemes + user_specific_schemes).map do |scheme|
-        Xcode::ProjectScheme.new(project, scheme)
+        Xcode::Scheme.new(parent, scheme)
       end
     end
     
     private 
     
-    def parse_action(doc, action_name)
-      action = doc.xpath("//#{action_name.capitalize}Action").first
-      buildableReference = action.xpath('BuildableProductRunnable/BuildableReference').first
-      return nil if buildableReference.nil?
-      
+    def target_from_build_reference(buildableReference)
       project_name  = buildableReference['ReferencedContainer'].gsub(/^container:/,'')
-      project       = Xcode.project "#{@root}/#{project_name}"    
       target_name   = buildableReference['BlueprintName']
+      project_path  = "#{@root}/#{project_name}"  
+      project       = Xcode.project project_path 
+      project.target(target_name)
+    end
+    
+    def parse_build_actions(doc)
+      # Build Config
+      @build_targets = []
       
-      project.target(target_name).config(action['buildConfiguration'])
+      @build_config = doc.xpath("//LaunchAction").first['buildConfiguration']
+      
+      build_action_entries = doc.xpath("//BuildAction//BuildableReference").each do |ref|
+        @build_targets << target_from_build_reference(ref) 
+      end
+      
     end
 
   end

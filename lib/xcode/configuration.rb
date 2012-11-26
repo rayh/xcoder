@@ -418,7 +418,7 @@ module Xcode
     # @see Builder
     # 
     def builder
-      Xcode::Builder::ProjectTargetConfigBuilder.new(self)
+      Xcode::Builder::ProjectTargetConfigBuilder.new(@target, self)
     end
     
     private

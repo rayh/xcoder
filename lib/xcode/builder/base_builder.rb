@@ -6,22 +6,41 @@ module Xcode
     #
     class BaseBuilder
       attr_accessor :profile, :identity, :build_path, :keychain, :sdk, :objroot, :symroot
+      attr_reader   :config, :target
 
-      def initialize(config)
-        #puts "CONFIG: #{config}"
-        @target = config.target
-        @sdk = @target.project.sdk
+      def initialize(target, config)
+        @target = target
         @config = config
+        
+        @sdk = @target.project.sdk
         @build_path = "#{File.dirname(@target.project.path)}/build/"
         @objroot = @build_path
         @symroot = @build_path
       end
+      
+      def common_environment
+        env = {}
+        env["OBJROOT"]  = "\"#{@objroot}\""
+        env["SYMROOT"]  = "\"#{@symroot}\""
+        env
+      end
+      
+      def build_environment
+        profile = install_profile        
+        env = common_environment
+        env["OTHER_CODE_SIGN_FLAGS"]  = "'--keychain #{@keychain.path}'" unless @keychain.nil?
+        env["CODE_SIGN_IDENTITY"]     = "\"#{@identity}\"" unless @identity.nil?
+        env["PROVISIONING_PROFILE"]   = "#{profile.uuid}" unless profile.nil?
+        env
+      end
 
 
       def build(options = {:sdk => @sdk})    
-        cmd = build_command(options)
+        cmd = xcodebuild
+        cmd << "-sdk #{options[:sdk]}" unless options[:sdk].nil?
+
         with_keychain do
-          Xcode::Shell.execute(cmd)
+          cmd.execute
         end
         self
       end
@@ -32,8 +51,9 @@ module Xcode
       # If a block is provided, the report is yielded for configuration before the test is run
       #
       def test(options = {:sdk => 'iphonesimulator'}) #, :parser => :OCUnit })
-        cmd = build_command(options)
-        cmd << "TEST_AFTER_BUILD=YES"
+        cmd = xcodebuild
+        cmd << "-sdk #{options[:sdk]}" unless options[:sdk].nil?
+        cmd.env["TEST_AFTER_BUILD"]="YES"
 
         report = Xcode::Test::Report.new
         if block_given?
@@ -46,7 +66,7 @@ module Xcode
         parser = Xcode::Test::Parsers::OCUnitParser.new report
 
         begin
-          Xcode::Shell.execute(cmd, false) do |line|
+          cmd.execute(false) do |line|
             parser << line
           end
         rescue Xcode::Shell::ExecutionError => e
@@ -68,46 +88,26 @@ module Xcode
       end
 
       def clean
-        cmd = []
-        cmd << "xcodebuild"
-        cmd << "-project \"#{@target.project.path}\""
-        cmd << "-sdk #{@sdk}" unless @sdk.nil?
-
-        cmd << "-scheme \"#{@scheme.name}\"" unless @scheme.nil?
-        cmd << "-target \"#{@target.name}\"" if @scheme.nil?
-        cmd << "-configuration \"#{@config.name}\"" if @scheme.nil?
-
-        cmd << "OBJROOT=\"#{@build_path}\""
-        cmd << "SYMROOT=\"#{@build_path}\""
+        cmd = xcodebuild 
+        cmd << "-sdk #{@sdk}" unless @sdk.nil?          
         cmd << "clean"
-        Xcode::Shell.execute(cmd)
+        cmd.execute
 
         @built = false
         @packaged = false
-        # FIXME: Totally not safe
-        # cmd = []
-        # cmd << "rm -Rf #{build_path}"
-        # Xcode::Shell.execute(cmd)
         self
       end    
 
       def sign
-        cmd = []
-        cmd << "codesign"
+        cmd = Xcode::Shell::Command.new 'codesign'
         cmd << "--force"
         cmd << "--sign \"#{@identity}\""
         cmd << "--resource-rules=\"#{app_path}/ResourceRules.plist\""
         cmd << "--entitlements \"#{entitlements_path}\""
         cmd << "\"#{ipa_path}\""
-        Xcode::Shell.execute(cmd)
-
-  # CodeSign build/AdHoc-iphoneos/Dial.app
-  #     cd "/Users/ray/Projects/Clients/CBAA/Community Radio"
-  #     setenv CODESIGN_ALLOCATE /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate
-  #     setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@cbaa/bin:/Users/ray/.rvm/gems/ruby-1.9.2-p290@global/bin:/Users/ray/.rvm/rubies/ruby-1.9.2-p290/bin:/Users/ray/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/git/bin"
-  #     /usr/bin/codesign --force --sign "iPhone Distribution: Community Broadcasting Association of Australia" "--resource-rules=/Users/ray/Projects/Clients/CBAA/Community Radio/build/AdHoc-iphoneos/Dial.app/ResourceRules.plist" --keychain "\"/Users/ray/Projects/Clients/CBAA/Community\\" "Radio/Provisioning/CBAA.keychain\"" --entitlements "/Users/ray/Projects/Clients/CBAA/Community Radio/build/CommunityRadio.build/AdHoc-iphoneos/CommunityRadio.build/Dial.xcent" "/Users/ray/Projects/Clients/CBAA/Community Radio/build/AdHoc-iphoneos/Dial.app"
-  # iPhone Distribution: Community Broadcasting Association of Australia: no identity found
-  # Command /usr/bin/codesign failed with exit code 1
+        cmd.execute
+        
+        
         self
       end
 
@@ -115,35 +115,27 @@ module Xcode
         raise "Can't find #{app_path}, do you need to call builder.build?" unless File.exists? app_path
 
         #package IPA
-        cmd = []      
-        cmd << "xcrun"
+        cmd = Xcode::Shell::Command.new 'xcrun'     
         cmd << "-sdk #{@sdk}" unless @sdk.nil?
         cmd << "PackageApplication"
         cmd << "-v \"#{app_path}\""
         cmd << "-o \"#{ipa_path}\""
-
-        # cmd << "OTHER_CODE_SIGN_FLAGS=\"--keychain #{@keychain.path}\"" unless @keychain.nil?
-        # 
-        # unless @identity.nil?
-        #   cmd << "--sign \"#{@identity}\""
-        # end
-
+    
         unless @profile.nil?
           cmd << "--embed \"#{@profile}\""
         end
 
         with_keychain do
-          Xcode::Shell.execute(cmd)
+          cmd.execute
         end
 
         # package dSYM
-        cmd = []
-        cmd << "zip"
+        cmd = Xcode::Shell::Command.new 'zip' 
         cmd << "-r"
         cmd << "-T"
         cmd << "-y \"#{dsym_zip_path}\""
         cmd << "\"#{dsym_path}\""
-        Xcode::Shell.execute(cmd)
+        cmd.execute
 
         self
       end
@@ -178,7 +170,6 @@ module Xcode
         "#{product_version_basename}.dSYM.zip"
       end
 
-
       private 
 
       def with_keychain(&block)
@@ -204,24 +195,8 @@ module Xcode
         p
       end
 
-      def build_command(options = {})
-        options = {:sdk => @sdk}.merge options
-        profile = install_profile
-        cmd = []
-        cmd << "xcodebuild"
-        cmd << "-sdk #{options[:sdk]}" unless options[:sdk].nil?
-        cmd << "-project \"#{@target.project.path}\""
-
-        cmd << "-scheme \"#{@scheme.name}\"" unless @scheme.nil?
-        cmd << "-target \"#{@target.name}\"" if @scheme.nil?
-        cmd << "-configuration \"#{@config.name}\"" if @scheme.nil?
-
-        cmd << "OTHER_CODE_SIGN_FLAGS='--keychain #{@keychain.path}'" unless @keychain.nil?
-        cmd << "CODE_SIGN_IDENTITY=\"#{@identity}\"" unless @identity.nil?
-        cmd << "OBJROOT=\"#{@objroot}\""
-        cmd << "SYMROOT=\"#{@symroot}\""
-        cmd << "PROVISIONING_PROFILE=#{profile.uuid}" unless profile.nil?
-        cmd
+      def xcodebuild #:yield: Xcode::Shell::Command
+        Xcode::Shell::Command.new 'xcodebuild', build_environment
       end
 
     end
