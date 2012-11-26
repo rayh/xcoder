@@ -11,14 +11,14 @@ module Xcode
     # Parse all the schemes given the current project.
     #
     def self.find_in_project(project)
-      find_in_path(project.path)
+      find_in_path(project, project.path)
     end
 
     #
     # Parse all the schemes given the current workspace.
     #
     def self.find_in_workspace(workspace)
-      schemes = find_in_path(workspace.path)
+      schemes = find_in_path(workspace, workspace.path)
       
       # Project level schemes
       workspace.projects.each do |project|
@@ -34,13 +34,13 @@ module Xcode
     # schemes.
     #
     # 
-    # @param project the containing project
+    # @param project or workspace in which the scheme is contained
     # @return [Array<Scheme>] the shared schemes and user specific schemes found
     #   within the project/workspace at the path defined for schemes.
     #
-    def self.find_in_path(path)
+    def self.find_in_path(parent, path)
       all_schemes_paths(path).map do |scheme_path|
-        Xcode::Scheme.new(root: path, path: scheme_path)
+        Xcode::Scheme.new(parent: parent, root: path, path: scheme_path)
       end
     end
     

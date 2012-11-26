@@ -36,7 +36,7 @@ describe Xcode::Scheme do
     end
   
     it "should return an array of schemes" do
-      workspace.schemes.size.should == 1
+      workspace.schemes.size.should == 7
     end
   
     it "should parse workspace schemes" do 
