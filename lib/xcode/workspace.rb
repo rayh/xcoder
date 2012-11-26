@@ -32,11 +32,9 @@ module Xcode
       @schemes = Xcode::Scheme.find_in_path @path, self
       
       # Project level schemes
-      if include_project_schemes
-        projects.each do |project|
-          @schemes+=project.schemes
-        end 
-      end
+      projects.each do |project|
+        @schemes+=project.schemes
+      end 
       
       @schemes
     end
