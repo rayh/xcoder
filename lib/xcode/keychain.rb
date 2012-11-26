@@ -37,11 +37,10 @@ module Xcode
         "\"#{kc.path}\""
       end
       
-      cmd = []
-      cmd << "security"
+      cmd = Xcode::Shell::Command.new "security"
       cmd << "list-keychain"
       cmd << "-s #{search_list.join(' ')}"
-      Xcode::Shell.execute(cmd)
+      cmd.execute
     end
   end
   
@@ -70,13 +69,12 @@ module Xcode
     # @param [String] the password to open the certificate file
     #
     def import(cert, password)
-      cmd = []
-      cmd << "security"
+      cmd = Xcode::Shell::Command.new "security"
       cmd << "import '#{cert}'"
       cmd << "-k \"#{@path}\""
       cmd << "-P #{password}"
       cmd << "-T /usr/bin/codesign"
-      Xcode::Shell.execute(cmd)
+      cmd.execute
     end
     
     #
@@ -86,12 +84,11 @@ module Xcode
     #
     def identities
       names = []
-      cmd = []
-      cmd << "security"
+      cmd = Xcode::Shell::Command.new "security"
       cmd << "find-certificate"
       cmd << "-a"
       cmd << "\"#{@path}\""
-      data = Xcode::Shell.execute(cmd, false).join("")
+      data = cmd.execute(false).join("")
       data.scan /\s+"labl"<blob>="([^"]+)"/ do |m|
         names << m[0]
       end
@@ -102,11 +99,10 @@ module Xcode
     # Secure the keychain 
     #
     def lock
-      cmd = []
-      cmd << "security"
+      cmd = Xcode::Shell::Command.new "security"
       cmd << "lock-keychain"
       cmd << "\"#{@path}\""
-      Xcode::Shell.execute(cmd)
+      cmd.execute
     end
     
     #
@@ -115,12 +111,11 @@ module Xcode
     # @param [String] the password to open the keychain
     #
     def unlock(password)
-      cmd = []
-      cmd << "security"
+      cmd = Xcode::Shell::Command.new "security"
       cmd << "unlock-keychain"
       cmd << "-p #{password}"
       cmd << "\"#{@path}\""
-      Xcode::Shell.execute(cmd)
+      cmd.execute
     end
     
     #
@@ -131,12 +126,11 @@ module Xcode
     # @return [Xcode::Keychain] an object representing the new keychain
     #
     def self.create(path, password)
-      cmd = []
-      cmd << "security"
+      cmd = Xcode::Shell::Command.new "security"
       cmd << "create-keychain"
       cmd << "-p #{password}"
       cmd << "\"#{path}\""
-      Xcode::Shell.execute(cmd)
+      cmd.execute
       
       kc = Xcode::Keychain.new(path)
       yield(kc) if block_given?
@@ -149,10 +143,9 @@ module Xcode
     # FIXME: dangerous
     #
     def delete
-      cmd = []
-      cmd << "security"
+      cmd = Xcode::Shell::Command.new "security"
       cmd << "delete-keychain \"#{@path}\""
-      Xcode::Shell.execute(cmd)
+      cmd.execute
     end
     
     #
