@@ -11,6 +11,7 @@ describe Xcode do
       let(:subject) { Xcode.projects }
       
       it "should find the project" do
+        puts subject.map {|p| p.name}
         subject.size.should == 1
         subject.first.name.should == "TestProject"
       end

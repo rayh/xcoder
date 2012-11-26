@@ -1,3 +1,5 @@
+require 'xcode/shell/command.rb'
+
 module Xcode
   module Shell
     
@@ -5,7 +7,7 @@ module Xcode
     
     def self.execute(bits, show_output=true)
       out = []
-      cmd = bits.is_a?(Array) ? bits.join(' ') : bits
+      cmd = bits.is_a?(Xcode::Shell::Command) ? bits.to_s : bits
       
       puts "EXECUTE: #{cmd}"
       IO.popen (cmd) do |f| 

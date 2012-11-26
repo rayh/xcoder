@@ -13,8 +13,8 @@ describe Xcode::Scheme do
     it "should parse project schemes" do 
       scheme = project.scheme('TestProject')
       scheme.name.should=="TestProject"
-      scheme.launch.target.name.should == 'TestProject'
-      scheme.launch.target.project.name.should == 'TestProject'
+      scheme.build_targets.first.name.should == 'TestProject'
+      scheme.build_targets.first.project.name.should == 'TestProject'
     end
     
     it "should return an array of schemes" do
@@ -42,8 +42,8 @@ describe Xcode::Scheme do
     it "should parse workspace schemes" do 
       scheme = workspace.scheme('WorkspaceScheme')
       scheme.name.should=="WorkspaceScheme"
-      scheme.launch.target.name.should == 'TestProject'
-      scheme.launch.target.project.name.should == 'TestProject'
+      scheme.build_targets.first.name.should == 'TestProject'
+      scheme.build_targets.first.project.name.should == 'TestProject'
     end
   end
   
