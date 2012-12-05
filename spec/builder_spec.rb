@@ -46,30 +46,31 @@ describe Xcode::Builder do
     
     describe "#testflight" do
       
-      let(:testflight_parameters) do 
-        ['curl',
-        "--proxy http://proxyhost:8080",
-        "-X POST http://testflightapp.com/api/builds.json",
-        "-F file=@\"#{subject.ipa_path}\"",
-        "-F dsym=@\"#{subject.dsym_zip_path}\"",
-        "-F api_token='api_token'",
-        "-F team_token='team_token'",
-        "-F notes=\"some notes\"",
-        "-F notify=True",
-        "-F distribution_lists='List1,List2'"]
-      end
+      # let(:testflight_parameters) do 
+      #   ['curl',
+      #   "--proxy http://proxyhost:8080",
+      #   "-X POST http://testflightapp.com/api/builds.json",
+      #   "-F file=@\"#{subject.ipa_path}\"",
+      #   "-F dsym=@\"#{subject.dsym_zip_path}\"",
+      #   "-F api_token='api_token'",
+      #   "-F team_token='team_token'",
+      #   "-F notes=\"some notes\"",
+      #   "-F notify=True",
+      #   "-F distribution_lists='List1,List2'"]
+      # end
     
       it "should upload ipa and dsym to testflight" do 
         subject.build.package
         
-        Xcode::Shell.should_receive(:execute).with(testflight_parameters).and_return(['{}'])
-        subject.testflight("api_token", "team_token") do |tf|
+        result = subject.testflight("api_token", "team_token") do |tf|
+          tf.should_receive(:upload).with(subject.ipa_path, subject.dsym_zip_path).and_return('result')
           tf.proxy = "http://proxyhost:8080"
           tf.notes = "some notes"
           tf.lists << "List1"
           tf.lists << "List2"
         end
       
+        result.should == 'result'
       end
     end
     

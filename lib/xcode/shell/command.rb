@@ -3,7 +3,7 @@ require 'set'
 module Xcode
   module Shell
     class Command
-      attr_accessor :env
+      attr_accessor :env, :cmd, :args
 
       def initialize(cmd, environment={})
         @cmd = cmd

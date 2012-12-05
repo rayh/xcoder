@@ -5,9 +5,9 @@ module Xcode
     
     class ExecutionError < StandardError; end
     
-    def self.execute(bits, show_output=true)
+    def self.execute(cmd, show_output=true)
       out = []
-      cmd = bits.is_a?(Xcode::Shell::Command) ? bits.to_s : bits
+      cmd = cmd.to_s
       
       puts "EXECUTE: #{cmd}"
       IO.popen (cmd) do |f| 

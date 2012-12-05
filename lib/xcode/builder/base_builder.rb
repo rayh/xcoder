@@ -78,11 +78,19 @@ module Xcode
         report
       end
 
+      #
+      # Upload to testflight
+      #
+      # The testflight object is yielded so further configuration can be performed before uploading
+      #
+      # @param api_token the API token for your testflight account
+      # @param team_token the token for the team you want to deploy to
+      #
       def testflight(api_token, team_token)
         raise "Can't find #{ipa_path}, do you need to call builder.package?" unless File.exists? ipa_path
-        raise "Can't fins #{dsym_zip_path}, do you need to call builder.package?" unless File.exists? dsym_zip_path
+        raise "Can't find #{dsym_zip_path}, do you need to call builder.package?" unless File.exists? dsym_zip_path
 
-        testflight = Xcode::Testflight.new(api_token, team_token)
+        testflight = Xcode::Deploy::Testflight.new(api_token, team_token)
         yield(testflight) if block_given?
         testflight.upload(ipa_path, dsym_zip_path)
       end
