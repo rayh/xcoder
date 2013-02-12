@@ -1,20 +1,29 @@
+require 'colorize'
+
 module Xcode
   module Test
     module Formatters
       class StdoutFormatter
+        attr_writer :color_output
         
-        def initialize
+        def initialize(options = {})
           @errors = []
+          @color_output = false
+          options.each { |k,v| self.send("#{k}=", v) }
+        end
+        
+        def color_output?
+          @color_output
         end
                 
         def before(report)
-          puts "Begin tests"
+          puts "Begin tests", :green
         end
         
         def after(report)
-          puts "\n\nThe following failures occured:" if @errors.count>0
+          puts "\n\nThe following failures occured:", :yellow if @errors.count>0
           @errors.each do |e|
-            puts "[#{e.suite.name} #{e.name}]"
+            puts "[#{e.suite.name} #{e.name}]", :red
             e.errors.each do |error|
               puts "  #{error[:message]}"
               puts "    at #{error[:location]}"
@@ -31,7 +40,8 @@ module Xcode
             end
           end
           
-          puts "\n\nEnd tests (#{report.failed? ? 'FAILED' : 'PASSED'}).  Took #{report.duration}s"
+          color = report.failed? ? :red : :green
+          puts "\n\nEnd tests (#{report.failed? ? 'FAILED' : 'PASSED'}).  Took #{report.duration}s", color
         end
         
         def before_suite(suite)
@@ -39,7 +49,8 @@ module Xcode
         end
         
         def after_suite(suite)
-          puts " [#{suite.total_passed_tests}/#{suite.tests.count}]"
+          color = (suite.total_passed_tests == suite.tests.count) ? :green : :red
+          puts " [#{suite.total_passed_tests}/#{suite.tests.count}]", color
         end
         
         def before_test(test)
@@ -48,13 +59,23 @@ module Xcode
         
         def after_test(test)
           if test.passed?
-            print "." 
+            print ".", :green
           elsif test.failed?
-            print "F"
+            print "F", :red
             @errors << test 
-          end 
-          # puts "[#{test.suite.name} #{test.name}] << END"
-      end
+          end                    
+        end
+        
+        private
+        def puts(text, color = :default)
+          color_params = color_output? ? color : {}
+          super(text.colorize(color_params))
+        end
+        
+        def print(text, color = :default)
+          color_params = color_output? ? color : {}
+          super(text.colorize(color_params))
+        end
                 
       end # StdoutFormatter
     end # Formatters

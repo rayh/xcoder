@@ -59,7 +59,7 @@ module Xcode
         if block_given?
           yield(report)
         else
-          report.add_formatter :stdout
+          report.add_formatter :stdout, { :color_output => true }
           report.add_formatter :junit, 'test-reports'
         end
 
