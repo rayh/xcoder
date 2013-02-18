@@ -8,7 +8,7 @@ module Xcode
         
         def initialize(options = {})
           @errors = []
-          @color_output = false
+          @color_output = terminal_supports_colors?
           options.each { |k,v| self.send("#{k}=", v) }
         end
         
@@ -75,6 +75,19 @@ module Xcode
         def print(text, color = :default)
           color_params = color_output? ? color : {}
           super(text.colorize(color_params))
+        end
+        
+        def terminal_supports_colors?
+          # No colors unless we are being run via a TTY
+          return false unless $stdout.isatty
+          
+          # Check if the terminal supports colors
+          colors = `tput colors 2> /dev/null`.chomp
+          if $?.exitstatus != 0
+            colors.to_i >= 8
+          else
+            false
+          end
         end
                 
       end # StdoutFormatter
