@@ -1,3 +1,3 @@
 module Xcode
-  VERSION = "0.1.15.paperless"
+  VERSION = "0.1.15"
 end
