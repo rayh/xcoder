@@ -95,6 +95,23 @@ module Xcode
         testflight.upload(ipa_path, dsym_zip_path)
       end
 
+      #
+      # Upload to web server
+      #
+      # The web object is yielded so further configuration can be performed before uploading
+      #
+      # @param protocol the protocol to use to upload files (ftp or ssh)
+      #
+      def web(protocol)
+        raise "Can't find #{ipa_path}, do you need to call builder.package?" unless File.exists? ipa_path
+        raise "Can't find #{dsym_zip_path}, do you need to call builder.package?" unless File.exists? dsym_zip_path
+
+        web = Xcode::Deploy::Web.new(protocol)
+        yield(web) if block_given?
+        web.prepare(ipa_name, app_path, configuration_build_path, product_name)
+        web.deploy
+      end
+
       def clean
         cmd = xcodebuild 
         cmd << "-sdk #{@sdk}" unless @sdk.nil?          
@@ -176,6 +193,10 @@ module Xcode
 
       def dsym_zip_path
         "#{product_version_basename}.dSYM.zip"
+      end
+
+      def ipa_name
+        File.basename(ipa_path)
       end
 
       private 
