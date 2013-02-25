@@ -53,5 +53,20 @@ module Xcode
     def save
       File.open(@plist_location, 'w') {|f| f << @plist.to_plist}
     end
+    
+    def increment_build(old_version)
+      if (old_version.index(".") != nil) then # dot numbered version
+        parts = old_version.split(".")
+        last_part = parts.last.to_i
+        last_part = last_part + 1
+        parts.delete(parts.last)
+        parts.insert(-1, last_part)
+        new_version = parts.join(".")
+      else # single integer version
+        new_version = old_version.to_i + 1
+      end
+      return new_version
+    end
+    
   end
 end
