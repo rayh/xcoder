@@ -108,7 +108,7 @@ module Xcode
 
         web = Xcode::Deploy::Web.new(protocol)
         yield(web) if block_given?
-        web.prepare(ipa_name, app_path, configuration_build_path, product_name)
+        web.prepare(ipa_name, app_path, configuration_build_path, @config.product_name, @config.info_plist, ipa_path)
         web.deploy
       end
 
