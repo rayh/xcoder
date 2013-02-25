@@ -138,6 +138,32 @@ The common output of this build/package process is to upload to Testflight.  Thi
 
 You can also optionally set a .proxy= property or just set the HTTP_PROXY environment variable.
 
+### Deploying to a web server (SSH)
+
+The output of the build/package process can be deployed to a remote web server.
+You can use SSH with the following syntax:
+
+	builder.web("ssh") do |web|
+	  web.deploy_to = "http://mywebserver.com"
+  	  web.remote_host = "mywebserver.com"
+  	  web.username = "myusername"
+	  web.password = "mypassword"
+	  web.remote_directory = "/var/www/mywebserverpath"
+	end
+
+### Deploying to a web server (FTP)
+
+The output of the build/package process can be deployed to a remote web server.
+You can upload the files through FTP with the following syntax:
+
+	builder.web("ftp") do |web|
+	  web.deploy_to = "http://mywebserver.com"
+  	  web.remote_host = "ftp.mywebserver.com"
+  	  web.username = "myusername"
+	  web.password = "mypassword"
+	  web.remote_directory = "/mywebserverpath"
+	end
+	
 ### OCUnit to JUnit reports
 
 You can invoke your test target/bundle from the builder
