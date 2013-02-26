@@ -55,7 +55,7 @@ module Xcode
     end
     
     def increment_build(old_version)
-      if (old_version.index(".") != nil) then # dot numbered version
+      if (old_version.to_s.index(".") != nil) then # dot numbered version
         parts = old_version.split(".")
         last_part = parts.last.to_i
         last_part = last_part + 1
