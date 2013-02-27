@@ -79,15 +79,10 @@ This will produce something like: MyProject-Debug-1.0.ipa and MyProject-Debug-1.
 
 ### Incrementing the build number
 
-The function increment_build takes care of incrementing the build number of your product.
-If the version is just a number, it will increment that number.
-If the version is in dot notation (e.g. 1.2.3) it will increment the last value (leading to 1.2.4 in this example)
-
-  config.info_plist do |info|
-    info.version = info.increment_build(info.version)
-    info.marketing_version = info.increment_build(info.marketing_version)
-    info.save
-  end
+	config.info_plist do |info|
+	  info.version = info.version.to_i + 1
+	  info.save
+	end
 
 ### Working with workspaces
 
