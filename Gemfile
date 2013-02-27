@@ -4,7 +4,7 @@ gemspec
 gem 'rake'
 
 gem 'builder'
-gem 'json'
+gem 'multi_json'
 gem 'plist'
 gem 'rest-client'
 gem 'yard'
