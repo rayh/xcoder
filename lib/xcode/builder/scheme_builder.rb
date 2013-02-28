@@ -16,8 +16,9 @@ module Xcode
     class SchemeBuilder < BaseBuilder
   
       def initialize(scheme)
-        @scheme     = scheme        
-        super @scheme.build_targets.last, @scheme.build_config
+        @scheme     = scheme
+        target = @scheme.build_targets.last
+        super target, target.config(@scheme.build_config)
       end
         
       def xcodebuild
