@@ -84,6 +84,23 @@ This will produce something like: MyProject-Debug-1.0.ipa and MyProject-Debug-1.
 	  info.save
 	end
 
+### Managing build numbers more efficiently
+
+Based on our experience we suggest [Versionomy](https://github.com/dazuma/versionomy) to manage version numbers. 
+Although the marketing version is usually set by hand on release, 
+there are situations where it could be nice to have an incremental build number in the marketing version number as well.
+The following is an example that takes a marketing version number in the x.y.z format and increments the last part of it.
+
+	config.info_plist do |info|
+  	  info.version = info.version.to_i + 1
+  	  marketing_version = Versionomy.parse(info.marketing_version)
+  	  info.marketing_version = marketing_version.bump(:tiny).to_s
+  	  info.save
+	end
+
+You can read more about Versionomy at their [site](https://github.com/dazuma/versionomy)
+
+
 ### Working with workspaces
 
 Loading workspaces can be done in a similar way to projects:
