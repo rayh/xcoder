@@ -79,6 +79,30 @@ module Xcode
       end
 
       #
+      # Deploy the package through the chosen method
+      #
+      # @param method the deployment method (web, ssh, testflight)
+      # @param options options specific for the chosen deployment method
+      #
+      def deploy method, options = {}
+        deployable = eval("Xcode::Deploy::#{method}.new")
+        options = {
+          :ipa_path => ipa_path,
+          :dsym_zip_path => dsym_zip_path,
+          :ipa_name => ipa_name,
+          :app_path => app_path,
+          :configuration_build_path => configuration_build_path,
+          :product_name => @config.product_name,
+          :info_plist => @config.info_plist
+        }.merge options
+        options.each do |key,value|
+          eval("deployable.#{key} = #{value}")
+          yield(deploy) if block_given?
+          deployable.deploy
+        end
+      end
+
+      #
       # Upload to testflight
       #
       # The testflight object is yielded so further configuration can be performed before uploading
