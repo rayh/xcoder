@@ -85,7 +85,6 @@ module Xcode
       # @param options options specific for the chosen deployment method
       #
       def deploy method, options = {}
-        deployable = eval("Xcode::Deploy::#{method}.new")
         options = {
           :ipa_path => ipa_path,
           :dsym_zip_path => dsym_zip_path,
@@ -95,11 +94,13 @@ module Xcode
           :product_name => @config.product_name,
           :info_plist => @config.info_plist
         }.merge options
-        options.each do |key,value|
-          eval("deployable.#{key} = #{value}")
-          yield(deploy) if block_given?
-          deployable.deploy
-        end
+        deployable = eval("Xcode::Deploy::#{method}.new(options)")
+        #options.each do |key,value|
+        #  puts "deployable.#{key} = '#{value}'"
+        #  eval("deployable.#{key} = '#{value}'")
+        #end
+        yield(deployable) if block_given?
+        deployable.deploy
       end
 
       #
