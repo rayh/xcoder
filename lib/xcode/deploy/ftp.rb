@@ -38,43 +38,20 @@ module Xcode
       def prepare
         @dist_path = "#{@options[:configuration_build_path]}/dist"
         Dir.mkdir(@dist_path) unless File.exists?(@dist_path)
+        
+        spec = Gem::Specification.find_by_name("xcoder")
+        gem_root = spec.gem_dir
+        gem_lib = gem_root + "/lib"
+
+        rhtml = ERB.new(File.read(gem_lib+"/xcode/deploy/templates/manifest.rhtml"))
         File.open("#{@dist_path}/manifest.plist", "w") do |io|
-          io << %{
-            <?xml version="1.0" encoding="UTF-8"?>
-            <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-            <plist version="1.0">
-            <dict>
-              <key>items</key>
-              <array>
-                <dict>
-                  <key>assets</key>
-                  <array>
-                    <dict>
-                      <key>kind</key>
-                      <string>software-package</string>
-                      <key>url</key>
-                      <string>#{deployment_url}</string>
-                    </dict>
-                  </array>
-                  <key>metadata</key>
-                  <dict>
-                    <key>bundle-identifier</key>
-                    <string>#{@options[:info_plist].identifier}</string>
-                    <key>bundle-version</key>
-                    <string>#{@options[:info_plist].version}</string>
-                    <key>kind</key>
-                    <string>software</string>
-                    <key>title</key>
-                    <string>#{@options[:product_name]}</string>
-                  </dict>
-                </dict>
-              </array>
-            </dict>
-            </plist>
-          }
-        end
-        rhtml = ERB.new(File.read("xcode/deploy/templates/index.rhtml"))
-        puts rhtml.result        
+          io.write(rhtml.result(get_binding))
+        end        
+        
+        rhtml = ERB.new(File.read(gem_lib+"/xcode/deploy/templates/index.rhtml"))
+        File.open("#{@dist_path}/index.html", "w") do |io|
+          io.write(rhtml.result(get_binding))
+        end        
       end
       
       def final_deploy
