@@ -34,6 +34,22 @@ module Xcode
       @plist['CFBundleVersion'] = version.to_s
     end
 
+    def identifier
+      @plist['CFBundleIdentifier']
+    end
+
+    def identifier=(identifier)
+      @plist['CFBundleIdentifier'] = identifier
+    end
+
+    def display_name
+      @plist['CFBundleDisplayName']
+    end
+
+    def display_name=(name)
+      @plist['CFBundleDisplayName'] = name
+    end
+
     def save
       File.open(@plist_location, 'w') {|f| f << @plist.to_plist}
     end

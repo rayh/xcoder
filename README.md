@@ -84,6 +84,23 @@ This will produce something like: MyProject-Debug-1.0.ipa and MyProject-Debug-1.
 	  info.save
 	end
 
+### Managing build numbers more efficiently
+
+Based on our experience we suggest [Versionomy](https://github.com/dazuma/versionomy) to manage version numbers. 
+Although the marketing version is usually set by hand on release, 
+there are situations where it could be nice to have an incremental build number in the marketing version number as well.
+The following is an example that takes a marketing version number in the x.y.z format and increments the last part of it.
+
+	config.info_plist do |info|
+  	  info.version = info.version.to_i + 1
+  	  marketing_version = Versionomy.parse(info.marketing_version)
+  	  info.marketing_version = marketing_version.bump(:tiny).to_s
+  	  info.save
+	end
+
+You can read more about Versionomy at their [site](https://github.com/dazuma/versionomy)
+
+
 ### Working with workspaces
 
 Loading workspaces can be done in a similar way to projects:
@@ -138,6 +155,32 @@ The common output of this build/package process is to upload to Testflight.  Thi
 
 You can also optionally set a .proxy= property or just set the HTTP_PROXY environment variable.
 
+### Deploying to a web server (SSH)
+
+The output of the build/package process can be deployed to a remote web server.
+You can use SSH with the following syntax:
+
+	builder.web("ssh") do |web|
+	  web.deploy_to = "http://mywebserver.com"
+  	  web.remote_host = "mywebserver.com"
+  	  web.username = "myusername"
+	  web.password = "mypassword"
+	  web.remote_directory = "/var/www/mywebserverpath"
+	end
+
+### Deploying to a web server (FTP)
+
+The output of the build/package process can be deployed to a remote web server.
+You can upload the files through FTP with the following syntax:
+
+	builder.web("ftp") do |web|
+	  web.deploy_to = "http://mywebserver.com"
+  	  web.remote_host = "ftp.mywebserver.com"
+  	  web.username = "myusername"
+	  web.password = "mypassword"
+	  web.remote_directory = "/mywebserverpath"
+	end
+	
 ### OCUnit to JUnit reports
 
 You can invoke your test target/bundle from the builder
