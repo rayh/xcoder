@@ -20,7 +20,7 @@ module Xcode
       
       def deploy
         prepare
-        #final_deploy
+        final_deploy
       end
       
       def deployment_url
