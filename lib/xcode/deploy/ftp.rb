@@ -1,6 +1,4 @@
 require 'net/ftp'
-require 'net/ssh'
-require 'net/scp'
 
 module Xcode
   module Deploy
@@ -16,7 +14,7 @@ module Xcode
       
       def deploy
         prepare
-        #final_deploy
+        final_deploy
       end
       
       def deployment_url

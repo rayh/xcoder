@@ -1,36 +1,36 @@
-require 'net/ftp'
 require 'net/ssh'
 require 'net/scp'
 
 module Xcode
   module Deploy
-    class Web
-      attr_accessor :protocol, :remote_host, :deploy_to, :username, :password, :remote_directory, :product_name, :ipa_name, :dist_path, :ipa_path
+    class Ssh
+      attr_accessor :protocol, :remote_host, :deploy_to, :username, :password, :remote_directory
+      attr_accessor :options
     
-      def initialize(protocol)
-        @protocol = protocol
+      def initialize(options)
+        @options = options
+      end
+      
+      def deploy
+        prepare
+        final_deploy
       end
       
       def deployment_url
-        File.join(@deploy_to, @product_name.downcase, @ipa_name)
+        File.join(@deploy_to, @options[:product_name].downcase, @options[:ipa_name])
       end
 
       def manifest_url
-        File.join(@deploy_to, @product_name.downcase, "manifest.plist")
+        File.join(@deploy_to, @options[:product_name].downcase, "manifest.plist")
       end
 
       def remote_installation_path
-        File.join(@remote_directory, @product_name.downcase)
+        File.join(@remote_directory, @options[:product_name].downcase)
       end
       
-      def prepare(ipa_name, app_path, configuration_build_path, product_name, info_plist, ipa_path)
-        @product_name = product_name
-        @ipa_name = ipa_name
-        @dist_path = "#{configuration_build_path}/dist"
-        @ipa_path = ipa_path
+      def prepare
+        @dist_path = "#{@options[:configuration_build_path]}/dist"
         Dir.mkdir(@dist_path) unless File.exists?(@dist_path)
-        #plist = CFPropertyList::List.new(:file => "#{app_path}/Info.plist")
-        #plist_data = CFPropertyList.native_types(plist.value)
         File.open("#{@dist_path}/manifest.plist", "w") do |io|
           io << %{
             <?xml version="1.0" encoding="UTF-8"?>
@@ -52,13 +52,13 @@ module Xcode
                   <key>metadata</key>
                   <dict>
                     <key>bundle-identifier</key>
-                    <string>#{info_plist.identifier}</string>
+                    <string>#{@options[:info_plist].identifier}</string>
                     <key>bundle-version</key>
-                    <string>#{info_plist.version}</string>
+                    <string>#{@options[:info_plist].version}</string>
                     <key>kind</key>
                     <string>software</string>
                     <key>title</key>
-                    <string>#{product_name}</string>
+                    <string>#{@options[:product_name]}</string>
                   </dict>
                 </dict>
               </array>
@@ -85,7 +85,7 @@ module Xcode
             </head>
             <body>
             <div id="container">
-            <div class="link"><a href="itms-services://?action=download-manifest&url=#{manifest_url}">Tap Here to Install<br />#{@product_name}<br />On Your Device</a></div>
+            <div class="link"><a href="itms-services://?action=download-manifest&url=#{manifest_url}">Tap Here to Install<br />#{@options[:product_name]}<br />On Your Device</a></div>
             <p><strong>Link didn't work?</strong><br />
             Make sure you're visiting this page on your device, not your computer.</p>
             </body>
@@ -94,8 +94,7 @@ module Xcode
         end
       end
       
-      def deploy
-        if @protocol == "ssh" then
+      def final_deploy
           puts "Copying files to #{@remote_host}:#{remote_installation_path}"
           #system("scp #{@dist_path}/* #{@remote_host}:#{remote_installation_path}")
           Net::SSH.start(@remote_host, @username, :password => @password) do |ssh|
@@ -108,32 +107,8 @@ module Xcode
               puts "Copying #{f} to remote host in folder #{remote_installation_path}"
               scp.upload! "#{f}", "#{remote_installation_path}"
             end
-            scp.upload! "#{@ipa_path}", "#{remote_installation_path}"
+            scp.upload! "#{@options[:ipa_path]}", "#{remote_installation_path}"
           end
-        elsif @protocol == "ftp" then
-          puts "Connecting to #{@remote_host} with username #{@username}"
-          Net::FTP.open(@remote_host, @username, @password) do |ftp|
-            begin
-              puts "Creating folder #{remote_installation_path}"
-              ftp.mkdir(remote_installation_path)
-            rescue Net::FTPError
-              puts "It looks like the folder is already there."
-            end
-            puts "Changing to remote folder #{remote_installation_path}"
-            files = ftp.chdir(remote_installation_path)
-            Dir["#{@dist_path}/*"].each do |f|
-              filename = File.basename(f)
-              puts "Uploading #{filename}"
-              ftp.putbinaryfile(f, filename, 1024)
-            end
-            filename = File.basename("#{@ipa_path}")
-            puts "Uploading #{filename}"
-            ftp.putbinaryfile("#{@ipa_path}", filename, 1024)
-          end
-          
-        else
-          puts "No valid protocol definition found. Skipping deployment"
-        end
       end
       
     end
