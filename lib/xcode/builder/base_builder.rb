@@ -1,7 +1,7 @@
 module Xcode
   module Builder
     #
-    # This class tries to pull various bits of Xcoder together to provide a higher-level API for common 
+    # This class tries to pull various bits of Xcoder together to provide a higher-level API for common
     # project build tasks.
     #
     class BaseBuilder
@@ -11,22 +11,22 @@ module Xcode
       def initialize(target, config)
         @target = target
         @config = config
-        
+
         @sdk = @target.project.sdk
         @build_path = "#{File.dirname(@target.project.path)}/build/"
         @objroot = @build_path
         @symroot = @build_path
       end
-      
+
       def common_environment
         env = {}
         env["OBJROOT"]  = "\"#{@objroot}\""
         env["SYMROOT"]  = "\"#{@symroot}\""
         env
       end
-      
+
       def build_environment
-        profile = install_profile        
+        profile = install_profile
         env = common_environment
         env["OTHER_CODE_SIGN_FLAGS"]  = "'--keychain #{@keychain.path}'" unless @keychain.nil?
         env["CODE_SIGN_IDENTITY"]     = "\"#{@identity}\"" unless @identity.nil?
@@ -35,17 +35,17 @@ module Xcode
       end
 
 
-      def build(options = {:sdk => @sdk})    
+      def build(options = {:sdk => @sdk}, show_output, &block)
         cmd = xcodebuild
         cmd << "-sdk #{options[:sdk]}" unless options[:sdk].nil?
 
         with_keychain do
-          cmd.execute
+          cmd.execute(show_output, &block)
         end
         self
       end
 
-      # 
+      #
       # Invoke the configuration's test target and parse the resulting output
       #
       # If a block is provided, the report is yielded for configuration before the test is run
@@ -95,55 +95,54 @@ module Xcode
         testflight.upload(ipa_path, dsym_zip_path)
       end
 
-      def clean
-        cmd = xcodebuild 
-        cmd << "-sdk #{@sdk}" unless @sdk.nil?          
+      def clean(show_output = true, &block)
+        cmd = xcodebuild
+        cmd << "-sdk #{@sdk}" unless @sdk.nil?
         cmd << "clean"
-        cmd.execute
+        cmd.execute(show_output, &block)
 
         @built = false
         @packaged = false
         self
-      end    
+      end
 
-      def sign
+      def sign(show_output = true, &block)
         cmd = Xcode::Shell::Command.new 'codesign'
         cmd << "--force"
         cmd << "--sign \"#{@identity}\""
         cmd << "--resource-rules=\"#{app_path}/ResourceRules.plist\""
         cmd << "--entitlements \"#{entitlements_path}\""
         cmd << "\"#{ipa_path}\""
-        cmd.execute
-        
-        
+        cmd.execute(show_output, &block)
+
         self
       end
 
-      def package
+      def package(show_output = true, &block)
         raise "Can't find #{app_path}, do you need to call builder.build?" unless File.exists? app_path
 
         #package IPA
-        cmd = Xcode::Shell::Command.new 'xcrun'     
+        cmd = Xcode::Shell::Command.new 'xcrun'
         cmd << "-sdk #{@sdk}" unless @sdk.nil?
         cmd << "PackageApplication"
         cmd << "-v \"#{app_path}\""
         cmd << "-o \"#{ipa_path}\""
-    
+
         unless @profile.nil?
           cmd << "--embed \"#{@profile}\""
         end
 
         with_keychain do
-          cmd.execute
+          cmd.execute(show_output, &block)
         end
 
         # package dSYM
-        cmd = Xcode::Shell::Command.new 'zip' 
+        cmd = Xcode::Shell::Command.new 'zip'
         cmd << "-r"
         cmd << "-T"
         cmd << "-y \"#{dsym_zip_path}\""
         cmd << "\"#{dsym_path}\""
-        cmd.execute
+        cmd.execute(show_output, &block)
 
         self
       end
@@ -178,7 +177,7 @@ module Xcode
         "#{product_version_basename}.dSYM.zip"
       end
 
-      private 
+      private
 
       def with_keychain(&block)
         if @keychain.nil?
