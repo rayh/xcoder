@@ -37,15 +37,6 @@ Xcoder provides a simple mechanism to help with automating builds and CI.  Provi
 	    :lists => ['Internal'], 
 	    :notes => `git log -n 1`
 	    
-	  deploy :s3,   
-	  	:access_key_id => ENV['AWS_ACCESS_ID'],
-		:secret_access_key => ENV['AWS_SECRET_KEY'],
-		:bucket => 'my-project-bucket',
-		:dir => 'downloads/'
-
-
-  	  deploy :kickfolio,
-
 	end
 
 	task :ci => ['adhoc:deploy:all'] 
@@ -188,7 +179,9 @@ Or enumerate installed profiles:
 		p.uninstall		# Removes the profile from ~/Library/
 	end
 
-### [Testflight](http://testflightapp.com)
+### Deployment
+
+#### [Testflight](http://testflightapp.com)
 
 The common output of this build/package process is to upload to Testflight.  This is pretty simple with Xcoder:
 
@@ -204,7 +197,17 @@ The common output of this build/package process is to upload to Testflight.  Thi
 
 You can also optionally set the HTTP_PROXY environment variable.
 
-### Deploying to a web server (SSH)
+#### Deploying to Amazon S3
+
+You can upload the output ipa to an arbitrary buckey on S3
+
+	builder.deploy :s3, 
+		:bucket => "mybucket", 
+		:access_key_id => "access id", 
+		:secret_access_key => "access key", 
+		:dir => "options/path/within/bucket"
+
+#### Deploying to a web server (SSH)
 
 The output of the build/package process can be deployed to a remote web server.
 You can use SSH with the following syntax:
@@ -213,9 +216,10 @@ You can use SSH with the following syntax:
 		:host => "mywebserver.com", 
 		:username => "myusername", 
 		:password => "mypassword", 
-		:dir => "/var/www/mywebserverpath"
+		:dir => "/var/www/mywebserverpath",
+		:base_url => "http://mywebserver.com/"
 
-### Deploying to a web server (FTP)
+#### Deploying to a web server (FTP)
 
 The output of the build/package process can be deployed to a remote web server.
 You can upload the files through FTP with the following syntax:
@@ -224,7 +228,9 @@ You can upload the files through FTP with the following syntax:
 		:host => "ftp.mywebserver.com", 
 		:username => "myusername", 
 		:password => "mypassword", 
-		:dir => "/mywebserverpath"
+		:dir => "/mywebserverpath",
+		:base_url => "http://mywebserver.com/"
+
 	
 ### OCUnit to JUnit reports
 

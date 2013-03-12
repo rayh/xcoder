@@ -24,12 +24,13 @@ module Xcode
 			end
 
   		def deploy
-  			WebAssets.generate @builder do |dir|
+  			remote_ipa = upload @builder.ipa_path
+  			base_url = remote_ipa.public_url(:secure => false).to_s.split("/")[0..-2].join("/")
+
+  			WebAssets.generate @builder, base_url do |dir|
   				Dir["#{dir}/*"].each do |path|
   					upload path
   				end
-
-  				upload @builder.ipa_path
   			end
   		end
   	end

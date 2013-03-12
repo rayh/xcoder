@@ -13,6 +13,7 @@ module Xcode
         @password = @options[:password]
         @dir = @options[:dir]
         @host = @options[:host]
+        @base_url = @options[:base_url]
       end
 
       def remote_installation_path
@@ -20,7 +21,7 @@ module Xcode
       end
 
       def deploy
-        WebAssets.generate @builder do |dist_path|
+        WebAssets.generate @builder, @base_url do |dist_path|
           puts "Copying files to #{@remote_host}:#{remote_installation_path}"
           Net::SSH.start(@host, @username, :password => @password) do |ssh|
             puts "Creating folder with mkdir #{remote_installation_path}"

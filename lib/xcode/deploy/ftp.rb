@@ -12,6 +12,7 @@ module Xcode
         @password = @options[:password]
         @dir = @options[:dir]
         @host = @options[:host]
+        @base_url = @options[:base_url]
       end
 
       # Support templating of member data.
@@ -24,7 +25,7 @@ module Xcode
       end
 
       def deploy
-        WebAssets.generate @builder do |dir|
+        WebAssets.generate @builder, @base_url do |dir|
           puts "Connecting to #{@remote_host} with username #{@username}"
           Net::FTP.open(@host, @username, @password) do |ftp|
             begin

@@ -10,13 +10,13 @@ module Xcode
 		    end
 			end
 
-			def self.generate(builder, &block)
+			def self.generate(builder, base_url, &block)
 				Dir.mktmpdir do |dist_path|
 
 					context = BindingContext.new
 					context.product_name = builder.product_name
-					context.manifest_url = "manifest.plist"
-					context.deployment_url = builder.ipa_name
+					context.manifest_url = "#{base_url}/manifest.plist"
+					context.deployment_url = "#{base_url}/#{builder.ipa_name}"
 					context.bundle_version = builder.bundle_version
 					context.bundle_identifier = builder.bundle_identifier
 
