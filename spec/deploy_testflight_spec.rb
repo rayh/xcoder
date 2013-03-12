@@ -1,8 +1,13 @@
 require_relative 'spec_helper'
+require 'ostruct'
+require 'xcode/deploy/testflight'
 
 describe Xcode::Deploy::Testflight do
   
-  let(:testflight) { Xcode::Deploy::Testflight.new 'api token', 'team token' }
+  let(:testflight) do 
+    builder = OpenStruct.new :ipa_path => 'ipa path', :dsym_zip_path => 'dsym path'
+    Xcode::Deploy::Testflight.new(builder, {:api_token => 'api token', :team_token => 'team token' }) 
+  end
   
   it "should be configured with api and team token" do
     testflight.api_token.should == 'api token'
@@ -20,7 +25,7 @@ describe Xcode::Deploy::Testflight do
       
       ['{"response":"ok"}']
     end
-    response = testflight.upload('ipa path', 'dsym path')
+    response = testflight.deploy
     response['response'].should == 'ok'
   end
 

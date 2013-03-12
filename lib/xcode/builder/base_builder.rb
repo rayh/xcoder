@@ -94,13 +94,12 @@ module Xcode
           :product_name => @config.product_name,
           :info_plist => @config.info_plist
         }.merge options
-        deployable = eval("Xcode::Deploy::#{method}.new(options)")
-        #options.each do |key,value|
-        #  puts "deployable.#{key} = '#{value}'"
-        #  eval("deployable.#{key} = '#{value}'")
-        #end
-        yield(deployable) if block_given?
-        deployable.deploy
+
+        require "xcode/deploy/#{method.to_s}.rb"
+        deployer = Xcode::Deploy.const_get("#{method.to_s.capitalize}").new(builder, options)
+
+        # yield(deployer) if block_given?
+        deployer.deploy builder, &block
       end
 
       #
@@ -188,6 +187,10 @@ module Xcode
         version = @config.info_plist.version
         version = "SNAPSHOT" if version.nil? or version==""
         "#{configuration_build_path}/#{@config.product_name}-#{@config.name}-#{version}"
+      end
+
+      def product_name
+        @config.product_name
       end
 
       def ipa_path

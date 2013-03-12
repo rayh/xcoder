@@ -10,24 +10,25 @@ module Xcode
         @@defaults = defaults
       end
 
-      def initialize(api_token, team_token)
-        @api_token = api_token||@@defaults[:api_token]
-        @team_token = team_token||@@defaults[:team_token]
-        @notify = true
-        @notes = nil
-        @lists = []
+      def initialize(builder, options={})
+        @builder = builder
+        @api_token = options[:api_token]||@@defaults[:api_token]
+        @team_token = options[:team_token]||@@defaults[:team_token]
+        @notify = options[:notify]||true
+        @notes = options[:notes]
+        @lists = options[:lists]||[]
         @proxy = ENV['http_proxy'] || ENV['HTTP_PROXY']
       end
 
-      def upload(ipa_path, dsymzip_path=nil)
+      def deploy
         puts "Uploading to Testflight..."
 
         # RestClient.proxy = @proxy || ENV['http_proxy'] || ENV['HTTP_PROXY']
         # RestClient.log = '/tmp/restclient.log'
         #
         # response = RestClient.post('http://testflightapp.com/api/builds.json',
-        #   :file => File.new(ipa_path),
-        #   :dsym => File.new(dsymzip_path),
+        #   :file => File.new(builder.ipa_path),
+        #   :dsym => File.new(builder.dsym_zip_path),
         #   :api_token => @api_token,
         #   :team_token => @team_token,
         #   :notes => @notes,
@@ -42,8 +43,8 @@ module Xcode
         cmd = Xcode::Shell::Command.new 'curl'
         cmd << "--proxy #{@proxy}" unless @proxy.nil? or @proxy==''
         cmd << "-X POST http://testflightapp.com/api/builds.json"
-        cmd << "-F file=@\"#{ipa_path}\""
-        cmd << "-F dsym=@\"#{dsymzip_path}\"" unless dsymzip_path.nil?
+        cmd << "-F file=@\"#{@builder.ipa_path}\""
+        cmd << "-F dsym=@\"#{@builder.dsym_zip_path}\"" unless @builder.dsym_zip_path.nil?
         cmd << "-F api_token='#{@api_token}'"
         cmd << "-F team_token='#{@team_token}'"
         cmd << "-F notes=\"#{@notes}\"" unless @notes.nil?

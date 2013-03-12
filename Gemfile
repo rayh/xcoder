@@ -8,9 +8,8 @@ gem 'multi_json'
 gem 'plist'
 gem 'rest-client'
 gem 'yard'
-gem 'net/ftp'
-gem 'net/ssh'
-gem 'net/scp'
+gem 'net-ssh'
+gem 'net-scp'
 
 group :test do
   gem 'rspec'
