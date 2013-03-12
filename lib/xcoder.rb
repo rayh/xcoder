@@ -7,7 +7,6 @@ require "xcode/shell"
 require 'plist'
 require 'xcode/keychain'
 require 'xcode/workspace'
-require 'xcode/buildfile'
 require 'multi_json'
 
 module Xcode

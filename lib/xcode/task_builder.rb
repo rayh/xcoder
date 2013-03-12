@@ -1,26 +1,34 @@
+require 'rake'
+require 'rake/tasklib'
+
 module Xcode
-  def self.task(&block)
-    t = TaskBuilder.new
+  def self.task(name, &block)
+    t = TaskBuilder.new name
     t.instance_eval(&block)
     t.generate_rake_tasks
   end
 
   class TaskBuilder < ::Rake::TaskLib
+
     include ::Rake::DSL if defined?(::Rake::DSL)
 
     def initialize name
       @name = name
-      @before = lambda {}
+      @before = lambda {|builder| return nil }
       @deployments = []
       @profile = "Provisioning/#{name}.mobileprovision"
     end
 
     def use args={}
-
+      @args = args
     end
 
     def before &block
       @before = block
+    end
+
+    def keychain path, password = nil
+      @keychain = {:path => path, :password => password}
     end
 
     def profile profile
@@ -36,7 +44,7 @@ module Xcode
 
       if !@args[:project].nil?
         project = Xcode.project @args[:project]
-        @builder = project.target(args[:target]).config(args[:config]).builder
+        @builder = project.target(@args[:target]).config(@args[:config]).builder
       elsif !@args[:workspace].nil?
         workspace = Xcode.workspace @args[:workspace]
       else
@@ -45,17 +53,23 @@ module Xcode
 
       raise "Could not create a builder using #{@args}" if @builder.nil?
 
+      unless @keychain.nil?
+        keychain = Xcode::Keychain.new @keychain[:path]
+        keychain.unlock @keychain[:password] unless @keychain[:password].nil?
+
+        builder.identity = keychain.identities.first
+        builder.keychain = keychain
+      end
+
+      @before.call(builder)  
+
       @builder
     end
 
     def generate_rake_tasks
-      require 'rake'
-      require 'rake/tasklib'
       require 'socket'
 
       namespace @name.downcase do 
-        builder = self.builder
-        @before.call(builder)    
 
         desc "Clean #{@name}"
         task :clean do
@@ -64,7 +78,7 @@ module Xcode
 
         desc "Build #{@name}"
         task :build => [:clean] do
-          config.info_plist do |info|
+          builder.config.info_plist do |info|
             info.version = ENV['BUILD_NUMBER']||"#{Socket.gethostname}-SNAPSHOT"
             info.save
           end
@@ -86,7 +100,7 @@ module Xcode
           end
 
           desc "Deploy #{@name} to all"
-          task :all  => [:package]+@deployments.map{|k,v| k} do
+          task :all  => [:package]+(@deployments.map{|k,v| k[:type]}) do
             puts "Deployed to all"
           end
         end

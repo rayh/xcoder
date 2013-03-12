@@ -4,10 +4,15 @@ module Xcode
   module Deploy
     class Testflight
       attr_accessor :api_token, :team_token, :notify, :proxy, :notes, :lists
+      @@defaults = {}
+
+      def self.defaults(defaults={})
+        @@defaults = defaults
+      end
 
       def initialize(api_token, team_token)
-        @api_token = api_token
-        @team_token = team_token
+        @api_token = api_token||@@defaults[:api_token]
+        @team_token = team_token||@@defaults[:team_token]
         @notify = true
         @notes = nil
         @lists = []
