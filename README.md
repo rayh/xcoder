@@ -135,7 +135,8 @@ Note: Shared schemes and user (current logged in user) specific schemes are both
 
 The library provides a mechanism to install/uninstall a provisioning profile.  This normally happens as part of a build (if a profile is provided to the builder, see above), but you can do this manually:
 
-	Xcode::ProvisioningProfile.new("Myprofile.mobileprovision").install	# installs profile into ~/Library
+	# installs profile into ~/Library
+	Xcode::ProvisioningProfile.new("Myprofile.mobileprovision").install	
 
 Or enumerate installed profiles:
 
@@ -147,39 +148,39 @@ Or enumerate installed profiles:
 
 The common output of this build/package process is to upload to Testflight.  This is pretty simple with Xcoder:
 
-	builder.testflight(API_TOKEN, TEAM_TOKEN) do |tf|
-	  tf.notes = "some release notes"
- 	  tf.notify = true	# Whether to send a notification to users, default is true
-      tf.lists << "AList"  # The lists to distribute the build to
-	end
+	# Optionally do this, saves doing it again and again
+	Xcode::Deploy::Testflight.defaults :api_token => 'some api token', :team_token => 'team token'
 
-You can also optionally set a .proxy= property or just set the HTTP_PROXY environment variable.
+	builder.deploy :testflight,
+		:api_token 	=> API_TOKEN, 
+		:team_token => TEAM_TOKEN,
+		:notes 		=> "some release notes",
+ 	  	:notify 	=> true,		# Whether to send a notification to users, default is true
+      	:lists 		=> ["AList"]  	# The lists to distribute the build to
+
+You can also optionally set the HTTP_PROXY environment variable.
 
 ### Deploying to a web server (SSH)
 
 The output of the build/package process can be deployed to a remote web server.
 You can use SSH with the following syntax:
 
-	builder.web("ssh") do |web|
-	  web.deploy_to = "http://mywebserver.com"
-  	  web.remote_host = "mywebserver.com"
-  	  web.username = "myusername"
-	  web.password = "mypassword"
-	  web.remote_directory = "/var/www/mywebserverpath"
-	end
+	builder.deploy :ssh, 
+		:host => "mywebserver.com", 
+		:username => "myusername", 
+		:password => "mypassword", 
+		:dir => "/var/www/mywebserverpath"
 
 ### Deploying to a web server (FTP)
 
 The output of the build/package process can be deployed to a remote web server.
 You can upload the files through FTP with the following syntax:
 
-	builder.web("ftp") do |web|
-	  web.deploy_to = "http://mywebserver.com"
-  	  web.remote_host = "ftp.mywebserver.com"
-  	  web.username = "myusername"
-	  web.password = "mypassword"
-	  web.remote_directory = "/mywebserverpath"
-	end
+	builder.deploy :ftp, 
+		:host => "ftp.mywebserver.com", 
+		:username => "myusername", 
+		:password => "mypassword", 
+		:dir => "/mywebserverpath"
 	
 ### OCUnit to JUnit reports
 
