@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+require 'xcoder'
+
+command = ARGV[0]
+# command = ARGV.delete
+
+case command
+when 'describe'
+  Xcode.workspaces.each do |w|
+    puts w.describe
+  end
+  
+  Xcode.projects.each do |p|
+    puts p.describe
+  end
+end

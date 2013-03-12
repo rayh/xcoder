@@ -1,4 +1,4 @@
-rvm use 1.9.2@xcoder
+rvm use 1.9.3@xcoder
 rvm_install_on_use_flag=1
 rvm_project_rvmrc=1
 rvm_gemset_create_on_use_flag=1

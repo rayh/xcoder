@@ -1,4 +1,99 @@
 module Xcode
+  def self.task(&block)
+    t = TaskBuilder.new
+    t.instance_eval(&block)
+    t.generate_rake_tasks
+  end
+
+  class TaskBuilder < ::Rake::TaskLib
+    include ::Rake::DSL if defined?(::Rake::DSL)
+
+    def initialize name
+      @name = name
+      @before = lambda {}
+      @deployments = []
+      @profile = "Provisioning/#{name}.mobileprovision"
+    end
+
+    def use args={}
+
+    end
+
+    def before &block
+      @before = block
+    end
+
+    def profile profile
+      @profile = profile
+    end
+
+    def deploy type, args = {}
+      @deployments << {:type => type, :args => args}
+    end
+
+    def builder
+      return @builder unless @builder.nil?
+
+      if !@args[:project].nil?
+        project = Xcode.project @args[:project]
+        @builder = project.target(args[:target]).config(args[:config]).builder
+      elsif !@args[:workspace].nil?
+        workspace = Xcode.workspace @args[:workspace]
+      else
+        raise "You must provide a project or workspace"
+      end
+
+      raise "Could not create a builder using #{@args}" if @builder.nil?
+
+      @builder
+    end
+
+    def generate_rake_tasks
+      require 'rake'
+      require 'rake/tasklib'
+      require 'socket'
+
+      namespace @name.downcase do 
+        builder = self.builder
+        @before.call(builder)    
+
+        desc "Clean #{@name}"
+        task :clean do
+          builder.clean
+        end
+
+        desc "Build #{@name}"
+        task :build => [:clean] do
+          config.info_plist do |info|
+            info.version = ENV['BUILD_NUMBER']||"#{Socket.gethostname}-SNAPSHOT"
+            info.save
+          end
+          builder.build
+        end
+
+
+        desc "Package (.ipa & .dSYM.zip) #{@name}"
+        task :package => [:build] do
+          builder.package
+        end
+
+        namespace :deploy do 
+          @deployments.each do |deployment|          
+            desc "Deploy #{@name} to #{deployment[:type]}"
+            task deployment[:type]  => [:package] do
+              builder.deploy deployment[:type], deployment[:args]
+            end
+          end
+
+          desc "Deploy #{@name} to all"
+          task :all  => [:package]+@deployments.map{|k,v| k} do
+            puts "Deployed to all"
+          end
+        end
+      end
+    end
+  end
+
   class Buildfile
    
    def initialize

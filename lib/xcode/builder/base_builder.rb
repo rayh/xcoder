@@ -50,7 +50,7 @@ module Xcode
       #
       # If a block is provided, the report is yielded for configuration before the test is run
       #
-      def test(options = {:sdk => 'iphonesimulator'}) #, :parser => :OCUnit })
+      def test(options = {:sdk => 'iphonesimulator'})
         cmd = xcodebuild
         cmd << "-sdk #{options[:sdk]}" unless options[:sdk].nil?
         cmd.env["TEST_AFTER_BUILD"]="YES"
@@ -70,7 +70,7 @@ module Xcode
             parser << line
           end
         rescue Xcode::Shell::ExecutionError => e
-          puts "Test platform exited: #{e.message}"
+          puts "Test platform exited: #{e.message}" if report.suites.count==0
         ensure
           parser.flush
         end
