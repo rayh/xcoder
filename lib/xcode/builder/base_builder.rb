@@ -209,6 +209,14 @@ module Xcode
         File.basename(ipa_path)
       end
 
+      def bundle_identifier
+        @config.info_plist.identifier
+      end
+
+      def bundle_version
+        @config.info_plist.version
+      end
+
       private 
 
       def with_keychain(&block)

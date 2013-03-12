@@ -17,8 +17,8 @@ module Xcode
 					context.product_name = builder.product_name
 					context.manifest_url = "manifest.plist"
 					context.deployment_url = builder.ipa_name
-					context.bundle_version = builder.config.info_plist.version
-					context.bundle_identifier = builder.config.info_plist.identifier
+					context.bundle_version = builder.bundle_version
+					context.bundle_identifier = builder.bundle_identifier
 
 	        rhtml = ERB.new(File.read("#{File.dirname(__FILE__)}/templates/manifest.rhtml"))
 	        File.open("#{dist_path}/manifest.plist", "w") do |io|
