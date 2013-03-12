@@ -1,6 +1,7 @@
 module Xcode
 	module Deploy
 		class Kickfolio
+
 			def initialize(options={})
 				@options = options
 			end
@@ -10,6 +11,7 @@ module Xcode
 					{:bundle_url => @options[:url], :auth_token: @options[:api_key]}
 					:content_type => 'application/json'
 			end
+			
 		end
 	end
 end
