@@ -10,6 +10,50 @@ Full documentation can be found here: http://rayh.github.com/xcoder/
 
 Xcoder assumes you are using XCode 4.3 on Lion and ruby 1.9.  You may have some degree of success with lesser versions, but they are not intentionally supported.
 
+## Automation and CI
+
+Xcoder provides a simple mechanism to help with automating builds and CI.  Provide a Rakefile along the lines of this:
+
+	require 'xcoder'
+	require 'xcode/task_builder'
+
+	# Assumes identity is first in keychain
+	Xcode.task :adhoc do
+
+	  # Which project/target/config, or project/scheme to use
+	  use :project => :MyProject, :target => :MyTarget, :config => :Release
+	    
+	  # The mobile provision that should be used
+	  profile 'Provisioning/MyProject_AdHoc.mobileprovision'
+
+	  # Keychain is option, allows isolation of identities per-project without 
+	  # poluting global keychain
+	  keychain 'Provisioning/build.keychain', 'build'
+	  
+	  deploy :testflight, 
+	    :api_token => 'api token', 
+	    :team_token => 'team token',
+	    :notify => true, 
+	    :lists => ['Internal'], 
+	    :notes => `git log -n 1`
+	    
+	  deploy :s3,   
+	  	:access_key_id => ENV['AWS_ACCESS_ID'],
+		:secret_access_key => ENV['AWS_SECRET_KEY'],
+		:bucket => 'my-project-bucket',
+		:dir => 'downloads/'
+
+
+  	  deploy :kickfolio,
+
+	end
+
+	task :ci => ['adhoc:deploy:all'] 
+
+Running rake -T will give a list of the targets that are available. 
+
+NOTE: This is provided as well as the mechanism listed below, which is more to provide simple access to common build tasks.  This mechanism is to try and reduce the repetativeness of setting up new build jobs while allow more explicit control around identities and keychains
+
 ## Example Usage
 
 You will need to install the gem:

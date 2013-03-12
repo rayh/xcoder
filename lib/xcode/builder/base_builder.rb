@@ -35,12 +35,12 @@ module Xcode
       end
 
 
-      def build(options = {:sdk => @sdk}, show_output, &block)
+      def build options = {:sdk => @sdk, :show_output => true}, &block
         cmd = xcodebuild
         cmd << "-sdk #{options[:sdk]}" unless options[:sdk].nil?
 
         with_keychain do
-          cmd.execute(show_output, &block)
+          cmd.execute(options[:show_output], &block)
         end
         self
       end
@@ -50,7 +50,7 @@ module Xcode
       #
       # If a block is provided, the report is yielded for configuration before the test is run
       #
-      def test(options = {:sdk => 'iphonesimulator'})
+      def test options = {:sdk => 'iphonesimulator', :show_output => false}
         cmd = xcodebuild
         cmd << "-sdk #{options[:sdk]}" unless options[:sdk].nil?
         cmd.env["TEST_AFTER_BUILD"]="YES"
@@ -66,7 +66,7 @@ module Xcode
         parser = Xcode::Test::Parsers::OCUnitParser.new report
 
         begin
-          cmd.execute(false) do |line|
+          cmd.execute(options[:show_output]||false) do |line|
             parser << line
           end
         rescue Xcode::Shell::ExecutionError => e
@@ -84,6 +84,8 @@ module Xcode
       # @param method the deployment method (web, ssh, testflight)
       # @param options options specific for the chosen deployment method
       #
+      # If a block is given, this is yielded to the deploy() method
+      #
       def deploy method, options = {}
         options = {
           :ipa_path => ipa_path,
@@ -96,10 +98,12 @@ module Xcode
         }.merge options
 
         require "xcode/deploy/#{method.to_s}.rb"
-        deployer = Xcode::Deploy.const_get("#{method.to_s.capitalize}").new(builder, options)
+        deployer = Xcode::Deploy.const_get("#{method.to_s.capitalize}").new(self, options)
 
         # yield(deployer) if block_given?
-        deployer.deploy builder, &block
+        deployer.deploy do |*a|
+          yield *a if block_given?
+        end
       end
 
       #
@@ -110,6 +114,7 @@ module Xcode
       # @param api_token the API token for your testflight account
       # @param team_token the token for the team you want to deploy to
       #
+      # DEPRECATED, use deploy() instead
       def testflight(api_token, team_token)
         raise "Can't find #{ipa_path}, do you need to call builder.package?" unless File.exists? ipa_path
         raise "Can't find #{dsym_zip_path}, do you need to call builder.package?" unless File.exists? dsym_zip_path
@@ -119,30 +124,30 @@ module Xcode
         testflight.upload(ipa_path, dsym_zip_path)
       end
 
-      def clean(show_output = true, &block)
+      def clean options = {:show_output => true}, &block
         cmd = xcodebuild
         cmd << "-sdk #{@sdk}" unless @sdk.nil?
         cmd << "clean"
-        cmd.execute(show_output, &block)
+        cmd.execute(options[:show_output]||true, &block)
 
         @built = false
         @packaged = false
         self
       end
 
-      def sign(show_output = true, &block)
+      def sign options = {:show_output => true}, &block
         cmd = Xcode::Shell::Command.new 'codesign'
         cmd << "--force"
         cmd << "--sign \"#{@identity}\""
         cmd << "--resource-rules=\"#{app_path}/ResourceRules.plist\""
         cmd << "--entitlements \"#{entitlements_path}\""
         cmd << "\"#{ipa_path}\""
-        cmd.execute(show_output, &block)
+        cmd.execute(options[:show_output]||true, &block)
 
         self
       end
 
-      def package(show_output = true, &block)
+      def package options = {:show_output => true}, &block
         raise "Can't find #{app_path}, do you need to call builder.build?" unless File.exists? app_path
 
         #package IPA
@@ -157,7 +162,7 @@ module Xcode
         end
 
         with_keychain do
-          cmd.execute(show_output, &block)
+          cmd.execute(options[:show_output]||true, &block)
         end
 
         # package dSYM
@@ -166,7 +171,7 @@ module Xcode
         cmd << "-T"
         cmd << "-y \"#{dsym_zip_path}\""
         cmd << "\"#{dsym_path}\""
-        cmd.execute(show_output, &block)
+        cmd.execute(options[:show_output]||true, &block)
 
         self
       end
