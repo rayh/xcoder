@@ -18,9 +18,10 @@ module Xcode
         @config = config
 
         @sdk = @target.project.sdk
-        @build_path = "#{File.dirname(@target.project.path)}/build/"
+        @build_path = File.join File.dirname(@target.project.path), "Build"
+        FileUtils.mkdir_p @build_path
         @objroot = @build_path
-        @symroot = @build_path
+        @symroot = File.join @build_path, 'Products'
       end
 
       def common_environment

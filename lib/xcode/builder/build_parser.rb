@@ -42,7 +42,7 @@ module Xcode
         piped_row = piped_row.force_encoding("UTF-8").gsub(/\n$/,'')
 
         # Write it to the log
-        @file.write piped_row
+        @file.write piped_row + "\n"
 
         if piped_row=~/^\s+/
           @last_step_params << piped_row
