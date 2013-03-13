@@ -71,6 +71,9 @@ module Xcode
         # sandbox = File.join(File.dirname(@target.project.path), "Pods")
         if File.exists? profile
           log_task "Cocoapods Dependencies" do 
+            cmd = Xcode::Shell::Command.new 'pod setup'
+            cmd.execute(true)
+
             cmd = Xcode::Shell::Command.new 'pod install'
             cmd.execute(true)
           end
