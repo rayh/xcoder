@@ -41,7 +41,6 @@ OptionParser.new do |opts|
   	puts Rake.application.tasks
 	end
 
-
 	opts.separator ""
   opts.separator "Common options:"
 
@@ -50,7 +49,19 @@ OptionParser.new do |opts|
     exit
   end
 
-  opts.on_tail("-v", "--version", "Show version") do
+  opts.on_tail("-l", "--loglevel LEVEL", "Show only output at LEVEL or below " + Xcode::TerminalOutput::LEVELS.join(", ")) do |level|
+  	Xcode::TerminalOutput.log_level = level.to_sym
+  end
+
+  # opts.on_tail("-vv", "Show VERY verbose (debug level) output") do
+  # 	Xcode::TerminalOutput.log_level = :debug
+  # end
+
+  opts.on_tail("-q", "Hide all output except errors (equivilent to -l :error") do
+  	Xcode::TerminalOutput.log_level = :error
+  end
+
+  opts.on_tail("--version", "Show version") do
     puts "Xcoder #{Xcode::VERSION}"
     exit
   end

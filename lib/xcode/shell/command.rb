@@ -3,6 +3,7 @@ require 'set'
 module Xcode
   module Shell
     class Command
+      include Xcode::TerminalOutput
       attr_accessor :env, :cmd, :args
 
       def initialize(cmd, environment={})
@@ -33,8 +34,16 @@ module Xcode
         Set.new(obj.to_a) == Set.new(self.to_a)
       end
       
+      #
+      # Execute the given command
+      #
       def execute(show_output=true, &block) #:yield: output
-        Xcode::Shell.execute(self, show_output, &block)
+        print_output self.to_s, :debug
+        # print_task 'shell', self.to_s, :debug if show_output
+        Xcode::Shell.execute(self, false) do |line|
+          print_input line.gsub(/\n$/,''), :debug if show_output
+          yield(line) if block_given?
+        end
       end
       
     end

@@ -25,7 +25,7 @@ module Xcode
         cmd = super
         cmd << @scheme.parent.to_xcodebuild_option
         cmd << "-scheme \"#{@scheme.name}\""
-        cmd << "-configuration \"#{@scheme.build_config}\""
+        # cmd << "-configuration \"#{@scheme.build_config}\""
         cmd
       end
 

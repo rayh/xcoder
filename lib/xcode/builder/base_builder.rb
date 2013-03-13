@@ -21,13 +21,13 @@ module Xcode
         @build_path = File.join File.dirname(@target.project.path), "Build"
         FileUtils.mkdir_p @build_path
         @objroot = @build_path
-        @symroot = File.join @build_path, 'Products'
+        @symroot = File.join(@build_path, 'Products')
       end
 
       def common_environment
         env = {}
-        env["OBJROOT"]  = "\"#{@objroot}\""
-        env["SYMROOT"]  = "\"#{@symroot}\""
+        env["OBJROOT"]  = "\"#{@objroot}/\""
+        env["SYMROOT"]  = "\"#{@symroot}/\""
         env
       end
 
@@ -40,23 +40,6 @@ module Xcode
         env
       end
 
-      def log_task task, &block
-        print "[#{product_name}] ", :blue
-        puts "#{task}"
-
-        begin
-          yield
-        rescue => e
-          print "ERROR: ", :red
-          puts e.message
-          raise e
-        ensure          
-          # print "[#{product_name}] END ", :blue
-          # puts "#{task}"
-        end
-
-      end
-
       def has_dependencies?
         podfile = File.join(File.dirname(@target.project.path), "Podfile")
         File.exists? profile
@@ -66,16 +49,17 @@ module Xcode
       # If a Podfile exists, perform a pod install
       #
       def dependencies
+        print_task :builder, "Fetch depencies", :notice
         podfile = File.join(File.dirname(@target.project.path), "Podfile")
         # sandbox = File.join(File.dirname(@target.project.path), "Pods")
         if File.exists? profile
-          log_task "Cocoapods Dependencies" do 
-            cmd = Xcode::Shell::Command.new 'pod setup'
-            cmd.execute(true)
+          print_task :cocoapods, "pod setup", :info
+          cmd = Xcode::Shell::Command.new 'pod setup'
+          cmd.execute(true)
 
-            cmd = Xcode::Shell::Command.new 'pod install'
-            cmd.execute(true)
-          end
+          print_task :cocoapods, "pod install", :info
+          cmd = Xcode::Shell::Command.new 'pod install'
+          cmd.execute(true)
         end
       end
 
@@ -83,13 +67,12 @@ module Xcode
       # Build the project
       #
       def build options = {:sdk => @sdk}, &block
-        log_task "Building" do
-          cmd = xcodebuild
-          cmd << "-sdk #{options[:sdk]}" unless options[:sdk].nil?
+        print_task :builder, "Building #{product_name}", :notice
+        cmd = xcodebuild
+        cmd << "-sdk #{options[:sdk]}" unless options[:sdk].nil?
 
-          with_keychain do
-            run_xcodebuild cmd, options
-          end
+        with_keychain do
+          run_xcodebuild cmd, options
         end
 
         self
@@ -102,31 +85,30 @@ module Xcode
       #
       def test options = {:sdk => 'iphonesimulator', :show_output => false}
         report = Xcode::Test::Report.new
+        print_task :builder, "Testing #{product_name}", :notice
 
-        log_task "Testing" do
-          cmd = xcodebuild
-          cmd << "-sdk #{options[:sdk]}" unless options[:sdk].nil?
-          cmd.env["TEST_AFTER_BUILD"]="YES"
+        cmd = xcodebuild
+        cmd << "-sdk #{options[:sdk]}" unless options[:sdk].nil?
+        cmd.env["TEST_AFTER_BUILD"]="YES"
 
-          if block_given?
-            yield(report)
-          else
-            report.add_formatter :stdout, { :color_output => true }
-            report.add_formatter :junit, 'test-reports'
+        if block_given?
+          yield(report)
+        else
+          report.add_formatter :stdout, { :color_output => true }
+          report.add_formatter :junit, 'test-reports'
+        end
+
+        parser = Xcode::Test::Parsers::OCUnitParser.new report
+
+        begin
+          cmd.execute(options[:show_output]||false) do |line|
+            parser << line
           end
-
-          parser = Xcode::Test::Parsers::OCUnitParser.new report
-
-          begin
-            cmd.execute(options[:show_output]||false) do |line|
-              parser << line
-            end
-          rescue Xcode::Shell::ExecutionError => e
-            # FIXME: Perhaps we should always raise this?
-            raise e if report.suites.count==0
-          ensure
-            parser.flush
-          end
+        rescue Xcode::Shell::ExecutionError => e
+          # FIXME: Perhaps we should always raise this?
+          raise e if report.suites.count==0
+        ensure
+          parser.flush
         end
 
         report
@@ -138,28 +120,26 @@ module Xcode
       # @param method the deployment method (web, ssh, testflight)
       # @param options options specific for the chosen deployment method
       #
-      # If a block is given, this is yielded to the deploy() method
+      # If a block is given, the deployer is yielded before deploy() is called
       #
       def deploy method, options = {}
-        log_task "Deploying (#{method})" do
-          options = {
-            :ipa_path => ipa_path,
-            :dsym_zip_path => dsym_zip_path,
-            :ipa_name => ipa_name,
-            :app_path => app_path,
-            :configuration_build_path => configuration_build_path,
-            :product_name => @config.product_name,
-            :info_plist => @config.info_plist
-          }.merge options
+        print_task :builder, "Deploy to #{method}", :notice
+        options = {
+          :ipa_path => ipa_path,
+          :dsym_zip_path => dsym_zip_path,
+          :ipa_name => ipa_name,
+          :app_path => app_path,
+          :configuration_build_path => configuration_build_path,
+          :product_name => @config.product_name,
+          :info_plist => @config.info_plist
+        }.merge options
 
-          require "xcode/deploy/#{method.to_s}.rb"
-          deployer = Xcode::Deploy.const_get("#{method.to_s.capitalize}").new(self, options)
+        require "xcode/deploy/#{method.to_s}.rb"
+        deployer = Xcode::Deploy.const_get("#{method.to_s.capitalize}").new(self, options)
 
-          # yield(deployer) if block_given?
-          deployer.deploy do |*a|
-            yield *a if block_given?
-          end
-        end
+        yield(deployer) if block_given?
+
+        deployer.deploy
       end
 
       #
@@ -181,17 +161,15 @@ module Xcode
       end
 
       def clean options = {}, &block      
-        log_task "Cleaning" do
-          cmd = xcodebuild
-          cmd << "-sdk #{@sdk}" unless @sdk.nil?
-          cmd << "clean"
+        print_task :builder, "Cleaning #{product_name}", :notice
+        cmd = xcodebuild
+        cmd << "-sdk #{@sdk}" unless @sdk.nil?
+        cmd << "clean"
 
-          run_xcodebuild cmd, options
+        run_xcodebuild cmd, options
 
-          @built = false
-          @packaged = false
-        end
-
+        @built = false
+        @packaged = false
         self
       end
 
@@ -208,40 +186,39 @@ module Xcode
       end
 
       def package options = {}, &block     
-        log_task "Packaging" do    
+        options = {:show_output => false}.merge(options)
 
-          options = {:show_output => false}.merge(options)
+        raise "Can't find #{app_path}, do you need to call builder.build?" unless File.exists? app_path
 
-          raise "Can't find #{app_path}, do you need to call builder.build?" unless File.exists? app_path
+        print_task 'builder', "Packaging #{product_name}", :notice
 
-          #package IPA
-          cmd = Xcode::Shell::Command.new 'xcrun'
-          cmd << "-sdk #{@sdk}" unless @sdk.nil?
-          cmd << "PackageApplication"
-          cmd << "-v \"#{app_path}\""
-          cmd << "-o \"#{ipa_path}\""
+        #package IPA
+        cmd = Xcode::Shell::Command.new 'xcrun'
+        cmd << "-sdk #{@sdk}" unless @sdk.nil?
+        cmd << "PackageApplication"
+        cmd << "-v \"#{app_path}\""
+        cmd << "-o \"#{ipa_path}\""
 
-          unless @profile.nil?
-            cmd << "--embed \"#{@profile}\""
-          end
+        unless @profile.nil?
+          cmd << "--embed \"#{@profile}\""
+        end
 
-          puts "  Generating IPA: #{ipa_path}"
-          with_keychain do
-            # run_xcodebuild cmd, options, &block
-            cmd.execute(options[:show_output], &block)
-          end
-
-          # package dSYM
-          cmd = Xcode::Shell::Command.new 'zip'
-          cmd << "-r"
-          cmd << "-T"
-          cmd << "-y \"#{dsym_zip_path}\""
-          cmd << "\"#{dsym_path}\""
-
-          puts "  Packaging dSYM: #{dsym_zip_path}"
+        print_task :package, "generating IPA: #{ipa_path}", :info
+        with_keychain do
           # run_xcodebuild cmd, options, &block
           cmd.execute(options[:show_output], &block)
         end
+
+        # package dSYM
+        cmd = Xcode::Shell::Command.new 'zip'
+        cmd << "-r"
+        cmd << "-T"
+        cmd << "-y \"#{dsym_zip_path}\""
+        cmd << "\"#{dsym_path}\""
+
+        print_task :package, "creating dSYM zip: #{dsym_zip_path}", :info
+        # run_xcodebuild cmd, options, &block
+        cmd.execute(options[:show_output], &block)
 
         self
       end
@@ -298,21 +275,17 @@ module Xcode
         if @keychain.nil?
           yield
         else
-          log_task "Using keychain #{@keychain.path}" do 
-            Xcode::Keychains.with_keychain_in_search_path @keychain, &block
-          end
+          Xcode::Keychains.with_keychain_in_search_path @keychain, &block
         end
       end
 
       def install_profile
         return nil if @profile.nil?
 
-        log_task "Installing Profile #{@profile}" do
-          # TODO: remove other profiles for the same app?
-          p = ProvisioningProfile.new(@profile)
-          p.install
-          p
-        end
+        # TODO: remove other profiles for the same app?
+        p = ProvisioningProfile.new(@profile)
+        p.install
+        p
       end
 
       def xcodebuild #:yield: Xcode::Shell::Command

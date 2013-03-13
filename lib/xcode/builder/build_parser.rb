@@ -61,20 +61,17 @@ module Xcode
           elsif piped_row=~/[A-Z]+\s\=\s/
             # some build env info
           elsif piped_row=~/^warning:/
-            @need_cr = false
-            print_task "xcode", "#{piped_row.gsub(/^warning:\s/,'')}", :warning
+            log_xcode "#{piped_row.gsub(/^warning:\s/,'')}", :warning
             # print "\n warning: ", :yellow
             # print "#{piped_row.gsub(/^warning:\s/,'')}"            
           elsif piped_row=~/Unable to validate your application/
-            @need_cr = false
-            print_task "xcode", piped_row, :warning
+            log_xcode piped_row, :warning
             # print "\n warning: ", :yellow
             # print " #{piped_row}"
 
           # Pick up success
           elsif piped_row=~/\*\*\s.*SUCCEEDED\s\*\*/
             # yay, all good
-            @need_cr = false
             print "\n"
 
           # Pick up warnings/notes/errors
@@ -91,9 +88,8 @@ module Xcode
             if (level==:warning or level==:note) and @suppress_warnings
               # ignore
             else
-              @need_cr = false
-              print_task 'xcode', $3, level
-              print_task 'xcode', "at #{$1}", level
+              log_xcode $3, level
+              log_xcode "at #{$1}", level
               # print "\n#{level.rjust(8)}: ", color
               # print $3
               # print "\n          at #{$1}"
@@ -109,20 +105,20 @@ module Xcode
             step = piped_row.scan(/^(\S+)/).first.first
             if KNOWN_STEPS.include? step
               unless @last_step_name==step
-                print "\n" unless @last_step_name.nil?
+                # print "\n" unless @last_step_name.nil?
                 @last_step_name = step
                 @last_step_params = []
-                print_task "xcode", step+" ", :info, false
                 # print "#{"run".rjust(8)}: ", :green
                 # print "#{step} "
               end
-              # @need_cr = true
-              # print '.', :green
+              unless @need_cr
+                log_xcode step+" ", :info, false
+              end
+              print '.', :green
             else
               # Echo unknown output
               unless @suppress_warnings
-                @need_cr = false
-                print_task "xcode", piped_row, :info
+                log_xcode piped_row, :info
                 # print "\n        > ", :blue
                 # print "#{piped_row}"
               end
@@ -132,6 +128,12 @@ module Xcode
       rescue => e
         puts "Failed to parse '#{piped_row}' because #{e}", :red
       end # <<
+
+      def log_xcode message, level, cr=true
+        print "\n" if @need_cr
+        print_task :xcode, message, level, cr
+        @need_cr = !cr
+      end
       
     end # XcodebuildParser
   end # Builder

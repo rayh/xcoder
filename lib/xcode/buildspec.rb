@@ -220,9 +220,13 @@ module Xcode
             builder.build
           end
 
+          desc "Test #{project_name}" 
+          task :test => [:build] do 
+            builder.test
+          end
 
           desc "Package (.ipa & .dSYM.zip) #{project_name}"
-          task :package => [:build] do
+          task :package => [:test] do
             builder.package
           end
 

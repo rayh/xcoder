@@ -16,8 +16,8 @@ describe Xcode::Builder do
         cmd << "-target \"#{configuration.target.name}\""
         cmd << "-config \"#{configuration.name}\""
         cmd << "-sdk #{configuration.target.project.sdk}"
-        cmd.env["OBJROOT"]="\"#{File.dirname(configuration.target.project.path)}/build/\""
-        cmd.env["SYMROOT"]="\"#{File.dirname(configuration.target.project.path)}/build/\""
+        cmd.env["OBJROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/\""
+        cmd.env["SYMROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/Products/\""
         cmd
       end
 
@@ -27,18 +27,18 @@ describe Xcode::Builder do
         cmd << "-target \"#{configuration.target.name}\""
         cmd << "-config \"#{configuration.name}\""
         cmd << "-sdk macosx10.7"
-        cmd.env["OBJROOT"]="\"#{File.dirname(configuration.target.project.path)}/build/\""
-        cmd.env["SYMROOT"]="\"#{File.dirname(configuration.target.project.path)}/build/\""
+        cmd.env["OBJROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/\""
+        cmd.env["SYMROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/Products/\""
         cmd
       end
 
       it "should build the project with the default parameters" do
-        Xcode::Shell.should_receive(:execute).with(default_build_parameters,true)
+        Xcode::Shell.should_receive(:execute).with(default_build_parameters,false)
         subject.build
       end
 
       it "should allow the override of the sdk" do
-        Xcode::Shell.should_receive(:execute).with(macosx_build_parameters, true)
+        Xcode::Shell.should_receive(:execute).with(macosx_build_parameters, false)
         subject.build :sdk => 'macosx10.7'
       end
 
@@ -61,16 +61,23 @@ describe Xcode::Builder do
 
       it "should upload ipa and dsym to testflight" do
         subject.build.package
-
-        result = subject.testflight("api_token", "team_token") do |tf|
-          tf.should_receive(:upload).with(subject.ipa_path, subject.dsym_zip_path).and_return('result')
-          tf.proxy = "http://proxyhost:8080"
-          tf.notes = "some notes"
-          tf.lists << "List1"
-          tf.lists << "List2"
-        end
-
+        testflight = nil
+        result = subject.deploy(:testflight, 
+          :api_token => "api_token",
+          :team_token => "team_token",
+          # :proxy => "http://proxyhost:8080",
+          :notes => "some notes",
+          :lists => ["List1", "List2"]) do |tf|  
+            testflight = tf       
+            tf.should_receive(:deploy).and_return('result')
+        end      
         result.should == 'result'
+        testflight.should_not==nil
+        testflight.api_token.should=="api_token"
+        testflight.team_token.should=="team_token"
+        testflight.builder.should==subject
+        testflight.lists.should==["List1", "List2"]
+        testflight.notes.should=="some notes"
       end
     end
 
@@ -86,8 +93,8 @@ describe Xcode::Builder do
         cmd << "-target \"#{configuration.target.name}\""
         cmd << "-config \"#{configuration.name}\""
         cmd << "-sdk iphonesimulator"
-        cmd.env["OBJROOT"]="\"#{File.dirname(configuration.target.project.path)}/build/\""
-        cmd.env["SYMROOT"]="\"#{File.dirname(configuration.target.project.path)}/build/\""
+        cmd.env["OBJROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/\""
+        cmd.env["SYMROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/Products/\""
         cmd.env["TEST_AFTER_BUILD"]="YES"
         cmd
       end
@@ -98,8 +105,8 @@ describe Xcode::Builder do
         cmd << "-target \"#{configuration.target.name}\""
         cmd << "-config \"#{configuration.name}\""
         cmd << "-sdk macosx10.7"
-        cmd.env["OBJROOT"]="\"#{File.dirname(configuration.target.project.path)}/build/\""
-        cmd.env["SYMROOT"]="\"#{File.dirname(configuration.target.project.path)}/build/\""
+        cmd.env["OBJROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/\""
+        cmd.env["SYMROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/Products/\""
         cmd.env["TEST_AFTER_BUILD"]="YES"
         cmd
       end
@@ -135,14 +142,14 @@ describe Xcode::Builder do
         cmd << "-config \"#{configuration.name}\""
         cmd << "-sdk iphoneos"
         cmd << "clean"
-        cmd.env["OBJROOT"]="\"#{File.dirname(configuration.target.project.path)}/build/\""
-        cmd.env["SYMROOT"]="\"#{File.dirname(configuration.target.project.path)}/build/\""
+        cmd.env["OBJROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/\""
+        cmd.env["SYMROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/Products/\""
         cmd
       end
 
 
       it "should clean the project with the default parameter" do
-        Xcode::Shell.should_receive(:execute).with(default_clean_parameters, true)
+        Xcode::Shell.should_receive(:execute).with(default_clean_parameters, false)
         subject.clean
       end
 
@@ -163,13 +170,13 @@ describe Xcode::Builder do
         cmd << "-project \"#{scheme.build_targets.last.project.path}\""
         cmd << "-scheme \"#{scheme.name}\""
         cmd << "-sdk iphoneos"
-        cmd.env["OBJROOT"]="\"#{File.dirname(scheme.build_targets.last.project.path)}/build/\""
-        cmd.env["SYMROOT"]="\"#{File.dirname(scheme.build_targets.last.project.path)}/build/\""
+        cmd.env["OBJROOT"]="\"#{File.dirname(scheme.build_targets.last.project.path)}/Build/\""
+        cmd.env["SYMROOT"]="\"#{File.dirname(scheme.build_targets.last.project.path)}/Build/Products/\""
         cmd
       end
 
       it "should build the project with the default parameters" do
-        Xcode::Shell.should_receive(:execute).with(default_build_parameters, true)
+        Xcode::Shell.should_receive(:execute).with(default_build_parameters, false)
         subject.build
       end
 
@@ -183,14 +190,14 @@ describe Xcode::Builder do
         cmd << "-scheme \"#{scheme.name}\""
         cmd << "-sdk iphoneos"
         cmd << "clean"
-        cmd.env["OBJROOT"]="\"#{File.dirname(scheme.build_targets.last.project.path)}/build/\""
-        cmd.env["SYMROOT"]="\"#{File.dirname(scheme.build_targets.last.project.path)}/build/\""
+        cmd.env["OBJROOT"]="\"#{File.dirname(scheme.build_targets.last.project.path)}/Build/\""
+        cmd.env["SYMROOT"]="\"#{File.dirname(scheme.build_targets.last.project.path)}/Build/Products/\""
         cmd
       end
 
 
       it "should clean the project with the default parameter" do
-        Xcode::Shell.should_receive(:execute).with(default_clean_parameters, true)
+        Xcode::Shell.should_receive(:execute).with(default_clean_parameters, false)
         subject.clean
       end
 

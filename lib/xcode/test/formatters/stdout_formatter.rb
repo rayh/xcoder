@@ -1,51 +1,53 @@
-require 'xcode/terminal_colour'
-
 module Xcode
   module Test
     module Formatters
       class StdoutFormatter
-        include Xcode::TerminalColour
+        include Xcode::TerminalOutput
         
         def initialize(options = {})
           @errors = []
+          @test_count = 0
           options.each { |k,v| self.send("#{k}=", v) }
         end
                 
         def before(report)
-          puts "Begin tests", :green
+          print_task :test, "Begin tests", :info
         end
         
         def after(report)
-          puts "\n\nThe following failures occured:", :yellow if @errors.count>0
-          @errors.each do |e|
-            puts "[#{e.suite.name} #{e.name}]", :red
-            e.errors.each do |error|
-              puts "  #{error[:message]}"
-              puts "    at #{error[:location]}"
-              if error[:data].count>0
-                puts "\n   Test Output:"
-                puts "   > #{error[:data].join("   > ")}\n\n"
+          level = @errors.count>0 ? :error : :info
+          if @errors.count>0
+            print_task :test, "The following failures occured:", :warning 
+            @errors.each do |e|
+              print_task :test, "[#{e.suite.name} #{e.name}]", :error
+              e.errors.each do |error|
+                print_task :test, "  #{error[:message]}", :error
+                print_task :test, "    at #{error[:location]}", :error
+                if error[:data].count>0
+                  print_task :test, "\n   Test Output:", :error
+                  print_task :test, "   > #{error[:data].join("   > ")}\n\n", :error
+                end
+              end       
+              
+              # if there is left over data in the test report, show that
+              if e.data.count>0
+                print_task :test, "\n  There was this trailing output after the above failures", :error
+                print_task :test, "   > #{e.data.join("   > ")}\n\n", :error
               end
-            end       
-            
-            # if there is left over data in the test report, show that
-            if e.data.count>0
-              puts "\n  There was this trailing output after the above failures"
-              puts "   > #{e.data.join("   > ")}\n\n"
             end
           end
           
-          color = report.failed? ? :red : :green
-          puts "\n\nEnd tests (#{report.failed? ? 'FAILED' : 'PASSED'}).  Took #{report.duration}s", color
+          print_task :test, "End tests (#{report.failed? ? 'FAILED' : 'PASSED'}).  Ran #{@test_count} tests in #{report.duration}s", report.failed? ? :error : :info
         end
         
         def before_suite(suite)
-          print "#{suite.name}: "
+          print_task :test, "#{suite.name}: ", :info, false
         end
         
         def after_suite(suite)
-          color = (suite.total_passed_tests == suite.tests.count) ? :green : :red
-          puts " [#{suite.total_passed_tests}/#{suite.tests.count}]", color
+          color = (suite.total_passed_tests == suite.tests.count) ? :info : :error
+          print_task :test, "#{suite.total_passed_tests}/#{suite.tests.count}", color
+          # puts " [#{suite.total_passed_tests}/#{suite.tests.count}]", color
         end
         
         def before_test(test)
@@ -53,36 +55,13 @@ module Xcode
         end
         
         def after_test(test)
+          @test_count += 1
           if test.passed?
             print ".", :green
           elsif test.failed?
             print "F", :red
             @errors << test 
           end                    
-        end
-        
-        private
-        def puts(text, color = :default)
-          color_params = color_output? ? color : {}
-          super(text.colorize(color_params))
-        end
-        
-        def print(text, color = :default)
-          color_params = color_output? ? color : {}
-          super(text.colorize(color_params))
-        end
-        
-        def terminal_supports_colors?
-          # No colors unless we are being run via a TTY
-          return false unless $stdout.isatty
-          
-          # Check if the terminal supports colors
-          colors = `tput colors 2> /dev/null`.chomp
-          if $?.exitstatus != 0
-            colors.to_i >= 8
-          else
-            false
-          end
         end
                 
       end # StdoutFormatter

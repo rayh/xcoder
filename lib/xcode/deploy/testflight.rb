@@ -3,7 +3,7 @@ require 'rest-client'
 module Xcode
   module Deploy
     class Testflight
-      attr_accessor :api_token, :team_token, :notify, :proxy, :notes, :lists
+      attr_accessor :api_token, :team_token, :notify, :proxy, :notes, :lists, :builder
       @@defaults = {}
 
       def self.defaults(defaults={})
