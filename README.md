@@ -12,6 +12,8 @@ Xcoder assumes you are using XCode 4.6 on Mountain Lion and ruby 1.9.  You may h
 
 ## Automation and CI
 
+This stuff is a work-in-progress and is subject to change.
+
 Xcoder provides a simple mechanism to help with automating builds and CI.  First, define a Buildspec file in the root of your project with contents like this:
 
 	# Assumes identity is first in keychain
@@ -35,18 +37,18 @@ Xcoder provides a simple mechanism to help with automating builds and CI.  First
 	    :notes => `git log -n 1`
 	end
 
-Your Rakefile can be quite simple and you can define additional tasks, etc:
+You can then invoke the project using the xcoder command line:
 
-	require 'xcoder'
-	require 'xcode/buildspec'
+	# Invoke the default task (deploy)
+	xcoder -r
 
-	Xcode::Buildspec.parse
+	# Invoke a specific task
+	xcoder -r adhoc:package
 
-	task :ci => ['adhoc:deploy:all'] 
+	# Get a list of tasks
+	xcoder -T
 
-Running rake -T will give a list of the targets that are available. 
-
-NOTE: This is provided as well as the mechanism listed below, which is more to provide simple access to common build tasks.  This mechanism is to try and reduce the repetativeness of setting up new build jobs while allow more explicit control around identities and keychains
+This is a bit of a work-in-progress and an attempt to allow projects to provide a minimal declaration of how thier artifacts should be built and where they should go.  Integration with CI (Jenkins, for example) or just running locally from the command line should be simple.
 
 ## Example Usage
 
