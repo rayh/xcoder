@@ -68,11 +68,19 @@ module Xcode
             log_xcode piped_row, :warning
             # print "\n warning: ", :yellow
             # print " #{piped_row}"
+          elsif piped_row=~/bin\/libtool\:\s(.*)/
+            log_xcode $1, :warning, :libtool
 
           # Pick up success
           elsif piped_row=~/\*\*\s.*SUCCEEDED\s\*\*/
             # yay, all good
             print "\n"
+
+          elsif piped_row=~/^cp\s\-R/
+            # Ignore 
+
+          elsif piped_row=~/\sdeclared\shere$/
+            # Ignore 
 
           # Pick up warnings/notes/errors
           elsif piped_row=~/^(.*:\d+:\d+): (\w+): (.*)$/
@@ -89,7 +97,7 @@ module Xcode
               # ignore
             else
               log_xcode $3, level
-              log_xcode "at #{$1}", level
+              log_xcode "  at #{$1}", level
               # print "\n#{level.rjust(8)}: ", color
               # print $3
               # print "\n          at #{$1}"
@@ -129,9 +137,9 @@ module Xcode
         puts "Failed to parse '#{piped_row}' because #{e}", :red
       end # <<
 
-      def log_xcode message, level, cr=true
+      def log_xcode message, level, cr=true, task = :xcode
         print "\n" if @need_cr
-        print_task :xcode, message, level, cr
+        print_task task, message, level, cr
         @need_cr = !cr
       end
       
