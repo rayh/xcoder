@@ -309,7 +309,7 @@ module Xcode
           end
         else
           # cmd.execute(options[:show_output], &block)
-          filename = File.join(configuration_build_path, "xcodebuild-output.txt")
+          filename = File.join(@build_path, "xcodebuild-output.txt")
           parser = Xcode::Builder::XcodebuildParser.new filename
 
           begin

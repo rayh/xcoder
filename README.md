@@ -8,20 +8,17 @@ Full documentation can be found here: http://rayh.github.com/xcoder/
 
 ## Requirements
 
-Xcoder assumes you are using XCode 4.3 on Lion and ruby 1.9.  You may have some degree of success with lesser versions, but they are not intentionally supported.
+Xcoder assumes you are using XCode 4.6 on Mountain Lion and ruby 1.9.  You may have some degree of success with lesser versions, but they are not intentionally supported.
 
 ## Automation and CI
 
-Xcoder provides a simple mechanism to help with automating builds and CI.  Provide a Rakefile along the lines of this:
-
-	require 'xcoder'
-	require 'xcode/task_builder'
+Xcoder provides a simple mechanism to help with automating builds and CI.  First, define a Buildspec file in the root of your project with contents like this:
 
 	# Assumes identity is first in keychain
-	Xcode.task :adhoc do
+	group :adhoc do
 
-	  # Which project/target/config, or project/scheme to use
-	  use :project => :MyProject, :target => :MyTarget, :config => :Release
+	  # Which project/target/config, or workspace/scheme to use
+	  use :MyProject, :target => :MyTarget, :config => :Release
 	    
 	  # The mobile provision that should be used
 	  profile 'Provisioning/MyProject_AdHoc.mobileprovision'
@@ -36,8 +33,14 @@ Xcoder provides a simple mechanism to help with automating builds and CI.  Provi
 	    :notify => true, 
 	    :lists => ['Internal'], 
 	    :notes => `git log -n 1`
-	    
 	end
+
+Your Rakefile can be quite simple and you can define additional tasks, etc:
+
+	require 'xcoder'
+	require 'xcode/buildspec'
+
+	Xcode::Buildspec.parse
 
 	task :ci => ['adhoc:deploy:all'] 
 

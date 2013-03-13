@@ -167,6 +167,7 @@ module Xcode
           @builder = project.target(@args[:target]).config(@args[:config]).builder
         rescue
           workspace = Xcode.workspace @filename
+          @builder = workspace.scheme(@args[:scheme]).builder
         rescue
           raise "You must provide a project or workspace"          
         end          
