@@ -8,6 +8,9 @@ gem 'multi_json'
 gem 'plist'
 gem 'rest-client'
 
+# Dependency Management
+gem 'cocoapods', '~> 0.16'
+
 # Documentation
 gem 'yard'
 

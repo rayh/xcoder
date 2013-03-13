@@ -1,5 +1,6 @@
 require 'xcode/builder/build_parser'
 require 'xcode/terminal_colour'
+require 'cocoapods'
 
 module Xcode
   module Builder
@@ -57,6 +58,28 @@ module Xcode
 
       end
 
+      def has_dependencies?
+        podfile = File.join(File.dirname(@target.project.path), "Podfile")
+        File.exists? profile
+      end
+
+      # 
+      # If a Podfile exists, perform a pod install
+      #
+      def dependencies
+        podfile = File.join(File.dirname(@target.project.path), "Podfile")
+        # sandbox = File.join(File.dirname(@target.project.path), "Pods")
+        if File.exists? profile
+          log_task "Cocoapods Dependencies" do 
+            cmd = Xcode::Shell::Command.new 'pod install'
+            cmd.execute(true)
+          end
+        end
+      end
+
+      # 
+      # Build the project
+      #
       def build options = {:sdk => @sdk}, &block
         log_task "Building" do
           cmd = xcodebuild

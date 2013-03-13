@@ -206,8 +206,13 @@ module Xcode
             builder.clean
           end
 
+          desc "Fetch dependencies for #{project_name}"
+          task :deps do 
+            builder.dependencies
+          end
+
           desc "Build #{project_name}"
-          task :build => [:clean] do
+          task :build => [:clean, :deps] do
             builder.config.info_plist do |info|
               info.version = @build_number.call
               info.save
