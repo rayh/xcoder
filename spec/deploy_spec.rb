@@ -18,7 +18,7 @@ describe Xcode::Deploy do
 
   describe Xcode::Deploy::WebAssets do 
     it "should generate the assets" do
-      Xcode::Deploy::WebAssets.generate builder do |dir|
+      Xcode::Deploy::WebAssets.generate builder, 'http://example.com/base-url' do |dir|
         File.exists?("#{dir}/index.html").should == true
         File.exists?("#{dir}/manifest.plist").should == true
 
