@@ -181,6 +181,8 @@ module Xcode
           builder.keychain = keychain
         end
 
+        builder.profile = @profile
+
         @before.call builder
 
         @builder

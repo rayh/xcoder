@@ -40,16 +40,18 @@ module Xcode
       end
 
       def log_task task, &block
-        print "> ", :blue
-        puts "#{task} #{product_name}"
+        print "[#{product_name}] ", :blue
+        puts "#{task}"
 
         begin
           yield
-          # print "END ", :blue
-          # puts "#{task} #{product_name}", :green
         rescue => e
           print "ERROR: ", :red
           puts e.message
+          raise e
+        ensure          
+          # print "[#{product_name}] END ", :blue
+          # puts "#{task}"
         end
 
       end
@@ -270,23 +272,28 @@ module Xcode
         if @keychain.nil?
           yield
         else
-          Xcode::Keychains.with_keychain_in_search_path @keychain, &block
+          log_task "Using keychain #{@keychain.path}" do 
+            Xcode::Keychains.with_keychain_in_search_path @keychain, &block
+          end
         end
       end
 
       def install_profile
         return nil if @profile.nil?
-        # TODO: remove other profiles for the same app?
-        p = ProvisioningProfile.new(@profile)
 
-        ProvisioningProfile.installed_profiles.each do |installed|
-          if installed.identifiers==p.identifiers and installed.uuid==p.uuid
-            installed.uninstall
+        log_task "Installing Profile #{@profile}" do
+          # TODO: remove other profiles for the same app?
+          p = ProvisioningProfile.new(@profile)
+
+          ProvisioningProfile.installed_profiles.each do |installed|
+            if installed.identifiers==p.identifiers and installed.uuid==p.uuid
+              installed.uninstall
+            end
           end
-        end
 
-        p.install
-        p
+          p.install
+          p
+        end
       end
 
       def xcodebuild #:yield: Xcode::Shell::Command
@@ -302,12 +309,16 @@ module Xcode
           end
         else
           # cmd.execute(options[:show_output], &block)
-          parser = Xcode::Builder::XcodebuildParser.new
+          filename = File.join(configuration_build_path, "xcodebuild-output.txt")
+          parser = Xcode::Builder::XcodebuildParser.new filename
 
           begin
             cmd.execute(false) do |line|
               parser << line
             end
+          rescue => e
+            # Write output to file and report the error here
+            puts "Build failed, output writter to #{filename}", :red
           ensure
             parser.flush
           end
