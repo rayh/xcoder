@@ -294,7 +294,7 @@ module Xcode
 
       target.name = name
 
-      build_configuration_list = @registry.add_object(ConfigurationList.configration_list)
+      build_configuration_list = @registry.add_object(ConfigurationList.configuration_list)
       target.build_configuration_list = build_configuration_list.identifier
 
       target.project = self
