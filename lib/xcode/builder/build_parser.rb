@@ -35,7 +35,7 @@ module Xcode
         @last_good_index = 0
         @last_step_name = nil
         @last_step_params = []
-        @suppress_warnings = true
+        @suppress_warnings = false
       end
 
       def flush
@@ -111,8 +111,10 @@ module Xcode
               print '.', :green
             else
               # Echo unknown output
-              print "\n        > ", :blue
-              print "#{piped_row}"
+              unless @suppress_warnings
+                print "\n        > ", :blue
+                print "#{piped_row}"
+              end
             end
           end
         end
