@@ -17,7 +17,11 @@ module Xcode
         location = file["location"]
         if matcher = location.match(/^group:(.+)$/)
           project_path = "#{workspace_root}/#{matcher[1]}"
-          @projects << Xcode::Project.new(project_path)
+          begin
+            @projects << Xcode::Project.new(project_path)
+          rescue => e
+            puts "Skipping project file #{project_path} referened by #{self} as it failed to parse"
+          end
         end
       end
     end    
