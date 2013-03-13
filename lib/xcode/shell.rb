@@ -5,11 +5,11 @@ module Xcode
     
     class ExecutionError < StandardError; end
     
-    def self.execute(cmd, show_output=true)
+    def self.execute(cmd, show_output=true, show_command=false)
       out = []
       cmd = cmd.to_s
       
-      puts "EXECUTE: #{cmd}"
+      puts "EXECUTE: #{cmd}" if show_command
       IO.popen (cmd) do |f| 
         f.each do |line|
           puts line if show_output

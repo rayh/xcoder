@@ -1,19 +1,14 @@
-require 'colorize'
+require 'xcode/terminal_colour'
 
 module Xcode
   module Test
     module Formatters
       class StdoutFormatter
-        attr_writer :color_output
+        include Xcode::TerminalColour
         
         def initialize(options = {})
           @errors = []
-          @color_output = terminal_supports_colors?
           options.each { |k,v| self.send("#{k}=", v) }
-        end
-        
-        def color_output?
-          @color_output
         end
                 
         def before(report)
