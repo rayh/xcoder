@@ -5,7 +5,7 @@ module Xcode
     
     class ExecutionError < StandardError; end
     
-    def self.execute(cmd, show_output=true, show_command=true)
+    def self.execute(cmd, show_output=true, show_command=false)
       out = []
       cmd = cmd.to_s
       

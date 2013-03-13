@@ -23,7 +23,7 @@ module Xcode
 
       # Project level schemes
       workspace.projects.each do |project|
-        schemes+=project.schemes
+        schemes+=find_in_path(workspace, project.path)
       end
 
       schemes
@@ -58,6 +58,10 @@ module Xcode
     # Returns a builder for building this scheme
     def builder
       Xcode::Builder::SchemeBuilder.new(self)
+    end
+
+    def to_s
+      "#{name} (Scheme) in #{parent}"
     end
 
     private

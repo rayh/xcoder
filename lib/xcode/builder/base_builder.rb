@@ -222,7 +222,7 @@ module Xcode
       end
 
       def configuration_build_path
-        "#{build_path}/#{@config.name}-#{@sdk}"
+        "#{@symroot}/#{@config.name}-#{@sdk}"
       end
 
       def entitlements_path

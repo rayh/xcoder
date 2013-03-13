@@ -367,5 +367,9 @@ module Xcode
       registry
     end
 
+    def to_s
+      "#{name} (Project)"
+    end
+
   end
 end

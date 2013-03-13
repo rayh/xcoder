@@ -6,6 +6,7 @@ module Xcode
   module Builder    
     class XcodebuildParser  
       include Xcode::TerminalColour
+      attr_accessor :suppress_warnings
 
       KNOWN_STEPS = [
         'Clean.Remove',
@@ -24,6 +25,8 @@ module Xcode
         'ProcessProductPackaging',
         'Touch',
         'CodeSign',
+        'Libtool',
+        'PhaseScriptExecution',
         'Validate'
       ]
 
@@ -32,6 +35,7 @@ module Xcode
         @last_good_index = 0
         @last_step_name = nil
         @last_step_params = []
+        @suppress_warnings = true
       end
 
       def flush
@@ -58,14 +62,42 @@ module Xcode
           elsif piped_row=~/[A-Z]+\s\=\s/
             # some build env info
           elsif piped_row=~/^warning:/
-            print "\n  WARNING: ", :red
+            print "\n warning: ", :yellow
             print "#{piped_row.gsub(/^warning:\s/,'')}"            
           elsif piped_row=~/Unable to validate your application/
-            print "\n  WARNING: ", :red
+            print "\n warning: ", :yellow
             print " #{piped_row}"
+
+          # Pick up success
           elsif piped_row=~/\*\*\s.*SUCCEEDED\s\*\*/
             # yay, all good
             print "\n"
+
+          # Pick up warnings/notes/errors
+          elsif piped_row=~/^(.*:\d+:\d+): (\w+): (.*)$/
+            # This is a warning/note/error
+            level = $2.downcase
+            color = :blue
+            if level=="warning"
+              color = :yellow
+            elsif level=="error"
+              color = :red
+            end
+            
+            if (level=="warning" or level=="note") and @suppress_warnings
+              # ignore
+            else
+              print "\n#{level.rjust(8)}: ", color
+              print $3
+              print "\n          at #{$1}"
+            end
+
+          # If there were warnings, this will be output
+          elsif piped_row=~/\d+\swarning(s?)\sgenerated\./
+            # TODO: is this safe to ignore?
+
+
+          # This might be a build step 
           else
             step = piped_row.scan(/^(\S+)/).first.first
             if KNOWN_STEPS.include? step
@@ -73,11 +105,14 @@ module Xcode
                 print "\n" unless @last_step_name.nil?
                 @last_step_name = step
                 @last_step_params = []
-                print "  #{step}: "
+                print "#{"run".rjust(8)}: ", :green
+                print "#{step} "
               end
-              print '.', :grey
+              print '.', :green
             else
-              print "\n  ERROR: #{piped_row}", :red
+              # Echo unknown output
+              print "\n        > ", :blue
+              print "#{piped_row}"
             end
           end
         end
