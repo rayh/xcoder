@@ -9,7 +9,7 @@ gem 'plist'
 gem 'rest-client'
 
 # Dependency Management
-gem 'cocoapods', '~> 0.16'
+gem 'cocoapods'
 
 # Documentation
 gem 'yard'
