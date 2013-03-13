@@ -42,7 +42,7 @@ module Xcode
 
       def has_dependencies?
         podfile = File.join(File.dirname(@target.project.path), "Podfile")
-        File.exists? profile
+        File.exists? podfile
       end
 
       # 
@@ -52,7 +52,7 @@ module Xcode
         print_task :builder, "Fetch depencies", :notice
         podfile = File.join(File.dirname(@target.project.path), "Podfile")
         # sandbox = File.join(File.dirname(@target.project.path), "Pods")
-        if File.exists? profile
+        if File.exists? podfile
           print_task :cocoapods, "pod setup", :info
           cmd = Xcode::Shell::Command.new 'pod setup'
           cmd.execute(true)
