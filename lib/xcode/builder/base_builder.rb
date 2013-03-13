@@ -1,5 +1,4 @@
 require 'xcode/builder/build_parser'
-require 'xcode/terminal_colour'
 require 'cocoapods'
 
 module Xcode
@@ -9,7 +8,7 @@ module Xcode
     # project build tasks.
     #
     class BaseBuilder
-      include Xcode::TerminalColour
+      include Xcode::TerminalOutput
 
       attr_accessor :profile, :identity, :build_path, :keychain, :sdk, :objroot, :symroot
       attr_reader   :config, :target
@@ -311,13 +310,6 @@ module Xcode
         log_task "Installing Profile #{@profile}" do
           # TODO: remove other profiles for the same app?
           p = ProvisioningProfile.new(@profile)
-
-          ProvisioningProfile.installed_profiles.each do |installed|
-            if installed.identifiers==p.identifiers and installed.uuid==p.uuid
-              installed.uninstall
-            end
-          end
-
           p.install
           p
         end

@@ -1,13 +1,37 @@
 require 'colorize'
 
 module Xcode
-  module TerminalColour
+  module TerminalOutput
     def self.included(base)
       @@colour_supported = terminal_supports_colors?
     end
 
     def color_output?
       @@colour_supported
+    end
+
+    def print_task(task, message, level=:info, cr=true)
+    	print "#{task.rjust(10)}: ", :green
+
+    	case level
+    	when :error
+    		print "[ERROR] ", :red
+    	when :warning
+    		print "[WARNING] ", :yellow
+    	when :info    		
+    		# color = :blue
+    	when :success
+    		# color = :green
+    	else 
+    		# color = :default
+    	end
+    	print message
+
+    	if block_given?
+    		yield
+    	end
+
+    	print "\n" if cr
     end
 
     def puts(text, color = :default)

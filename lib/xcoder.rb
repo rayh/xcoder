@@ -1,5 +1,6 @@
 require 'find'
 require 'fileutils'
+require 'xcode/terminal_output'
 require "xcode/version"
 require "xcode/project"
 require "xcode/info_plist"

@@ -1,5 +1,6 @@
 module Xcode
   class ProvisioningProfile
+    include Xcode::TerminalOutput
     attr_reader :path, :name, :uuid, :identifiers, :devices, :appstore
     def initialize(path)
       
@@ -53,11 +54,19 @@ module Xcode
       "#{ProvisioningProfile.profiles_path}/#{self.uuid}.mobileprovision"
     end
     
-    def install
+    def install 
+      ProvisioningProfile.installed_profiles.each do |installed|
+        if installed.identifiers==self.identifiers and installed.uuid==self.uuid
+          installed.uninstall
+        end
+      end
+
+      print_task "profile", "installing #{self.path} with uuid #{self.uuid}", :info
       Xcode::Shell.execute("cp #{self.path} #{self.install_path}")   
     end
     
     def uninstall
+      print_task "profile", "removing #{self.install_path}", :info
       Xcode::Shell.execute("rm -f #{self.install_path}")
     end
 

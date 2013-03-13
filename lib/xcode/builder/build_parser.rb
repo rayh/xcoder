@@ -1,11 +1,10 @@
 require 'xcode/test/report'
 require 'time'
-require 'xcode/terminal_colour'
 
 module Xcode
   module Builder    
     class XcodebuildParser  
-      include Xcode::TerminalColour
+      include Xcode::TerminalOutput
       attr_accessor :suppress_warnings
 
       KNOWN_STEPS = [
@@ -62,34 +61,42 @@ module Xcode
           elsif piped_row=~/[A-Z]+\s\=\s/
             # some build env info
           elsif piped_row=~/^warning:/
-            print "\n warning: ", :yellow
-            print "#{piped_row.gsub(/^warning:\s/,'')}"            
+            @need_cr = false
+            print_task "xcode", "#{piped_row.gsub(/^warning:\s/,'')}", :warning
+            # print "\n warning: ", :yellow
+            # print "#{piped_row.gsub(/^warning:\s/,'')}"            
           elsif piped_row=~/Unable to validate your application/
-            print "\n warning: ", :yellow
-            print " #{piped_row}"
+            @need_cr = false
+            print_task "xcode", piped_row, :warning
+            # print "\n warning: ", :yellow
+            # print " #{piped_row}"
 
           # Pick up success
           elsif piped_row=~/\*\*\s.*SUCCEEDED\s\*\*/
             # yay, all good
+            @need_cr = false
             print "\n"
 
           # Pick up warnings/notes/errors
           elsif piped_row=~/^(.*:\d+:\d+): (\w+): (.*)$/
             # This is a warning/note/error
-            level = $2.downcase
-            color = :blue
-            if level=="warning"
-              color = :yellow
-            elsif level=="error"
-              color = :red
+            type = $2.downcase
+            level = :info
+            if type=="warning"
+              level = :warning
+            elsif type=="error"
+              level = :error
             end
             
-            if (level=="warning" or level=="note") and @suppress_warnings
+            if (level==:warning or level==:note) and @suppress_warnings
               # ignore
             else
-              print "\n#{level.rjust(8)}: ", color
-              print $3
-              print "\n          at #{$1}"
+              @need_cr = false
+              print_task 'xcode', $3, level
+              print_task 'xcode', "at #{$1}", level
+              # print "\n#{level.rjust(8)}: ", color
+              # print $3
+              # print "\n          at #{$1}"
             end
 
           # If there were warnings, this will be output
@@ -105,21 +112,25 @@ module Xcode
                 print "\n" unless @last_step_name.nil?
                 @last_step_name = step
                 @last_step_params = []
-                print "#{"run".rjust(8)}: ", :green
-                print "#{step} "
+                print_task "xcode", step+" ", :info, false
+                # print "#{"run".rjust(8)}: ", :green
+                # print "#{step} "
               end
-              print '.', :green
+              # @need_cr = true
+              # print '.', :green
             else
               # Echo unknown output
               unless @suppress_warnings
-                print "\n        > ", :blue
-                print "#{piped_row}"
+                @need_cr = false
+                print_task "xcode", piped_row, :info
+                # print "\n        > ", :blue
+                # print "#{piped_row}"
               end
             end
           end
         end
-      rescue 
-        puts "Failed to parse '#{piped_row}'", :red
+      rescue => e
+        puts "Failed to parse '#{piped_row}' because #{e}", :red
       end # <<
       
     end # XcodebuildParser

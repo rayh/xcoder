@@ -1,17 +1,57 @@
 #!/usr/bin/env ruby
 require 'xcoder'
+require 'optparse'
 
-command = ARGV[0]
-# command = ARGV.delete
+require 'xcode/buildspec'
 
-case command
-when 'describe'
-  Xcode.workspaces.each do |w|
-    puts w.describe
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: xcoder [options]"
+
+
+  opts.separator ""
+  opts.separator "Specific options:"
+
+  opts.on("-d", "--describe", "Dump the structure of the projects/workspaces in the working directory") do |v|
+  	Xcode.workspaces.each do |w|
+	    puts w.describe
+	  end
+	  
+	  Xcode.projects.each do |p|
+	    puts p.describe
+	  end
+    # options[:verbose] = v
   end
-  
-  Xcode.projects.each do |p|
-    puts p.describe
+
+  opts.on("--install-profile [PROFILE]", "Install the given profile into ~/Library") do |profile|
+  	Xcode::ProvisioningProfile.new(profile).install
   end
 
-end
+	opts.separator ""
+  opts.separator "Buildspec options:"
+
+  opts.on("-r", "--run [task]", "Run the Buildspec with the given task, defaults to 'deploy'") do |task|
+  	Xcode::Buildspec.parse
+  	task = 'deploy' if task.nil?
+  	Rake::Task[task].invoke
+  end
+
+  opts.on("-T", "--tasks", "List the available Buildspec tasks") do
+  	Xcode::Buildspec.parse
+  	puts Rake.application.tasks
+	end
+
+
+	opts.separator ""
+  opts.separator "Common options:"
+
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+
+  opts.on_tail("-v", "--version", "Show version") do
+    puts "Xcoder #{Xcode::VERSION}"
+    exit
+  end
+end.parse!

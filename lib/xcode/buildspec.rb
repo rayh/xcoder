@@ -46,7 +46,7 @@ module Xcode
 
       def generate_rake_tasks
 
-        namespace :all do 
+        # namespace :all do 
           # define top level tasks
           desc "Build all"
           task :build => @groups.map {|g| "#{g}:build"}
@@ -59,7 +59,7 @@ module Xcode
 
           desc "Deploy all"
           task :deploy => @groups.map {|g| "#{g}:deploy:all"}
-        end
+        # end
       end
     end
 
