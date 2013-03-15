@@ -37,7 +37,8 @@ module Xcode
             end
           end
           
-          print_task :test, "End tests (#{report.failed? ? 'FAILED' : 'PASSED'}).  Ran #{@test_count} tests in #{report.duration}s", report.failed? ? :error : :info
+          print_task :test, "Finished in #{report.duration} seconds", :info
+          print_task :test, "#{@test_count} tests, #{@errors.count} failures", report.failed? ? :error : :info
         end
         
         def before_suite(suite)
