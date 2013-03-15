@@ -46,8 +46,8 @@ module Xcode
         
         def after_suite(suite)
           color = (suite.total_passed_tests == suite.tests.count) ? :info : :error
-          print_task :test, "#{suite.total_passed_tests}/#{suite.tests.count}", color
-          # puts " [#{suite.total_passed_tests}/#{suite.tests.count}]", color
+          #print_task :test, "#{suite.total_passed_tests}/#{suite.tests.count}", color
+          puts " [#{suite.total_passed_tests}/#{suite.tests.count}]", color
         end
         
         def before_test(test)
