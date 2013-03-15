@@ -42,7 +42,8 @@ module Xcode
             end
           end
           
-          File.open("#{@dir}/TEST-#{report.name}.xml", 'w') do |current_file|
+          filename = report.name.gsub(' ', '_')
+          File.open("#{@dir}/TEST-#{filename}.xml", 'w') do |current_file|
             current_file.write xml.target!
           end
           
