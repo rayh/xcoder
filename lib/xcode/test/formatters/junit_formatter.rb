@@ -6,7 +6,7 @@ module Xcode
     module Formatters
       class JunitFormatter
         def initialize(dir)
-          @dir = File.expand_path(dir)
+          @dir = File.expand_path(dir).to_s
           FileUtils.mkdir_p(@dir)
         end
         
@@ -42,12 +42,16 @@ module Xcode
             end
           end
           
-          filename = report.name.gsub(' ', '_')
-          File.open("#{@dir}/TEST-#{filename}.xml", 'w') do |current_file|
+          File.open(File.join(@dir, sanitize_filename("TEST-#{report.name}.xml")), 'w') do |current_file|
             current_file.write xml.target!
           end
           
         end # write
+        
+        private
+        def sanitize_filename(filename)
+           filename.gsub(/[^0-9A-Za-z.\-]/, '_')
+        end
         
       end # JUnitFormatter
       
