@@ -8,11 +8,11 @@ module Xcode
 
       def initialize(builder, options = {})
         @builder = builder
-        @username = @options[:username]
-        @password = @options[:password]
-        @dir = @options[:dir]
-        @host = @options[:host]
-        @base_url = @options[:base_url]
+        @username = options[:username]
+        @password = options[:password]
+        @dir = options[:dir]
+        @host = options[:host]
+        @base_url = options[:base_url]
       end
 
       # Support templating of member data.

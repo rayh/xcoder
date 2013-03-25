@@ -1,5 +1,6 @@
 require 'erb'
 require 'ostruct'
+require 'tmpdir'
 
 module Xcode
 	module Deploy
