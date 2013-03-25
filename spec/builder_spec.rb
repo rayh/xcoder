@@ -170,7 +170,7 @@ describe Xcode::Builder do
         cmd << "-sdk iphoneos"
         cmd << "-project \"#{scheme.build_targets.last.project.path}\""
         cmd << "-scheme \"#{scheme.name}\""
-        cmd << "archive"
+        cmd << "-configuration \"Release\""
         cmd.env["OBJROOT"]="\"#{File.dirname(scheme.build_targets.last.project.path)}/Build/\""
         cmd.env["SYMROOT"]="\"#{File.dirname(scheme.build_targets.last.project.path)}/Build/Products/\""
         cmd
@@ -189,6 +189,7 @@ describe Xcode::Builder do
         cmd = Xcode::Shell::Command.new "xcodebuild"
         cmd << "-project \"#{scheme.build_targets.last.project.path}\""
         cmd << "-scheme \"#{scheme.name}\""
+        cmd << "-configuration \"Release\""
         cmd << "-sdk iphoneos"
         cmd << "clean"
         cmd.env["OBJROOT"]="\"#{File.dirname(scheme.build_targets.last.project.path)}/Build/\""
