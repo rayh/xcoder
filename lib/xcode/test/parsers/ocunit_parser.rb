@@ -7,17 +7,17 @@ module Xcode
       
       class OCUnitParser
         attr_accessor :report, :builder
-        
+
         def initialize(report = Xcode::Test::Report.new)
           @report = report          
           yield self if block_given?
         end
     
-        def flush
+        def close
           @report.finish
         end
     
-        def <<(piped_row)
+        def << piped_row
           case piped_row.force_encoding("UTF-8")
     
             when /Test Suite '(\S+)'.*started at\s+(.*)/

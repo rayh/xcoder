@@ -6,7 +6,7 @@ module Xcode
   # For the purposes of Xcoder, we want to be able to build and test
   class Scheme
     attr_reader :parent, :path, :name, :build_targets
-    attr_accessor :build_config
+    attr_accessor :build_config, :archive_config
 
     #
     # Parse all the schemes given the current project.
@@ -103,6 +103,7 @@ module Xcode
       @build_targets = []
 
       @build_config = doc.xpath("//LaunchAction").first['buildConfiguration']
+      @archive_config = doc.xpath("//ArchiveAction").first['buildConfiguration']
 
       build_action_entries = doc.xpath("//BuildAction//BuildableReference").each do |ref|
         @build_targets << target_from_build_reference(ref)

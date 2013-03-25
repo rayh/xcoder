@@ -69,7 +69,6 @@ module Xcode
     # @param the block to be invoked with the modified search path
     #
     def in_search_path(&block)
-      print_task 'keychain', "Using #{@path}"
       keychains = Keychains.search_path
       begin 
         Keychains.search_path = [self] + keychains
@@ -106,7 +105,8 @@ module Xcode
       cmd << "find-certificate"
       cmd << "-a"
       cmd << "\"#{@path}\""
-      data = cmd.execute(false).join("")
+      cmd.show_output = false
+      data = cmd.execute.join("")
       data.scan /\s+"labl"<blob>="([^"]+)"/ do |m|
         names << m[0]
       end

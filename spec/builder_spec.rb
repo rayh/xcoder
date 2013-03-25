@@ -126,7 +126,7 @@ describe Xcode::Builder do
         Xcode::Shell.stub(:execute)
         fake_parser = stub(:parser)
         fake_parser.stub(:failed? => true)
-        fake_parser.stub(:flush)
+        fake_parser.stub(:close)
         Xcode::Test::Parsers::OCUnitParser.stub(:new => fake_parser)
         subject.test
       end
@@ -167,9 +167,10 @@ describe Xcode::Builder do
 
       let(:default_build_parameters) do
         cmd = Xcode::Shell::Command.new "xcodebuild"
+        cmd << "-sdk iphoneos"
         cmd << "-project \"#{scheme.build_targets.last.project.path}\""
         cmd << "-scheme \"#{scheme.name}\""
-        cmd << "-sdk iphoneos"
+        cmd << "archive"
         cmd.env["OBJROOT"]="\"#{File.dirname(scheme.build_targets.last.project.path)}/Build/\""
         cmd.env["SYMROOT"]="\"#{File.dirname(scheme.build_targets.last.project.path)}/Build/Products/\""
         cmd

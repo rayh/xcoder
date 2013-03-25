@@ -61,12 +61,12 @@ module Xcode
         end
       end
 
-      print_task "profile", "installing #{self.path} with uuid #{self.uuid}", :info
+      # print_task "profile", "installing #{self.path} with uuid #{self.uuid}", :info
       Xcode::Shell.execute("cp #{self.path} #{self.install_path}")   
     end
     
     def uninstall
-      print_task "profile", "removing #{self.install_path}", :info
+      # print_task "profile", "removing #{self.install_path}", :info
       Xcode::Shell.execute("rm -f #{self.install_path}")
     end
 

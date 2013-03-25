@@ -119,7 +119,7 @@ describe Xcode::Test::Parsers::OCUnitParser do
     parser << "/Developer/Tools/RunPlatformUnitTests.include: line 415: 32225 Bus error: 10           \"${THIN_TEST_RIG}\" \"${OTHER_TEST_FLAGS}\" \"${TEST_BUNDLE_PATH}\""
     parser << "/Developer/Tools/RunPlatformUnitTests.include:451: error: Test rig '/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.0.sdk/Developer/usr/bin/otest' exited abnormally with code 138 (it may have crashed)."
   
-    parser.flush
+    parser.close
     
     report = parser.report
     

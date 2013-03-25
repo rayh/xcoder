@@ -18,6 +18,7 @@ module Xcode
     end
 
     def self.log_level=(level)
+      raise "Unknown log level #{level}, should be one of #{LEVELS.join(', ')}" unless LEVELS.include? level
       @@log_level = level
     end
 

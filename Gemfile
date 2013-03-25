@@ -13,6 +13,7 @@ gem 'cocoapods'
 
 # Documentation
 gem 'yard'
+gem 'redcarpet'
 
 # Deployment
 gem 'net-ssh'

@@ -150,6 +150,11 @@ module Xcode
       end
 
 
+      def notify type, args = {}
+        @notifications << {:type => type, :args => args}
+      end
+
+
       #
       # Internally used to lazily instantiate the builder given the properties that
       # have been set.

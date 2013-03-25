@@ -18,14 +18,20 @@ module Xcode
       def initialize(scheme)
         @scheme     = scheme
         @target     = @scheme.build_targets.last
-        super @target, @target.config(@scheme.build_config)
+        super @target, @target.config(@scheme.archive_config)
       end
 
-      def xcodebuild
-        cmd = super
+      def prepare_xcodebuild sdk=nil
+        cmd = super sdk
         cmd << @scheme.parent.to_xcodebuild_option
         cmd << "-scheme \"#{@scheme.name}\""
         # cmd << "-configuration \"#{@scheme.build_config}\""
+        cmd
+      end
+
+      def prepare_build_command sdk=nil
+        cmd = super sdk
+        cmd << 'archive'
         cmd
       end
 

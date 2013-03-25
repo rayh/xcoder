@@ -24,22 +24,6 @@ module Xcode
         @symroot = File.join(@build_path, 'Products')
       end
 
-      def common_environment
-        env = {}
-        env["OBJROOT"]  = "\"#{@objroot}/\""
-        env["SYMROOT"]  = "\"#{@symroot}/\""
-        env
-      end
-
-      def build_environment
-        profile = install_profile
-        env = common_environment
-        env["OTHER_CODE_SIGN_FLAGS"]  = "'--keychain #{@keychain.path}'" unless @keychain.nil?
-        env["CODE_SIGN_IDENTITY"]     = "\"#{@identity}\"" unless @identity.nil?
-        env["PROVISIONING_PROFILE"]   = "#{profile.uuid}" unless profile.nil?
-        env
-      end
-
       def has_dependencies?
         podfile = File.join(File.dirname(@target.project.path), "Podfile")
         File.exists? podfile
@@ -55,24 +39,102 @@ module Xcode
         if File.exists? podfile
           print_task :cocoapods, "pod setup", :info
           cmd = Xcode::Shell::Command.new 'pod setup'
-          cmd.execute(true)
+          cmd.execute
 
           print_task :cocoapods, "pod install", :info
           cmd = Xcode::Shell::Command.new 'pod install'
-          cmd.execute(true)
+          cmd.execute
         end
+      end
+
+      def xcodebuild_parser
+        filename = File.join(@build_path, "xcodebuild-output.txt")
+        parser = Xcode::Builder::XcodebuildParser.new filename
+        parser
+      end
+
+      def prepare_xcodebuild sdk=@sdk #:yield: Xcode::Shell::Command
+        cmd = Xcode::Shell::Command.new 'xcodebuild'
+
+        cmd.env["OBJROOT"]  = "\"#{@objroot}/\""
+        cmd.env["SYMROOT"]  = "\"#{@symroot}/\""
+
+        profile = install_profile
+        unless profile.nil?
+          print_task "builder", "Using profile #{profile.install_path}", :debug
+          cmd.env["PROVISIONING_PROFILE"]   = "#{profile.uuid}"
+        end
+
+        unless @keychain.nil?
+          print_task 'builder', "Using keychain #{@keychain.path}", :debug
+          cmd.env["OTHER_CODE_SIGN_FLAGS"]  = "'--keychain #{@keychain.path}'" 
+        end
+
+        unless @identity.nil?
+          print_task 'builder', "Using identity #{@identity}", :debug
+          cmd.env["CODE_SIGN_IDENTITY"]     = "\"#{@identity}\""
+        end
+
+        cmd << "-sdk #{sdk}" unless sdk.nil?
+
+        yield cmd if block_given?
+
+        cmd
+      end
+
+      def prepare_build_command sdk=@sdk
+        cmd = prepare_xcodebuild sdk
+        cmd.attach xcodebuild_parser
+        cmd
+      end
+
+      def prepare_test_command sdk=@sdk
+        cmd = prepare_xcodebuild sdk
+        cmd.env["TEST_AFTER_BUILD"]="YES"
+        cmd
+      end
+
+      def prepare_clean_command sdk=@sdk
+        cmd = prepare_xcodebuild sdk
+        cmd.attach xcodebuild_parser
+        cmd << "clean"
+        cmd
+      end
+
+      def prepare_package_command
+        #package IPA
+        cmd = Xcode::Shell::Command.new 'xcrun'
+        cmd << "-sdk #{@sdk}" unless @sdk.nil?
+        cmd << "PackageApplication"
+        cmd << "-v \"#{app_path}\""
+        cmd << "-o \"#{ipa_path}\""
+
+        unless @profile.nil?
+          cmd << "--embed \"#{@profile}\""
+        end
+
+        cmd
+      end
+
+      def prepare_dsym_command
+        # package dSYM
+        cmd = Xcode::Shell::Command.new 'zip'
+        cmd << "-r"
+        cmd << "-T"
+        cmd << "-y \"#{dsym_zip_path}\""
+        cmd << "\"#{dsym_path}\""
+        cmd
       end
 
       # 
       # Build the project
       #
-      def build options = {:sdk => @sdk}, &block
+      def build options = {}, &block
         print_task :builder, "Building #{product_name}", :notice
-        cmd = xcodebuild
-        cmd << "-sdk #{options[:sdk]}" unless options[:sdk].nil?
+        cmd = prepare_build_command options[:sdk]||@sdk
 
         with_keychain do
-          run_xcodebuild cmd, options
+          cmd.execute
         end
 
         self
@@ -83,13 +145,12 @@ module Xcode
       #
       # If a block is provided, the report is yielded for configuration before the test is run
       #
+      # TODO: Move implementation to the Xcode::Test module
       def test options = {:sdk => 'iphonesimulator', :show_output => false}
         report = Xcode::Test::Report.new
         print_task :builder, "Testing #{product_name}", :notice
 
-        cmd = xcodebuild
-        cmd << "-sdk #{options[:sdk]}" unless options[:sdk].nil?
-        cmd.env["TEST_AFTER_BUILD"]="YES"
+        cmd = prepare_test_command options[:sdk]||@sdk
 
         if block_given?
           yield(report)
@@ -98,17 +159,14 @@ module Xcode
           report.add_formatter :junit, 'test-reports'
         end
 
-        parser = Xcode::Test::Parsers::OCUnitParser.new report
+        cmd.attach Xcode::Test::Parsers::OCUnitParser.new(report)
+        cmd.show_output = options[:show_output] # override it if user wants output
 
         begin
-          cmd.execute(options[:show_output]||false) do |line|
-            parser << line
-          end
+          cmd.execute
         rescue Xcode::Shell::ExecutionError => e
           # FIXME: Perhaps we should always raise this?
           raise e if report.suites.count==0
-        ensure
-          parser.flush
         end
 
         report
@@ -122,6 +180,7 @@ module Xcode
       #
       # If a block is given, the deployer is yielded before deploy() is called
       #
+      # TODO: move deployment to Xcode::Deploy module
       def deploy method, options = {}
         print_task :builder, "Deploy to #{method}", :notice
         options = {
@@ -151,39 +210,35 @@ module Xcode
       # @param team_token the token for the team you want to deploy to
       #
       # DEPRECATED, use deploy() instead
-      def testflight(api_token, team_token)
-        raise "Can't find #{ipa_path}, do you need to call builder.package?" unless File.exists? ipa_path
-        raise "Can't find #{dsym_zip_path}, do you need to call builder.package?" unless File.exists? dsym_zip_path
+      # def testflight(api_token, team_token)
+      #   raise "Can't find #{ipa_path}, do you need to call builder.package?" unless File.exists? ipa_path
+      #   raise "Can't find #{dsym_zip_path}, do you need to call builder.package?" unless File.exists? dsym_zip_path
 
-        testflight = Xcode::Deploy::Testflight.new(api_token, team_token)
-        yield(testflight) if block_given?
-        testflight.upload(ipa_path, dsym_zip_path)
-      end
+      #   testflight = Xcode::Deploy::Testflight.new(api_token, team_token)
+      #   yield(testflight) if block_given?
+      #   testflight.upload(ipa_path, dsym_zip_path)
+      # end
 
-      def clean options = {}, &block      
+      def clean options = {:sdk=>@sdk}, &block      
         print_task :builder, "Cleaning #{product_name}", :notice
-        cmd = xcodebuild
-        cmd << "-sdk #{@sdk}" unless @sdk.nil?
-        cmd << "clean"
-
-        run_xcodebuild cmd, options
+        prepare_clean_command(options[:sdk]).execute
 
         @built = false
         @packaged = false
         self
       end
 
-      def sign options = {:show_output => true}, &block
-        cmd = Xcode::Shell::Command.new 'codesign'
-        cmd << "--force"
-        cmd << "--sign \"#{@identity}\""
-        cmd << "--resource-rules=\"#{app_path}/ResourceRules.plist\""
-        cmd << "--entitlements \"#{entitlements_path}\""
-        cmd << "\"#{ipa_path}\""
-        cmd.execute(options[:show_output]||true, &block)
+      # def sign options = {:show_output => true}, &block
+      #   cmd = Xcode::Shell::Command.new 'codesign'
+      #   cmd << "--force"
+      #   cmd << "--sign \"#{@identity}\""
+      #   cmd << "--resource-rules=\"#{app_path}/ResourceRules.plist\""
+      #   cmd << "--entitlements \"#{entitlements_path}\""
+      #   cmd << "\"#{ipa_path}\""
+      #   cmd.execute(options[:show_output]||true, &block)
 
-        self
-      end
+      #   self
+      # end
 
       def package options = {}, &block     
         options = {:show_output => false}.merge(options)
@@ -192,35 +247,19 @@ module Xcode
 
         print_task 'builder', "Packaging #{product_name}", :notice
 
-        #package IPA
-        cmd = Xcode::Shell::Command.new 'xcrun'
-        cmd << "-sdk #{@sdk}" unless @sdk.nil?
-        cmd << "PackageApplication"
-        cmd << "-v \"#{app_path}\""
-        cmd << "-o \"#{ipa_path}\""
-
-        unless @profile.nil?
-          cmd << "--embed \"#{@profile}\""
-        end
-
         print_task :package, "generating IPA: #{ipa_path}", :info
         with_keychain do
-          # run_xcodebuild cmd, options, &block
-          cmd.execute(options[:show_output], &block)
+          prepare_package_command.execute
         end
 
-        # package dSYM
-        cmd = Xcode::Shell::Command.new 'zip'
-        cmd << "-r"
-        cmd << "-T"
-        cmd << "-y \"#{dsym_zip_path}\""
-        cmd << "\"#{dsym_path}\""
-
         print_task :package, "creating dSYM zip: #{dsym_zip_path}", :info
-        # run_xcodebuild cmd, options, &block
-        cmd.execute(options[:show_output], &block)
+        prepare_dsym_command.execute
 
         self
+      end
+
+      def project_root
+        @target.project.path
       end
 
       def configuration_build_path
@@ -286,35 +325,6 @@ module Xcode
         p = ProvisioningProfile.new(@profile)
         p.install
         p
-      end
-
-      def xcodebuild #:yield: Xcode::Shell::Command
-        Xcode::Shell::Command.new 'xcodebuild', build_environment
-      end
-
-      def run_xcodebuild cmd, options={}, &block
-        options = {:show_output => false}.merge(options)
-
-        if block_given? or options[:show_output]
-          cmd.execute(options[:show_output]) do |line|
-            yield line
-          end
-        else
-          # cmd.execute(options[:show_output], &block)
-          filename = File.join(@build_path, "xcodebuild-output.txt")
-          parser = Xcode::Builder::XcodebuildParser.new filename
-
-          begin
-            cmd.execute(false) do |line|
-              parser << line
-            end
-          rescue => e
-            # Write output to file and report the error here
-            puts "Build failed, output writter to #{filename}", :red
-          ensure
-            parser.flush
-          end
-        end
       end
 
 

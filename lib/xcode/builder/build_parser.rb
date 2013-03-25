@@ -37,11 +37,12 @@ module Xcode
         @suppress_warnings = false
       end
 
-      def flush
+      def close
+        print_task 'xcode', "Output written to @filename", :info
         @file.close
       end
 
-      def <<(piped_row)
+      def << piped_row
         piped_row = piped_row.force_encoding("UTF-8").gsub(/\n$/,'')
 
         # Write it to the log
