@@ -27,6 +27,7 @@ module Xcode
         'Libtool',
         'PhaseScriptExecution',
         'Validate'
+        # 'SymLink'
       ]
 
       def initialize filename
@@ -38,7 +39,7 @@ module Xcode
       end
 
       def close
-        print_task 'xcode', "Output written to @filename", :info
+        print_task 'xcode', "Output written to #{@file}", :info
         @file.close
       end
 

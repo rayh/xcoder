@@ -243,7 +243,7 @@ module Xcode
       def package options = {}, &block     
         options = {:show_output => false}.merge(options)
 
-        raise "Can't find #{app_path}, do you need to call builder.build?" unless File.exists? app_path
+        raise "Can't find #{app_path}, do you need to call builder.build?" unless File.exists? app_path or File.symlink? app_path
 
         print_task 'builder', "Packaging #{product_name}", :notice
 

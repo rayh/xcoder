@@ -25,15 +25,15 @@ module Xcode
         cmd = super sdk
         cmd << @scheme.parent.to_xcodebuild_option
         cmd << "-scheme \"#{@scheme.name}\""
-        # cmd << "-configuration \"#{@scheme.build_config}\""
+        cmd << "-configuration \"#{@scheme.archive_config}\""
         cmd
       end
 
-      def prepare_build_command sdk=nil
-        cmd = super sdk
-        cmd << 'archive'
-        cmd
-      end
+      # def prepare_build_command sdk=nil
+      #   cmd = super sdk
+      #   cmd << 'archive'
+      #   cmd
+      # end
 
     end
   end
