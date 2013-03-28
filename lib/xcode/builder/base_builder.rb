@@ -24,19 +24,23 @@ module Xcode
         @symroot = File.join(@build_path, 'Products')
       end
 
+      def cocoapods_installed?
+        system("which pod > /dev/null 2>&1")
+      end
+
       def has_dependencies?
         podfile = File.join(File.dirname(@target.project.path), "Podfile")
         File.exists? podfile
       end
 
-      # 
+      #
       # If a Podfile exists, perform a pod install
       #
       def dependencies
-        print_task :builder, "Fetch depencies", :notice
-        podfile = File.join(File.dirname(@target.project.path), "Podfile")
-        # sandbox = File.join(File.dirname(@target.project.path), "Pods")
-        if File.exists? podfile
+        if has_dependencies? and cocoapods_installed?
+          print_task :builder, "Fetch depencies", :notice
+          podfile = File.join(File.dirname(@target.project.path), "Podfile")
+   
           print_task :cocoapods, "pod setup", :info
           cmd = Xcode::Shell::Command.new 'pod setup'
           cmd.execute
@@ -67,7 +71,7 @@ module Xcode
 
         unless @keychain.nil?
           print_task 'builder', "Using keychain #{@keychain.path}", :debug
-          cmd.env["OTHER_CODE_SIGN_FLAGS"]  = "'--keychain #{@keychain.path}'" 
+          cmd.env["OTHER_CODE_SIGN_FLAGS"]  = "'--keychain #{@keychain.path}'"
         end
 
         unless @identity.nil?
@@ -126,7 +130,7 @@ module Xcode
         cmd
       end
 
-      # 
+      #
       # Build the project
       #
       def build options = {}, &block
@@ -219,7 +223,7 @@ module Xcode
       #   testflight.upload(ipa_path, dsym_zip_path)
       # end
 
-      def clean options = {:sdk=>@sdk}, &block      
+      def clean options = {:sdk=>@sdk}, &block
         print_task :builder, "Cleaning #{product_name}", :notice
         prepare_clean_command(options[:sdk]).execute
 
@@ -240,7 +244,7 @@ module Xcode
       #   self
       # end
 
-      def package options = {}, &block     
+      def package options = {}, &block
         options = {:show_output => false}.merge(options)
 
         raise "Can't find #{app_path}, do you need to call builder.build?" unless File.exists? app_path or File.symlink? app_path
@@ -308,7 +312,7 @@ module Xcode
         @config.info_plist.version
       end
 
-      private 
+      private
 
       def with_keychain(&block)
         if @keychain.nil?
