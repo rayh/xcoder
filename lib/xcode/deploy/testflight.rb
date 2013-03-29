@@ -14,7 +14,7 @@ module Xcode
         @builder = builder
         @api_token = options[:api_token]||@@defaults[:api_token]
         @team_token = options[:team_token]||@@defaults[:team_token]
-        @notify = options[:notify]||true
+        @notify = options.has_key?(:notify) ? options[:notify] : true
         @notes = options[:notes]
         @lists = options[:lists]||[]
         @proxy = ENV['http_proxy'] || ENV['HTTP_PROXY']
