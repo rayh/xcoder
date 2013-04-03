@@ -1,5 +1,4 @@
 require 'xcode/builder/build_parser'
-require 'cocoapods'
 
 module Xcode
   module Builder
