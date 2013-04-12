@@ -324,6 +324,13 @@ module Xcode
       def install_profile
         return nil if @profile.nil?
 
+        # if we got an already installed profile just skip
+        Xcode::ProvisioningProfile.installed_profiles.each { |profile|
+          if profile.path.include? @profile
+            return profile
+          end
+        }
+
         # TODO: remove other profiles for the same app?
         p = ProvisioningProfile.new(@profile)
         p.install
