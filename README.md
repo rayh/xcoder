@@ -10,46 +10,6 @@ Full documentation can be found here: http://rayh.github.com/xcoder/
 
 Xcoder assumes you are using XCode 4.6 on Mountain Lion and ruby 1.9.  You may have some degree of success with lesser versions, but they are not intentionally supported.
 
-## Automation and CI
-
-This stuff is a work-in-progress and is subject to change.
-
-Xcoder provides a simple mechanism to help with automating builds and CI.  First, define a Buildspec file in the root of your project with contents like this:
-
-	# Assumes identity is first in keychain
-	group :adhoc do
-
-	  # Which project/target/config, or workspace/scheme to use
-	  use :MyProject, :target => :MyTarget, :config => :Release
-	    
-	  # The mobile provision that should be used
-	  profile 'Provisioning/MyProject_AdHoc.mobileprovision'
-
-	  # Keychain is option, allows isolation of identities per-project without 
-	  # poluting global keychain
-	  keychain 'Provisioning/build.keychain', 'build'
-	  
-	  deploy :testflight, 
-	    :api_token => 'api token', 
-	    :team_token => 'team token',
-	    :notify => true, 
-	    :lists => ['Internal'], 
-	    :notes => `git log -n 1`
-	end
-
-You can then invoke the project using the xcoder command line:
-
-	# Invoke the default task (deploy)
-	xcoder -r
-
-	# Invoke a specific task
-	xcoder -r adhoc:package
-
-	# Get a list of tasks
-	xcoder -T
-
-This is a bit of a work-in-progress and an attempt to allow projects to provide a minimal declaration of how thier artifacts should be built and where they should go.  Integration with CI (Jenkins, for example) or just running locally from the command line should be simple.
-
 ## Example Usage
 
 You will need to install the gem:
@@ -406,6 +366,48 @@ Within the `specs/integration` folder there are more examples.
 There are some basic RSpec tests in the project which I suspect /wont/ work on machines without my identity installed.
 
 Currently these tests only assert the basic project file parsing and build code and do not perform file modification tests (e.g. for info plists) or provisioning profile/keychain importing
+
+## Automation and CI (BETA)
+
+NOTE: This is only available in HEAD, you will need to install this gem from source to get this Buildspec support and the xcoder tool
+
+This stuff is a work-in-progress and is subject to change.
+
+Xcoder provides a simple mechanism to help with automating builds and CI.  First, define a Buildspec file in the root of your project with contents like this:
+
+	# Assumes identity is first in keychain
+	group :adhoc do
+
+	  # Which project/target/config, or workspace/scheme to use
+	  use :MyProject, :target => :MyTarget, :config => :Release
+	    
+	  # The mobile provision that should be used
+	  profile 'Provisioning/MyProject_AdHoc.mobileprovision'
+
+	  # Keychain is option, allows isolation of identities per-project without 
+	  # poluting global keychain
+	  keychain 'Provisioning/build.keychain', 'build'
+	  
+	  deploy :testflight, 
+	    :api_token => 'api token', 
+	    :team_token => 'team token',
+	    :notify => true, 
+	    :lists => ['Internal'], 
+	    :notes => `git log -n 1`
+	end
+
+You can then invoke the project using the xcoder command line:
+
+	# Invoke the default task (deploy)
+	xcoder -r
+
+	# Invoke a specific task
+	xcoder -r adhoc:package
+
+	# Get a list of tasks
+	xcoder -T
+
+This is a bit of a work-in-progress and an attempt to allow projects to provide a minimal declaration of how thier artifacts should be built and where they should go.  Integration with CI (Jenkins, for example) or just running locally from the command line should be simple.
 
 ## Feedback
 
