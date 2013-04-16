@@ -1,6 +1,7 @@
 require 'xcode/shell'
 require 'xcode/provisioning_profile'
 require 'xcode/test/parsers/ocunit_parser.rb'
+require 'xcode/test/parsers/kif_parser.rb'
 require 'xcode/builder/base_builder.rb'
 require 'xcode/builder/project_target_config_builder.rb'
 require 'xcode/builder/scheme_builder.rb'

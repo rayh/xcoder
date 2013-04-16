@@ -37,7 +37,8 @@ module Xcode
             end
           end
           
-          print_task :test, "End tests (#{report.failed? ? 'FAILED' : 'PASSED'}).  Ran #{@test_count} tests in #{report.duration}s", report.failed? ? :error : :info
+          print_task :test, "Finished in #{report.duration} seconds", :info
+          print_task :test, "#{@test_count} tests, #{@errors.count} failures", report.failed? ? :error : :info
         end
         
         def before_suite(suite)
@@ -46,8 +47,8 @@ module Xcode
         
         def after_suite(suite)
           color = (suite.total_passed_tests == suite.tests.count) ? :info : :error
-          print_task :test, "#{suite.total_passed_tests}/#{suite.tests.count}", color
-          # puts " [#{suite.total_passed_tests}/#{suite.tests.count}]", color
+          #print_task :test, "#{suite.total_passed_tests}/#{suite.tests.count}", color
+          puts " [#{suite.total_passed_tests}/#{suite.tests.count}]", color
         end
         
         def before_test(test)
