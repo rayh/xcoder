@@ -1,4 +1,5 @@
 require 'xcode/shell/command.rb'
+require 'pty'
 
 module Xcode
   module Shell
@@ -9,14 +10,15 @@ module Xcode
       out = []
       cmd = cmd.to_s
       
-      puts "EXECUTE: #{cmd}" if show_command
-      IO.popen (cmd) do |f| 
-        f.each do |line|
+      PTY.spawn(cmd) do |r, w, pid|
+        r.sync
+        r.each_line do |line|
           puts line if show_output
           yield(line) if block_given?
           out << line
         end 
       end
+      
       raise ExecutionError.new("Error (#{$?.exitstatus}) executing '#{cmd}'\n\n  #{out.join("  ")}") if $?.exitstatus>0
       out
     end
