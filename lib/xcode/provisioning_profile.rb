@@ -82,7 +82,8 @@ module Xcode
 
     def self.find_installed_by_uuid uuid
       ProvisioningProfile.installed_profiles.each do |p|
-      return p if p.uuid == uuid
+        return p if p.uuid == uuid
+      end
     end
     
   end
