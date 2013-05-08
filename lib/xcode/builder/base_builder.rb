@@ -17,10 +17,6 @@ module Xcode
         @config = config
 
         @sdk = @target.project.sdk
-        @build_path = File.join File.dirname(@target.project.path), "Build"
-        FileUtils.mkdir_p @build_path
-        @objroot = @build_path
-        @symroot = File.join(@build_path, 'Products')
       end
 
       def cocoapods_installed?
@@ -51,7 +47,7 @@ module Xcode
       end
 
       def xcodebuild_parser
-        filename = File.join(@build_path, "xcodebuild-output.txt")
+        filename = File.join(build_path, "xcodebuild-output.txt")
         parser = Xcode::Builder::XcodebuildParser.new filename
         parser
       end
@@ -59,8 +55,8 @@ module Xcode
       def prepare_xcodebuild sdk=@sdk #:yield: Xcode::Shell::Command
         cmd = Xcode::Shell::Command.new 'xcodebuild'
 
-        cmd.env["OBJROOT"]  = "\"#{@objroot}/\""
-        cmd.env["SYMROOT"]  = "\"#{@symroot}/\""
+        cmd.env["OBJROOT"]  = "\"#{objroot}/\""
+        cmd.env["SYMROOT"]  = "\"#{symroot}/\""
 
         profile = install_profile
         unless profile.nil?
@@ -266,7 +262,7 @@ module Xcode
       end
 
       def configuration_build_path
-        "#{@symroot}/#{@config.name}-#{@sdk}"
+        "#{symroot}/#{@config.name}-#{@sdk}"
       end
 
       def entitlements_path
@@ -309,6 +305,25 @@ module Xcode
 
       def bundle_version
         @config.info_plist.version
+      end
+
+      def objroot
+        @objroot ||= build_path
+      end
+
+      def symroot
+        @symroot ||= File.join(build_path, 'Products')
+      end
+
+      def build_path=(path)
+        @build_path ||= path
+        FileUtils.mkdir_p @build_path
+      end
+
+      def build_path
+        return @build_path if @build_path
+        @build_path = File.join File.dirname(@target.project.path), "Build"
+        FileUtils.mkdir_p @build_path
       end
 
       private
