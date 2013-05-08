@@ -62,10 +62,12 @@ module Xcode
             # Empty line, ignore
           elsif piped_row=~/[A-Z]+\s\=\s/
             # some build env info
-          elsif piped_row=~/^warning:/
-            log_xcode "#{piped_row.gsub(/^warning:\s/,'')}", :warning
+          elsif piped_row=~/^warning:/i
+            log_xcode "#{piped_row.gsub(/^warning:\s/i,'')}", :warning
             # print "\n warning: ", :yellow
-            # print "#{piped_row.gsub(/^warning:\s/,'')}"            
+            # print "#{piped_row.gsub(/^warning:\s/,'')}" 
+          elsif piped_row=~/^ld: warning:/i
+            log_xcode "#{piped_row.gsub(/^ld: warning:\s/i,'')}", :warning       
           elsif piped_row=~/Unable to validate your application/
             log_xcode piped_row, :warning
             # print "\n warning: ", :yellow
