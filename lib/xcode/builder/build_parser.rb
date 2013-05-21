@@ -39,7 +39,7 @@ module Xcode
       end
 
       def close
-        print_task 'xcode', "Output written to #{@file}", :info
+        print_task 'xcode', "Output written to #{@file.path}", :info
         @file.close
       end
 
@@ -64,8 +64,8 @@ module Xcode
             # some build env info
           elsif piped_row=~/^warning:/i
             log_xcode "#{piped_row.gsub(/^warning:\s/i,'')}", :warning
-            # print "\n warning: ", :yellow
-            # print "#{piped_row.gsub(/^warning:\s/,'')}" 
+          elsif piped_row=~/^\[BEROR\](.*)/
+            log_xcode "#{$1}", :error            
           elsif piped_row=~/^ld: warning:/i
             log_xcode "#{piped_row.gsub(/^ld: warning:\s/i,'')}", :warning       
           elsif piped_row=~/Unable to validate your application/
