@@ -19,6 +19,14 @@ module Xcode
         @sdk = @target.project.sdk
       end
 
+      def profile= (value)
+          if value.is_a?(ProvisioningProfile)
+            @profile = value
+          else
+            @profile = ProvisioningProfile.new(value)
+          end
+      end
+        
       def cocoapods_installed?
         system("which pod > /dev/null 2>&1")
       end
@@ -57,9 +65,9 @@ module Xcode
 
         cmd.env["OBJROOT"]  = "\"#{objroot}/\""
         cmd.env["SYMROOT"]  = "\"#{symroot}/\""
-
-        profile = install_profile
+            
         unless profile.nil?
+          profile.install
           print_task "builder", "Using profile #{profile.install_path}", :debug
           cmd.env["PROVISIONING_PROFILE"]   = "#{profile.uuid}"
         end
@@ -335,16 +343,6 @@ module Xcode
           Xcode::Keychains.with_keychain_in_search_path @keychain, &block
         end
       end
-
-      def install_profile
-        return nil if @profile.nil?
-
-        # TODO: remove other profiles for the same app?
-        p = ProvisioningProfile.new(@profile)
-        p.install
-        p
-      end
-
 
     end
   end
