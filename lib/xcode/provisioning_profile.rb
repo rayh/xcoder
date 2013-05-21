@@ -54,13 +54,12 @@ module Xcode
       "#{ProvisioningProfile.profiles_path}/#{self.uuid}.mobileprovision"
     end
     
-    def install 
+    def install
+      # Do not reinstall if profile is same and is already installed
+      return if (self.path == self.install_path.gsub(/\\ /, ' '))
+      
       ProvisioningProfile.installed_profiles.each do |installed|
         if installed.identifiers==self.identifiers and installed.uuid==self.uuid
-
-          # Do not reinstall if profile is same and is already installed
-          return if (self.path == self.install_path.gsub(/\\ /, ' '))
-
           installed.uninstall
         end
       end
@@ -84,6 +83,10 @@ module Xcode
       ProvisioningProfile.installed_profiles.each do |p|
         return p if p.uuid == uuid
       end
+    end
+
+    def self.installed_profile(name)
+      self.installed_profiles.select {|p| p.name == name.to_s}.first;
     end
     
   end
