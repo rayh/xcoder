@@ -127,6 +127,19 @@ module Xcode
       def keychain path, password = nil
         @keychain = {:path => path, :password => password}
       end
+      
+      
+      # 
+      # Set's the identity to use to sign the package
+      #
+      # This should be the name of the identity in your keychain, such as 
+      # 'iPhone Distribution: My Name'
+      #
+      # @param the name of the identity
+      #
+      def identity identity
+        @identity = identity
+      end
 
       #
       # Set the profile (i.e. .mobileprovision) to use
@@ -179,6 +192,10 @@ module Xcode
 
         raise "Could not create a builder using #{@args}" if @builder.nil?
 
+        unless @identity.nil?
+          builder.identity = @identity
+        end
+
         unless @keychain.nil?
           keychain = Xcode::Keychain.new @keychain[:path]
           keychain.unlock @keychain[:password] unless @keychain[:password].nil?
@@ -186,7 +203,7 @@ module Xcode
           builder.identity = keychain.identities.first
           builder.keychain = keychain
         end
-
+        
         builder.profile = @profile
 
         @before.call builder
