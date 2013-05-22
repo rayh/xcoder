@@ -150,6 +150,12 @@ module Xcode
       cmd << "\"#{path}\""
       cmd.execute
       
+      cmd = Xcode::Shell::Command.new "security"
+      cmd << "set-keychain-settings"
+      cmd << "-u"
+      cmd << "\"#{path}\""
+      cmd.execute
+      
       kc = Xcode::Keychain.new(path)
       yield(kc) if block_given?
       kc
