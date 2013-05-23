@@ -29,11 +29,20 @@ module Xcode
         cmd
       end
 
-      # def prepare_build_command sdk=nil
-      #   cmd = super sdk
-      #   cmd << 'archive'
-      #   cmd
-      # end
+      def prepare_test_command sdk=@sdk
+        cmd = super sdk
+        cmd << "-scheme \"#{@scheme.name}\""
+        cmd << "-configuration \"#{@scheme.test_config}\""
+        cmd
+      end
+      
+      def test
+        unless @scheme.testable?
+          print_task :builder, "Nothing to test", :warning        
+        else
+          super
+        end
+      end
 
     end
   end

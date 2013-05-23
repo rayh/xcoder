@@ -10,6 +10,7 @@ module Xcode
       @identifiers = []
       @devices = []
       @appstore = true
+      @enterprise = false
       
       # TODO: im sure this could be done in a nicer way.  maybe read out the XML-like stuff and use the plist -> json converter
       uuid = nil
@@ -18,6 +19,10 @@ module Xcode
         
         if input=~/ProvisionedDevices/
           @appstore = false
+        end
+        
+        if input=~/<key>ProvisionsAllDevices<\/key>/
+          @enterprise = true
         end
         
         if input=~/<key>ProvisionedDevices<\/key>.*?<array>(.*?)<\/array>/im
@@ -44,6 +49,10 @@ module Xcode
     
     def appstore?
       @appstore
+    end
+    
+    def enterprise?
+      @enterprise
     end
 
     def self.profiles_path

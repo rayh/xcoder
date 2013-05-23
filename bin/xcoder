@@ -26,6 +26,12 @@ OptionParser.new do |opts|
   opts.on("--install-profile [PROFILE]", "Install the given profile into ~/Library") do |profile|
   	Xcode::ProvisioningProfile.new(profile).install
   end
+  
+  opts.on("--show-sdks", "Show the available SDKs") do 
+    Xcode::Platforms.supported.each do |p|
+      puts "#{p.name}: #{p.platform}, #{p.version}"
+    end
+  end
 
 	opts.separator ""
   opts.separator "Buildspec options:"

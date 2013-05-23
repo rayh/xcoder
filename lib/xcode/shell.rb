@@ -4,7 +4,13 @@ require 'pty'
 module Xcode
   module Shell
     
-    class ExecutionError < StandardError; end
+    class ExecutionError < StandardError; 
+      attr_accessor :output
+      def initialize(message, output=nil)
+        super message
+        @output = output
+      end
+    end
     
     def self.execute(cmd, show_output=true, show_command=false)
       out = []
@@ -18,8 +24,7 @@ module Xcode
           out << line
         end 
       end
-      
-      raise ExecutionError.new("Error (#{$?.exitstatus}) executing '#{cmd}'\n\n  #{out.join("  ")}") if $?.exitstatus>0
+      raise ExecutionError.new("Error (#{$?.exitstatus}) executing '#{cmd}'", out) if $?.exitstatus>0
       out
     end
   end

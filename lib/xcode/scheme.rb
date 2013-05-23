@@ -1,12 +1,16 @@
 require 'nokogiri'
 
 module Xcode
+  
+  class SchemeAction
+    attr_accessor :config, :name
+  end
 
   # Schemes are an XML file that describe build, test, launch and profile actions
   # For the purposes of Xcoder, we want to be able to build and test
   class Scheme
     attr_reader :parent, :path, :name, :build_targets
-    attr_accessor :build_config, :archive_config
+    attr_accessor :build_config, :archive_config, :test_config
 
     #
     # Parse all the schemes given the current project.
@@ -55,13 +59,22 @@ module Xcode
       parse_build_actions(doc)
     end
 
-    # Returns a builder for building this scheme
+    #
+    # @return a builder for building this scheme
+    #
     def builder
       Xcode::Builder::SchemeBuilder.new(self)
     end
 
     def to_s
       "#{name} (Scheme) in #{parent}"
+    end
+    
+    #
+    # @return true if the scheme is testable, false otherwise
+    #
+    def testable?
+      !@test_config.nil?
     end
 
     private
@@ -104,6 +117,10 @@ module Xcode
 
       @build_config = doc.xpath("//LaunchAction").first['buildConfiguration']
       @archive_config = doc.xpath("//ArchiveAction").first['buildConfiguration']
+
+      if doc.xpath("//TestAction/Testables/*").children.count>0
+        @test_config = doc.xpath("//TestAction").first['buildConfiguration']
+      end
 
       build_action_entries = doc.xpath("//BuildAction//BuildableReference").each do |ref|
         @build_targets << target_from_build_reference(ref)

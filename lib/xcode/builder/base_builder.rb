@@ -96,8 +96,12 @@ module Xcode
       end
 
       def prepare_test_command sdk=@sdk
-        cmd = prepare_xcodebuild sdk
+        cmd = Xcode::Shell::Command.new 'xcodebuild'
+        cmd.env["OBJROOT"]  = "\"#{@objroot}/\""
+        cmd.env["SYMROOT"]  = "\"#{@symroot}/\""
         cmd.env["TEST_AFTER_BUILD"]="YES"
+        cmd << "-sdk #{sdk}" unless sdk.nil?
+        cmd << "test"
         cmd
       end
 

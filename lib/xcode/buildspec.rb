@@ -129,6 +129,15 @@ module Xcode
       end
       
       
+      #
+      # Specify the platform to build for
+      #
+      # @param the platform, can be 'iphone', 'iphonesimulator', 'macosx'
+      # @param the version, can be any valid, installed sdk version for the appropriate platform or nil
+      def platform name, version=nil
+        @platform = Xcode::Platforms.find name, version
+      end
+      
       # 
       # Set's the identity to use to sign the package
       #
@@ -191,6 +200,10 @@ module Xcode
         end          
 
         raise "Could not create a builder using #{@args}" if @builder.nil?
+        
+        unless @platform.nil?
+          builder.sdk = @platform.sdk
+        end 
 
         unless @identity.nil?
           builder.identity = @identity
@@ -243,12 +256,12 @@ module Xcode
           end
 
           desc "Test #{project_name}" 
-          task :test => [:build] do 
+          task :test => [:deps] do 
             builder.test
           end
 
           desc "Package (.ipa & .dSYM.zip) #{project_name}"
-          task :package => [:test] do
+          task :package => [:build, :test] do
             builder.package
           end
 
