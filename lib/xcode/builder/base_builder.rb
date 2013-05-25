@@ -97,8 +97,8 @@ module Xcode
 
       def prepare_test_command sdk=@sdk
         cmd = Xcode::Shell::Command.new 'xcodebuild'
-        cmd.env["OBJROOT"]  = "\"#{@objroot}/\""
-        cmd.env["SYMROOT"]  = "\"#{@symroot}/\""
+        cmd.env["OBJROOT"]  = "\"#{objroot}/\""
+        cmd.env["SYMROOT"]  = "\"#{symroot}/\""
         cmd.env["TEST_AFTER_BUILD"]="YES"
         cmd << "-sdk #{sdk}" unless sdk.nil?
         cmd << "test"
@@ -323,7 +323,7 @@ module Xcode
         @objroot ||= build_path
       end
 
-      def symroot
+      def symroot                
         @symroot ||= File.join(build_path, 'Products')
       end
 
@@ -333,9 +333,10 @@ module Xcode
       end
 
       def build_path
-        return @build_path if @build_path
+        return @build_path unless @build_path.nil?
         @build_path = File.join File.dirname(@target.project.path), "Build"
         FileUtils.mkdir_p @build_path
+        @build_path
       end
 
       private
