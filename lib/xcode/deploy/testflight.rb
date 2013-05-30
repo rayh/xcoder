@@ -51,7 +51,7 @@ module Xcode
         cmd << "-F notify=#{@notify ? 'True' : 'False'}"
         cmd << "-F distribution_lists='#{@lists.join(',')}'" unless @lists.count==0
 
-        response = Xcode::Shell.execute(cmd)
+        response = cmd.execute
 
         json = MultiJson.load(response.join(''))
         puts " + Done, got: #{json.inspect}"

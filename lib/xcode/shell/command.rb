@@ -1,20 +1,30 @@
 require 'set'
 require 'tmpdir'
 require 'tempfile'
+require 'pty'
 
 module Xcode
   module Shell
+    
+    class ExecutionError < StandardError; 
+      attr_accessor :output
+      def initialize(message, output=nil)
+        super message
+        @output = output
+      end
+    end
 
     class Command
       include Xcode::TerminalOutput
-      attr_accessor :env, :cmd, :args, :show_output, :output_dir, :log_to_file
+      attr_accessor :env, :cmd, :args, :show_output, :output_dir, :log_to_file, :output
 
       def initialize(cmd, environment={})
-        @cmd = cmd
+        @cmd = cmd.to_s
         @args = []
         @env = environment
         @show_output = true
         @pipe = nil
+        @output = []
         @output_dir = Dir.tmpdir
         @log_to_file = false
       end
@@ -49,16 +59,7 @@ module Xcode
         @pipe = pipe
         @show_output = false
       end
-      
-      def write_output output, error=false
-        return unless @log_to_file or error
-        
-        Tempfile.open('xcoder', @output_dir) do |file|
-          print_system "Output written to #{file.path}", :notice
-          file.write output.join('')
-        end
-      end
-      
+            
       #
       # Execute the given command
       #
@@ -66,23 +67,40 @@ module Xcode
         print_output self.to_s, :debug
         # print_task 'shell', self.to_s, :debug if show_output
         begin
-          output = Xcode::Shell.execute(self, false) do |line|
-            print_input line.gsub(/\n$/,''), :debug if @show_output 
+          output_file_name = File.join(@output_dir, "xcoder-#{@cmd}-#{Time.now.strftime('%Y%m%d-%H%M%S')}")
+          
+          File.open(output_file_name, "w") do |file|          
+            PTY.spawn(to_s) do |r, w, child_pid|
+              r.sync
+              r.each_line do |line|
+                file << line
+                
+                print_input line.gsub(/\n$/,''), :debug if @show_output 
 
-            if @pipe.nil?
-              # DEPRECATED
-              yield(line) if block_given?
-            else
-              @pipe << line
+                if @pipe.nil?
+                  # DEPRECATED
+                  yield(line) if block_given?
+                else
+                  @pipe << line
+                end
+                
+                @output << line
+              end 
+              Process.wait(child_pid)
             end
           end
           
-          write_output output, false
-        rescue Xcode::Shell::ExecutionError => e
-          write_output e.output, true
-          
-          print_system "Cropped #{e.output.count - 10} lines", :notice if e.output.count>10
-          e.output.last(10).each do |line|
+          raise ExecutionError.new("Error (#{$?.exitstatus}) executing '#{@cmd}'", @output) if $?.exitstatus>0        
+
+          if @log_to_file
+            print_system "Captured output to #{output_file_name}", :notice                      
+          else
+            File.delete(output_file_name)
+          end
+        rescue Xcode::Shell::ExecutionError => e          
+          print_system "Captured output to #{output_file_name}", :notice          
+          print_system "Cropped #{e.output.count - 10} lines", :notice if @output.count>10
+          @output.last(10).each do |line|
             print_output line.strip, :error
           end
           raise e      

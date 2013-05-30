@@ -4,7 +4,7 @@ require 'xcode/terminal_output'
 require "xcode/version"
 require "xcode/project"
 require "xcode/info_plist"
-require "xcode/shell"
+require 'xcode/shell/command'
 require 'plist'
 require 'xcode/keychain'
 require 'xcode/workspace'

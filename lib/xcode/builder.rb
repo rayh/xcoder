@@ -1,4 +1,3 @@
-require 'xcode/shell'
 require 'xcode/provisioning_profile'
 require 'xcode/test/parsers/ocunit_parser.rb'
 require 'xcode/test/parsers/kif_parser.rb'
