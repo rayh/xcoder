@@ -97,6 +97,8 @@ module Xcode
           else
             File.delete(output_file_name)
           end
+          
+          @output
         rescue Xcode::Shell::ExecutionError => e          
           print_system "Captured output to #{output_file_name}", :notice          
           print_system "Cropped #{e.output.count - 10} lines", :notice if @output.count>10

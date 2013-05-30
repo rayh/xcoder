@@ -106,8 +106,7 @@ module Xcode
       cmd << "-a"
       cmd << "\"#{@path}\""
       cmd.show_output = false
-      data = cmd.execute.join("")
-      data.scan /\s+"labl"<blob>="([^"]+)"/ do |m|
+      cmd.execute.join("").scan /\s+"labl"<blob>="([^"]+)"/ do |m|
         names << m[0]
       end
       names
