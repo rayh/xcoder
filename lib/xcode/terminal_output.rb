@@ -48,9 +48,15 @@ module Xcode
       return if LEVELS.index(level) > LEVELS.index(@@log_level)
       puts format_lhs("", "", ">") + message, :default
     end
-
+    
+    def print_system message, level=:debug
+      return if LEVELS.index(level) > LEVELS.index(@@log_level)
+      puts format_lhs("", "", "!") + message, :green
+    end
+    
     def format_lhs(left, right, terminator=":")
-      "#{left.to_s.ljust(10)} #{right.rjust(6)}#{terminator} "
+      # "#{left.to_s.ljust(10)} #{right.rjust(6)}#{terminator} "
+      "#{right.to_s.rjust(7)}#{terminator} "
     end
 
     def print_task(task, message, level=:info, cr=true)

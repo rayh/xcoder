@@ -45,96 +45,95 @@ module Xcode
           podfile = File.join(File.dirname(@target.project.path), "Podfile")
    
           print_task :cocoapods, "pod setup", :info
-          cmd = Xcode::Shell::Command.new 'pod setup'
-          cmd.execute
+          with_command('pod setup').execute
 
           print_task :cocoapods, "pod install", :info
-          cmd = Xcode::Shell::Command.new 'pod install'
-          cmd.execute
+          with_command('pod install').execute
         end
-      end
-
-      def xcodebuild_parser
-        filename = File.join(build_path, "xcodebuild-output.txt")
-        parser = Xcode::Builder::XcodebuildParser.new filename
-        parser
       end
 
       def prepare_xcodebuild sdk=@sdk #:yield: Xcode::Shell::Command
-        cmd = Xcode::Shell::Command.new 'xcodebuild'
+        with_command 'xcodebuild' do |cmd|
 
-        cmd.env["OBJROOT"]  = "\"#{objroot}/\""
-        cmd.env["SYMROOT"]  = "\"#{symroot}/\""
+          cmd.log_to_file = true
+          cmd.attach Xcode::Builder::XcodebuildParser.new
+          
+          cmd.env["OBJROOT"]  = "\"#{objroot}/\""
+          cmd.env["SYMROOT"]  = "\"#{symroot}/\""
             
-        unless profile.nil?
-          profile.install
-          print_task "builder", "Using profile #{profile.install_path}", :debug
-          cmd.env["PROVISIONING_PROFILE"]   = "#{profile.uuid}"
+          unless profile.nil?
+            profile.install
+            print_task "builder", "Using profile #{profile.install_path}", :debug
+            cmd.env["PROVISIONING_PROFILE"]   = "#{profile.uuid}"
+          end
+
+          unless @keychain.nil?
+            print_task 'builder', "Using keychain #{@keychain.path}", :debug
+            cmd.env["OTHER_CODE_SIGN_FLAGS"]  = "'--keychain #{@keychain.path}'"
+          end
+
+          unless @identity.nil?
+            print_task 'builder', "Using identity #{@identity}", :debug
+            cmd.env["CODE_SIGN_IDENTITY"]     = "\"#{@identity}\""
+          end
+
+          cmd << "-sdk #{sdk}" unless sdk.nil?
+
+          yield cmd if block_given?
         end
-
-        unless @keychain.nil?
-          print_task 'builder', "Using keychain #{@keychain.path}", :debug
-          cmd.env["OTHER_CODE_SIGN_FLAGS"]  = "'--keychain #{@keychain.path}'"
-        end
-
-        unless @identity.nil?
-          print_task 'builder', "Using identity #{@identity}", :debug
-          cmd.env["CODE_SIGN_IDENTITY"]     = "\"#{@identity}\""
-        end
-
-        cmd << "-sdk #{sdk}" unless sdk.nil?
-
+      end      
+      
+      def with_command command_line
+        cmd = Xcode::Shell::Command.new command_line
+        cmd.output_dir = objroot
         yield cmd if block_given?
-
         cmd
       end
 
       def prepare_build_command sdk=@sdk
         cmd = prepare_xcodebuild sdk
-        cmd.attach xcodebuild_parser
         cmd
       end
 
       def prepare_test_command sdk=@sdk
-        cmd = Xcode::Shell::Command.new 'xcodebuild'
-        cmd.env["OBJROOT"]  = "\"#{objroot}/\""
-        cmd.env["SYMROOT"]  = "\"#{symroot}/\""
-        cmd.env["TEST_AFTER_BUILD"]="YES"
-        cmd << "-sdk #{sdk}" unless sdk.nil?
-        cmd << "test"
-        cmd
+        with_command 'xcodebuild' do |cmd|
+          cmd.env["OBJROOT"]  = "\"#{objroot}/\""
+          cmd.env["SYMROOT"]  = "\"#{symroot}/\""
+          cmd.env["TEST_AFTER_BUILD"]="YES"
+          cmd.env["ONLY_ACTIVE_ARCH"]="NO"
+          # cmd.env["TEST_HOST"]=0
+          cmd << "-sdk #{sdk}" unless sdk.nil?
+        end
       end
 
       def prepare_clean_command sdk=@sdk
         cmd = prepare_xcodebuild sdk
-        cmd.attach xcodebuild_parser
         cmd << "clean"
         cmd
       end
 
       def prepare_package_command
         #package IPA
-        cmd = Xcode::Shell::Command.new 'xcrun'
-        cmd << "-sdk #{@sdk}" unless @sdk.nil?
-        cmd << "PackageApplication"
-        cmd << "-v \"#{app_path}\""
-        cmd << "-o \"#{ipa_path}\""
+        with_command 'xcrun' do |cmd|
+          cmd << "-sdk #{@sdk}" unless @sdk.nil?
+          cmd << "PackageApplication"
+          cmd << "-v \"#{app_path}\""
+          cmd << "-o \"#{ipa_path}\""
 
-        unless @profile.nil?
-          cmd << "--embed \"#{@profile}\""
+          unless @profile.nil?
+            cmd << "--embed \"#{@profile}\""
+          end
         end
-
-        cmd
       end
 
       def prepare_dsym_command
         # package dSYM
-        cmd = Xcode::Shell::Command.new 'zip'
-        cmd << "-r"
-        cmd << "-T"
-        cmd << "-y \"#{dsym_zip_path}\""
-        cmd << "\"#{dsym_path}\""
-        cmd
+        with_command 'zip' do |cmd|
+          cmd << "-r"
+          cmd << "-T"
+          cmd << "-y \"#{dsym_zip_path}\""
+          cmd << "\"#{dsym_path}\""
+        end
       end
 
       #
@@ -238,18 +237,6 @@ module Xcode
         @packaged = false
         self
       end
-
-      # def sign options = {:show_output => true}, &block
-      #   cmd = Xcode::Shell::Command.new 'codesign'
-      #   cmd << "--force"
-      #   cmd << "--sign \"#{@identity}\""
-      #   cmd << "--resource-rules=\"#{app_path}/ResourceRules.plist\""
-      #   cmd << "--entitlements \"#{entitlements_path}\""
-      #   cmd << "\"#{ipa_path}\""
-      #   cmd.execute(options[:show_output]||true, &block)
-
-      #   self
-      # end
 
       def package options = {}, &block
         options = {:show_output => false}.merge(options)

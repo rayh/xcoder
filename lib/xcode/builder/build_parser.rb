@@ -30,8 +30,7 @@ module Xcode
         # 'SymLink'
       ]
 
-      def initialize filename
-        @file = File.open(filename, 'w')
+      def initialize
         @last_good_index = 0
         @last_step_name = nil
         @last_step_params = []
@@ -39,15 +38,10 @@ module Xcode
       end
 
       def close
-        print_task 'xcode', "Output written to #{@file.path}", :info
-        @file.close
       end
 
       def << piped_row
         piped_row = piped_row.force_encoding("UTF-8").gsub(/\n$/,'')
-
-        # Write it to the log
-        @file.write piped_row + "\n"
 
         if piped_row=~/^\s+/
           @last_step_params << piped_row

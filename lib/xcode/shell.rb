@@ -22,7 +22,7 @@ module Xcode
           yield(line) if block_given?
           out << line
         end 
-        Process.wait(pid)
+        Process.wait(child_pid)
       end
       raise ExecutionError.new("Error (#{$?.exitstatus}) executing '#{cmd}'", out) if $?.exitstatus>0
       out

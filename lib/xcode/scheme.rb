@@ -9,7 +9,7 @@ module Xcode
   # Schemes are an XML file that describe build, test, launch and profile actions
   # For the purposes of Xcoder, we want to be able to build and test
   class Scheme
-    attr_reader :parent, :path, :name, :build_targets
+    attr_reader :parent, :path, :name, :build_targets, :test_targets
     attr_accessor :build_config, :archive_config, :test_config
 
     #
@@ -114,14 +114,18 @@ module Xcode
     def parse_build_actions(doc)
       # Build Config
       @build_targets = []
-
+      @test_targets = []
+      
       @build_config = doc.xpath("//LaunchAction").first['buildConfiguration']
       @archive_config = doc.xpath("//ArchiveAction").first['buildConfiguration']
 
-      if doc.xpath("//TestAction/Testables/*").children.count>0
+      if doc.xpath("//TestAction/Testables/TestableReference/BuildableReference").children.count>0
         @test_config = doc.xpath("//TestAction").first['buildConfiguration']
+        doc.xpath("//TestAction/Testables/TestableReference/BuildableReference").each do |ref|
+          @test_targets << target_from_build_reference(ref)
+        end
       end
-
+      
       build_action_entries = doc.xpath("//BuildAction//BuildableReference").each do |ref|
         @build_targets << target_from_build_reference(ref)
       end
