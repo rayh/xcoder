@@ -90,7 +90,7 @@ module Xcode
             end
           end
           
-          raise ExecutionError.new("Error (#{$?.exitstatus}) executing '#{@cmd}'", @output) if $?.exitstatus>0        
+          raise ExecutionError.new("Error (#{$?.exitstatus}) executing '#{to_s}'", @output) if $?.exitstatus>0        
 
           if @log_to_file
             print_system "Captured output to #{output_file_name}", :notice                      
