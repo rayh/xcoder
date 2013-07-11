@@ -23,3 +23,9 @@ spec/TestProject/TestProject.xcodeproj/project.xcworkspace/
 spec/TestProject/build
 spec/test-reports
 
+# local vendor/bundle 
+vendor/bundle/*
+
+# RubyMine project
+.idea/*
+
