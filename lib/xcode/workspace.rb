@@ -15,7 +15,7 @@ module Xcode
       doc = Nokogiri::XML(open("#{@path}/contents.xcworkspacedata"))
       doc.search("FileRef").each do |file|
         location = file["location"]
-        if matcher = location.match(/^group:(.+)$/)
+        if (matcher = location.match(/^group:(.+\.xcodeproj)$/i))
           project_path = "#{workspace_root}/#{matcher[1]}"
           begin
             @projects << Xcode::Project.new(project_path)
