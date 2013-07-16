@@ -1,5 +1,9 @@
 require_relative 'spec_helper'
 
+RSpec.configure do |config|
+  config.mock_with :rspec
+end
+
 describe Xcode::Builder do
 
   context "when using a builder built from a configuration" do
@@ -12,33 +16,33 @@ describe Xcode::Builder do
 
       let(:default_build_parameters) do
         cmd = Xcode::Shell::Command.new "xcodebuild"
-        cmd << "-project \"#{configuration.target.project.path}\""
-        cmd << "-target \"#{configuration.target.name}\""
-        cmd << "-config \"#{configuration.name}\""
         cmd << "-sdk #{configuration.target.project.sdk}"
         cmd.env["OBJROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/\""
         cmd.env["SYMROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/Products/\""
+        cmd << "-project \"#{configuration.target.project.path}\""
+        cmd << "-target \"#{configuration.target.name}\""
+        cmd << "-config \"#{configuration.name}\""
         cmd
       end
 
       let(:macosx_build_parameters) do
         cmd = Xcode::Shell::Command.new "xcodebuild"
+        cmd << "-sdk macosx10.7"
         cmd << "-project \"#{configuration.target.project.path}\""
         cmd << "-target \"#{configuration.target.name}\""
         cmd << "-config \"#{configuration.name}\""
-        cmd << "-sdk macosx10.7"
         cmd.env["OBJROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/\""
         cmd.env["SYMROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/Products/\""
         cmd
       end
 
       it "should build the project with the default parameters" do
-        Xcode::Shell.should_receive(:execute).with(default_build_parameters,false)
+        PTY.stub(:spawn).with(default_build_parameters.to_s)
         subject.build
       end
 
       it "should allow the override of the sdk" do
-        Xcode::Shell.should_receive(:execute).with(macosx_build_parameters, false)
+        PTY.stub(:spawn).with(macosx_build_parameters.to_s)
         subject.build :sdk => 'macosx10.7'
       end
 
@@ -89,41 +93,44 @@ describe Xcode::Builder do
 
       let(:iphonesimulator_test_parameters) do
         cmd = Xcode::Shell::Command.new "xcodebuild"
+        cmd << "-sdk iphonesimulator"
         cmd << "-project \"#{configuration.target.project.path}\""
         cmd << "-target \"#{configuration.target.name}\""
         cmd << "-config \"#{configuration.name}\""
-        cmd << "-sdk iphonesimulator"
         cmd.env["OBJROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/\""
         cmd.env["SYMROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/Products/\""
         cmd.env["TEST_AFTER_BUILD"]="YES"
+        cmd.env["ONLY_ACTIVE_ARCH"]="NO"
         cmd
       end
 
       let(:macosx_test_parameters) do
         cmd = Xcode::Shell::Command.new "xcodebuild"
+        cmd << "-sdk macosx10.7"
         cmd << "-project \"#{configuration.target.project.path}\""
         cmd << "-target \"#{configuration.target.name}\""
         cmd << "-config \"#{configuration.name}\""
-        cmd << "-sdk macosx10.7"
         cmd.env["OBJROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/\""
         cmd.env["SYMROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/Products/\""
         cmd.env["TEST_AFTER_BUILD"]="YES"
+        cmd.env["ONLY_ACTIVE_ARCH"]="NO"        
         cmd
       end
 
 
       it "should be able to run the test target on iphonesimulator" do
-        Xcode::Shell.should_receive(:execute).with(iphonesimulator_test_parameters, false)
+        PTY.stub(:spawn).with(iphonesimulator_test_parameters.to_s)
         subject.test :sdk => 'iphonesimulator'
       end
 
       it "should allow the override of the sdk" do
-        Xcode::Shell.should_receive(:execute).with(macosx_test_parameters, false)
+        PTY.stub(:spawn).with(macosx_test_parameters.to_s)
         subject.test :sdk => 'macosx10.7'
       end
 
       it "should not exit when test failed" do
-        Xcode::Shell.stub(:execute)
+        PTY.stub(:spawn)
+        
         fake_parser = stub(:parser)
         fake_parser.stub(:failed? => true)
         fake_parser.stub(:close)
@@ -137,10 +144,10 @@ describe Xcode::Builder do
 
       let(:default_clean_parameters) do
         cmd = Xcode::Shell::Command.new "xcodebuild"
+        cmd << "-sdk iphoneos"
         cmd << "-project \"#{configuration.target.project.path}\""
         cmd << "-target \"#{configuration.target.name}\""
         cmd << "-config \"#{configuration.name}\""
-        cmd << "-sdk iphoneos"
         cmd << "clean"
         cmd.env["OBJROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/\""
         cmd.env["SYMROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/Products/\""
@@ -149,7 +156,7 @@ describe Xcode::Builder do
 
 
       it "should clean the project with the default parameter" do
-        Xcode::Shell.should_receive(:execute).with(default_clean_parameters, false)
+        PTY.stub(:spawn).with(default_clean_parameters.to_s)
         subject.clean
       end
 
@@ -177,7 +184,7 @@ describe Xcode::Builder do
       end
 
       it "should build the project with the default parameters" do
-        Xcode::Shell.should_receive(:execute).with(default_build_parameters, false)
+        PTY.stub(:spawn).with(default_build_parameters.to_s)
         subject.build
       end
 
@@ -187,10 +194,10 @@ describe Xcode::Builder do
 
       let(:default_clean_parameters) do
         cmd = Xcode::Shell::Command.new "xcodebuild"
+        cmd << "-sdk iphoneos"
         cmd << "-project \"#{scheme.build_targets.last.project.path}\""
         cmd << "-scheme \"#{scheme.name}\""
         cmd << "-configuration \"Release\""
-        cmd << "-sdk iphoneos"
         cmd << "clean"
         cmd.env["OBJROOT"]="\"#{File.dirname(scheme.build_targets.last.project.path)}/Build/\""
         cmd.env["SYMROOT"]="\"#{File.dirname(scheme.build_targets.last.project.path)}/Build/Products/\""
@@ -199,7 +206,7 @@ describe Xcode::Builder do
 
 
       it "should clean the project with the default parameter" do
-        Xcode::Shell.should_receive(:execute).with(default_clean_parameters, false)
+        PTY.stub(:spawn).with(default_clean_parameters.to_s)
         subject.clean
       end
 

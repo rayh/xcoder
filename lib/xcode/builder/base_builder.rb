@@ -96,14 +96,14 @@ module Xcode
       end
 
       def prepare_test_command sdk=@sdk
-        with_command 'xcodebuild' do |cmd|
-          cmd.env["OBJROOT"]  = "\"#{objroot}/\""
-          cmd.env["SYMROOT"]  = "\"#{symroot}/\""
-          cmd.env["TEST_AFTER_BUILD"]="YES"
-          cmd.env["ONLY_ACTIVE_ARCH"]="NO"
-          # cmd.env["TEST_HOST"]=0
-          cmd << "-sdk #{sdk}" unless sdk.nil?
-        end
+        cmd = prepare_xcodebuild sdk
+        cmd.env["OBJROOT"]  = "\"#{objroot}/\""
+        cmd.env["SYMROOT"]  = "\"#{symroot}/\""
+        cmd.env["TEST_AFTER_BUILD"]="YES"
+        cmd.env["ONLY_ACTIVE_ARCH"]="NO"
+        # cmd.env["TEST_HOST"]=0
+        # cmd << "-sdk #{sdk}" unless sdk.nil?
+        cmd
       end
 
       def prepare_clean_command sdk=@sdk
