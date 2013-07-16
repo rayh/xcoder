@@ -10,7 +10,7 @@ task :specs do
 end
 
 desc "Run integration tests"
-task :integration do
+task :integration => :reset do
   system "rspec --color --format d --tag integration"
 end
 
@@ -28,7 +28,7 @@ namespace :test_project do
   
   task :reset do
     puts "Reseting the TestProject Project File"
-    system "git co -- spec/TestProject"
+    system "git checkout -- spec/TestProject"
     puts "Removing any User schemes generated in the project"
     system "rm -rf spec/TestProject/TestProject.xcodeproj/xcuserdata"
     puts "Removing any installed files"
