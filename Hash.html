@@ -123,9 +123,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Hashes in an Xcode project take a particular format.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Hashes in an Xcode project take a particular format.</p>
 </div></span>
   
 </li>
@@ -152,17 +151,15 @@ Hashes in an Xcode project take a particular format.
     
   <div class="note notetag">
     <strong>Note:</strong> 
-    <div class='inline'><p>
-the keys are represeted in this output with quotes; this is actually
+    <div class='inline'>
+<p>the keys are represeted in this output with quotes; this is actually
 optional for certain keys based on their format. This is done to ensure
-that all keys that do not conform are ensured proper output.
-</p>
+that all keys that do not conform are ensured proper output.</p>
 </div>
   </div>
 
-<p>
-Hashes in an Xcode project take a particular format.
-</p>
+
+<p>Hashes in an Xcode project take a particular format.</p>
 
 
   </div>
@@ -172,9 +169,8 @@ Hashes in an Xcode project take a particular format.
   <div class="examples">
     <h3>Examples:</h3>
     
-      <h4><div class='inline'><p>
-output format:
-</p>
+      <h4><div class='inline'>
+<p>output format:</p>
 </div></h4>
       <pre class="example code">
 {
@@ -207,7 +203,7 @@ output format:
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_xcplist'>to_xcplist</span>
   <span class='id identifier rubyid_plist_of_items'>plist_of_items</span> <span class='op'>=</span> <span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> 
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_k'>k</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot; = </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_to_xcplist'>to_xcplist</span><span class='rbrace'>}</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_xcplist'>to_xcplist</span><span class='rbrace'>}</span><span class='tstring_content'> = </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_to_xcplist'>to_xcplist</span><span class='rbrace'>}</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   
   <span class='tstring'><span class='tstring_beg'>%{</span><span class='tstring_content'>{
@@ -224,9 +220,9 @@ output format:
 </div>
     
     <div id="footer">
-  Generated on Mon Feb 13 23:50:11 2012 by 
+  Generated on Thu Aug  8 16:16:25 2013 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.5 (ruby-1.9.2).
+  0.7.5 (ruby-1.9.3).
 </div>
 
   </body>

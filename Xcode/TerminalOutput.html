@@ -1,0 +1,955 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: Xcode::TerminalOutput
+  
+    &mdash; Documentation by YARD 0.7.5
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (T)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Xcode.html" title="Xcode (module)">Xcode</a></span></span>
+     &raquo; 
+    <span class="title">TerminalOutput</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: Xcode::TerminalOutput
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="Builder/BaseBuilder.html" title="Xcode::Builder::BaseBuilder (class)">Builder::BaseBuilder</a></span>, <span class='object_link'><a href="Builder/XcodebuildParser.html" title="Xcode::Builder::XcodebuildParser (class)">Builder::XcodebuildParser</a></span>, <span class='object_link'><a href="Keychain.html" title="Xcode::Keychain (class)">Keychain</a></span>, <span class='object_link'><a href="ProvisioningProfile.html" title="Xcode::ProvisioningProfile (class)">ProvisioningProfile</a></span>, <span class='object_link'><a href="Shell/Command.html" title="Xcode::Shell::Command (class)">Shell::Command</a></span>, <span class='object_link'><a href="Test/Formatters/StdoutFormatter.html" title="Xcode::Test::Formatters::StdoutFormatter (class)">Xcode::Test::Formatters::StdoutFormatter</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/xcode/terminal_output.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="LEVELS-constant" class="">LEVELS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span>
+  <span class='symbol'>:error</span><span class='comma'>,</span>
+  <span class='symbol'>:warning</span><span class='comma'>,</span>
+  <span class='symbol'>:notice</span><span class='comma'>,</span>
+  <span class='symbol'>:info</span><span class='comma'>,</span>
+  <span class='symbol'>:debug</span>
+<span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="colour_enabled-classvariable" class="">@@colour_enabled =
+          
+        </dt>
+        <dd><pre class="code"><span class='kw'>true</span></pre></dd>
+      
+        <dt id="log_level-classvariable" class="">@@log_level =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:info</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#included-class_method" title="included (class method)">+ (Object) <strong>included</strong>(base) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#log_level%3D-class_method" title="log_level= (class method)">+ (Object) <strong>log_level=</strong>(level) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#terminal_supports_colors%3F-class_method" title="terminal_supports_colors? (class method)">+ (Boolean) <strong>terminal_supports_colors?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#color_output%3D-instance_method" title="#color_output= (instance method)">- (Object) <strong>color_output=</strong>(color_output) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#color_output%3F-instance_method" title="#color_output? (instance method)">- (Boolean) <strong>color_output?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#format_lhs-instance_method" title="#format_lhs (instance method)">- (Object) <strong>format_lhs</strong>(left, right, terminator = &quot;:&quot;) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#log_level-instance_method" title="#log_level (instance method)">- (Object) <strong>log_level</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#print-instance_method" title="#print (instance method)">- (Object) <strong>print</strong>(text, color = :default) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#print_input-instance_method" title="#print_input (instance method)">- (Object) <strong>print_input</strong>(message, level = :debug) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Print an IO input interaction.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#print_output-instance_method" title="#print_output (instance method)">- (Object) <strong>print_output</strong>(message, level = :debug) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Print an IO output interaction.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#print_system-instance_method" title="#print_system (instance method)">- (Object) <strong>print_system</strong>(message, level = :debug) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#print_task-instance_method" title="#print_task (instance method)">- (Object) <strong>print_task</strong>(task, message, level = :info, cr = true) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#puts-instance_method" title="#puts (instance method)">- (Object) <strong>puts</strong>(text, color = :default) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="included-class_method">
+  
+    + (<tt>Object</tt>) <strong>included</strong>(base) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/terminal_output.rb', line 25</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_included'>included</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='rparen'>)</span>
+  <span class='cvar'>@@colour_supported</span> <span class='op'>=</span> <span class='id identifier rubyid_terminal_supports_colors?'>terminal_supports_colors?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="log_level=-class_method">
+  
+    + (<tt>Object</tt>) <strong>log_level=</strong>(level) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+20
+21
+22
+23</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/terminal_output.rb', line 20</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_log_level='>log_level=</span><span class='lparen'>(</span><span class='id identifier rubyid_level'>level</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unknown log level </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_level'>level</span><span class='rbrace'>}</span><span class='tstring_content'>, should be one of </span><span class='embexpr_beg'>#{</span><span class='const'>LEVELS</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>, </span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'>LEVELS</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_level'>level</span>
+  <span class='cvar'>@@log_level</span> <span class='op'>=</span> <span class='id identifier rubyid_level'>level</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="terminal_supports_colors?-class_method">
+  
+    + (<tt>Boolean</tt>) <strong>terminal_supports_colors?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/terminal_output.rb', line 103</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_terminal_supports_colors?'>terminal_supports_colors?</span>
+  <span class='comment'># No colors unless we are being run via a TTY
+</span>  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='gvar'>$stdout</span><span class='period'>.</span><span class='id identifier rubyid_isatty'>isatty</span>
+
+  <span class='comment'># Check if the terminal supports colors
+</span>  <span class='id identifier rubyid_colors'>colors</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='tstring_content'>tput colors 2&gt; /dev/null</span><span class='tstring_end'>`</span></span><span class='period'>.</span><span class='id identifier rubyid_chomp'>chomp</span>
+  <span class='kw'>if</span> <span class='gvar'>$?</span><span class='period'>.</span><span class='id identifier rubyid_exitstatus'>exitstatus</span> <span class='op'>==</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_colors'>colors</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>&gt;=</span> <span class='int'>8</span>
+  <span class='kw'>else</span>
+    <span class='kw'>false</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="color_output=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>color_output=</strong>(color_output) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+29
+30
+31</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/terminal_output.rb', line 29</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_color_output='>color_output=</span> <span class='id identifier rubyid_color_output'>color_output</span>
+  <span class='cvar'>@@colour_enabled</span> <span class='op'>=</span> <span class='id identifier rubyid_color_output'>color_output</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="color_output?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>color_output?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/terminal_output.rb', line 33</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_color_output?'>color_output?</span>
+  <span class='cvar'>@@colour_supported</span> <span class='kw'>and</span> <span class='cvar'>@@colour_enabled</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="format_lhs-instance_method">
+  
+    - (<tt>Object</tt>) <strong>format_lhs</strong>(left, right, terminator = &quot;:&quot;) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+57
+58
+59
+60</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/terminal_output.rb', line 57</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_format_lhs'>format_lhs</span><span class='lparen'>(</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span> <span class='id identifier rubyid_right'>right</span><span class='comma'>,</span> <span class='id identifier rubyid_terminator'>terminator</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>:</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='comment'># &quot;#{left.to_s.ljust(10)} #{right.rjust(6)}#{terminator} &quot;
+</span>  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_right'>right</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_rjust'>rjust</span><span class='lparen'>(</span><span class='int'>7</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_terminator'>terminator</span><span class='rbrace'>}</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="log_level-instance_method">
+  
+    - (<tt>Object</tt>) <strong>log_level</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+16
+17
+18</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/terminal_output.rb', line 16</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_log_level'>log_level</span>
+  <span class='cvar'>@@log_level</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="print-instance_method">
+  
+    - (<tt>Object</tt>) <strong>print</strong>(text, color = :default) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+98
+99
+100
+101</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/terminal_output.rb', line 98</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_print'>print</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_color'>color</span> <span class='op'>=</span> <span class='symbol'>:default</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_color_params'>color_params</span> <span class='op'>=</span> <span class='id identifier rubyid_color_output?'>color_output?</span> <span class='op'>?</span> <span class='id identifier rubyid_color'>color</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='period'>.</span><span class='id identifier rubyid_colorize'>colorize</span><span class='lparen'>(</span><span class='id identifier rubyid_color_params'>color_params</span><span class='rparen'>)</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="print_input-instance_method">
+  
+    - (<tt>Object</tt>) <strong>print_input</strong>(message, level = :debug) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Print an IO input interaction</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
+42
+43</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/terminal_output.rb', line 40</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_print_input'>print_input</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_level'>level</span><span class='op'>=</span><span class='symbol'>:debug</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='const'>LEVELS</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='id identifier rubyid_level'>level</span><span class='rparen'>)</span> <span class='op'>&gt;</span> <span class='const'>LEVELS</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='cvar'>@@log_level</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_format_lhs'>format_lhs</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>+</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='symbol'>:default</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="print_output-instance_method">
+  
+    - (<tt>Object</tt>) <strong>print_output</strong>(message, level = :debug) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Print an IO output interaction</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/terminal_output.rb', line 47</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_print_output'>print_output</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_level'>level</span><span class='op'>=</span><span class='symbol'>:debug</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='const'>LEVELS</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='id identifier rubyid_level'>level</span><span class='rparen'>)</span> <span class='op'>&gt;</span> <span class='const'>LEVELS</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='cvar'>@@log_level</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_format_lhs'>format_lhs</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&gt;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>+</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='symbol'>:default</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="print_system-instance_method">
+  
+    - (<tt>Object</tt>) <strong>print_system</strong>(message, level = :debug) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+52
+53
+54
+55</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/terminal_output.rb', line 52</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_print_system'>print_system</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_level'>level</span><span class='op'>=</span><span class='symbol'>:debug</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='const'>LEVELS</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='id identifier rubyid_level'>level</span><span class='rparen'>)</span> <span class='op'>&gt;</span> <span class='const'>LEVELS</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='cvar'>@@log_level</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_format_lhs'>format_lhs</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>+</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='symbol'>:green</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="print_task-instance_method">
+  
+    - (<tt>Object</tt>) <strong>print_task</strong>(task, message, level = :info, cr = true) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/terminal_output.rb', line 62</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_print_task'>print_task</span><span class='lparen'>(</span><span class='id identifier rubyid_task'>task</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_level'>level</span><span class='op'>=</span><span class='symbol'>:info</span><span class='comma'>,</span> <span class='id identifier rubyid_cr'>cr</span><span class='op'>=</span><span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='const'>LEVELS</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='id identifier rubyid_level'>level</span><span class='rparen'>)</span> <span class='op'>&gt;</span> <span class='const'>LEVELS</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='cvar'>@@log_level</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_level_str'>level_str</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>case</span> <span class='id identifier rubyid_level'>level</span>
+  <span class='kw'>when</span> <span class='symbol'>:error</span>
+    <span class='id identifier rubyid_level_str'>level_str</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ERROR</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_color'>color</span> <span class='op'>=</span> <span class='symbol'>:red</span>
+  <span class='kw'>when</span> <span class='symbol'>:warning</span>
+    <span class='id identifier rubyid_level_str'>level_str</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>WARN</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_color'>color</span> <span class='op'>=</span> <span class='symbol'>:yellow</span>
+  <span class='kw'>when</span> <span class='symbol'>:notice</span>
+    <span class='id identifier rubyid_level_str'>level_str</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>NOTICE</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_color'>color</span> <span class='op'>=</span> <span class='symbol'>:green</span>
+  <span class='kw'>when</span> <span class='symbol'>:info</span>
+    <span class='id identifier rubyid_level_str'>level_str</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_color'>color</span> <span class='op'>=</span> <span class='symbol'>:blue</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_color'>color</span> <span class='op'>=</span> <span class='symbol'>:default</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_print'>print</span> <span class='id identifier rubyid_format_lhs'>format_lhs</span><span class='lparen'>(</span><span class='id identifier rubyid_task'>task</span><span class='comma'>,</span> <span class='id identifier rubyid_level_str'>level_str</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_color'>color</span>
+  <span class='id identifier rubyid_print'>print</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='lparen'>(</span><span class='id identifier rubyid_level'>level</span><span class='op'>==</span><span class='symbol'>:warning</span> <span class='kw'>or</span> <span class='id identifier rubyid_level'>level</span><span class='op'>==</span><span class='symbol'>:error</span> <span class='kw'>or</span> <span class='id identifier rubyid_level'>level</span><span class='op'>==</span><span class='symbol'>:notice</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_color'>color</span> <span class='op'>:</span> <span class='symbol'>:default</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+    <span class='kw'>yield</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_print'>print</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_cr'>cr</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="puts-instance_method">
+  
+    - (<tt>Object</tt>) <strong>puts</strong>(text, color = :default) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+93
+94
+95
+96</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/terminal_output.rb', line 93</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_puts'>puts</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_color'>color</span> <span class='op'>=</span> <span class='symbol'>:default</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_color_params'>color_params</span> <span class='op'>=</span> <span class='id identifier rubyid_color_output?'>color_output?</span> <span class='op'>?</span> <span class='id identifier rubyid_color'>color</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='period'>.</span><span class='id identifier rubyid_colorize'>colorize</span><span class='lparen'>(</span><span class='id identifier rubyid_color_params'>color_params</span><span class='rparen'>)</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Aug  8 16:16:26 2013 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.5 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

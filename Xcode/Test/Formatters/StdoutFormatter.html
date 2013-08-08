@@ -1,0 +1,581 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Xcode::Test::Formatters::StdoutFormatter
+  
+    &mdash; Documentation by YARD 0.7.5
+  
+</title>
+
+  <link rel="stylesheet" href="../../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../../..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../../_index.html">Index (S)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../../Xcode.html" title="Xcode (module)">Xcode</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Test.html" title="Xcode::Test (module)">Test</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Formatters.html" title="Xcode::Test::Formatters (module)">Formatters</a></span></span>
+     &raquo; 
+    <span class="title">StdoutFormatter</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Xcode::Test::Formatters::StdoutFormatter
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Xcode::Test::Formatters::StdoutFormatter</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="../../TerminalOutput.html" title="Xcode::TerminalOutput (module)">Xcode::TerminalOutput</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/xcode/test/formatters/stdout_formatter.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+  <h2>Constant Summary</h2>
+  
+
+
+
+  <h2>Constant Summary</h2>
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="../../TerminalOutput.html" title="Xcode::TerminalOutput (module)">Xcode::TerminalOutput</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../../TerminalOutput.html#LEVELS-constant" title="Xcode::TerminalOutput::LEVELS (constant)">Xcode::TerminalOutput::LEVELS</a></span></p>
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#after-instance_method" title="#after (instance method)">- (Object) <strong>after</strong>(report) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#after_suite-instance_method" title="#after_suite (instance method)">- (Object) <strong>after_suite</strong>(suite) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#after_test-instance_method" title="#after_test (instance method)">- (Object) <strong>after_test</strong>(test) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#before-instance_method" title="#before (instance method)">- (Object) <strong>before</strong>(report) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#before_suite-instance_method" title="#before_suite (instance method)">- (Object) <strong>before_suite</strong>(suite) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#before_test-instance_method" title="#before_test (instance method)">- (Object) <strong>before_test</strong>(test) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (StdoutFormatter) <strong>initialize</strong>(options = {}) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of StdoutFormatter.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../../TerminalOutput.html" title="Xcode::TerminalOutput (module)">Xcode::TerminalOutput</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../../TerminalOutput.html#color_output%3D-instance_method" title="Xcode::TerminalOutput#color_output= (method)">#color_output=</a></span>, <span class='object_link'><a href="../../TerminalOutput.html#color_output%3F-instance_method" title="Xcode::TerminalOutput#color_output? (method)">#color_output?</a></span>, <span class='object_link'><a href="../../TerminalOutput.html#format_lhs-instance_method" title="Xcode::TerminalOutput#format_lhs (method)">#format_lhs</a></span>, <span class='object_link'><a href="../../TerminalOutput.html#included-class_method" title="Xcode::TerminalOutput.included (method)">included</a></span>, <span class='object_link'><a href="../../TerminalOutput.html#log_level-instance_method" title="Xcode::TerminalOutput#log_level (method)">#log_level</a></span>, <span class='object_link'><a href="../../TerminalOutput.html#log_level%3D-class_method" title="Xcode::TerminalOutput.log_level= (method)">log_level=</a></span>, <span class='object_link'><a href="../../TerminalOutput.html#print-instance_method" title="Xcode::TerminalOutput#print (method)">#print</a></span>, <span class='object_link'><a href="../../TerminalOutput.html#print_input-instance_method" title="Xcode::TerminalOutput#print_input (method)">#print_input</a></span>, <span class='object_link'><a href="../../TerminalOutput.html#print_output-instance_method" title="Xcode::TerminalOutput#print_output (method)">#print_output</a></span>, <span class='object_link'><a href="../../TerminalOutput.html#print_system-instance_method" title="Xcode::TerminalOutput#print_system (method)">#print_system</a></span>, <span class='object_link'><a href="../../TerminalOutput.html#print_task-instance_method" title="Xcode::TerminalOutput#print_task (method)">#print_task</a></span>, <span class='object_link'><a href="../../TerminalOutput.html#puts-instance_method" title="Xcode::TerminalOutput#puts (method)">#puts</a></span>, <span class='object_link'><a href="../../TerminalOutput.html#terminal_supports_colors%3F-class_method" title="Xcode::TerminalOutput.terminal_supports_colors? (method)">terminal_supports_colors?</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Xcode::Test::Formatters::StdoutFormatter (class)">StdoutFormatter</a></span></tt>) <strong>initialize</strong>(options = {}) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>A new instance of StdoutFormatter</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+7
+8
+9
+10
+11</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/test/formatters/stdout_formatter.rb', line 7</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='ivar'>@errors</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@test_count</span> <span class='op'>=</span> <span class='int'>0</span>
+  <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_k'>k</span><span class='rbrace'>}</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="after-instance_method">
+  
+    - (<tt>Object</tt>) <strong>after</strong>(report) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/test/formatters/stdout_formatter.rb', line 17</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_after'>after</span><span class='lparen'>(</span><span class='id identifier rubyid_report'>report</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_level'>level</span> <span class='op'>=</span> <span class='ivar'>@errors</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span><span class='op'>&gt;</span><span class='int'>0</span> <span class='op'>?</span> <span class='symbol'>:error</span> <span class='op'>:</span> <span class='symbol'>:info</span>
+  <span class='kw'>if</span> <span class='ivar'>@errors</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span><span class='op'>&gt;</span><span class='int'>0</span>
+    <span class='id identifier rubyid_print_task'>print_task</span> <span class='symbol'>:test</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The following failures occured:</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:warning</span> 
+    <span class='ivar'>@errors</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span>
+      <span class='id identifier rubyid_print_task'>print_task</span> <span class='symbol'>:test</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_suite'>suite</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:error</span>
+      <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_error'>error</span><span class='op'>|</span>
+        <span class='id identifier rubyid_print_task'>print_task</span> <span class='symbol'>:test</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>  </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_error'>error</span><span class='lbracket'>[</span><span class='symbol'>:message</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:error</span>
+        <span class='id identifier rubyid_print_task'>print_task</span> <span class='symbol'>:test</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>    at </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_error'>error</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:error</span>
+        <span class='kw'>if</span> <span class='id identifier rubyid_error'>error</span><span class='lbracket'>[</span><span class='symbol'>:data</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span><span class='op'>&gt;</span><span class='int'>0</span>
+          <span class='id identifier rubyid_print_task'>print_task</span> <span class='symbol'>:test</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n   Test Output:</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:error</span>
+          <span class='id identifier rubyid_print_task'>print_task</span> <span class='symbol'>:test</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>   &gt; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_error'>error</span><span class='lbracket'>[</span><span class='symbol'>:data</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>   &gt; </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'>\n\n</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:error</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>       
+      
+      <span class='comment'># if there is left over data in the test report, show that
+</span>      <span class='kw'>if</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span><span class='op'>&gt;</span><span class='int'>0</span>
+        <span class='id identifier rubyid_print_task'>print_task</span> <span class='symbol'>:test</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n  There was this trailing output after the above failures</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:error</span>
+        <span class='id identifier rubyid_print_task'>print_task</span> <span class='symbol'>:test</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>   &gt; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>   &gt; </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'>\n\n</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:error</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  
+  <span class='id identifier rubyid_print_task'>print_task</span> <span class='symbol'>:test</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Finished in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_duration'>duration</span><span class='rbrace'>}</span><span class='tstring_content'> seconds</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:info</span>
+  <span class='id identifier rubyid_print_task'>print_task</span> <span class='symbol'>:test</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@test_count</span><span class='rbrace'>}</span><span class='tstring_content'> tests, </span><span class='embexpr_beg'>#{</span><span class='ivar'>@errors</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span><span class='rbrace'>}</span><span class='tstring_content'> failures</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_failed?'>failed?</span> <span class='op'>?</span> <span class='symbol'>:error</span> <span class='op'>:</span> <span class='symbol'>:info</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="after_suite-instance_method">
+  
+    - (<tt>Object</tt>) <strong>after_suite</strong>(suite) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+48
+49
+50
+51
+52</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/test/formatters/stdout_formatter.rb', line 48</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_after_suite'>after_suite</span><span class='lparen'>(</span><span class='id identifier rubyid_suite'>suite</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_color'>color</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_suite'>suite</span><span class='period'>.</span><span class='id identifier rubyid_total_passed_tests'>total_passed_tests</span> <span class='op'>==</span> <span class='id identifier rubyid_suite'>suite</span><span class='period'>.</span><span class='id identifier rubyid_tests'>tests</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='symbol'>:info</span> <span class='op'>:</span> <span class='symbol'>:error</span>
+  <span class='comment'>#print_task :test, &quot;#{suite.total_passed_tests}/#{suite.tests.count}&quot;, color
+</span>  <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> [</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_suite'>suite</span><span class='period'>.</span><span class='id identifier rubyid_total_passed_tests'>total_passed_tests</span><span class='rbrace'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_suite'>suite</span><span class='period'>.</span><span class='id identifier rubyid_tests'>tests</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span><span class='rbrace'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_color'>color</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="after_test-instance_method">
+  
+    - (<tt>Object</tt>) <strong>after_test</strong>(test) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+58
+59
+60
+61
+62
+63
+64
+65
+66</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/test/formatters/stdout_formatter.rb', line 58</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_after_test'>after_test</span><span class='lparen'>(</span><span class='id identifier rubyid_test'>test</span><span class='rparen'>)</span>
+  <span class='ivar'>@test_count</span> <span class='op'>+=</span> <span class='int'>1</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_test'>test</span><span class='period'>.</span><span class='id identifier rubyid_passed?'>passed?</span>
+    <span class='id identifier rubyid_print'>print</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:green</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_test'>test</span><span class='period'>.</span><span class='id identifier rubyid_failed?'>failed?</span>
+    <span class='id identifier rubyid_print'>print</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>F</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:red</span>
+    <span class='ivar'>@errors</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_test'>test</span> 
+  <span class='kw'>end</span>                    
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="before-instance_method">
+  
+    - (<tt>Object</tt>) <strong>before</strong>(report) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+13
+14
+15</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/test/formatters/stdout_formatter.rb', line 13</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_before'>before</span><span class='lparen'>(</span><span class='id identifier rubyid_report'>report</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_print_task'>print_task</span> <span class='symbol'>:test</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Begin tests</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:info</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="before_suite-instance_method">
+  
+    - (<tt>Object</tt>) <strong>before_suite</strong>(suite) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+44
+45
+46</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/test/formatters/stdout_formatter.rb', line 44</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_before_suite'>before_suite</span><span class='lparen'>(</span><span class='id identifier rubyid_suite'>suite</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_print_task'>print_task</span> <span class='symbol'>:test</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_suite'>suite</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'>: </span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:info</span><span class='comma'>,</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="before_test-instance_method">
+  
+    - (<tt>Object</tt>) <strong>before_test</strong>(test) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+54
+55
+56</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/test/formatters/stdout_formatter.rb', line 54</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_before_test'>before_test</span><span class='lparen'>(</span><span class='id identifier rubyid_test'>test</span><span class='rparen'>)</span>
+  <span class='comment'># puts &quot;[#{test.suite.name} #{test.name}] &lt;&lt; BEGIN&quot;
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Aug  8 16:16:27 2013 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.5 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

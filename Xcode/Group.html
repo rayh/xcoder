@@ -83,27 +83,25 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>
-Within the project file there are logical separation of resources into
+    
+<p>Within the project file there are logical separation of resources into
 groups these groups may contain subgroups, files, or other objects. They
-have children.
-</p>
-<p>
-Group here provides the methods to traverse the groups to find these 
+have children.</p>
+
+<p>Group here provides the methods to traverse the groups to find these 
 children resources as well as provide the ability to generate child
-resources.
-</p>
-<pre class="code ruby"><code>
-    7165D451146B4EA100DE2F0E /* Products */ = {
-      isa = PBXGroup;
-      children = (
-        7165D450146B4EA100DE2F0E /* TestProject.app */,
-        7165D46B146B4EA100DE2F0E /* TestProjectTests.octest */,
-        E21EB9D614E357CF0058122A /* Specs.app */,
-      );
-      name = Products;
-      sourceTree = &quot;&lt;group&gt;&quot;;
-    };</code></pre>
+resources.</p>
+
+<pre class="code ruby"><code>7165D451146B4EA100DE2F0E /* Products */ = {
+  isa = PBXGroup;
+  children = (
+    7165D450146B4EA100DE2F0E /* TestProject.app */,
+    7165D46B146B4EA100DE2F0E /* TestProjectTests.octest */,
+    E21EB9D614E357CF0058122A /* Specs.app */,
+  );
+  name = Products;
+  sourceTree = &quot;&lt;group&gt;&quot;;
+};</code></pre>
 
 
   </div>
@@ -137,9 +135,8 @@ resources.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-This is the group for which this file is contained within.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>This is the group for which this file is contained within.</p>
 </div></span>
   
 </li>
@@ -161,7 +158,7 @@ This is the group for which this file is contained within.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#logical_group-class_method" title="logical_group (class method)">+ (Object) <strong>logical_group</strong>(name) </a>
+      <a href="#logical_group-class_method" title="logical_group (class method)">+ (Hash) <strong>logical_group</strong>(name) </a>
     
 
     
@@ -174,9 +171,8 @@ This is the group for which this file is contained within.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Return the hash that maps to the properties for a logical group.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Return the hash that maps to the properties for a logical group.</p>
 </div></span>
   
 </li>
@@ -194,7 +190,7 @@ Return the hash that maps to the properties for a logical group.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_file-instance_method" title="#create_file (instance method)">- (Object) <strong>create_file</strong>(file_properties) </a>
+      <a href="#create_file-instance_method" title="#create_file (instance method)">- (FileReference) <strong>create_file</strong>(file_properties) </a>
     
 
     
@@ -207,9 +203,8 @@ Return the hash that maps to the properties for a logical group.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Add a file to the specified group.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Add a file to the specified group.</p>
 </div></span>
   
 </li>
@@ -218,7 +213,7 @@ Add a file to the specified group.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_framework-instance_method" title="#create_framework (instance method)">- (Object) <strong>create_framework</strong>(framework_properties) </a>
+      <a href="#create_framework-instance_method" title="#create_framework (instance method)">- (FileReference) <strong>create_framework</strong>(framework_properties) </a>
     
 
     
@@ -231,9 +226,8 @@ Add a file to the specified group.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Create a framework within this group.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Create a framework within this group.</p>
 </div></span>
   
 </li>
@@ -242,7 +236,7 @@ Create a framework within this group.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_group-instance_method" title="#create_group (instance method)">- (Object) <strong>create_group</strong>(name) </a>
+      <a href="#create_group-instance_method" title="#create_group (instance method)">- (Group) <strong>create_group</strong>(name) </a>
     
 
     
@@ -255,9 +249,8 @@ Create a framework within this group.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Adds a group as a child to current group with the given name.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Adds a group as a child to current group with the given name.</p>
 </div></span>
   
 </li>
@@ -266,7 +259,7 @@ Adds a group as a child to current group with the given name.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_infoplist-instance_method" title="#create_infoplist (instance method)">- (Object) <strong>create_infoplist</strong>(infoplist_properties) </a>
+      <a href="#create_infoplist-instance_method" title="#create_infoplist (instance method)">- (VariantGroup) <strong>create_infoplist</strong>(infoplist_properties) </a>
     
 
     
@@ -279,9 +272,8 @@ Adds a group as a child to current group with the given name.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Create an infoplist within this group.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Create an infoplist within this group.</p>
 </div></span>
   
 </li>
@@ -290,7 +282,7 @@ Create an infoplist within this group.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_product_reference-instance_method" title="#create_product_reference (instance method)">- (Object) <strong>create_product_reference</strong>(name) </a>
+      <a href="#create_product_reference-instance_method" title="#create_product_reference (instance method)">- (FileReference) <strong>create_product_reference</strong>(name) </a>
     
 
     
@@ -303,9 +295,8 @@ Create an infoplist within this group.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Create a product reference witin this group.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Create a product reference witin this group.</p>
 </div></span>
   
 </li>
@@ -314,7 +305,7 @@ Create a product reference witin this group.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_system_framework-instance_method" title="#create_system_framework (instance method)">- (Object) <strong>create_system_framework</strong>(name) </a>
+      <a href="#create_system_framework-instance_method" title="#create_system_framework (instance method)">- (FileReference) <strong>create_system_framework</strong>(name) </a>
     
 
     
@@ -327,9 +318,8 @@ Create a product reference witin this group.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Create a system framework reference within this group.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Create a system framework reference within this group.</p>
 </div></span>
   
 </li>
@@ -338,7 +328,7 @@ Create a system framework reference within this group.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#exists%3F-instance_method" title="#exists? (instance method)">- (Boolean) <strong>exists?</strong>(name) </a>
+      <a href="#create_system_library-instance_method" title="#create_system_library (instance method)">- (FileReference) <strong>create_system_library</strong>(name) </a>
     
 
     
@@ -351,9 +341,32 @@ Create a system framework reference within this group.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Check whether a file or group is contained within this group.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Create a system library reference within this group.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#exists%3F-instance_method" title="#exists? (instance method)">- (Array&lt;Resource&gt;) <strong>exists?</strong>(name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Check whether a file or group is contained within this group that has a
+name that matches the one specified.</p>
 </div></span>
   
 </li>
@@ -375,9 +388,8 @@ Check whether a file or group is contained within this group.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Find all the files that have have a name that matches the specified name.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Find all the files that have have a name that matches the specified name.</p>
 </div></span>
   
 </li>
@@ -386,7 +398,7 @@ Find all the files that have have a name that matches the specified name.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#files-instance_method" title="#files (instance method)">- (Array) <strong>files</strong> </a>
+      <a href="#files-instance_method" title="#files (instance method)">- (Array&lt;Resource&gt;) <strong>files</strong> </a>
     
 
     
@@ -399,9 +411,8 @@ Find all the files that have have a name that matches the specified name.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Find all the non-group objects within the group and return them.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Find all the non-group objects within the group and return them.</p>
 </div></span>
   
 </li>
@@ -423,9 +434,8 @@ Find all the non-group objects within the group and return them.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Find all the child groups that have a name that matches the specified name.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Find all the child groups that have a name that matches the specified name.</p>
 </div></span>
   
 </li>
@@ -447,9 +457,31 @@ Find all the child groups that have a name that matches the specified name.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-The sub-groups contained within this group.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>The sub-groups contained within this group.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove%21-instance_method" title="#remove! (instance method)">- (Object) <strong>remove!</strong> {|_self| ... }</a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Remove the resource from the registry.</p>
 </div></span>
   
 </li>
@@ -477,16 +509,14 @@ The sub-groups contained within this group.
     
   <div class="note notetag">
     <strong>Note:</strong> 
-    <div class='inline'><p>
-this value is only set if the group has been discovered  by traversing
-groups to this group.
-</p>
+    <div class='inline'>
+<p>this value is only set if the group has been discovered  by traversing
+groups to this group.</p>
 </div>
   </div>
 
-<p>
-This is the group for which this file is contained within.
-</p>
+
+<p>This is the group for which this file is contained within.</p>
 
 
   </div>
@@ -500,12 +530,12 @@ This is the group for which this file is contained within.
       <pre class="lines">
 
 
-41
 42
-43</pre>
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 42</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_supergroup'>supergroup</span>
   <span class='ivar'>@supergroup</span>
@@ -525,15 +555,14 @@ This is the group for which this file is contained within.
       <div class="method_details first">
   <p class="signature first" id="logical_group-class_method">
   
-    + (<tt>Object</tt>) <strong>logical_group</strong>(name) 
+    + (<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>) <strong>logical_group</strong>(name) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Return the hash that maps to the properties for a logical group
-</p>
+    
+<p>Return the hash that maps to the properties for a logical group</p>
 
 
   </div>
@@ -552,15 +581,32 @@ Return the hash that maps to the properties for a logical group
       
       
         &mdash;
-        <div class='inline'><p>
-of the logical group
-</p>
+        <div class='inline'>
+<p>of the logical group</p>
 </div>
       
     </li>
   
 </ul>
 
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the properties for a Group</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -568,15 +614,15 @@ of the logical group
       <pre class="lines">
 
 
-30
 31
 32
 33
 34
-35</pre>
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 31</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_logical_group'>logical_group</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>isa</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXGroup</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> 
@@ -598,22 +644,38 @@ of the logical group
       <div class="method_details first">
   <p class="signature first" id="create_file-instance_method">
   
-    - (<tt>Object</tt>) <strong>create_file</strong>(file_properties) 
+    - (<tt><span class='object_link'><a href="FileReference.html" title="Xcode::FileReference (module)">FileReference</a></span></tt>) <strong>create_file</strong>(file_properties) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Add a file to the specified group. Currently the file creation requires the
-path to the physical file.
-</p>
+    
+<p>Add a file to the specified group. Currently the file creation requires the
+path to the physical file.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  
+  <div class="examples">
+    <h3>Examples:</h3>
+    
+      <h4><div class='inline'>
+<p>creating a file with just a path</p>
+</div></h4>
+      <pre class="example code">
+<span class='id identifier rubyid_project'>project</span><span class='period'>.</span><span class='id identifier rubyid_main_group'>main_group</span><span class='period'>.</span><span class='id identifier rubyid_create_file'>create_file</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>AppDelegate.m</span><span class='tstring_end'>'</span></span></pre>
+    
+      <h4><div class='inline'>
+<p>creating a file with a name and path</p>
+</div></h4>
+      <pre class="example code">
+<span class='id identifier rubyid_project'>project</span><span class='period'>.</span><span class='id identifier rubyid_main_group'>main_group</span><span class='period'>.</span><span class='id identifier rubyid_create_file'>create_file</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>name</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>AppDelegate.m</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>path</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Subfolder/AppDelegate.m</span><span class='tstring_end'>'</span></span></pre>
+    
+  </div>
+<h3>Parameters:</h3>
 <ul class="param">
   
     <li>
@@ -626,16 +688,33 @@ path to the physical file.
       
       
         &mdash;
-        <div class='inline'><p>
-to the file that is being added or a hash that  contains the values would
-be merged with the default values.
-</p>
+        <div class='inline'>
+<p>to the file that is being added or a hash that  contains the values would
+be merged with the default values.</p>
 </div>
       
     </li>
   
 </ul>
 
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FileReference.html" title="Xcode::FileReference (module)">FileReference</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the file created.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -643,26 +722,29 @@ be merged with the default values.
       <pre class="lines">
 
 
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132</pre>
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 140</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create_file'>create_file</span><span class='lparen'>(</span><span class='id identifier rubyid_file_properties'>file_properties</span><span class='rparen'>)</span>
   <span class='comment'># This allows both support for the string value or the hash as the parameter
@@ -673,11 +755,14 @@ be merged with the default values.
 </span>  <span class='comment'># found.
 </span>  
   <span class='id identifier rubyid_find_file_by'>find_file_by</span> <span class='op'>=</span> <span class='id identifier rubyid_file_properties'>file_properties</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>name</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_file_properties'>file_properties</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>path</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+  
   <span class='id identifier rubyid_found_or_created_file'>found_or_created_file</span> <span class='op'>=</span> <span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='id identifier rubyid_find_file_by'>find_file_by</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
   
   <span class='kw'>unless</span> <span class='id identifier rubyid_found_or_created_file'>found_or_created_file</span>
     <span class='id identifier rubyid_found_or_created_file'>found_or_created_file</span> <span class='op'>=</span> <span class='id identifier rubyid_create_child_object'>create_child_object</span> <span class='const'>FileReference</span><span class='period'>.</span><span class='id identifier rubyid_file'>file</span><span class='lparen'>(</span><span class='id identifier rubyid_file_properties'>file_properties</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
+  
+  <span class='id identifier rubyid_found_or_created_file'>found_or_created_file</span><span class='period'>.</span><span class='id identifier rubyid_supergroup'>supergroup</span> <span class='op'>=</span> <span class='kw'>self</span>
   
   <span class='id identifier rubyid_found_or_created_file'>found_or_created_file</span>
 <span class='kw'>end</span></pre>
@@ -689,21 +774,32 @@ be merged with the default values.
       <div class="method_details ">
   <p class="signature " id="create_framework-instance_method">
   
-    - (<tt>Object</tt>) <strong>create_framework</strong>(framework_properties) 
+    - (<tt><span class='object_link'><a href="FileReference.html" title="Xcode::FileReference (module)">FileReference</a></span></tt>) <strong>create_framework</strong>(framework_properties) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Create a framework within this group.
-</p>
+    
+<p>Create a framework within this group.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  
+  <div class="examples">
+    <h3>Examples:</h3>
+    
+      <h4><div class='inline'>
+<p>Custom.Framework</p>
+</div></h4>
+      <pre class="example code">
+<span class='id identifier rubyid_project'>project</span><span class='period'>.</span><span class='id identifier rubyid_frameworks_group'>frameworks_group</span><span class='period'>.</span><span class='id identifier rubyid_create_framework'>create_framework</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>name</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Custom.framework</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> 
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>path</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Vendor/Custom/Custom.framework</span><span class='tstring_end'>'</span></span> </pre>
+    
+  </div>
+<h3>Parameters:</h3>
 <ul class="param">
   
     <li>
@@ -716,15 +812,32 @@ Create a framework within this group.
       
       
         &mdash;
-        <div class='inline'><p>
-the properties to merge with the default properties.
-</p>
+        <div class='inline'>
+<p>the properties to merge with the default properties.</p>
 </div>
       
     </li>
   
 </ul>
 
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FileReference.html" title="Xcode::FileReference (module)">FileReference</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the framework created.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -732,15 +845,15 @@ the properties to merge with the default properties.
       <pre class="lines">
 
 
-140
-141
-142</pre>
+174
+175
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 140</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create_framework'>create_framework</span><span class='lparen'>(</span><span class='id identifier rubyid_framework_properties'>framework_properties</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_create_child_object'>create_child_object</span> <span class='const'>FileReference</span><span class='period'>.</span><span class='id identifier rubyid_framework'>framework</span><span class='lparen'>(</span><span class='id identifier rubyid_framework_properties'>framework_properties</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_find_or_create_child_object'>find_or_create_child_object</span> <span class='const'>FileReference</span><span class='period'>.</span><span class='id identifier rubyid_framework'>framework</span><span class='lparen'>(</span><span class='id identifier rubyid_framework_properties'>framework_properties</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -750,7 +863,7 @@ the properties to merge with the default properties.
       <div class="method_details ">
   <p class="signature " id="create_group-instance_method">
   
-    - (<tt>Object</tt>) <strong>create_group</strong>(name) 
+    - (<tt><span class='object_link'><a href="" title="Xcode::Group (module)">Group</a></span></tt>) <strong>create_group</strong>(name) 
   
 
   
@@ -759,16 +872,14 @@ the properties to merge with the default properties.
     
   <div class="note notetag">
     <strong>Note:</strong> 
-    <div class='inline'><p>
-A group may be added that has the same name as another group as they are
-distinguished by a unique identifier and not by name.
-</p>
+    <div class='inline'>
+<p>A group may be added that has the same name as another group as they are
+distinguished by a unique identifier and not by name.</p>
 </div>
   </div>
 
-<p>
-Adds a group as a child to current group with the given name.
-</p>
+
+<p>Adds a group as a child to current group with the given name.</p>
 
 
   </div>
@@ -787,15 +898,32 @@ Adds a group as a child to current group with the given name.
       
       
         &mdash;
-        <div class='inline'><p>
-of the group that you want to add as a child group of the specified group.
-</p>
+        <div class='inline'>
+<p>of the group that you want to add as a child group of the specified group.</p>
 </div>
       
     </li>
   
 </ul>
 
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Xcode::Group (module)">Group</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the created group</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -803,14 +931,14 @@ of the group that you want to add as a child group of the specified group.
       <pre class="lines">
 
 
-103
-104
-105
-106
-107</pre>
+117
+118
+119
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 117</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create_group'>create_group</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new_group'>new_group</span> <span class='op'>=</span> <span class='id identifier rubyid_create_child_object'>create_child_object</span> <span class='const'>Group</span><span class='period'>.</span><span class='id identifier rubyid_logical_group'>logical_group</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
@@ -825,15 +953,14 @@ of the group that you want to add as a child group of the specified group.
       <div class="method_details ">
   <p class="signature " id="create_infoplist-instance_method">
   
-    - (<tt>Object</tt>) <strong>create_infoplist</strong>(infoplist_properties) 
+    - (<tt><span class='object_link'><a href="VariantGroup.html" title="Xcode::VariantGroup (module)">VariantGroup</a></span></tt>) <strong>create_infoplist</strong>(infoplist_properties) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Create an infoplist within this group.
-</p>
+    
+<p>Create an infoplist within this group.</p>
 
 
   </div>
@@ -852,15 +979,32 @@ Create an infoplist within this group.
       
       
         &mdash;
-        <div class='inline'><p>
-the properties to merge with the default properties.
-</p>
+        <div class='inline'>
+<p>the properties to merge with the default properties.</p>
 </div>
       
     </li>
   
 </ul>
 
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="VariantGroup.html" title="Xcode::VariantGroup (module)">VariantGroup</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the infoplist created</p>
+</div>
+      
+    </li>
+  
+</ul>
 
   <h3>See Also:</h3>
   <ul class="see">
@@ -875,12 +1019,12 @@ the properties to merge with the default properties.
       <pre class="lines">
 
 
-161
-162
-163</pre>
+216
+217
+218</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 161</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 216</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create_infoplist'>create_infoplist</span><span class='lparen'>(</span><span class='id identifier rubyid_infoplist_properties'>infoplist_properties</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_create_child_object'>create_child_object</span> <span class='const'>VariantGroup</span><span class='period'>.</span><span class='id identifier rubyid_info_plist'>info_plist</span><span class='lparen'>(</span><span class='id identifier rubyid_infoplist_properties'>infoplist_properties</span><span class='rparen'>)</span>
@@ -893,7 +1037,7 @@ the properties to merge with the default properties.
       <div class="method_details ">
   <p class="signature " id="create_product_reference-instance_method">
   
-    - (<tt>Object</tt>) <strong>create_product_reference</strong>(name) 
+    - (<tt><span class='object_link'><a href="FileReference.html" title="Xcode::FileReference (module)">FileReference</a></span></tt>) <strong>create_product_reference</strong>(name) 
   
 
   
@@ -902,16 +1046,14 @@ the properties to merge with the default properties.
     
   <div class="note notetag">
     <strong>Note:</strong> 
-    <div class='inline'><p>
-this is usually performed through the target as it is necessary within the
-target to specify what is the product reference.
-</p>
+    <div class='inline'>
+<p>this is usually performed through the target as it is necessary within the
+target to specify what is the product reference.</p>
 </div>
   </div>
 
-<p>
-Create a product reference witin this group.
-</p>
+
+<p>Create a product reference witin this group.</p>
 
 
   </div>
@@ -930,15 +1072,32 @@ Create a product reference witin this group.
       
       
         &mdash;
-        <div class='inline'><p>
-the name of the product to generate
-</p>
+        <div class='inline'>
+<p>the name of the product to generate</p>
 </div>
       
     </li>
   
 </ul>
 
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FileReference.html" title="Xcode::FileReference (module)">FileReference</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the app product created.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
   <h3>See Also:</h3>
   <ul class="see">
@@ -953,12 +1112,12 @@ the name of the product to generate
       <pre class="lines">
 
 
-175
-176
-177</pre>
+231
+232
+233</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 175</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 231</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create_product_reference'>create_product_reference</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_create_child_object'>create_child_object</span> <span class='const'>FileReference</span><span class='period'>.</span><span class='id identifier rubyid_app_product'>app_product</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
@@ -971,15 +1130,107 @@ the name of the product to generate
       <div class="method_details ">
   <p class="signature " id="create_system_framework-instance_method">
   
-    - (<tt>Object</tt>) <strong>create_system_framework</strong>(name) 
+    - (<tt><span class='object_link'><a href="FileReference.html" title="Xcode::FileReference (module)">FileReference</a></span></tt>) <strong>create_system_framework</strong>(name) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Create a system framework reference within this group
-</p>
+    
+<p>Create a system framework reference within this group</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h3>Examples:</h3>
+    
+      <h4><div class='inline'>
+<p>creating 'CoreGraphics' and 'Foundation' frameworks</p>
+</div></h4>
+      <pre class="example code">
+<span class='id identifier rubyid_project'>project</span><span class='period'>.</span><span class='id identifier rubyid_frameworks_group'>frameworks_group</span><span class='period'>.</span><span class='id identifier rubyid_create_system_framework'>create_system_framework</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CoreGraphics.framework</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_project'>project</span><span class='period'>.</span><span class='id identifier rubyid_frameworks_group'>frameworks_group</span><span class='period'>.</span><span class='id identifier rubyid_create_system_framework'>create_system_framework</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Foundation</span><span class='tstring_end'>&quot;</span></span></pre>
+    
+  </div>
+<h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name of the System framework to add to this group.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FileReference.html" title="Xcode::FileReference (module)">FileReference</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the system framework created.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+189
+190
+191</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 189</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create_system_framework'>create_system_framework</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_find_or_create_child_object'>find_or_create_child_object</span> <span class='const'>FileReference</span><span class='period'>.</span><span class='id identifier rubyid_system_framework'>system_framework</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_system_library-instance_method">
+  
+    - (<tt><span class='object_link'><a href="FileReference.html" title="Xcode::FileReference (module)">FileReference</a></span></tt>) <strong>create_system_library</strong>(name) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Create a system library reference within this group</p>
+
+<pre class="code ruby"><code>@example libz.dylib
+
+   project.frameworks_group.create_system_library &quot;libz.dylib&quot;</code></pre>
 
 
   </div>
@@ -998,15 +1249,32 @@ Create a system framework reference within this group
       
       
         &mdash;
-        <div class='inline'><p>
-the name of the System framework to add to this group.
-</p>
+        <div class='inline'>
+<p>the name of the System Library to add to this group.</p>
 </div>
       
     </li>
   
 </ul>
 
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FileReference.html" title="Xcode::FileReference (module)">FileReference</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the system library created.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1014,15 +1282,15 @@ the name of the System framework to add to this group.
       <pre class="lines">
 
 
-149
-150
-151</pre>
+203
+204
+205</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 203</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_create_system_framework'>create_system_framework</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_create_child_object'>create_child_object</span> <span class='const'>FileReference</span><span class='period'>.</span><span class='id identifier rubyid_system_framework'>system_framework</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_create_system_library'>create_system_library</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_find_or_create_child_object'>find_or_create_child_object</span> <span class='const'>FileReference</span><span class='period'>.</span><span class='id identifier rubyid_system_library'>system_library</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1032,30 +1300,55 @@ the name of the System framework to add to this group.
       <div class="method_details ">
   <p class="signature " id="exists?-instance_method">
   
-    - (<tt>Boolean</tt>) <strong>exists?</strong>(name) 
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Resource.html" title="Xcode::Resource (class)">Resource</a></span>&gt;</tt>) <strong>exists?</strong>(name) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Check whether a file or group is contained within this group.
-</p>
+    
+<p>Check whether a file or group is contained within this group that has a
+name that matches the one specified</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>of the group attempting to be found.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Resource.html" title="Xcode::Resource (class)">Resource</a></span>&gt;</tt>)</span>
       
       
+      
+        &mdash;
+        <div class='inline'>
+<p>resource with the name that matches; empty array  if no matches were found.</p>
+</div>
       
     </li>
   
@@ -1067,15 +1360,19 @@ Check whether a file or group is contained within this group.
       <pre class="lines">
 
 
-91
-92
-93</pre>
+100
+101
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 91</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_children'>children</span><span class='period'>.</span><span class='id identifier rubyid_find_all'>find_all</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_child'>child</span><span class='op'>|</span> <span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_name'>name</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_children'>children</span><span class='period'>.</span><span class='id identifier rubyid_find_all'>find_all</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_child'>child</span><span class='op'>|</span> 
+    <span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>?</span> <span class='lparen'>(</span><span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1091,9 +1388,8 @@ Check whether a file or group is contained within this group.
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Find all the files that have have a name that matches the specified name.
-</p>
+    
+<p>Find all the files that have have a name that matches the specified name.</p>
 
 
   </div>
@@ -1112,9 +1408,8 @@ Find all the files that have have a name that matches the specified name.
       
       
         &mdash;
-        <div class='inline'><p>
-of the file that you are looking to return.
-</p>
+        <div class='inline'>
+<p>of the file that you are looking to return.</p>
 </div>
       
     </li>
@@ -1132,10 +1427,9 @@ of the file that you are looking to return.
       
       
         &mdash;
-        <div class='inline'><p>
-the files with the same mathching name. This could be no files, one file,
-or multiple files.
-</p>
+        <div class='inline'>
+<p>the files with the same mathching name. This could be no files, one file,
+or multiple files.</p>
 </div>
       
     </li>
@@ -1148,12 +1442,12 @@ or multiple files.
       <pre class="lines">
 
 
-84
-85
-86</pre>
+87
+88
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 87</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_file'>file</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_files'>files</span><span class='period'>.</span><span class='id identifier rubyid_find_all'>find_all</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_name'>name</span> <span class='kw'>or</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span> <span class='op'>==</span> <span class='id identifier rubyid_name'>name</span> <span class='rbrace'>}</span>
@@ -1166,15 +1460,14 @@ or multiple files.
       <div class="method_details ">
   <p class="signature " id="files-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>) <strong>files</strong> 
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Resource.html" title="Xcode::Resource (class)">Resource</a></span>&gt;</tt>) <strong>files</strong> 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Find all the non-group objects within the group and return them
-</p>
+    
+<p>Find all the non-group objects within the group and return them</p>
 
 
   </div>
@@ -1187,14 +1480,14 @@ Find all the non-group objects within the group and return them
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Resource.html" title="Xcode::Resource (class)">Resource</a></span>&gt;</tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>
-the children of the group, excluding the groups
-</p>
+        <div class='inline'>
+<p>the children of the group, excluding the  groups, which is usually composed
+of FileReferences</p>
 </div>
       
     </li>
@@ -1207,12 +1500,12 @@ the children of the group, excluding the groups
       <pre class="lines">
 
 
-73
-74
-75</pre>
+76
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 76</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_files'>files</span>
   <span class='id identifier rubyid_children'>children</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_child'>child</span><span class='op'>|</span> <span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Group</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -1231,9 +1524,8 @@ the children of the group, excluding the groups
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Find all the child groups that have a name that matches the specified name.
-</p>
+    
+<p>Find all the child groups that have a name that matches the specified name.</p>
 
 
   </div>
@@ -1252,9 +1544,8 @@ Find all the child groups that have a name that matches the specified name.
       
       
         &mdash;
-        <div class='inline'><p>
-of the group that you are looking to return.
-</p>
+        <div class='inline'>
+<p>of the group that you are looking to return.</p>
 </div>
       
     </li>
@@ -1272,10 +1563,9 @@ of the group that you are looking to return.
       
       
         &mdash;
-        <div class='inline'><p>
-the groups with the same matching name. This could be no groups, one group,
-or multiple groups.
-</p>
+        <div class='inline'>
+<p>the groups with the same matching name. This could be no groups, one group,
+or multiple groups.</p>
 </div>
       
     </li>
@@ -1288,12 +1578,12 @@ or multiple groups.
       <pre class="lines">
 
 
-65
 66
-67</pre>
+67
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 66</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_group'>group</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_groups'>groups</span><span class='period'>.</span><span class='id identifier rubyid_find_all'>find_all</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_group'>group</span><span class='op'>|</span> <span class='id identifier rubyid_group'>group</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_name'>name</span> <span class='kw'>or</span> <span class='id identifier rubyid_group'>group</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span> <span class='op'>==</span> <span class='id identifier rubyid_name'>name</span> <span class='rbrace'>}</span>
@@ -1312,9 +1602,8 @@ or multiple groups.
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-The sub-groups contained within this group.
-</p>
+    
+<p>The sub-groups contained within this group.</p>
 
 
   </div>
@@ -1324,9 +1613,8 @@ The sub-groups contained within this group.
   <div class="examples">
     <h3>Examples:</h3>
     
-      <h4><div class='inline'><p>
-Return all the sub-groups of the main group
-</p>
+      <h4><div class='inline'>
+<p>Return all the sub-groups of the main group</p>
 </div></h4>
       <pre class="example code">
 <span class='id identifier rubyid_main_group'>main_group</span> <span class='op'>=</span> <span class='const'>Xcode</span><span class='period'>.</span><span class='id identifier rubyid_project'>project</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>MyProject.xcodeproj</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_groups'>groups</span>
@@ -1345,9 +1633,8 @@ Return all the sub-groups of the main group
       
       
         &mdash;
-        <div class='inline'><p>
-the sub-groups contained within this group.
-</p>
+        <div class='inline'>
+<p>the sub-groups contained within this group.</p>
 </div>
       
     </li>
@@ -1360,15 +1647,15 @@ the sub-groups contained within this group.
       <pre class="lines">
 
 
-51
 52
 53
 54
 55
-56</pre>
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 52</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_groups'>groups</span>
   <span class='id identifier rubyid_children'>children</span><span class='period'>.</span><span class='id identifier rubyid_find_all'>find_all</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_child'>child</span><span class='op'>|</span> <span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Group</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_group'>group</span><span class='op'>|</span>
@@ -1381,14 +1668,114 @@ the sub-groups contained within this group.
 </table>
 </div>
     
+      <div class="method_details ">
+  <p class="signature " id="remove!-instance_method">
+  
+    - (<tt>Object</tt>) <strong>remove!</strong> {|_self| ... }
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong> 
+    <div class='inline'>
+<p>all children objects of this group are removed as well.</p>
+</div>
+  </div>
+
+
+<p>Remove the resource from the registry.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Yields:</h3>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>_self</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Yield Parameters:</h3>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>_self</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Xcode::Group (module)">Xcode::Group</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the object that the method was called on</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/group.rb', line 240</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_remove!'>remove!</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  
+  <span class='comment'># @note #groups and #files is used because it adds the very precious
+</span>  <span class='comment'>#   supergroup to each of the child items.
+</span>  
+  <span class='id identifier rubyid_groups'>groups</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_group'>group</span><span class='op'>|</span> <span class='id identifier rubyid_group'>group</span><span class='period'>.</span><span class='id identifier rubyid_remove!'>remove!</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_files'>files</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_remove!'>remove!</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>yield</span> <span class='kw'>self</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+  
+  <span class='id identifier rubyid_child_identifier'>child_identifier</span> <span class='op'>=</span> <span class='id identifier rubyid_identifier'>identifier</span>
+  <span class='id identifier rubyid_supergroup'>supergroup</span><span class='period'>.</span><span class='id identifier rubyid_instance_eval'>instance_eval</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_remove_child_object'>remove_child_object</span><span class='lparen'>(</span><span class='id identifier rubyid_child_identifier'>child_identifier</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='ivar'>@registry</span><span class='period'>.</span><span class='id identifier rubyid_remove_object'>remove_object</span> <span class='id identifier rubyid_identifier'>identifier</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
     
     <div id="footer">
-  Generated on Mon Feb 13 23:50:10 2012 by 
+  Generated on Thu Aug  8 16:16:23 2013 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.5 (ruby-1.9.2).
+  0.7.5 (ruby-1.9.3).
 </div>
 
   </body>

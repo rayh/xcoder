@@ -79,17 +79,27 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>
-Within the project file the PBXFileReference represents the object 
-representation to the file on the file sytem. This is usually your source
-files within your project.
-</p>
+    
+<p>Within the project file the FileReference represents a large number of
+objects related to files like source files, resources, frameworks, and
+system libraries.</p>
+
+<p>A FileReference is used as input to add to the various Build Phases.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="BuildPhase.html" title="Xcode::BuildPhase (module)">BuildPhase</a></span></li>
+    
+      <li><span class='object_link'><a href="BuildFile.html" title="Xcode::BuildFile (module)">BuildFile</a></span></li>
+    
+  </ul>
 
 </div>
 
@@ -101,7 +111,7 @@ files within your project.
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#supergroup-instance_method" title="#supergroup (instance method)">- (Object) <strong>supergroup</strong> </a>
+      <a href="#supergroup-instance_method" title="#supergroup (instance method)">- (Group) <strong>supergroup</strong> </a>
     
 
     
@@ -117,9 +127,8 @@ files within your project.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-This is the group for which this file is contained within.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>This is the group for which this file is contained within.</p>
 </div></span>
   
 </li>
@@ -141,7 +150,7 @@ This is the group for which this file is contained within.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#app_product-class_method" title="app_product (class method)">+ (Object) <strong>app_product</strong>(name) </a>
+      <a href="#app_product-class_method" title="app_product (class method)">+ (Hash) <strong>app_product</strong>(name) </a>
     
 
     
@@ -154,7 +163,9 @@ This is the group for which this file is contained within.
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>App product properties.</p>
+</div></span>
   
 </li>
 
@@ -162,7 +173,7 @@ This is the group for which this file is contained within.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#file-class_method" title="file (class method)">+ (Object) <strong>file</strong>(properties) </a>
+      <a href="#file-class_method" title="file (class method)">+ (Hash) <strong>file</strong>(properties) </a>
     
 
     
@@ -175,7 +186,9 @@ This is the group for which this file is contained within.
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Generate the properties for a file.</p>
+</div></span>
   
 </li>
 
@@ -196,9 +209,8 @@ This is the group for which this file is contained within.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Generate the properties for a framework.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Generate the properties for a framework.</p>
 </div></span>
   
 </li>
@@ -207,7 +219,7 @@ Generate the properties for a framework.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#system_framework-class_method" title="system_framework (class method)">+ (Object) <strong>system_framework</strong>(name, properties = {}) </a>
+      <a href="#system_framework-class_method" title="system_framework (class method)">+ (Hash) <strong>system_framework</strong>(name, properties = {}) </a>
     
 
     
@@ -220,9 +232,63 @@ Generate the properties for a framework.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Generate the properties for a system framework.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Generate the properties for a system framework.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#system_library-class_method" title="system_library (class method)">+ (Hash) <strong>system_library</strong>(name, properties = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Generate the properties for a system library.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove%21-instance_method" title="#remove! (instance method)">- (Object) <strong>remove!</strong> {|_self| ... }</a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Remove the given file from the project and the supergroup of the file.</p>
 </div></span>
   
 </li>
@@ -241,21 +307,38 @@ Generate the properties for a system framework.
       <div class="method_details first">
   <p class="signature first" id="supergroup-instance_method">
   
-    - (<tt>Object</tt>) <strong>supergroup</strong> 
+    - (<tt><span class='object_link'><a href="Group.html" title="Xcode::Group (module)">Group</a></span></tt>) <strong>supergroup</strong> 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-This is the group for which this file is contained within.
-</p>
+    
+<p>This is the group for which this file is contained within.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Group.html" title="Xcode::Group (module)">Group</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the group that contains this file.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -263,12 +346,12 @@ This is the group for which this file is contained within.
       <pre class="lines">
 
 
-11
-12
-13</pre>
+16
+17
+18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/file_reference.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/file_reference.rb', line 16</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_supergroup'>supergroup</span>
   <span class='ivar'>@supergroup</span>
@@ -288,13 +371,15 @@ This is the group for which this file is contained within.
       <div class="method_details first">
   <p class="signature first" id="app_product-class_method">
   
-    + (<tt>Object</tt>) <strong>app_product</strong>(name) 
+    + (<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>) <strong>app_product</strong>(name) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
     
+<p>App product properties</p>
+
 
   </div>
 </div>
@@ -303,9 +388,8 @@ This is the group for which this file is contained within.
   <div class="examples">
     <h3>Examples:</h3>
     
-      <h4><div class='inline'><p>
-app product properties
-</p>
+      <h4><div class='inline'>
+<p>app product properties</p>
 </div></h4>
       <pre class="example code">
 E21D8AAA14E0F817002E56AA /* newtarget.app */ = {
@@ -316,7 +400,45 @@ E21D8AAA14E0F817002E56AA /* newtarget.app */ = {
   sourceTree = BUILT_PRODUCTS_DIR; };</pre>
     
   </div>
+<h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>name of the app product</p>
+</div>
+      
+    </li>
+  
+</ul>
 
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>app product properties</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -324,16 +446,16 @@ E21D8AAA14E0F817002E56AA /* newtarget.app */ = {
       <pre class="lines">
 
 
-67
-68
-69
-70
-71
-72
-73</pre>
+116
+117
+118
+119
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/file_reference.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/file_reference.rb', line 116</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_app_product'>app_product</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>isa</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXFileReference</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
@@ -350,26 +472,85 @@ E21D8AAA14E0F817002E56AA /* newtarget.app */ = {
       <div class="method_details ">
   <p class="signature " id="file-class_method">
   
-    + (<tt>Object</tt>) <strong>file</strong>(properties) 
+    + (<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>) <strong>file</strong>(properties) 
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong> 
+    <div class='inline'>
+<p>a 'name' and 'path' key need to be specified in the framework for the
+framework to be added correctly.</p>
+</div>
+  </div>
+
+
+<p>Generate the properties for a file. A name and a path option need to be
+specified in the properties.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>properties</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>to override or merge with the base properties.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>properties of a file</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-13
-14
-15
-16
-17
-18
-19</pre>
+28
+29
+30
+31
+32
+33
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/file_reference.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/file_reference.rb', line 28</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_file'>file</span><span class='lparen'>(</span><span class='id identifier rubyid_properties'>properties</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_default_properties'>default_properties</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>isa</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXFileReference</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> 
@@ -395,17 +576,15 @@ E21D8AAA14E0F817002E56AA /* newtarget.app */ = {
     
   <div class="note notetag">
     <strong>Note:</strong> 
-    <div class='inline'><p>
-a &#8216;name&#8217; and &#8216;path&#8217; key need to be specified in the
-framework for the framework to be added correctly.
-</p>
+    <div class='inline'>
+<p>a 'name' and 'path' key need to be specified in the framework for the
+framework to be added correctly.</p>
 </div>
   </div>
 
-<p>
-Generate the properties for a framework. A name and a path option need to
-be specified in the properties
-</p>
+
+<p>Generate the properties for a framework. A name and a path option need to
+be specified in the properties</p>
 
 
   </div>
@@ -424,9 +603,8 @@ be specified in the properties
       
       
         &mdash;
-        <div class='inline'><p>
-to override for the Framework
-</p>
+        <div class='inline'>
+<p>to override for the Framework</p>
 </div>
       
     </li>
@@ -444,9 +622,8 @@ to override for the Framework
       
       
         &mdash;
-        <div class='inline'><p>
-properties for a framework
-</p>
+        <div class='inline'>
+<p>properties for a framework</p>
 </div>
       
     </li>
@@ -459,18 +636,18 @@ properties for a framework
       <pre class="lines">
 
 
-31
-32
-33
-34
-35
-36
-37
-38
-39</pre>
+46
+47
+48
+49
+50
+51
+52
+53
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/file_reference.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/file_reference.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_framework'>framework</span><span class='lparen'>(</span><span class='id identifier rubyid_properties'>properties</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_default_properties'>default_properties</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>isa</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>PBXFileReference</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
@@ -489,21 +666,32 @@ properties for a framework
       <div class="method_details ">
   <p class="signature " id="system_framework-class_method">
   
-    + (<tt>Object</tt>) <strong>system_framework</strong>(name, properties = {}) 
+    + (<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>) <strong>system_framework</strong>(name, properties = {}) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Generate the properties for a system framework.
-</p>
+    
+<p>Generate the properties for a system framework.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  
+  <div class="examples">
+    <h3>Examples:</h3>
+    
+      <h4><div class='inline'>
+<p>CoreGraphics.framework</p>
+</div></h4>
+      <pre class="example code">
+<span class='const'>FileReference</span><span class='period'>.</span><span class='id identifier rubyid_system_framework'>system_framework</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CoreGraphics.framework</span><span class='tstring_end'>&quot;</span></span>
+<span class='const'>FileReference</span><span class='period'>.</span><span class='id identifier rubyid_system_framework'>system_framework</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Foundation</span><span class='tstring_end'>&quot;</span></span></pre>
+    
+  </div>
+<h3>Parameters:</h3>
 <ul class="param">
   
     <li>
@@ -516,9 +704,9 @@ Generate the properties for a system framework.
       
       
         &mdash;
-        <div class='inline'><p>
-of the system framework
-</p>
+        <div class='inline'>
+<p>of the system framework which can be specified with or without the
+".framework" suffix / extension.</p>
 </div>
       
     </li>
@@ -535,15 +723,32 @@ of the system framework
       
       
         &mdash;
-        <div class='inline'><p>
-the parameters to override for the system framework
-</p>
+        <div class='inline'>
+<p>the parameters to override for the system framework</p>
 </div>
       
     </li>
   
 </ul>
 
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>system framework properties</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -551,20 +756,24 @@ the parameters to override for the system framework
       <pre class="lines">
 
 
-47
-48
-49
-50
-51
-52
-53
-54
-55</pre>
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/file_reference.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/file_reference.rb', line 69</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_system_framework'>system_framework</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span><span class='id identifier rubyid_properties'>properties</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_extname'>extname</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  
   <span class='id identifier rubyid_default_properties'>default_properties</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>isa</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXFileReference</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
     <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>lastKnownFileType</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>wrapper.framework</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> 
     <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>name</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'>.framework</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
@@ -578,14 +787,219 @@ the parameters to override for the system framework
 </table>
 </div>
     
+      <div class="method_details ">
+  <p class="signature " id="system_library-class_method">
+  
+    + (<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>) <strong>system_library</strong>(name, properties = {}) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Generate the properties for a system library</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h3>Examples:</h3>
+    
+      <h4><div class='inline'>
+<p>libz.dylib</p>
+</div></h4>
+      <pre class="example code">
+<span class='const'>FileReference</span><span class='period'>.</span><span class='id identifier rubyid_system_library'>system_library</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>libz.dylib</span><span class='tstring_end'>&quot;</span></span></pre>
+    
+  </div>
+<h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>of the system library, which can be found by default in the /usr/lib
+folder.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>properties</span>
+      
+      
+        <span class='type'>(<tt>Types</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the parameters to override for the system library</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>system library properties</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+93
+94
+95
+96
+97
+98
+99
+100
+101</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/file_reference.rb', line 93</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_system_library'>system_library</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span><span class='id identifier rubyid_properties'>properties</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_default_properties'>default_properties</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>isa</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXFileReference</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>lastKnownFileType</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>compiled.mach-o.dylib</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> 
+    <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>name</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>path</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>usr/lib/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>sourceTree</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SDKROOT</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+    
+  <span class='id identifier rubyid_default_properties'>default_properties</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_properties'>properties</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="remove!-instance_method">
+  
+    - (<tt>Object</tt>) <strong>remove!</strong> {|_self| ... }
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Remove the given file from the project and the supergroup of the file.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Yields:</h3>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>_self</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Yield Parameters:</h3>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>_self</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Xcode::FileReference (module)">Xcode::FileReference</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the object that the method was called on</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+127
+128
+129
+130
+131
+132
+133</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/file_reference.rb', line 127</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_remove!'>remove!</span>
+  <span class='comment'># @todo the removal here does not consider if the files have
+</span>  <span class='comment'>#   been specified within a build phase.
+</span>  <span class='kw'>yield</span> <span class='kw'>self</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+  <span class='id identifier rubyid_supergroup'>supergroup</span><span class='period'>.</span><span class='id identifier rubyid_children'>children</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='id identifier rubyid_identifier'>identifier</span> <span class='kw'>if</span> <span class='id identifier rubyid_supergroup'>supergroup</span>
+  <span class='ivar'>@registry</span><span class='period'>.</span><span class='id identifier rubyid_remove_object'>remove_object</span> <span class='id identifier rubyid_identifier'>identifier</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
     
     <div id="footer">
-  Generated on Mon Feb 13 23:50:11 2012 by 
+  Generated on Thu Aug  8 16:16:25 2013 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.5 (ruby-1.9.2).
+  0.7.5 (ruby-1.9.3).
 </div>
 
   </body>

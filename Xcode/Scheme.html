@@ -94,12 +94,9 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>
-Schemes are an XML file that describe build, test, launch and profile
-actions For the purposes of Xcoder, we want to be able to build and test
-The scheme&#8217;s build action only describes a target, so we need to look
-at launch for the config
-</p>
+    
+<p>Schemes are an XML file that describe build, test, launch and profile
+actions For the purposes of Xcoder, we want to be able to build and test</p>
 
 
   </div>
@@ -117,7 +114,59 @@ at launch for the config
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#launch-instance_method" title="#launch (instance method)">- (Object) <strong>launch</strong> </a>
+      <a href="#archive_config-instance_method" title="#archive_config (instance method)">- (Object) <strong>archive_config</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute archive_config.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#build_config-instance_method" title="#build_config (instance method)">- (Object) <strong>build_config</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute build_config.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#build_targets-instance_method" title="#build_targets (instance method)">- (Object) <strong>build_targets</strong> </a>
     
 
     
@@ -133,9 +182,8 @@ at launch for the config
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Returns the value of attribute launch.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute build_targets.</p>
 </div></span>
   
 </li>
@@ -160,9 +208,34 @@ Returns the value of attribute launch.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Returns the value of attribute name.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute name.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parent-instance_method" title="#parent (instance method)">- (Object) <strong>parent</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute parent.</p>
 </div></span>
   
 </li>
@@ -187,9 +260,8 @@ Returns the value of attribute name.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Returns the value of attribute path.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute path.</p>
 </div></span>
   
 </li>
@@ -198,7 +270,33 @@ Returns the value of attribute path.
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#project-instance_method" title="#project (instance method)">- (Object) <strong>project</strong> </a>
+      <a href="#test_config-instance_method" title="#test_config (instance method)">- (Object) <strong>test_config</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute test_config.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#test_targets-instance_method" title="#test_targets (instance method)">- (Object) <strong>test_targets</strong> </a>
     
 
     
@@ -214,36 +312,8 @@ Returns the value of attribute path.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Returns the value of attribute project.
-</p>
-</div></span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#test-instance_method" title="#test (instance method)">- (Object) <strong>test</strong> </a>
-    
-
-    
-  </span>
-  
-  
-    <span class="note title readonly">readonly</span>
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>
-Returns the value of attribute test.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute test_targets.</p>
 </div></span>
   
 </li>
@@ -254,6 +324,84 @@ Returns the value of attribute test.
 
 
 
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#find_in_path-class_method" title="find_in_path (class method)">+ (Array&lt;Scheme&gt;) <strong>find_in_path</strong>(parent, path) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Parse all the scheme files that can be found at the given path.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#find_in_project-class_method" title="find_in_project (class method)">+ (Object) <strong>find_in_project</strong>(project) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Parse all the schemes given the current project.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#find_in_workspace-class_method" title="find_in_workspace (class method)">+ (Object) <strong>find_in_workspace</strong>(workspace) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Parse all the schemes given the current workspace.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
   
     <h2>
       Instance Method Summary
@@ -278,7 +426,9 @@ Returns the value of attribute test.
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>A builder for building this scheme.</p>
+</div></span>
   
 </li>
 
@@ -286,7 +436,7 @@ Returns the value of attribute test.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Scheme) <strong>initialize</strong>(project, path) </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Scheme) <strong>initialize</strong>(params = {}) </a>
     
 
     
@@ -301,10 +451,53 @@ Returns the value of attribute test.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-A new instance of Scheme.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Scheme.</p>
 </div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#testable%3F-instance_method" title="#testable? (instance method)">- (Boolean) <strong>testable?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>True if the scheme is testable, false otherwise.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_s-instance_method" title="#to_s (instance method)">- (Object) <strong>to_s</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -318,15 +511,14 @@ A new instance of Scheme.
     <div class="method_details first">
   <p class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Xcode::Scheme (class)">Scheme</a></span></tt>) <strong>initialize</strong>(project, path) 
+    - (<tt><span class='object_link'><a href="" title="Xcode::Scheme (class)">Scheme</a></span></tt>) <strong>initialize</strong>(params = {}) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-A new instance of Scheme
-</p>
+    
+<p>A new instance of Scheme</p>
 
 
   </div>
@@ -340,27 +532,27 @@ A new instance of Scheme
       <pre class="lines">
 
 
-10
-11
-12
-13
-14
-15
-16
-17
-18</pre>
+52
+53
+54
+55
+56
+57
+58
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 52</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_project'>project</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
-  <span class='ivar'>@project</span> <span class='op'>=</span> <span class='id identifier rubyid_project'>project</span>
-  <span class='ivar'>@path</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='ivar'>@parent</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:parent</span><span class='rbracket'>]</span>
+  <span class='ivar'>@path</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:path</span><span class='rbracket'>]</span>
+  <span class='ivar'>@root</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:root</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>..</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
   <span class='ivar'>@name</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\.xcscheme$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_doc'>doc</span> <span class='op'>=</span> <span class='const'>Nokogiri</span><span class='op'>::</span><span class='const'>XML</span><span class='lparen'>(</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='ivar'>@path</span><span class='rparen'>)</span><span class='rparen'>)</span>
-  
-  <span class='ivar'>@launch</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_action'>parse_action</span><span class='lparen'>(</span><span class='id identifier rubyid_doc'>doc</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>launch</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
-  <span class='ivar'>@test</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_action'>parse_action</span><span class='lparen'>(</span><span class='id identifier rubyid_doc'>doc</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>test</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_parse_build_actions'>parse_build_actions</span><span class='lparen'>(</span><span class='id identifier rubyid_doc'>doc</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -373,20 +565,19 @@ A new instance of Scheme
     <h2>Instance Attribute Details</h2>
     
       
-      <span id=""></span>
-      <span id="launch-instance_method"></span>
+      <span id="archive_config=-instance_method"></span>
+      <span id="archive_config-instance_method"></span>
       <div class="method_details first">
-  <p class="signature first" id="launch-instance_method">
+  <p class="signature first" id="archive_config-instance_method">
   
-    - (<tt>Object</tt>) <strong>launch</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Object</tt>) <strong>archive_config</strong> 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Returns the value of attribute launch
-</p>
+    
+<p>Returns the value of attribute archive_config</p>
 
 
   </div>
@@ -400,15 +591,99 @@ Returns the value of attribute launch
       <pre class="lines">
 
 
-9
-10
-11</pre>
+13
+14
+15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 13</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_launch'>launch</span>
-  <span class='ivar'>@launch</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_archive_config'>archive_config</span>
+  <span class='ivar'>@archive_config</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="build_config=-instance_method"></span>
+      <span id="build_config-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="build_config-instance_method">
+  
+    - (<tt>Object</tt>) <strong>build_config</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute build_config</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+13
+14
+15</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 13</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_build_config'>build_config</span>
+  <span class='ivar'>@build_config</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="build_targets-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="build_targets-instance_method">
+  
+    - (<tt>Object</tt>) <strong>build_targets</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute build_targets</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+12
+13
+14</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 12</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_build_targets'>build_targets</span>
+  <span class='ivar'>@build_targets</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -427,9 +702,8 @@ Returns the value of attribute launch
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Returns the value of attribute name
-</p>
+    
+<p>Returns the value of attribute name</p>
 
 
   </div>
@@ -443,15 +717,57 @@ Returns the value of attribute name
       <pre class="lines">
 
 
-9
-10
-11</pre>
+12
+13
+14</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name'>name</span>
   <span class='ivar'>@name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="parent-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="parent-instance_method">
+  
+    - (<tt>Object</tt>) <strong>parent</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute parent</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+12
+13
+14</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 12</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_parent'>parent</span>
+  <span class='ivar'>@parent</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -470,9 +786,8 @@ Returns the value of attribute name
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Returns the value of attribute path
-</p>
+    
+<p>Returns the value of attribute path</p>
 
 
   </div>
@@ -486,12 +801,12 @@ Returns the value of attribute path
       <pre class="lines">
 
 
-9
-10
-11</pre>
+12
+13
+14</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_path'>path</span>
   <span class='ivar'>@path</span>
@@ -502,20 +817,19 @@ Returns the value of attribute path
 </div>
     
       
-      <span id=""></span>
-      <span id="project-instance_method"></span>
+      <span id="test_config=-instance_method"></span>
+      <span id="test_config-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="project-instance_method">
+  <p class="signature " id="test_config-instance_method">
   
-    - (<tt>Object</tt>) <strong>project</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Object</tt>) <strong>test_config</strong> 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Returns the value of attribute project
-</p>
+    
+<p>Returns the value of attribute test_config</p>
 
 
   </div>
@@ -529,15 +843,15 @@ Returns the value of attribute project
       <pre class="lines">
 
 
-9
-10
-11</pre>
+13
+14
+15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 13</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_project'>project</span>
-  <span class='ivar'>@project</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_test_config'>test_config</span>
+  <span class='ivar'>@test_config</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -546,19 +860,18 @@ Returns the value of attribute project
     
       
       <span id=""></span>
-      <span id="test-instance_method"></span>
+      <span id="test_targets-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="test-instance_method">
+  <p class="signature " id="test_targets-instance_method">
   
-    - (<tt>Object</tt>) <strong>test</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Object</tt>) <strong>test_targets</strong>  <span class="extras">(readonly)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Returns the value of attribute test
-</p>
+    
+<p>Returns the value of attribute test_targets</p>
 
 
   </div>
@@ -572,15 +885,15 @@ Returns the value of attribute test
       <pre class="lines">
 
 
-9
-10
-11</pre>
+12
+13
+14</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 12</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_test'>test</span>
-  <span class='ivar'>@test</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_test_targets'>test_targets</span>
+  <span class='ivar'>@test_targets</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -589,6 +902,189 @@ Returns the value of attribute test
     
   </div>
 
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="find_in_path-class_method">
+  
+    + (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="" title="Xcode::Scheme (class)">Scheme</a></span>&gt;</tt>) <strong>find_in_path</strong>(parent, path) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Parse all the scheme files that can be found at the given path. Schemes can
+be defined as `shared` schemes and then `user` specific schemes. Parsing
+the schemes will load the shared ones and then the current acting user's
+schemes.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>project</span>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>or workspace in which the scheme is contained</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="" title="Xcode::Scheme (class)">Scheme</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the shared schemes and user specific schemes found within the
+project/workspace at the path defined for schemes.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48
+49
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 46</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_find_in_path'>find_in_path</span><span class='lparen'>(</span><span class='id identifier rubyid_parent'>parent</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_all_schemes_paths'>all_schemes_paths</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_scheme_path'>scheme_path</span><span class='op'>|</span>
+    <span class='const'>Xcode</span><span class='op'>::</span><span class='const'>Scheme</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>parent:</span> <span class='id identifier rubyid_parent'>parent</span><span class='comma'>,</span> <span class='label'>root:</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='label'>path:</span> <span class='id identifier rubyid_scheme_path'>scheme_path</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="find_in_project-class_method">
+  
+    + (<tt>Object</tt>) <strong>find_in_project</strong>(project) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Parse all the schemes given the current project.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 18</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_find_in_project'>find_in_project</span><span class='lparen'>(</span><span class='id identifier rubyid_project'>project</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_find_in_path'>find_in_path</span><span class='lparen'>(</span><span class='id identifier rubyid_project'>project</span><span class='comma'>,</span> <span class='id identifier rubyid_project'>project</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="find_in_workspace-class_method">
+  
+    + (<tt>Object</tt>) <strong>find_in_workspace</strong>(workspace) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Parse all the schemes given the current workspace.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 25</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_find_in_workspace'>find_in_workspace</span><span class='lparen'>(</span><span class='id identifier rubyid_workspace'>workspace</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_schemes'>schemes</span> <span class='op'>=</span> <span class='id identifier rubyid_find_in_path'>find_in_path</span><span class='lparen'>(</span><span class='id identifier rubyid_workspace'>workspace</span><span class='comma'>,</span> <span class='id identifier rubyid_workspace'>workspace</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+
+  <span class='comment'># Project level schemes
+</span>  <span class='id identifier rubyid_workspace'>workspace</span><span class='period'>.</span><span class='id identifier rubyid_projects'>projects</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_project'>project</span><span class='op'>|</span>
+    <span class='id identifier rubyid_schemes'>schemes</span><span class='op'>+=</span><span class='id identifier rubyid_find_in_path'>find_in_path</span><span class='lparen'>(</span><span class='id identifier rubyid_workspace'>workspace</span><span class='comma'>,</span> <span class='id identifier rubyid_project'>project</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_schemes'>schemes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
@@ -601,21 +1097,135 @@ Returns the value of attribute test
   
 
   
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>A builder for building this scheme</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'>
+<p>a builder for building this scheme</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+65
+66
+67</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 65</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_builder'>builder</span>
+  <span class='const'>Xcode</span><span class='op'>::</span><span class='const'>Builder</span><span class='op'>::</span><span class='const'>SchemeBuilder</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="testable?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>testable?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>True if the scheme is testable, false otherwise</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>true if the scheme is testable, false otherwise</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+76
+77
+78</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 76</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_testable?'>testable?</span>
+  <span class='op'>!</span><span class='ivar'>@test_config</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="to_s-instance_method">
+  
+    - (<tt>Object</tt>) <strong>to_s</strong> 
+  
+
+  
 </p><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-20
-21
-22</pre>
+69
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/scheme.rb', line 69</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_builder'>builder</span>
-  <span class='const'>Xcode</span><span class='op'>::</span><span class='const'>Builder</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'> (Scheme) in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_parent'>parent</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -627,9 +1237,9 @@ Returns the value of attribute test
 </div>
     
     <div id="footer">
-  Generated on Mon Feb 13 23:50:10 2012 by 
+  Generated on Thu Aug  8 16:16:24 2013 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.5 (ruby-1.9.2).
+  0.7.5 (ruby-1.9.3).
 </div>
 
   </body>

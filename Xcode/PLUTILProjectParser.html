@@ -116,10 +116,33 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Using the sytem tool plutil, the specified project file is parsed and 
-converted to XML, and then converted into a ruby hash object.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Using the sytem tool plutil, the specified project file is parsed and 
+converted to XML, and then converted into a ruby hash object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save-instance_method" title="#save (instance method)">- (Object) <strong>save</strong>(path, data) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Save the outputed string data to the specified project file path and then
+formats that data to be prettier than the default output.</p>
 </div></span>
   
 </li>
@@ -143,10 +166,9 @@ converted to XML, and then converted into a ruby hash object.
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Using the sytem tool plutil, the specified project file is parsed and 
-converted to XML, and then converted into a ruby hash object.
-</p>
+    
+<p>Using the sytem tool plutil, the specified project file is parsed and 
+converted to XML, and then converted into a ruby hash object.</p>
 
 
   </div>
@@ -163,14 +185,76 @@ converted to XML, and then converted into a ruby hash object.
 13
 14
 15
-16</pre>
+16
+17
+18
+19</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/xcode/parsers/plutil_project_parser.rb', line 13</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_parse'>parse</span> <span class='id identifier rubyid_path'>path</span>
-  <span class='id identifier rubyid_xml'>xml</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='tstring_content'>plutil -convert xml1 -o - &quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='rbrace'>}</span><span class='tstring_content'>&quot;</span><span class='tstring_end'>`</span></span>
-  <span class='const'>Plist</span><span class='op'>::</span><span class='id identifier rubyid_parse_xml'>parse_xml</span><span class='lparen'>(</span><span class='id identifier rubyid_xml'>xml</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_registry'>registry</span> <span class='op'>=</span> <span class='const'>Plist</span><span class='period'>.</span><span class='id identifier rubyid_parse_xml'>parse_xml</span> <span class='id identifier rubyid_open_project_file'>open_project_file</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+  
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Failed to correctly parse the project file </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_registry'>registry</span>
+  
+  <span class='id identifier rubyid_registry'>registry</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="save-instance_method">
+  
+    - (<tt>Object</tt>) <strong>save</strong>(path, data) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Save the outputed string data to the specified project file path and then
+formats that data to be prettier than the default output.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/parsers/plutil_project_parser.rb', line 25</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save'>save</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+ 
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>w</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
+    <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_data'>data</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+    <span class='backtick'>`</span><span class='tstring_content'>pl -input </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='rbrace'>}</span><span class='tstring_content'> -output </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='rbrace'>}</span><span class='tstring_end'>`</span></span>
+  <span class='kw'>end</span>
+
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -182,9 +266,9 @@ converted to XML, and then converted into a ruby hash object.
 </div>
     
     <div id="footer">
-  Generated on Mon Feb 13 23:50:11 2012 by 
+  Generated on Thu Aug  8 16:16:27 2013 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.5 (ruby-1.9.2).
+  0.7.5 (ruby-1.9.3).
 </div>
 
   </body>

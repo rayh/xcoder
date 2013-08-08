@@ -79,18 +79,22 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>
-The Registry represents the parsed data from the Xcode Project file. Namely
-the registry is a Hash that provides additional functionality to allow the 
-the ability to query, add, and remove resources from the object hash.
-</p>
-<p>
-Opening the Xcode project file in a text-editor you&#8217;ll notice that it
-is a big hash/plist with a file core keys. The most important key is the
-&#8216;objects&#8217; dictionary which maintains the master-list of
-Identifiers to properties. All  objects are represented here and all other
-resources use the reference to make the connection to the objects.
-</p>
+    
+<p>The Registry represents the parsed data from the Xcode Project file. The 
+registry is a Hash that provides additional functionality to allow the  the
+ability to query, add, and remove resources from the object hash.</p>
+
+<p>Opening the Xcode project file in a text-editor you'll notice that it is a
+big hash/plist. The registry represents this structure and provides access
+to the top-level items: 'rootObject'; 'objectVersion'; 'archiveVersion' and
+'objects'. The registry provides a number of methods to access these items.</p>
+
+<p>The most important key is the 'objects' dictionary which maintains the 
+master-list of Identifiers to properties. The registry provides additional
+methods get, add, remove, and update the objects stored within it. The 
+registry returns <span class='object_link'><a href="Resource.html" title="Xcode::Resource (class)">Resource</a></span> objects which is a wrapper class around the 
+properties hash that would normally be returned. Providing additional 
+functionality to make it easier to traverse the project.</p>
 
 
   </div>
@@ -106,18 +110,6 @@ resources use the reference to make the connection to the objects.
   </ul>
 
 </div>
-  <h2>Constant Summary</h2>
-  
-    <dl class="constants">
-      
-        <dt id="MAX_IDENTIFIER_GENERATION_ATTEMPTS-constant" class="">MAX_IDENTIFIER_GENERATION_ATTEMPTS =
-          
-        </dt>
-        <dd><pre class="code"><span class='int'>10</span></pre></dd>
-      
-    </dl>
-  
-
 
 
 
@@ -135,7 +127,7 @@ resources use the reference to make the connection to the objects.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#is_identifier%3F-class_method" title="is_identifier? (class method)">+ (Boolean) <strong>is_identifier?</strong>(value) </a>
+      <a href="#is_identifier%3F-class_method" title="is_identifier? (class method)">+ (TrueClass, FalseClass) <strong>is_identifier?</strong>(value) </a>
     
 
     
@@ -148,10 +140,9 @@ resources use the reference to make the connection to the objects.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-This method is used internally to determine if the value that is being 
-retrieved is an identifier.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>This method is used internally to determine if the value that is being 
+retrieved is an identifier.</p>
 </div></span>
   
 </li>
@@ -160,7 +151,7 @@ retrieved is an identifier.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#isa_to_module-class_method" title="isa_to_module (class method)">+ (Object) <strong>isa_to_module</strong>(isa) </a>
+      <a href="#isa_to_module-class_method" title="isa_to_module (class method)">+ (Array&lt;Module&gt;) <strong>isa_to_module</strong>(isa) </a>
     
 
     
@@ -173,10 +164,9 @@ retrieved is an identifier.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Objects within the registry contain an `isa` property, which translates to
-modules which can be mixed in to provide additional functionality.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>All object parameters contain an `isa` property, which represents the class
+within Xcode.</p>
 </div></span>
   
 </li>
@@ -207,9 +197,31 @@ modules which can be mixed in to provide additional functionality.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Provides a method to generically add objects to the registry.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Provides a method to generically add objects to the registry.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#archive_version-instance_method" title="#archive_version (instance method)">- (Fixnum) <strong>archive_version</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The archive version.</p>
 </div></span>
   
 </li>
@@ -231,9 +243,31 @@ Provides a method to generically add objects to the registry.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Retrieve a Resource for the given identifier.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Retrieve a Resource for the given identifier.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#object_version-instance_method" title="#object_version (instance method)">- (Fixnum) <strong>object_version</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The object version.</p>
 </div></span>
   
 </li>
@@ -255,9 +289,8 @@ Retrieve a Resource for the given identifier.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-This is a hash of all the objects within the project.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>This is a hash of all the objects within the project.</p>
 </div></span>
   
 </li>
@@ -279,9 +312,8 @@ This is a hash of all the objects within the project.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Retrieve the properties Hash for the given identifer.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Retrieve the properties Hash for the given identifer.</p>
 </div></span>
   
 </li>
@@ -311,7 +343,7 @@ Retrieve the properties Hash for the given identifer.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#root-instance_method" title="#root (instance method)">- (Object) <strong>root</strong> </a>
+      <a href="#root-instance_method" title="#root (instance method)">- (Resource) <strong>root</strong> </a>
     
 
     
@@ -324,9 +356,8 @@ Retrieve the properties Hash for the given identifer.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-This is the root object of the project.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>This is the root object of the project.</p>
 </div></span>
   
 </li>
@@ -348,9 +379,8 @@ This is the root object of the project.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Replace an existing object that shares that same identifier.
-</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Replace an existing object that shares that same identifier.</p>
 </div></span>
   
 </li>
@@ -368,16 +398,15 @@ Replace an existing object that shares that same identifier.
       <div class="method_details first">
   <p class="signature first" id="is_identifier?-class_method">
   
-    + (<tt>Boolean</tt>) <strong>is_identifier?</strong>(value) 
+    + (<tt><span class='object_link'><a href="../TrueClass.html" title="TrueClass (class)">TrueClass</a></span></tt>, <tt><span class='object_link'><a href="../FalseClass.html" title="FalseClass (class)">FalseClass</a></span></tt>) <strong>is_identifier?</strong>(value) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-This method is used internally to determine if the value that is being 
-retrieved is an identifier.
-</p>
+    
+<p>This method is used internally to determine if the value that is being 
+retrieved is an identifier.</p>
 
 
   </div>
@@ -396,9 +425,8 @@ retrieved is an identifier.
       
       
         &mdash;
-        <div class='inline'><p>
-is the specified value in the form of an identifier
-</p>
+        <div class='inline'>
+<p>is the specified value in the form of an identifier</p>
 </div>
       
     </li>
@@ -411,13 +439,25 @@ is the specified value in the form of an identifier
     <li>
       
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../TrueClass.html" title="TrueClass (class)">TrueClass</a></span></tt>, <tt><span class='object_link'><a href="../FalseClass.html" title="FalseClass (class)">FalseClass</a></span></tt>)</span>
       
       
+      
+        &mdash;
+        <div class='inline'>
+<p>true if the value specified is a valid  identifier; false if it is not.</p>
+</div>
       
     </li>
   
 </ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Resource.html#define_property-instance_method" title="Xcode::Resource#define_property (method)">Xcode::Resource#define_property</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -425,15 +465,15 @@ is the specified value in the form of an identifier
       <pre class="lines">
 
 
-26
-27
-28</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_is_identifier?'>is_identifier?</span> <span class='id identifier rubyid_value'>value</span>
-  <span class='id identifier rubyid_value'>value</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^[0-9A-F]{24}$</span><span class='regexp_end'>/</span></span>
+  <span class='id identifier rubyid_value'>value</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^[0-9a-fA-F]{24,}$</span><span class='regexp_end'>/</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -443,16 +483,20 @@ is the specified value in the form of an identifier
       <div class="method_details ">
   <p class="signature " id="isa_to_module-class_method">
   
-    + (<tt>Object</tt>) <strong>isa_to_module</strong>(isa) 
+    + (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Module&gt;</tt>) <strong>isa_to_module</strong>(isa) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Objects within the registry contain an `isa` property, which translates to
-modules which can be mixed in to provide additional functionality.
-</p>
+    
+<p>All object parameters contain an `isa` property, which represents the class
+within Xcode. Here the `isa` string value is translated into a Ruby module.</p>
+
+<p>Initially the `isa` values were mapped directly to Ruby modules but that
+was changed to this model to make it easy to repair if Xcode were to 
+change their `isa` values and also provide the ability to mixin different
+functionality as needed.</p>
 
 
   </div>
@@ -471,15 +515,39 @@ modules which can be mixed in to provide additional functionality.
       
       
         &mdash;
-        <div class='inline'><p>
-the type of the object.
-</p>
+        <div class='inline'>
+<p>the type of the object.</p>
 </div>
       
     </li>
   
 </ul>
 
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Module&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an array of modules that are mapped to the  string name.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Resource.html#initialize-instance_method" title="Xcode::Resource#initialize (method)">Xcode::Resource#initialize</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -487,39 +555,55 @@ the type of the object.
       <pre class="lines">
 
 
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50</pre>
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 69</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_isa_to_module'>isa_to_module</span> <span class='id identifier rubyid_isa'>isa</span>
 
-  <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>XCBuildConfiguration</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='const'>Configuration</span><span class='comma'>,</span>
+  <span class='id identifier rubyid_modules'>modules</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXProject</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='const'>ProjectReference</span><span class='comma'>,</span> <span class='const'>ConfigurationOwner</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>XCBuildConfiguration</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='const'>Configuration</span><span class='comma'>,</span>
     <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXFileReference</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='const'>FileReference</span><span class='comma'>,</span>
     <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXGroup</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='const'>Group</span><span class='comma'>,</span>
-    <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXNativeTarget</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='const'>Target</span><span class='comma'>,</span>
-    <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXAggregateTarget</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='const'>Target</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXNativeTarget</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='const'>Target</span><span class='comma'>,</span> <span class='const'>ConfigurationOwner</span> <span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXLegacyTarget</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='const'>Target</span><span class='comma'>,</span> <span class='const'>ConfigurationOwner</span> <span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXAggregateTarget</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='const'>Target</span><span class='comma'>,</span> <span class='const'>ConfigurationOwner</span> <span class='rbracket'>]</span><span class='comma'>,</span>
     <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXFrameworksBuildPhase</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='const'>BuildPhase</span><span class='comma'>,</span>
     <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXSourcesBuildPhase</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='const'>BuildPhase</span><span class='comma'>,</span>
     <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXResourcesBuildPhase</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='const'>BuildPhase</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXHeadersBuildPhase</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='const'>BuildPhase</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXShellScriptBuildPhase</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='const'>BuildPhase</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXTargetDependency</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='const'>TargetDependency</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXContainerItemProxy</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='const'>ContainerItemProxy</span><span class='comma'>,</span>
     <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXBuildFile</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='const'>BuildFile</span><span class='comma'>,</span>
     <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXVariantGroup</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='const'>VariantGroup</span><span class='comma'>,</span>
     <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>XCConfigurationList</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='const'>ConfigurationList</span><span class='comma'>,</span>
     <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PBXVariantGroup</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='const'>VariantGroup</span> <span class='rbrace'>}</span><span class='lbracket'>[</span><span class='id identifier rubyid_isa'>isa</span><span class='rbracket'>]</span>
+    
+    <span class='const'>Array</span><span class='lparen'>(</span><span class='id identifier rubyid_modules'>modules</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -544,20 +628,18 @@ the type of the object.
     
   <div class="note notetag">
     <strong>Note:</strong> 
-    <div class='inline'><p>
-generally this method should not be called directly and instead  resources
+    <div class='inline'>
+<p>generally this method should not be called directly and instead  resources
 should provide the ability to assist with generating the  correct objects
-for the registry.
-</p>
+for the registry.</p>
 </div>
   </div>
 
-<p>
-Provides a method to generically add objects to the registry. This will
+
+<p>Provides a method to generically add objects to the registry. This will
 create a unqiue identifier and add the specified parameters to the 
 registry. As all objecst within a the project maintain a reference to this
-registry they can immediately query for newly created items.
-</p>
+registry they can immediately query for newly created items.</p>
 
 
   </div>
@@ -576,10 +658,9 @@ registry they can immediately query for newly created items.
       
       
         &mdash;
-        <div class='inline'><p>
-a hash that contains all the properties that are known for the particular
-item.
-</p>
+        <div class='inline'>
+<p>a hash that contains all the properties that are known for the particular
+item.</p>
 </div>
       
     </li>
@@ -593,65 +674,80 @@ item.
       <pre class="lines">
 
 
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139</pre>
+167
+168
+169
+170
+171
+172
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 167</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_object'>add_object</span><span class='lparen'>(</span><span class='id identifier rubyid_object_properties'>object_properties</span><span class='rparen'>)</span>
-  
-  <span class='id identifier rubyid_new_identifier'>new_identifier</span> <span class='op'>=</span> <span class='const'>SimpleIdentifierGenerator</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span>
-  
-  <span class='comment'># Ensure that the identifier generated is unique
-</span>  
-  <span class='id identifier rubyid_identifier_generation_count'>identifier_generation_count</span> <span class='op'>=</span> <span class='int'>0</span>
-  
-  <span class='kw'>while</span> <span class='id identifier rubyid_objects'>objects</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_new_identifier'>new_identifier</span><span class='rparen'>)</span>
-    
-    <span class='id identifier rubyid_new_identifier'>new_identifier</span> <span class='op'>=</span> <span class='const'>SimpleIdentifierGenerator</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span>
-    
-    <span class='comment'># Increment our identifier generation count and if we reach our max raise
-</span>    <span class='comment'># an exception as something has gone horribly wrong.
-</span>
-    <span class='id identifier rubyid_identifier_generation_count'>identifier_generation_count</span> <span class='op'>+=</span> <span class='int'>1</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_identifier_generation_count'>identifier_generation_count</span> <span class='op'>&gt;</span> <span class='const'>MAX_IDENTIFIER_GENERATION_ATTEMPTS</span>
-      <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unable to generate a unique identifier for object: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_object_properties'>object_properties</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  
-  <span class='id identifier rubyid_new_identifier'>new_identifier</span> <span class='op'>=</span> <span class='const'>SimpleIdentifierGenerator</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span> <span class='kw'>if</span> <span class='id identifier rubyid_objects'>objects</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_new_identifier'>new_identifier</span><span class='rparen'>)</span>
-  
+  <span class='id identifier rubyid_new_identifier'>new_identifier</span> <span class='op'>=</span> <span class='const'>SimpleIdentifierGenerator</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span> <span class='symbol'>:existing_keys</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_objects'>objects</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span>
   
   <span class='id identifier rubyid_objects'>objects</span><span class='lbracket'>[</span><span class='id identifier rubyid_new_identifier'>new_identifier</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_object_properties'>object_properties</span>
   
   <span class='const'>Resource</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_new_identifier'>new_identifier</span><span class='comma'>,</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="archive_version-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Fixnum.html" title="Fixnum (class)">Fixnum</a></span></tt>) <strong>archive_version</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>The archive version</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Fixnum.html" title="Fixnum (class)">Fixnum</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the archive version</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+125
+126
+127</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 125</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_archive_version'>archive_version</span>
+  <span class='kw'>self</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>archiveVersion</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -667,9 +763,8 @@ item.
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Retrieve a Resource for the given identifier.
-</p>
+    
+<p>Retrieve a Resource for the given identifier.</p>
 
 
   </div>
@@ -688,9 +783,8 @@ Retrieve a Resource for the given identifier.
       
       
         &mdash;
-        <div class='inline'><p>
-the unique identifier for the resource you are attempting to find.
-</p>
+        <div class='inline'>
+<p>the unique identifier for the resource you are attempting to find.</p>
 </div>
       
     </li>
@@ -708,9 +802,8 @@ the unique identifier for the resource you are attempting to find.
       
       
         &mdash;
-        <div class='inline'><p>
-the Resource object the the data properties that would be stored wihin it.
-</p>
+        <div class='inline'>
+<p>the Resource object the the data properties that would be stored wihin it.</p>
 </div>
       
     </li>
@@ -723,15 +816,72 @@ the Resource object the the data properties that would be stored wihin it.
       <pre class="lines">
 
 
-80
-81
-82</pre>
+137
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 137</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_object'>object</span><span class='lparen'>(</span><span class='id identifier rubyid_identifier'>identifier</span><span class='rparen'>)</span>
   <span class='const'>Resource</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="object_version-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Fixnum.html" title="Fixnum (class)">Fixnum</a></span></tt>) <strong>object_version</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>The object version</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Fixnum.html" title="Fixnum (class)">Fixnum</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the object version</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+118
+119
+120</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 118</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_object_version'>object_version</span>
+  <span class='kw'>self</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>objectVersion</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -747,11 +897,10 @@ the Resource object the the data properties that would be stored wihin it.
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-This is a hash of all the objects within the project. The keys are the
+    
+<p>This is a hash of all the objects within the project. The keys are the
 unique identifiers which are 24 length hexadecimal strings. The values are
-the objects that the keys represent.
-</p>
+the objects that the keys represent.</p>
 
 
   </div>
@@ -769,9 +918,8 @@ the objects that the keys represent.
       
       
         &mdash;
-        <div class='inline'><p>
-that contains all the objects in the project.
-</p>
+        <div class='inline'>
+<p>that contains all the objects in the project.</p>
 </div>
       
     </li>
@@ -784,12 +932,12 @@ that contains all the objects in the project.
       <pre class="lines">
 
 
-68
-69
-70</pre>
+111
+112
+113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 111</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_objects'>objects</span>
   <span class='kw'>self</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>objects</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
@@ -808,9 +956,8 @@ that contains all the objects in the project.
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Retrieve the properties Hash for the given identifer.
-</p>
+    
+<p>Retrieve the properties Hash for the given identifer.</p>
 
 
   </div>
@@ -829,9 +976,8 @@ Retrieve the properties Hash for the given identifer.
       
       
         &mdash;
-        <div class='inline'><p>
-the unique identifier for the resource you are attempting to find.
-</p>
+        <div class='inline'>
+<p>the unique identifier for the resource you are attempting to find.</p>
 </div>
       
     </li>
@@ -849,10 +995,9 @@ the unique identifier for the resource you are attempting to find.
       
       
         &mdash;
-        <div class='inline'><p>
-the raw, properties hash for the particular resource; nil  if nothing
-matches the identifier.
-</p>
+        <div class='inline'>
+<p>the raw, properties hash for the particular resource; nil  if nothing
+matches the identifier.</p>
 </div>
       
     </li>
@@ -865,12 +1010,12 @@ matches the identifier.
       <pre class="lines">
 
 
-93
-94
-95</pre>
+150
+151
+152</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 150</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_properties'>properties</span><span class='lparen'>(</span><span class='id identifier rubyid_identifier'>identifier</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_objects'>objects</span><span class='lbracket'>[</span><span class='id identifier rubyid_identifier'>identifier</span><span class='rbracket'>]</span>
@@ -892,11 +1037,10 @@ matches the identifier.
     
   <div class="note notetag">
     <strong>Note:</strong> 
-    <div class='inline'><p>
-removing an item from the regitry does not remove all references to the
+    <div class='inline'>
+<p>removing an item from the regitry does not remove all references to the
 item within the project. At this time, this could leave resources with
-references to resources that are invalid.
-</p>
+references to resources that are invalid.</p>
 </div>
   </div>
 
@@ -918,9 +1062,8 @@ references to resources that are invalid.
       
       
         &mdash;
-        <div class='inline'><p>
-of the object to remove from the registry.
-</p>
+        <div class='inline'>
+<p>of the object to remove from the registry.</p>
 </div>
       
     </li>
@@ -934,12 +1077,12 @@ of the object to remove from the registry.
       <pre class="lines">
 
 
-163
-164
-165</pre>
+197
+198
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 197</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_object'>remove_object</span><span class='lparen'>(</span><span class='id identifier rubyid_identifier'>identifier</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_objects'>objects</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='id identifier rubyid_identifier'>identifier</span>
@@ -952,22 +1095,39 @@ of the object to remove from the registry.
       <div class="method_details ">
   <p class="signature " id="root-instance_method">
   
-    - (<tt>Object</tt>) <strong>root</strong> 
+    - (<tt><span class='object_link'><a href="Resource.html" title="Xcode::Resource (class)">Resource</a></span></tt>) <strong>root</strong> 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-This is the root object of the project. This is generally an identifier
-pointing to a project.
-</p>
+    
+<p>This is the root object of the project. This is generally an identifier
+pointing to a project.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Resource.html" title="Xcode::Resource (class)">Resource</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>this is traditionally the root, project object.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -975,12 +1135,12 @@ pointing to a project.
       <pre class="lines">
 
 
-56
-57
-58</pre>
+99
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 99</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_root'>root</span>
   <span class='kw'>self</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rootObject</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
@@ -999,11 +1159,10 @@ pointing to a project.
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Replace an existing object that shares that same identifier. This is how a
+    
+<p>Replace an existing object that shares that same identifier. This is how a
 Resource is saved back into the registry. So that it will be known to  all
-other objects that it has changed.
-</p>
+other objects that it has changed.</p>
 
 
   </div>
@@ -1022,10 +1181,9 @@ other objects that it has changed.
       
       
         &mdash;
-        <div class='inline'><p>
-the resource that you want to set at the specified identifier. If an object
-exists at that identifier already it will be  replaced.
-</p>
+        <div class='inline'>
+<p>the resource that you want to set at the specified identifier. If an object
+exists at that identifier already it will be  replaced.</p>
 </div>
       
     </li>
@@ -1046,12 +1204,12 @@ exists at that identifier already it will be  replaced.
       <pre class="lines">
 
 
-152
-153
-154</pre>
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 152</span>
+      <pre class="code"><span class="info file"># File 'lib/xcode/registry.rb', line 186</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_object'>set_object</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_objects'>objects</span><span class='lbracket'>[</span><span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_identifier'>identifier</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_properties'>properties</span>
@@ -1066,9 +1224,9 @@ exists at that identifier already it will be  replaced.
 </div>
     
     <div id="footer">
-  Generated on Mon Feb 13 23:50:10 2012 by 
+  Generated on Thu Aug  8 16:16:24 2013 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.5 (ruby-1.9.2).
+  0.7.5 (ruby-1.9.3).
 </div>
 
   </body>

@@ -1,0 +1,372 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Xcode::Builder::SchemeBuilder
+  
+    &mdash; Documentation by YARD 0.7.5
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (S)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Xcode.html" title="Xcode (module)">Xcode</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Builder.html" title="Xcode::Builder (module)">Builder</a></span></span>
+     &raquo; 
+    <span class="title">SchemeBuilder</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Xcode::Builder::SchemeBuilder
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="BaseBuilder.html" title="Xcode::Builder::BaseBuilder (class)">BaseBuilder</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="BaseBuilder.html" title="Xcode::Builder::BaseBuilder (class)">BaseBuilder</a></span></li>
+          
+            <li class="next">Xcode::Builder::SchemeBuilder</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/xcode/builder/scheme_builder.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+  <h2>Constant Summary</h2>
+  
+
+
+
+  <h2>Constant Summary</h2>
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="../TerminalOutput.html" title="Xcode::TerminalOutput (module)">TerminalOutput</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../TerminalOutput.html#LEVELS-constant" title="Xcode::TerminalOutput::LEVELS (constant)">TerminalOutput::LEVELS</a></span></p>
+
+
+
+
+  <h2>Instance Attribute Summary</h2>
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="BaseBuilder.html" title="Xcode::Builder::BaseBuilder (class)">BaseBuilder</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="BaseBuilder.html#build_path-instance_method" title="Xcode::Builder::BaseBuilder#build_path (method)">#build_path</a></span>, <span class='object_link'><a href="BaseBuilder.html#config-instance_method" title="Xcode::Builder::BaseBuilder#config (method)">#config</a></span>, <span class='object_link'><a href="BaseBuilder.html#identity-instance_method" title="Xcode::Builder::BaseBuilder#identity (method)">#identity</a></span>, <span class='object_link'><a href="BaseBuilder.html#keychain-instance_method" title="Xcode::Builder::BaseBuilder#keychain (method)">#keychain</a></span>, <span class='object_link'><a href="BaseBuilder.html#objroot-instance_method" title="Xcode::Builder::BaseBuilder#objroot (method)">#objroot</a></span>, <span class='object_link'><a href="BaseBuilder.html#profile-instance_method" title="Xcode::Builder::BaseBuilder#profile (method)">#profile</a></span>, <span class='object_link'><a href="BaseBuilder.html#sdk-instance_method" title="Xcode::Builder::BaseBuilder#sdk (method)">#sdk</a></span>, <span class='object_link'><a href="BaseBuilder.html#symroot-instance_method" title="Xcode::Builder::BaseBuilder#symroot (method)">#symroot</a></span>, <span class='object_link'><a href="BaseBuilder.html#target-instance_method" title="Xcode::Builder::BaseBuilder#target (method)">#target</a></span></p>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (SchemeBuilder) <strong>initialize</strong>(scheme) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of SchemeBuilder.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#prepare_xcodebuild-instance_method" title="#prepare_xcodebuild (instance method)">- (Object) <strong>prepare_xcodebuild</strong>(sdk = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#test-instance_method" title="#test (instance method)">- (Object) <strong>test</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>def prepare_test_command sdk=@sdk.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="BaseBuilder.html" title="Xcode::Builder::BaseBuilder (class)">BaseBuilder</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="BaseBuilder.html#app_path-instance_method" title="Xcode::Builder::BaseBuilder#app_path (method)">#app_path</a></span>, <span class='object_link'><a href="BaseBuilder.html#build-instance_method" title="Xcode::Builder::BaseBuilder#build (method)">#build</a></span>, <span class='object_link'><a href="BaseBuilder.html#bundle_identifier-instance_method" title="Xcode::Builder::BaseBuilder#bundle_identifier (method)">#bundle_identifier</a></span>, <span class='object_link'><a href="BaseBuilder.html#bundle_version-instance_method" title="Xcode::Builder::BaseBuilder#bundle_version (method)">#bundle_version</a></span>, <span class='object_link'><a href="BaseBuilder.html#clean-instance_method" title="Xcode::Builder::BaseBuilder#clean (method)">#clean</a></span>, <span class='object_link'><a href="BaseBuilder.html#cocoapods_installed%3F-instance_method" title="Xcode::Builder::BaseBuilder#cocoapods_installed? (method)">#cocoapods_installed?</a></span>, <span class='object_link'><a href="BaseBuilder.html#configuration_build_path-instance_method" title="Xcode::Builder::BaseBuilder#configuration_build_path (method)">#configuration_build_path</a></span>, <span class='object_link'><a href="BaseBuilder.html#dependencies-instance_method" title="Xcode::Builder::BaseBuilder#dependencies (method)">#dependencies</a></span>, <span class='object_link'><a href="BaseBuilder.html#deploy-instance_method" title="Xcode::Builder::BaseBuilder#deploy (method)">#deploy</a></span>, <span class='object_link'><a href="BaseBuilder.html#dsym_path-instance_method" title="Xcode::Builder::BaseBuilder#dsym_path (method)">#dsym_path</a></span>, <span class='object_link'><a href="BaseBuilder.html#dsym_zip_path-instance_method" title="Xcode::Builder::BaseBuilder#dsym_zip_path (method)">#dsym_zip_path</a></span>, <span class='object_link'><a href="BaseBuilder.html#entitlements_path-instance_method" title="Xcode::Builder::BaseBuilder#entitlements_path (method)">#entitlements_path</a></span>, <span class='object_link'><a href="BaseBuilder.html#has_dependencies%3F-instance_method" title="Xcode::Builder::BaseBuilder#has_dependencies? (method)">#has_dependencies?</a></span>, <span class='object_link'><a href="BaseBuilder.html#ipa_name-instance_method" title="Xcode::Builder::BaseBuilder#ipa_name (method)">#ipa_name</a></span>, <span class='object_link'><a href="BaseBuilder.html#ipa_path-instance_method" title="Xcode::Builder::BaseBuilder#ipa_path (method)">#ipa_path</a></span>, <span class='object_link'><a href="BaseBuilder.html#package-instance_method" title="Xcode::Builder::BaseBuilder#package (method)">#package</a></span>, <span class='object_link'><a href="BaseBuilder.html#prepare_build_command-instance_method" title="Xcode::Builder::BaseBuilder#prepare_build_command (method)">#prepare_build_command</a></span>, <span class='object_link'><a href="BaseBuilder.html#prepare_clean_command-instance_method" title="Xcode::Builder::BaseBuilder#prepare_clean_command (method)">#prepare_clean_command</a></span>, <span class='object_link'><a href="BaseBuilder.html#prepare_dsym_command-instance_method" title="Xcode::Builder::BaseBuilder#prepare_dsym_command (method)">#prepare_dsym_command</a></span>, <span class='object_link'><a href="BaseBuilder.html#prepare_package_command-instance_method" title="Xcode::Builder::BaseBuilder#prepare_package_command (method)">#prepare_package_command</a></span>, <span class='object_link'><a href="BaseBuilder.html#prepare_test_command-instance_method" title="Xcode::Builder::BaseBuilder#prepare_test_command (method)">#prepare_test_command</a></span>, <span class='object_link'><a href="BaseBuilder.html#product_name-instance_method" title="Xcode::Builder::BaseBuilder#product_name (method)">#product_name</a></span>, <span class='object_link'><a href="BaseBuilder.html#product_version_basename-instance_method" title="Xcode::Builder::BaseBuilder#product_version_basename (method)">#product_version_basename</a></span>, <span class='object_link'><a href="BaseBuilder.html#project_root-instance_method" title="Xcode::Builder::BaseBuilder#project_root (method)">#project_root</a></span>, <span class='object_link'><a href="BaseBuilder.html#with_command-instance_method" title="Xcode::Builder::BaseBuilder#with_command (method)">#with_command</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../TerminalOutput.html" title="Xcode::TerminalOutput (module)">TerminalOutput</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../TerminalOutput.html#color_output%3D-instance_method" title="Xcode::TerminalOutput#color_output= (method)">#color_output=</a></span>, <span class='object_link'><a href="../TerminalOutput.html#color_output%3F-instance_method" title="Xcode::TerminalOutput#color_output? (method)">#color_output?</a></span>, <span class='object_link'><a href="../TerminalOutput.html#format_lhs-instance_method" title="Xcode::TerminalOutput#format_lhs (method)">#format_lhs</a></span>, <span class='object_link'><a href="../TerminalOutput.html#included-class_method" title="Xcode::TerminalOutput.included (method)">included</a></span>, <span class='object_link'><a href="../TerminalOutput.html#log_level-instance_method" title="Xcode::TerminalOutput#log_level (method)">#log_level</a></span>, <span class='object_link'><a href="../TerminalOutput.html#log_level%3D-class_method" title="Xcode::TerminalOutput.log_level= (method)">log_level=</a></span>, <span class='object_link'><a href="../TerminalOutput.html#print-instance_method" title="Xcode::TerminalOutput#print (method)">#print</a></span>, <span class='object_link'><a href="../TerminalOutput.html#print_input-instance_method" title="Xcode::TerminalOutput#print_input (method)">#print_input</a></span>, <span class='object_link'><a href="../TerminalOutput.html#print_output-instance_method" title="Xcode::TerminalOutput#print_output (method)">#print_output</a></span>, <span class='object_link'><a href="../TerminalOutput.html#print_system-instance_method" title="Xcode::TerminalOutput#print_system (method)">#print_system</a></span>, <span class='object_link'><a href="../TerminalOutput.html#print_task-instance_method" title="Xcode::TerminalOutput#print_task (method)">#print_task</a></span>, <span class='object_link'><a href="../TerminalOutput.html#puts-instance_method" title="Xcode::TerminalOutput#puts (method)">#puts</a></span>, <span class='object_link'><a href="../TerminalOutput.html#terminal_supports_colors%3F-class_method" title="Xcode::TerminalOutput.terminal_supports_colors? (method)">terminal_supports_colors?</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Xcode::Builder::SchemeBuilder (class)">SchemeBuilder</a></span></tt>) <strong>initialize</strong>(scheme) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>A new instance of SchemeBuilder</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20
+21
+22</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder/scheme_builder.rb', line 18</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_scheme'>scheme</span><span class='rparen'>)</span>
+  <span class='ivar'>@scheme</span>     <span class='op'>=</span> <span class='id identifier rubyid_scheme'>scheme</span>
+  <span class='ivar'>@target</span>     <span class='op'>=</span> <span class='ivar'>@scheme</span><span class='period'>.</span><span class='id identifier rubyid_build_targets'>build_targets</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
+  <span class='kw'>super</span> <span class='ivar'>@target</span><span class='comma'>,</span> <span class='ivar'>@target</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='lparen'>(</span><span class='ivar'>@scheme</span><span class='period'>.</span><span class='id identifier rubyid_archive_config'>archive_config</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="prepare_xcodebuild-instance_method">
+  
+    - (<tt>Object</tt>) <strong>prepare_xcodebuild</strong>(sdk = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26
+27
+28
+29
+30</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder/scheme_builder.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_prepare_xcodebuild'>prepare_xcodebuild</span> <span class='id identifier rubyid_sdk'>sdk</span><span class='op'>=</span><span class='kw'>nil</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>=</span> <span class='kw'>super</span> <span class='id identifier rubyid_sdk'>sdk</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='ivar'>@scheme</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span><span class='period'>.</span><span class='id identifier rubyid_to_xcodebuild_option'>to_xcodebuild_option</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-scheme \&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@scheme</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-configuration \&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@scheme</span><span class='period'>.</span><span class='id identifier rubyid_archive_config'>archive_config</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="test-instance_method">
+  
+    - (<tt>Object</tt>) <strong>test</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>def prepare_test_command sdk=@sdk</p>
+
+<pre class="code ruby"><code><span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>=</span> <span class='kw'>super</span> <span class='id identifier rubyid_sdk'>sdk</span>
+<span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-scheme \&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@scheme</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-configuration \&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@scheme</span><span class='period'>.</span><span class='id identifier rubyid_test_config'>test_config</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_cmd'>cmd</span></code></pre>
+
+<p>end</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41
+42
+43
+44
+45</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/xcode/builder/scheme_builder.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_test'>test</span>
+  <span class='kw'>unless</span> <span class='ivar'>@scheme</span><span class='period'>.</span><span class='id identifier rubyid_testable?'>testable?</span>
+    <span class='id identifier rubyid_print_task'>print_task</span> <span class='symbol'>:builder</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Nothing to test</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:warning</span>        
+  <span class='kw'>else</span>
+    <span class='kw'>super</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Aug  8 16:16:26 2013 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.5 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>
