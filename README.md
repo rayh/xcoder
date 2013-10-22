@@ -86,8 +86,8 @@ This will produce something like: MyProject-Debug-1.0.ipa and MyProject-Debug-1.
 
 ### Managing build numbers more efficiently
 
-Based on our experience we suggest [Versionomy](https://github.com/dazuma/versionomy) to manage version numbers. 
-Although the marketing version is usually set by hand on release, 
+Based on our experience we suggest [Versionomy](https://github.com/dazuma/versionomy) to manage version numbers.
+Although the marketing version is usually set by hand on release,
 there are situations where it could be nice to have an incremental build number in the marketing version number as well.
 The following is an example that takes a marketing version number in the x.y.z format and increments the last part of it.
 
@@ -136,7 +136,7 @@ Note: Shared schemes and user (current logged in user) specific schemes are both
 The library provides a mechanism to install/uninstall a provisioning profile.  This normally happens as part of a build (if a profile is provided to the builder, see above), but you can do this manually:
 
 	# installs profile into ~/Library
-	Xcode::ProvisioningProfile.new("Myprofile.mobileprovision").install	
+	Xcode::ProvisioningProfile.new("Myprofile.mobileprovision").install
 
 Or enumerate installed profiles:
 
@@ -154,7 +154,7 @@ The common output of this build/package process is to upload to Testflight.  Thi
 	Xcode::Deploy::Testflight.defaults :api_token => 'some api token', :team_token => 'team token'
 
 	builder.deploy :testflight,
-		:api_token 	=> API_TOKEN, 
+		:api_token 	=> API_TOKEN,
 		:team_token => TEAM_TOKEN,
 		:notes 		=> "some release notes",
  	  	:notify 	=> true,		# Whether to send a notification to users, default is true
@@ -166,10 +166,10 @@ You can also optionally set the HTTP_PROXY environment variable.
 
 You can upload the output ipa to an arbitrary buckey on S3
 
-	builder.deploy :s3, 
-		:bucket => "mybucket", 
-		:access_key_id => "access id", 
-		:secret_access_key => "access key", 
+	builder.deploy :s3,
+		:bucket => "mybucket",
+		:access_key_id => "access id",
+		:secret_access_key => "access key",
 		:dir => "options/path/within/bucket"
 
 #### Deploying to a web server (SSH)
@@ -177,10 +177,10 @@ You can upload the output ipa to an arbitrary buckey on S3
 The output of the build/package process can be deployed to a remote web server.
 You can use SSH with the following syntax:
 
-	builder.deploy :ssh, 
-		:host => "mywebserver.com", 
-		:username => "myusername", 
-		:password => "mypassword", 
+	builder.deploy :ssh,
+		:host => "mywebserver.com",
+		:username => "myusername",
+		:password => "mypassword",
 		:dir => "/var/www/mywebserverpath",
 		:base_url => "http://mywebserver.com/"
 
@@ -189,14 +189,14 @@ You can use SSH with the following syntax:
 The output of the build/package process can be deployed to a remote web server.
 You can upload the files through FTP with the following syntax:
 
-	builder.deploy :ftp, 
-		:host => "ftp.mywebserver.com", 
-		:username => "myusername", 
-		:password => "mypassword", 
+	builder.deploy :ftp,
+		:host => "ftp.mywebserver.com",
+		:username => "myusername",
+		:password => "mypassword",
 		:dir => "/mywebserverpath",
 		:base_url => "http://mywebserver.com/"
 
-	
+
 ### OCUnit to JUnit reports
 
 You can invoke your test target/bundle from the builder
@@ -346,7 +346,7 @@ target.config 'Release' do |config|
 end
 ```
 
-Configuration settings can be accessed through `get`, `set`, and `append` with their [Xcode Build Names](https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW110) or through convenience methods generated for most of the build settings (`property_name`, `property_name=`, `append_to_property_name`). The entire list of property names can be found in the [configuration](/rayh/xcoder/blob/master/lib/xcode/configuration.rb).
+Configuration settings can be accessed through `get`, `set`, and `append` with their [Xcode Build Names](https://developer.apple.com/library/mac/#documentation/DeveloperTools/Reference/XcodeBuildSettingRef/1-Build_Setting_Reference/build_setting_ref.html#//apple_ref/doc/uid/TP40003931-CH3-SW110) or through convenience methods generated for most of the build settings (`property_name`, `property_name=`, `append_to_property_name`). The entire list of property names can be found in the [configuration](https://github.com/rayh/xcoder/blob/master/lib/xcode/configuration.rb#L158).
 
 
 ### Saving your changes!
@@ -380,19 +380,19 @@ Xcoder provides a simple mechanism to help with automating builds and CI.  First
 
 	  # Which project/target/config, or workspace/scheme to use
 	  use :MyProject, :target => :MyTarget, :config => :Release
-	    
+
 	  # The mobile provision that should be used
 	  profile 'Provisioning/MyProject_AdHoc.mobileprovision'
 
-	  # Keychain is option, allows isolation of identities per-project without 
+	  # Keychain is option, allows isolation of identities per-project without
 	  # poluting global keychain
 	  keychain 'Provisioning/build.keychain', 'build'
-	  
-	  deploy :testflight, 
-	    :api_token => 'api token', 
+
+	  deploy :testflight,
+	    :api_token => 'api token',
 	    :team_token => 'team token',
-	    :notify => true, 
-	    :lists => ['Internal'], 
+	    :notify => true,
+	    :lists => ['Internal'],
 	    :notes => `git log -n 1`
 	end
 
