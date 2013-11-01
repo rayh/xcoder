@@ -21,7 +21,7 @@ module Xcode
         super @target, @target.config(@scheme.archive_config)
       end
 
-      def prepare_xcodebuild sdk=nil
+      def prepare_xcodebuild sdk=@sdk
         cmd = super sdk
         cmd << @scheme.parent.to_xcodebuild_option
         cmd << "-scheme \"#{@scheme.name}\""
@@ -36,11 +36,11 @@ module Xcode
       #   cmd
       # end
       
-      def test
+      def test options = {:sdk => @sdk, :show_output => false}
         unless @scheme.testable?
           print_task :builder, "Nothing to test", :warning        
         else
-          super
+          super options
         end
       end
 

@@ -139,9 +139,9 @@ module Xcode
       #
       # Build the project
       #
-      def build options = {}, &block
+      def build options = {:sdk => @sdk}, &block
         print_task :builder, "Building #{product_name}", :notice
-        cmd = prepare_build_command options[:sdk]||@sdk
+        cmd = prepare_build_command options[:sdk]
 
         with_keychain do
           cmd.execute
@@ -156,11 +156,11 @@ module Xcode
       # If a block is provided, the report is yielded for configuration before the test is run
       #
       # TODO: Move implementation to the Xcode::Test module
-      def test options = {:sdk => 'iphonesimulator', :show_output => false}
+      def test options = {:sdk => @sdk, :show_output => false}
         report = Xcode::Test::Report.new
         print_task :builder, "Testing #{product_name}", :notice
 
-        cmd = prepare_test_command options[:sdk]||@sdk
+        cmd = prepare_test_command options[:sdk]
 
         if block_given?
           yield(report)
