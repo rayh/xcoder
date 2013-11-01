@@ -36,11 +36,11 @@ module Xcode
       #   cmd
       # end
       
-      def test
+      def test options = {:sdk => @sdk, :show_output => false}
         unless @scheme.testable?
           print_task :builder, "Nothing to test", :warning        
         else
-          super
+          super options
         end
       end
 
