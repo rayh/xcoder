@@ -97,8 +97,6 @@ module Xcode
 
       def prepare_test_command sdk=@sdk
         cmd = prepare_xcodebuild sdk
-        cmd.env["OBJROOT"]  = "\"#{objroot}/\""
-        cmd.env["SYMROOT"]  = "\"#{symroot}/\""
         cmd.env["TEST_AFTER_BUILD"]="YES"
         cmd.env["ONLY_ACTIVE_ARCH"]="NO"
         # cmd.env["TEST_HOST"]=0
