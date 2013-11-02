@@ -53,7 +53,7 @@ module Xcode
     #   `iphoneos`.
     #
     def initialize(path, sdk=nil)
-      @sdk = sdk || "iphoneos"  # FIXME: should support OSX/simulator too
+      @sdk = sdk
       @path = File.expand_path path
       @schemes = nil
       @groups = []
