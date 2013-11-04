@@ -29,12 +29,11 @@ module Xcode
         cmd
       end
 
-      # def prepare_test_command sdk=@sdk
-      #   cmd = super sdk
-      #   cmd << "-scheme \"#{@scheme.name}\""
-      #   cmd << "-configuration \"#{@scheme.test_config}\""
-      #   cmd
-      # end
+      def prepare_test_command sdk=@sdk
+        cmd = prepare_xcodebuild sdk
+        cmd << "test"
+        cmd
+      end
       
       def test options = {:sdk => @sdk, :show_output => false}
         unless @scheme.testable?
