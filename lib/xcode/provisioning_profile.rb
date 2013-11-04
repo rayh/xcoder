@@ -75,7 +75,7 @@ module Xcode
 
       # print_task "profile", "installing #{self.path} with uuid #{self.uuid}", :info
       cmd = Xcode::Shell::Command.new 'cp'
-      cmd << self.path
+      cmd << "\"" +self.path + "\""
       cmd << self.install_path
       cmd.execute
     end
