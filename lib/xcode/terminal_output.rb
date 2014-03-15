@@ -91,13 +91,19 @@ module Xcode
     end
 
     def puts(text, color = :default)
-      color_params = color_output? ? color : {}
-      super(text.colorize(color_params))
+      if not(color_output?) || color == :default
+        super(text)
+      else
+        super(text.colorize(color))
+      end
     end
 
     def print(text, color = :default)
-      color_params = color_output? ? color : {}
-      super(text.colorize(color_params))
+      if not(color_output?) || color == :default
+        super(text)
+      else
+        super(text.colorize(color))
+      end
     end
 
     def self.terminal_supports_colors?
