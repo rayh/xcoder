@@ -412,3 +412,7 @@ This is a bit of a work-in-progress and an attempt to allow projects to provide 
 ## Feedback
 
 Please raise issues if you find defects or have a feature request.
+
+## License
+
+Xcoder is released under the MIT License.  http://www.opensource.org/licenses/mit-license
