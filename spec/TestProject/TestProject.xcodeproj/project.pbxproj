@@ -34,8 +34,6 @@
 		0DE9AE7219AFD7E8006D6BA8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0DE9AE7119AFD7E8006D6BA8 /* Default-568h@2x.png */; };
 		0DE9AE7319AFD91E006D6BA8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D464146B4EA100DE2F0E /* AppDelegate.m */; };
 		0DE9AE7419AFD933006D6BA8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D460146B4EA100DE2F0E /* main.m */; };
-		0DE9AE7519AFD957006D6BA8 /* AnotherTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7147F91A153E34F900763224 /* AnotherTest.m */; };
-		0DE9AE7719AFD986006D6BA8 /* TestProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7147F91F153E34F900763224 /* TestProjectTests.m */; };
 		2574D65B0D2FFDB5D0372B4A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7165D454146B4EA100DE2F0E /* UIKit.framework */; };
 		28C60920A77AB174A952864D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7165D458146B4EA100DE2F0E /* CoreGraphics.framework */; };
 		3953DBAC25E75B57D6DED522 /* AppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7165D463146B4EA100DE2F0E /* AppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -72,7 +70,6 @@
 
 /* Begin PBXFileReference section */
 		0DE9AE7119AFD7E8006D6BA8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		104BB96CB0BED4A4583BC461 /* Cedar-iPhone.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Cedar-iPhone.framework"; path = "Vendor/Frameworks/Cedar-iPhone.framework"; sourceTree = "<group>"; };
 		1509ABE7377C598EB4D29484 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1F07613D452161966AC98C1F /* Specs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Specs-Info.plist"; path = "Specs/Specs-Info.plist"; sourceTree = "<group>"; };
 		3CEF9B3382F9B56D42B88276 /* Specs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Specs.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -214,8 +211,8 @@
 				7147F918153E34F900763224 /* LogicTests */,
 				7147F90B153E347700763224 /* ApplicationTests */,
 				7165D453146B4EA100DE2F0E /* Frameworks */,
-				7165D451146B4EA100DE2F0E /* Products */,
 				AC5709608A4B604B2A62F693 /* Specs */,
+				7165D451146B4EA100DE2F0E /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -239,7 +236,6 @@
 				7165D456146B4EA100DE2F0E /* Foundation.framework */,
 				7165D458146B4EA100DE2F0E /* CoreGraphics.framework */,
 				7165D46C146B4EA100DE2F0E /* SenTestingKit.framework */,
-				104BB96CB0BED4A4583BC461 /* Cedar-iPhone.framework */,
 				EA9FEBCC2FE478C108A2A377 /* CFNetwork.framework */,
 			);
 			name = Frameworks;
@@ -510,8 +506,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0DE9AE7419AFD933006D6BA8 /* main.m in Sources */,
-				0DE9AE7519AFD957006D6BA8 /* AnotherTest.m in Sources */,
-				0DE9AE7719AFD986006D6BA8 /* TestProjectTests.m in Sources */,
 				0DE9AE7319AFD91E006D6BA8 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -729,6 +723,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TestProject/TestProject-Prefix.pch";
 				INFOPLIST_FILE = "TestProject/TestProject-Info.plist";
@@ -743,6 +741,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TestProject/TestProject-Prefix.pch";
 				INFOPLIST_FILE = "TestProject/TestProject-Info.plist";
@@ -828,6 +830,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Vendor/Frameworks\"",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -883,6 +886,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Vendor/Frameworks\"",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -916,6 +920,7 @@
 				0DE9AE7019AFD4B1006D6BA8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		31C3DED5AEA103F02B771419 /* Build configuration list for PBXAggregateTarget "Universal Library" */ = {
 			isa = XCConfigurationList;

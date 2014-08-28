@@ -14,7 +14,7 @@ describe Xcode::BuildPhase do
 
     describe "#files" do
       it "should return the correct number of build files" do
-        subject.files.count.should == 4
+        subject.files.count.should == 2
       end
 
       it "should return BuildFiles with references to their files" do
@@ -33,7 +33,7 @@ describe Xcode::BuildPhase do
 
     describe "#build_files" do
       it "should return the correct number of build files" do
-        subject.build_files.count.should == 4
+        subject.build_files.count.should == 2
       end
 
       it "should return the correct build files " do
