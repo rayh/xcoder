@@ -37,12 +37,12 @@ describe Xcode::Builder do
       end
 
       it "should build the project with the default parameters" do
-        PTY.stub(:spawn).with(default_build_parameters.to_s)
+        PTY.stub(:spawn).and_return(default_build_parameters.to_s)
         subject.build
       end
 
       it "should allow the override of the sdk" do
-        PTY.stub(:spawn).with(macosx_build_parameters.to_s)
+        PTY.stub(:spawn).and_return(macosx_build_parameters.to_s)
         subject.build :sdk => 'macosx10.7'
       end
 
@@ -66,15 +66,15 @@ describe Xcode::Builder do
       it "should upload ipa and dsym to testflight" do
         subject.build.package
         testflight = nil
-        result = subject.deploy(:testflight, 
+        result = subject.deploy(:testflight,
           :api_token => "api_token",
           :team_token => "team_token",
           # :proxy => "http://proxyhost:8080",
           :notes => "some notes",
-          :lists => ["List1", "List2"]) do |tf|  
-            testflight = tf       
+          :lists => ["List1", "List2"]) do |tf|
+            testflight = tf
             tf.should_receive(:deploy).and_return('result')
-        end      
+        end
         result.should == 'result'
         testflight.should_not==nil
         testflight.api_token.should=="api_token"
@@ -113,24 +113,24 @@ describe Xcode::Builder do
         cmd.env["OBJROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/\""
         cmd.env["SYMROOT"]="\"#{File.dirname(configuration.target.project.path)}/Build/Products/\""
         cmd.env["TEST_AFTER_BUILD"]="YES"
-        cmd.env["ONLY_ACTIVE_ARCH"]="NO"        
+        cmd.env["ONLY_ACTIVE_ARCH"]="NO"
         cmd
       end
 
 
       it "should be able to run the test target on iphonesimulator" do
-        PTY.stub(:spawn).with(iphonesimulator_test_parameters.to_s)
+        PTY.stub(:spawn).and_return(iphonesimulator_test_parameters.to_s)
         subject.test :sdk => 'iphonesimulator'
       end
 
       it "should allow the override of the sdk" do
-        PTY.stub(:spawn).with(macosx_test_parameters.to_s)
+        PTY.stub(:spawn).and_return(macosx_test_parameters.to_s)
         subject.test :sdk => 'macosx10.7'
       end
 
       it "should not exit when test failed" do
         PTY.stub(:spawn)
-        
+
         fake_parser = stub(:parser)
         fake_parser.stub(:failed? => true)
         fake_parser.stub(:close)
@@ -156,7 +156,7 @@ describe Xcode::Builder do
 
 
       it "should clean the project with the default parameter" do
-        PTY.stub(:spawn).with(default_clean_parameters.to_s)
+        PTY.stub(:spawn).and_return(default_clean_parameters.to_s)
         subject.clean
       end
 
@@ -184,7 +184,7 @@ describe Xcode::Builder do
       end
 
       it "should build the project with the default parameters" do
-        PTY.stub(:spawn).with(default_build_parameters.to_s)
+        PTY.stub(:spawn).and_return(default_build_parameters.to_s)
         subject.build
       end
 
@@ -206,7 +206,7 @@ describe Xcode::Builder do
 
 
       it "should clean the project with the default parameter" do
-        PTY.stub(:spawn).with(default_clean_parameters.to_s)
+        PTY.stub(:spawn).and_return(default_clean_parameters.to_s)
         subject.clean
       end
 

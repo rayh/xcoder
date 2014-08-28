@@ -15,7 +15,7 @@ describe Xcode::Registry do
           let(:input) { "0123456789ABCDEF01234567" }
 
           it "should be an identifier" do
-            subject.is_identifier?(input).should be_true
+            expect(subject.is_identifier?(input)).to be_truthy
           end
         end
 
@@ -23,7 +23,7 @@ describe Xcode::Registry do
           let(:input) { "0123456789abcdef01234567" }
 
           it "should be an identifier" do
-            subject.is_identifier?(input).should be_true
+            expect(subject.is_identifier?(input)).to be_truthy
           end
         end
       end
@@ -32,7 +32,7 @@ describe Xcode::Registry do
         let(:input) { "0123456789ABCDEF" }
 
         it "should not be an identifier" do
-          subject.is_identifier?(input).should be_false
+          expect(subject.is_identifier?(input)).to be_falsey
         end
       end
 
@@ -40,7 +40,7 @@ describe Xcode::Registry do
         let(:input) { "0123456789ABCDEFGHIJKLMNO" }
 
         it "should not be an identifier" do
-          subject.is_identifier?(input).should be_false
+          expect(subject.is_identifier?(input)).to be_falsey
         end
       end
 
