@@ -122,12 +122,14 @@ module Xcode
       if doc.xpath("//TestAction/Testables/TestableReference/BuildableReference").children.count>0
         @test_config = doc.xpath("//TestAction").first['buildConfiguration']
         doc.xpath("//TestAction/Testables/TestableReference/BuildableReference").each do |ref|
-          @test_targets << target_from_build_reference(ref)
+          target = target_from_build_reference(ref) rescue nil
+          @test_targets << target if target
         end
       end
       
-      build_action_entries = doc.xpath("//BuildAction//BuildableReference").each do |ref|
-        @build_targets << target_from_build_reference(ref)
+      doc.xpath("//BuildAction//BuildableReference").each do |ref|
+        target = target_from_build_reference(ref) rescue nil
+        @build_targets << target if target
       end
     end
 
