@@ -139,6 +139,15 @@ module Xcode
       end
     end
     
+    # @see add_build_file(file,settings = {}) for informations
+    # Removed the existance check for the given file. Needed that because of performance
+    # problems
+    #
+    def add_build_file_unsafe(file,settings = {})
+      new_build_file = @registry.add_object BuildFile.buildfile(file.identifier,settings)
+      @properties['files'] << new_build_file.identifier
+    end
+    
     #
     # Add the specified file to the Build Phase that will have specific compiler
     # flags to disable ARC.
