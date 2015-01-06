@@ -442,6 +442,8 @@ module Xcode
           case match
             when "$(TARGET_NAME)"
               @target.name 
+            when "$(SRCROOT)"
+              
             else
               raise "Unknown substitution variable #{match}"
           end
