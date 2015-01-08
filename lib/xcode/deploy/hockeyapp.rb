@@ -3,7 +3,7 @@ require 'rest-client'
 module Xcode
   module Deploy
     class Hockeyapp
-      attr_accessor :app_id, :hockeyapp_token, :status, :notify, :proxy, :notes, :notes_type, :lists, :builder, :tags, :teams, :users
+      attr_accessor :app_id, :hockeyapp_token, :status, :notify, :proxy, :notes, :notes_type, :builder, :tags, :teams, :users
       @@defaults = {}
 
       def self.defaults(defaults={})
@@ -12,8 +12,8 @@ module Xcode
 
       def initialize(builder, options={})
         @builder = builder
-        @api_token = options[:app_id]||@@defaults[:app_id]
-        @team_token = options[:hockeyapp_token]||@@defaults[:hockeyapp_token]
+        @app_id = options[:app_id]||@@defaults[:app_id]
+        @hockeyapp_token = options[:hockeyapp_token]||@@defaults[:hockeyapp_token]
         @status = options[:status]
         @notify = options[:notify]
         @notes = options[:notes]
@@ -45,15 +45,6 @@ module Xcode
         # json
 
 
-        curl \
-  -F "status=2" \
-  -F "notify=1" \
-  -F "notes=Some new features and fixed bugs." \
-  -F "notes_type=0" \
-  -F "ipa=@hockeyapp.ipa" \
-  -F "dsym=@hockeyapp.dSYM.zip" \
-  -H "X-HockeyAppToken: 4567abcd8901ef234567abcd8901ef23" \
-
 
         cmd = Xcode::Shell::Command.new 'curl'
         cmd << "--proxy #{@proxy}" unless @proxy.nil? or @proxy==''
@@ -61,7 +52,13 @@ module Xcode
         cmd << "-F ipa=@\"#{@builder.ipa_path}\""
         cmd << "-F dsym=@\"#{@builder.dsym_zip_path}\"" unless @builder.dsym_zip_path.nil?
         cmd << "-F notes=\"#{@notes}\"" unless @notes.nil?
-        cmd << "-F distribution_lists='#{@lists.join(',')}'" unless @lists.count==0
+        cmd << "-F notify=\"#{@notify}\"" unless @notify.nil?
+        cmd << "-F status=\"#{@status}\"" unless @status.nil?
+        cmd << "-F notes_type=\"#{@notes_type}\"" unless @notes_type.nil?
+        cmd << "-F tags='#{@tags.join(',')}'" unless @tags.count==0
+        cmd << "-F teams='#{@teams.join(',')}'" unless @teams.count==0
+        cmd << "-F users='#{@users.join(',')}'" unless @users.count==0
+        cmd << "-H \"X-HockeyAppToken: #{@hockeyapp_token}\""
 
         response = cmd.execute
 
