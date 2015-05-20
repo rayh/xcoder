@@ -26,6 +26,9 @@ module Xcode
         cmd << @scheme.parent.to_xcodebuild_option
         cmd << "-scheme \"#{@scheme.name}\""
         cmd << "-configuration \"#{@scheme.archive_config}\""
+        #include xcpretty
+        cmd << " | xcpretty"
+
         cmd
       end
 

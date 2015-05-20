@@ -79,9 +79,6 @@ module Xcode
 
           cmd << "-sdk #{sdk}" unless sdk.nil?
 
-          #include xcpretty
-          cmd << " | xcpretty"
-
           yield cmd if block_given?
         end
       end      
