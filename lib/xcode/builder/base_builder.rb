@@ -52,7 +52,7 @@ module Xcode
         end
       end
 
-      def prepare_xcodebuild sdk=@sdk, is_test #:yield: Xcode::Shell::Command
+      def prepare_xcodebuild sdk=@sdk #:yield: Xcode::Shell::Command
         with_command 'xcodebuild' do |cmd|
 
           cmd.log_to_file = true
