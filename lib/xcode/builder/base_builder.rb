@@ -26,7 +26,7 @@ module Xcode
             @profile = ProvisioningProfile.new(value)
           end
       end
-        
+
       def cocoapods_installed?
         system("which pod > /dev/null 2>&1")
       end
@@ -43,7 +43,7 @@ module Xcode
         if has_dependencies? and cocoapods_installed?
           print_task :builder, "Fetch depencies", :notice
           podfile = File.join(File.dirname(@target.project.path), "Podfile")
-   
+
           print_task :cocoapods, "pod setup", :info
           with_command('pod setup').execute
 
@@ -57,10 +57,10 @@ module Xcode
 
           cmd.log_to_file = true
           cmd.attach Xcode::Builder::XcodebuildParser.new
-          
+
           cmd.env["OBJROOT"]  = "\"#{objroot}/\""
           cmd.env["SYMROOT"]  = "\"#{symroot}/\""
-            
+
           unless profile.nil?
             profile.install
             print_task "builder", "Using profile #{profile.install_path}", :debug
@@ -81,8 +81,8 @@ module Xcode
 
           yield cmd if block_given?
         end
-      end      
-      
+      end
+
       def with_command command_line
         cmd = Xcode::Shell::Command.new command_line
         cmd.output_dir = objroot
@@ -120,6 +120,31 @@ module Xcode
 
           unless @profile.nil?
             cmd << "--embed \"#{@profile}\""
+          end
+        end
+      end
+
+      def copy_swift_packages
+        swift_frameworks = Dir["#{app_path}/Frameworks/libswift*"]
+
+        unless swift_frameworks.empty?
+          Dir.mktmpdir do | tmpdir |
+            swift_support_path = File.join(tmpdir, "SwiftSupport")
+
+            Dir.mkdir(swift_support_path)
+
+            swift_frameworks.each do | path |
+              FileUtils.cp(path, swift_support_path, :verbose => true)
+            end
+
+            command = with_command 'zip' do |zip|
+              zip << "--recurse-paths \"#{ipa_path}\" \"SwiftSupport\""
+            end
+
+            #have to change the directory so we can just zip in the SwiftSupport folder
+            Dir.chdir(tmpdir) do
+              command.execute
+            end
           end
         end
       end
@@ -246,6 +271,7 @@ module Xcode
         print_task :package, "generating IPA: #{ipa_path}", :info
         with_keychain do
           prepare_package_command.execute
+          copy_swift_packages
         end
 
         print_task :package, "creating dSYM zip: #{dsym_zip_path}", :info
@@ -308,7 +334,7 @@ module Xcode
         @objroot ||= build_path
       end
 
-      def symroot                
+      def symroot
         @symroot ||= File.join(build_path, 'Products')
       end
 
