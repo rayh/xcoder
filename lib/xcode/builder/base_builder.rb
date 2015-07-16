@@ -133,8 +133,13 @@ module Xcode
 
             Dir.mkdir(swift_support_path)
 
+
             swift_frameworks.each do | path |
-              FileUtils.cp(path, swift_support_path, :verbose => true)
+              filename = File.basename(path)
+              xcode_path = `xcode-select --print-path`
+              toolchain_version = "#{xcode_path.strip}/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/#{@sdk}/#{filename}"
+
+              FileUtils.cp(toolchain_version, swift_support_path, :verbose => true)
             end
 
             command = with_command 'zip' do |zip|
