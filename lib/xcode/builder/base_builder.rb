@@ -124,20 +124,20 @@ module Xcode
         end
       end
 
+      # Packaging doesn't come with SwiftSupport folder, so we need to copy them over.
       def copy_swift_packages
         swift_frameworks = Dir["#{app_path}/Frameworks/libswift*"]
 
         unless swift_frameworks.empty?
           Dir.mktmpdir do | tmpdir |
             swift_support_path = File.join(tmpdir, "SwiftSupport")
-
             Dir.mkdir(swift_support_path)
 
+            xcode_path = `xcode-select --print-path`.strip
 
             swift_frameworks.each do | path |
               filename = File.basename(path)
-              xcode_path = `xcode-select --print-path`
-              toolchain_version = "#{xcode_path.strip}/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/#{@sdk}/#{filename}"
+              toolchain_version = "#{xcode_path}/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/#{@sdk}/#{filename}"
 
               FileUtils.cp(toolchain_version, swift_support_path, :verbose => true)
             end
