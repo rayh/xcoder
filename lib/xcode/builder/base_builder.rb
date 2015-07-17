@@ -154,6 +154,29 @@ module Xcode
         end
       end
 
+      # Credits to https://github.com/drewcrawford/cavejohnson for reverse-engineering the process
+      def prepare_dsym_itunesconnect
+        Dir.mktmpdir do | tmpdir |
+          symbol_path = File.join(tmpdir, "Symbols")
+          Dir.mkdir(symbol_path)
+
+          xcode_path = `xcode-select --print-path`.strip
+
+          appbinary = File.join(app_path, "#{product_name}")
+          toolchain_symbol_path = File.join(xcode_path, "/usr/bin/symbols")
+
+          system "#{toolchain_symbol_path} -noTextInSOD -noDaemon -arch all -symbolsPackageDir \"#{symbol_path}\" \"#{appbinary}\""
+
+          zip_cmd = with_command 'zip' do |zip|
+            zip << "--recurse-paths \"#{ipa_path}\" \"Symbols\""
+          end
+
+          Dir.chdir(tmpdir) do
+            zip_cmd.execute
+          end
+        end
+      end
+
       def prepare_dsym_command
         # package dSYM
         with_command 'zip' do |cmd|
@@ -277,6 +300,7 @@ module Xcode
         with_keychain do
           prepare_package_command.execute
           copy_swift_packages
+          prepare_dsym_itunesconnect
         end
 
         print_task :package, "creating dSYM zip: #{dsym_zip_path}", :info
