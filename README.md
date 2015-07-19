@@ -1,13 +1,5 @@
 # XCoder
 
-## No Longer Maintained
-
-Unfortuantely, I just don't have the time to maintain Xcoder, and given there are so many other tools that do bits and peices of what xcoder does, it doesnt feel as needed any more.
-
-Perhaps parts of xcoder (keychain, profile management) could be extracted into stand-along tools - take a more unix-y approach to managing tools.
-
-If anyone wants to more actively maintain Xcoder, please contact me.  
-
 ## Description 
 
 Taking the pain out of scripting and automating xcode builds.

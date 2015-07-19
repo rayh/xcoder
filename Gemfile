@@ -7,6 +7,7 @@ gem 'builder'
 gem 'multi_json'
 gem 'plist'
 gem 'rest-client'
+gem 'xcpretty'
 
 # Documentation
 gem 'yard'

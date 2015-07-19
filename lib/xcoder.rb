@@ -10,6 +10,7 @@ require 'xcode/keychain'
 require 'xcode/workspace'
 require 'xcode/platform'
 require 'multi_json'
+require 'xcpretty'
 
 module Xcode
 
