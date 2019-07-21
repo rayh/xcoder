@@ -395,7 +395,7 @@ Xcoder provides a simple mechanism to help with automating builds and CI.  First
 	  profile 'Provisioning/MyProject_AdHoc.mobileprovision'
 
 	  # Keychain is option, allows isolation of identities per-project without
-	  # poluting global keychain
+	  # polluting global keychain
 	  keychain 'Provisioning/build.keychain', 'build'
 
 	  deploy :testflight,
@@ -417,7 +417,7 @@ You can then invoke the project using the xcoder command line:
 	# Get a list of tasks
 	xcoder -T
 
-This is a bit of a work-in-progress and an attempt to allow projects to provide a minimal declaration of how thier artifacts should be built and where they should go.  Integration with CI (Jenkins, for example) or just running locally from the command line should be simple.
+This is a bit of a work-in-progress and an attempt to allow projects to provide a minimal declaration of how their artifacts should be built and where they should go.  Integration with CI (Jenkins, for example) or just running locally from the command line should be simple.
 
 ## Feedback
 
